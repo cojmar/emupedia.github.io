@@ -1426,7 +1426,7 @@ if (typeof Float64Array !== 'undefined') {
 			Value: SYSTEM_FEATURE_BATTERY ? 'TRUE' : 'FALSE'
 		}];
 
-		//Microsoft Edge <= 18.17763 (64-bit) cannot list more than 50 items in a table
+		//Microsoft Edge <= 18.18362 (64-bit) cannot list more than 50 items in a table
 		if (isEdgeHTML) {
 			var chunks = function(array, size) {
 				var results = [];
