@@ -32,9 +32,12 @@
 			}
 
 			/* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+			/*noinspection CssInvalidPropertyValue*/
 			canvas.emscripten {
 				width: 100%;
+				max-width: 1380px;
 				height: 100%;
+				max-height: 860px;
 				border: 0 none;
 				background-color: black;
 				image-rendering: optimizeSpeed;
@@ -43,6 +46,7 @@
 				image-rendering: -o-crisp-edges;
 				image-rendering: crisp-edges;
 				-ms-interpolation-mode: nearest-neighbor;
+				pointer-events: none;
 			}
 
 			.spinner {
