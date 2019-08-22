@@ -36,7 +36,7 @@
 			// noinspection JSFileReferences
 			require.config({
 				paths: {
-					jquery: '../../../js/libraries/jquery-3.3.1.min',
+					jquery: '../../../js/libraries/jquery-3.4.1.min',
 					vs: './vs'
 				}
 			});
@@ -49,6 +49,7 @@
 						monaco.editor.setTheme(newTheme);
 					}
 
+					// noinspection JSUnresolvedVariable
 					var editor = monaco.editor.create(document.getElementById('container'), {
 						value: [
 							'function x() {',

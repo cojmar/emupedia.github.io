@@ -5,6 +5,7 @@
 // IE 11.345.17134.0
 if (typeof console !== 'undefined') {
 	if (!console.table) {
+		// noinspection DuplicatedCode
 		console.table = function(arr) {
 			var i, obj, keys, arr_len = arr.length;
 
@@ -26,7 +27,7 @@ if (typeof console !== 'undefined') {
 	} else if (typeof postMessage !== 'undefined') {
 		// Worker
 		// Safari 5.1.7 (7534.57.2)
-		// noinspection JSValidateTypes
+		// noinspection JSValidateTypes,DuplicatedCode
 		console = {
 			log: function (str) {
 				//noinspection JSCheckFunctionSignatures
@@ -625,9 +626,10 @@ if (typeof Float64Array !== 'undefined') {
 	global.SYSTEM_FEATURE_WORKERS				= !!global.Worker;
 	// noinspection JSUnresolvedVariable
 	global.SYSTEM_FEATURE_SHARED_WORKERS		= !!global.SharedWorker;
+	// noinspection DuplicatedCode
 	global.SYSTEM_FEATURE_TYPED_ARRAYS			= typeof ArrayBuffer !== 'undefined' && typeof DataView !== 'undefined' ? typeof Int8Array !== 'undefined' && typeof Uint8Array !== 'undefined' && typeof Uint8ClampedArray !== 'undefined' && typeof Int16Array !== 'undefined' && typeof Uint16Array !== 'undefined' && typeof Int32Array !== 'undefined' && typeof Uint32Array !== 'undefined' && typeof Float32Array !== 'undefined' && typeof Float64Array !== 'undefined': false;
 	global.SYSTEM_FEATURE_BIGINTS				= typeof BigInt !== 'undefined' ? typeof BigInt64Array !== 'undefined' && typeof BigUint64Array !== 'undefined' : false;
-	// noinspection JSUnresolvedVariable,JSUnusedGlobalSymbols
+	// noinspection JSUnresolvedVariable,JSUnusedGlobalSymbols,DuplicatedCode
 	global.SYSTEM_FEATURE_SIMD					= typeof SIMD !== 'undefined' ? typeof SIMD.Bool16x8 !== 'undefined' && typeof SIMD.Bool32x4 !== 'undefined' && typeof SIMD.Bool8x16 !== 'undefined' && typeof SIMD.Float32x4 !== 'undefined' && typeof SIMD.Int16x8 !== 'undefined' && typeof SIMD.Int32x4 !== 'undefined' && typeof SIMD.Int8x16 !== 'undefined' && typeof SIMD.Uint32x4 !== 'undefined' && typeof SIMD.Uint8x16 !== 'undefined' : false;
 	global.SYSTEM_FEATURE_ASMJS					= (function() {
 		try {
@@ -721,6 +723,7 @@ if (typeof Float64Array !== 'undefined') {
 			}
 		}
 	})();
+	// noinspection DuplicatedCode
 	global.SYSTEM_FEATURE_SESSION_STORAGE		= (function() {
 		var mod = 'test';
 
@@ -738,6 +741,7 @@ if (typeof Float64Array !== 'undefined') {
 
 		return false;
 	})();
+	// noinspection DuplicatedCode
 	global.SYSTEM_FEATURE_LOCAL_STORAGE			= (function() {
 		var mod = 'test';
 
@@ -898,6 +902,7 @@ if (typeof Float64Array !== 'undefined') {
 	global.SYSTEM_FEATURE_ES6					= SYSTEM_FEATURE_ES5 && SYSTEM_FEATURE_ES6_NUMBER && SYSTEM_FEATURE_ES6_MATH && SYSTEM_FEATURE_ES6_ARRAY && SYSTEM_FEATURE_ES6_FUNCTION && SYSTEM_FEATURE_ES6_OBJECT && SYSTEM_FEATURE_ES6_CLASS && SYSTEM_FEATURE_ES6_STRING && SYSTEM_FEATURE_ES6_COLLECTIONS && SYSTEM_FEATURE_ES6_GENERATORS && SYSTEM_FEATURE_ES6_PROMISES && (SYSTEM_FEATURE_ES6_STATIC_MODULES || SYSTEM_FEATURE_ES6_DYNAMIC_MODULES);
 
 	global.SYSTEM_INFO_OS						= global.isWindows ? 'Windows' : (global.isLinux ? 'Linux' : (global.isUNIX ? 'UNIX' : (global.isMacOS ? 'Mac OS' : undefined)));
+	// noinspection DuplicatedCode
 	global.SYSTEM_INFO_OS_VERSION				= (function() {
 		var offset, version = undefined;
 
@@ -961,6 +966,7 @@ if (typeof Float64Array !== 'undefined') {
 
 	global.SYSTEM_INFO_ENVIRONMENT				= global.isBrowser ? 'Browser' : (global.isWorker ? 'Worker' : (global.isNode ? 'Node' : 'Shell'));
 	global.SYSTEM_INFO_BROWSER					= global.isEdge ? 'Microsoft Edge' : (global.isIE ? 'Microsoft Internet Explorer' : (global.isNetscape ? 'Netscape Navigator' : (global.isKMeleon ? 'K-Meleon' : (global.isPaleMoon ? 'PaleMoon' : (global.isFirefox ? 'Mozilla Firefox' : (global.isOpera ? 'Opera' : (global.isElectron ? 'Electron' : (global.isVivaldi ? 'Vivaldi' : (global.isChromium ? 'Chromium' : (global.isChrome ? 'Google Chrome' : (global.isSafari ? 'Apple Safari' : undefined)))))))))));
+	// noinspection DuplicatedCode
 	global.SYSTEM_INFO_BROWSER_VERSION			= (function() {
 		var offset, version = undefined;
 
@@ -1082,6 +1088,7 @@ if (typeof Float64Array !== 'undefined') {
 	// Poor's man requirejs :)
 	if (!global.importScripts) {
 		global.importScripts = function (url, callback) {
+			// noinspection DuplicatedCode
 			if (url) {
 				// noinspection JSUnresolvedFunction
 				if (!url.startsWith('js/')) {
@@ -1118,6 +1125,7 @@ if (typeof Float64Array !== 'undefined') {
 	// Poor's man requirejs :)
 	if (!global.importStyles) {
 		global.importStyles = function(url, callback) {
+			// noinspection DuplicatedCode
 			if (url) {
 				// noinspection JSUnresolvedFunction
 				if (!url.startsWith('css/')) {
@@ -1427,6 +1435,7 @@ if (typeof Float64Array !== 'undefined') {
 		}];
 
 		//Microsoft Edge <= 18.18362 (64-bit) cannot list more than 50 items in a table
+		// noinspection DuplicatedCode
 		if (isEdgeHTML) {
 			var chunks = function(array, size) {
 				var results = [];
@@ -1441,12 +1450,15 @@ if (typeof Float64Array !== 'undefined') {
 			dump = chunks(dump, 50);
 
 			for (var d in dump) {
+				// noinspection JSUnfilteredForInLoop
 				global.console.table(dump[d]);
 			}
 		} else {
 			global.console.table(dump);
 		}
-	}();
+	}
+
+	dumpSystem();
 
 	// endregion
 

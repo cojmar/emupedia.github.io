@@ -1,0 +1,11 @@
+@font-face {
+	font-family: 'Fixedsys Excelsior';
+	src: url('fonts/fixedsys-excelsior-webfont.eot');
+	src: url('fonts/fixedsys-excelsior-webfont.eot?#iefix') format('embedded-opentype'),
+	url('fonts/fixedsys-excelsior-webfont.woff2') format('woff2'),
+	url('fonts/fixedsys-excelsior-webfont.woff') format('woff'),
+	url('fonts/fixedsys-excelsior-webfont.ttf') format('truetype'),
+	url('fonts/fixedsys-excelsior-webfont.svg#fixedsys_excelsior') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}

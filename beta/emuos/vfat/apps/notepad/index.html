@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Notepad</title>
+		<link href="css/layout.css" rel="stylesheet" type="text/css">
+		<link href="css/classic.css" rel="stylesheet" type="text/css">
+		<link href="css/fixedsys.css" rel="stylesheet" type="text/css">
+<!--		<link rel="icon" href="../../images/icons/notepad-16x16.png" sizes="16x16" type="image/png">-->
+<!--		<link rel="icon" href="../../images/icons/notepad-32x32.png" sizes="32x32" type="image/png">-->
+<!--		<link rel="icon" href="../../images/icons/notepad-48x48.png" sizes="48x48" type="image/png">-->
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+	</head>
+	<body>
+		<div id="app">
+			<div id="document" class="inset">
+				<textarea id="document-textarea">
+The purpose of Emupedia is to serve as a nonprofit meta-resource, hub and community for those interested mainly in video game preservation and computer history and aims to digitally collect, archive and preserve games and software to make them available online accessible by a user-friendly UI that simulates several retro operating systems for educational purposes.
+
+We mainly collect content from:
+
+  * a wide variety of systems no longer in production
+  * abandonware, shareware or freeware games websites
+  * open source ports of old games that work in modern web browsers
+  * new games and software developed with modern web technologies using retro-style graphics
+
+We revive old games and software by the use of emulation software.
+
+Similar organizations that do digital preservation and archiving:
+
+  * Internet Archive
+  * Archive Team
+  * more on Wikipedia
+
+
+Legal issues
+
+In general, the copying and distribution of video games that are under copyright without authorization is considered a copyright violation (often called as software piracy).
+
+Through the Library of Congress, some key exemptions to the DMCA have been granted to allow for video game preservation.
+
+  * In the 2003 set of exemptions, the Library disallowed enforcement of the DMCA for "computer programs protected by dongles that prevent access due to malfunction or damage and which are obsolete" and for "computer programs and video games distributed in formats that have become obsolete and which require the original media or hardware as a condition of access".
+  * In the 2015 exemptions, the Library granted permission for preservationists to work around copy-protection in games which required an authentication step with an external server that was no longer online prior to playing the game which otherwise did not require online connectivity; this specifically did not cover games that were based on a server-client mode like most massively-multiplayer online games (MMOs).
+  * In the 2018 exemptions, the Library allowed for preservation and fair use of server-based games like MMos, permitting preservationists to offer such games where they have legally obtained the game's code within museums and libraries.
+
+
+DMCA Takedown notices & Removal Requests
+
+Emupedia is aware of intellectual property rights and other proprietary rights of others.
+
+If you own the copyrights to a title on Emupedia and would like to request removal please note that we process all correct and complete removal requests within 5 working days.
+
+Please include the following information in your claim request:
+
+  * Identification of the copyrighted work that you claim has been infringed;
+  * An exact description of where the material is located;
+  * Your full address, phone number, and email address;
+  * A statement by you that you have a good-faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law;
+  * A statement by you, made under penalty of perjury, that the above information in your notice is accurate and that you are the owner of the copyright interest involved or are authorized to act on behalf of that owner;
+  * Your electronic or physical signature.
+
+You may send an email to dmca [at] emupedia.net for all DMCA Takedown notices / Removal Requests.
+
+You will receive a confirmation once your request has been processed.
+
+
+License
+
+Copyright (c) 2016 - 2019, Emupedia
+
+The source code provided by Emupedia are for non-commercial testing and evaluation purposes only. Emupedia reserves all rights not expressly granted.
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL EMUPEDIA OR THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+				</textarea>
+			</div>
+		</div>
+		<div id="print-helper"></div>
+		<script src="lib/jquery.min.js"></script>
+		<script src="lib/pep.js"></script>
+		<script src="lib/browserfs.js"></script>
+<!--		<script src="src/filesystem-setup.js"></script>-->
+		<script src="src/helpers.js"></script>
+		<script src="src/$MenuBar.js"></script>
+		<script src="lib/moment.js"></script>
+		<script src="lib/FileSaver.js"></script>
+		<script src="src/app.js"></script>
+		<script src="src/menus.js"></script>
+		<style>
+			#app {
+				background: #c0c0c0;
+				display: flex;
+				flex-direction: column;
+			}
+			#document-textarea {
+				width: 100%;
+				height: 100%;
+				resize: none;
+				outline: none;
+				overflow: scroll;
+				padding: 0;
+				border: 0;
+				white-space: pre;
+				padding: 2px;
+				box-sizing: border-box;
+			}
+			#document-textarea,
+			#print-helper {
+				font-family: "Fixedsys Excelsior", "FixedSys", monospace;
+				font-size: 16px; /* NOTE: FixedSys should be 15px, but Fixedsys Excelsior is 16px */
+				background: white;
+				color: black;
+			}
+			html,
+			body,
+			#app,
+			#document {
+				box-sizing: border-box;
+				padding: 0;
+				margin: 0;
+			}
+			@media not print {
+				#print-helper {
+					display: none;
+				}
+				html,
+				body,
+				#app,
+				#document {
+					width: 100%;
+					height: 100%;
+					display: flex;
+					flex-direction: column;
+				}
+			}
+			@media print {
+				#app {
+					display: none;
+				}
+				html,
+				body,
+				#print-helper {
+					height: auto;
+				}
+				#print-helper {
+					overflow: visible;
+					white-space: pre-wrap;
+					overflow-wrap: break-word;
+				}
+			}
+
+			/* From .tool-options {} */
+			.inset {
+				border: 1px solid white;
+				border-top-color: #7b7b7b;
+				border-left-color: #7b7b7b;
+			}
+		</style>
+	</body>
+</html>
