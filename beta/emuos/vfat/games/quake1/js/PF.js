@@ -1,5 +1,7 @@
+// noinspection DuplicatedCode
 PF = {};
 
+// noinspection DuplicatedCode
 PF.VarString = function(first) {
 	var i, out = '';
 
@@ -11,18 +13,21 @@ PF.VarString = function(first) {
 	return out;
 };
 
+// noinspection DuplicatedCode
 PF.error = function() {
 	Con.Print('======SERVER ERROR in ' + PR.GetString(PR.xfunction.name) + '\n' + PF.VarString(0) + '\n');
 	ED.Print(SV.server.edicts[PR.globals_int[PR.globalvars.self]]);
 	Host.Error('Program error');
 };
 
+// noinspection DuplicatedCode
 PF.objerror = function() {
 	Con.Print('======OBJECT ERROR in ' + PR.GetString(PR.xfunction.name) + '\n' + PF.VarString(0) + '\n');
 	ED.Print(SV.server.edicts[PR.globals_int[PR.globalvars.self]]);
 	Host.Error('Program error');
 };
 
+// noinspection DuplicatedCode
 PF.makevectors = function() {
 	var forward = [], right = [], up = [];
 	Vec.AngleVectors([PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]], forward, right, up);
@@ -34,6 +39,7 @@ PF.makevectors = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 PF.setorigin = function() {
 	var e = SV.server.edicts[PR.globals_int[4]];
 	e.v_float[PR.entvars.origin] = PR.globals_float[7];
@@ -42,6 +48,7 @@ PF.setorigin = function() {
 	SV.LinkEdict(e);
 };
 
+// noinspection DuplicatedCode
 PF.SetMinMaxSize = function(e, min, max) {
 	if ((min[0] > max[0]) || (min[1] > max[1]) || (min[2] > max[2])) {
 		PR.RunError('backwards mins/maxs');
@@ -54,12 +61,14 @@ PF.SetMinMaxSize = function(e, min, max) {
 	SV.LinkEdict(e);
 };
 
+// noinspection DuplicatedCode
 PF.setsize = function() {
 	PF.SetMinMaxSize(SV.server.edicts[PR.globals_int[4]],
 		[PR.globals_float[7], PR.globals_float[8], PR.globals_float[9]],
 		[PR.globals_float[10], PR.globals_float[11], PR.globals_float[12]]);
 };
 
+// noinspection DuplicatedCode
 PF.setmodel = function() {
 	var e = SV.server.edicts[PR.globals_int[4]];
 	var m = PR.GetString(PR.globals_int[7]);
@@ -83,10 +92,12 @@ PF.setmodel = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 PF.bprint = function() {
 	Host.BroadcastPrint(PF.VarString(0));
 };
 
+// noinspection DuplicatedCode
 PF.sprint = function() {
 	var entnum = PR.globals_int[4];
 	if ((entnum <= 0) || (entnum > SV.svs.maxclients)) {
@@ -98,6 +109,7 @@ PF.sprint = function() {
 	MSG.WriteString(client.message, PF.VarString(1));
 };
 
+// noinspection DuplicatedCode
 PF.centerprint = function() {
 	var entnum = PR.globals_int[4];
 	if ((entnum <= 0) || (entnum > SV.svs.maxclients)) {
@@ -109,6 +121,7 @@ PF.centerprint = function() {
 	MSG.WriteString(client.message, PF.VarString(1));
 };
 
+// noinspection DuplicatedCode
 PF.normalize = function() {
 	var newvalue = [PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]];
 	Vec.Normalize(newvalue);
@@ -117,10 +130,12 @@ PF.normalize = function() {
 	PR.globals_float[3] = newvalue[2];
 };
 
+// noinspection DuplicatedCode
 PF.vlen = function() {
 	PR.globals_float[1] = Math.sqrt(PR.globals_float[4] * PR.globals_float[4] + PR.globals_float[5] * PR.globals_float[5] + PR.globals_float[6] * PR.globals_float[6]);
 };
 
+// noinspection DuplicatedCode
 PF.vectoyaw = function() {
 	var value1 = PR.globals_float[4], value2 = PR.globals_float[5];
 	if ((value1 === 0.0) && (value2 === 0.0)) {
@@ -134,6 +149,7 @@ PF.vectoyaw = function() {
 	PR.globals_float[1] = yaw;
 };
 
+// noinspection DuplicatedCode
 PF.vectoangles = function() {
 	PR.globals_float[3] = 0.0;
 	var value1 = [PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]];
@@ -159,16 +175,19 @@ PF.vectoangles = function() {
 	PR.globals_float[2] = yaw;
 };
 
+// noinspection DuplicatedCode
 PF.random = function() {
 	PR.globals_float[1] = Math.random();
 };
 
+// noinspection DuplicatedCode
 PF.particle = function() {
 	SV.StartParticle([PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]],
 		[PR.globals_float[7], PR.globals_float[8], PR.globals_float[9]],
 		PR.globals_float[10] >> 0, PR.globals_float[13] >> 0);
 };
 
+// noinspection DuplicatedCode
 PF.ambientsound = function() {
 	var samp = PR.GetString(PR.globals_int[7]), i;
 	for (i = 0; i < SV.server.sound_precache.length; ++i) {
@@ -190,6 +209,7 @@ PF.ambientsound = function() {
 	MSG.WriteByte(signon, PR.globals_float[13] * 64.0);
 };
 
+// noinspection DuplicatedCode
 PF.sound = function() {
 	SV.StartSound(SV.server.edicts[PR.globals_int[4]],
 		PR.globals_float[7] >> 0,
@@ -198,10 +218,12 @@ PF.sound = function() {
 		PR.globals_float[16]);
 };
 
+// noinspection DuplicatedCode
 PF.breakstatement = function() {
 	Con.Print('break statement\n');
 };
 
+// noinspection DuplicatedCode
 PF.traceline = function() {
 	var trace = SV.Move([PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]],
 		Vec.origin, Vec.origin, [PR.globals_float[7], PR.globals_float[8], PR.globals_float[9]],
@@ -222,6 +244,7 @@ PF.traceline = function() {
 	PR.globals_int[PR.globalvars.trace_ent] = (trace.ent != null) ? trace.ent.num : 0;
 };
 
+// noinspection DuplicatedCode
 PF.newcheckclient = function(check) {
 	if (check <= 0) {
 		check = 1;
@@ -257,6 +280,7 @@ PF.newcheckclient = function(check) {
 	return i;
 };
 
+// noinspection DuplicatedCode
 PF.checkclient = function() {
 	if ((SV.server.time - SV.server.lastchecktime) >= 0.1) {
 		SV.server.lastcheck = PF.newcheckclient(SV.server.lastcheck);
@@ -280,6 +304,7 @@ PF.checkclient = function() {
 	PR.globals_int[1] = ent.num;
 };
 
+// noinspection DuplicatedCode
 PF.stuffcmd = function() {
 	var entnum = PR.globals_int[4];
 	if ((entnum <= 0) || (entnum > SV.svs.maxclients)) {
@@ -290,19 +315,23 @@ PF.stuffcmd = function() {
 	MSG.WriteString(client.message, PR.GetString(PR.globals_int[7]));
 };
 
+// noinspection DuplicatedCode
 PF.localcmd = function() {
 	Cmd.text += PR.GetString(PR.globals_int[4]);
 };
 
+// noinspection DuplicatedCode
 PF.cvar = function() {
 	var v = Cvar.FindVar(PR.GetString(PR.globals_int[4]));
 	PR.globals_float[1] = v != null ? v.value : 0.0;
 };
 
+// noinspection DuplicatedCode
 PF.cvar_set = function() {
 	Cvar.Set(PR.GetString(PR.globals_int[4]), PR.GetString(PR.globals_int[7]));
 };
 
+// noinspection DuplicatedCode
 PF.findradius = function() {
 	var chain = 0;
 	var org = [PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]], eorg = [];
@@ -328,10 +357,12 @@ PF.findradius = function() {
 	PR.globals_int[1] = chain;
 };
 
+// noinspection DuplicatedCode
 PF.dprint = function() {
 	Con.DPrint(PF.VarString(0));
 };
 
+// noinspection DuplicatedCode
 PF.ftos = function() {
 	var v = PR.globals_float[4];
 	if (v === Math.floor(v)) {
@@ -342,10 +373,12 @@ PF.ftos = function() {
 	PR.globals_int[1] = PR.string_temp;
 };
 
+// noinspection DuplicatedCode
 PF.fabs = function() {
 	PR.globals_float[1] = Math.abs(PR.globals_float[4]);
 };
 
+// noinspection DuplicatedCode
 PF.vtos = function() {
 	PR.TempString(PR.globals_float[4].toFixed(1)
 		+ ' ' + PR.globals_float[5].toFixed(1)
@@ -353,14 +386,17 @@ PF.vtos = function() {
 	PR.globals_int[1] = PR.string_temp;
 };
 
+// noinspection DuplicatedCode
 PF.Spawn = function() {
 	PR.globals_int[1] = ED.Alloc().num;
 };
 
+// noinspection DuplicatedCode
 PF.Remove = function() {
 	ED.Free(SV.server.edicts[PR.globals_int[4]]);
 };
 
+// noinspection DuplicatedCode
 PF.Find = function() {
 	var e = PR.globals_int[4];
 	var f = PR.globals_int[7];
@@ -379,6 +415,7 @@ PF.Find = function() {
 	PR.globals_int[1] = 0;
 };
 
+// noinspection DuplicatedCode
 PF.MoveToGoal = function() {
 	var ent = SV.server.edicts[PR.globals_int[PR.globalvars.self]];
 	if ((ent.v_float[PR.entvars.flags] & (SV.fl.onground + SV.fl.fly + SV.fl.swim)) === 0) {
@@ -395,10 +432,12 @@ PF.MoveToGoal = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 PF.precache_file = function() {
 	PR.globals_int[1] = PR.globals_int[4];
 };
 
+// noinspection DuplicatedCode
 PF.precache_sound = function() {
 	var s = PR.GetString(PR.globals_int[4]);
 	PR.globals_int[1] = PR.globals_int[4];
@@ -412,6 +451,7 @@ PF.precache_sound = function() {
 	SV.server.sound_precache[i] = s;
 };
 
+// noinspection DuplicatedCode
 PF.precache_model = function() {
 	if (SV.server.loading !== true) {
 		PR.RunError('PF.Precache_*: Precache can only be done in spawn functions');
@@ -429,22 +469,27 @@ PF.precache_model = function() {
 	SV.server.models[i] = Mod.ForName(s, true);
 };
 
+// noinspection DuplicatedCode
 PF.coredump = function() {
 	ED.PrintEdicts();
 };
 
+// noinspection DuplicatedCode
 PF.traceon = function() {
 	PR.trace = true;
 };
 
+// noinspection DuplicatedCode
 PF.traceoff = function() {
 	PR.trace = false;
 };
 
+// noinspection DuplicatedCode
 PF.eprint = function() {
 	ED.Print(SV.server.edicts[PR.globals_float[4]]);
 };
 
+// noinspection DuplicatedCode
 PF.walkmove = function() {
 	var ent = SV.server.edicts[PR.globals_int[PR.globalvars.self]];
 	if ((ent.v_float[PR.entvars.flags] & (SV.fl.onground + SV.fl.fly + SV.fl.swim)) === 0) {
@@ -459,6 +504,7 @@ PF.walkmove = function() {
 	PR.globals_int[PR.globalvars.self] = ent.num;
 };
 
+// noinspection DuplicatedCode
 PF.droptofloor = function() {
 	var ent = SV.server.edicts[PR.globals_int[PR.globalvars.self]];
 	var trace = SV.Move(ED.Vector(ent, PR.entvars.origin),
@@ -475,6 +521,7 @@ PF.droptofloor = function() {
 	PR.globals_float[1] = 1.0;
 };
 
+// noinspection DuplicatedCode
 PF.lightstyle = function() {
 	var style = PR.globals_float[4] >> 0;
 	var val = PR.GetString(PR.globals_int[7]);
@@ -494,27 +541,33 @@ PF.lightstyle = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 PF.rint = function() {
 	var f = PR.globals_float[4];
 	PR.globals_float[1] = (f >= 0.0 ? f + 0.5 : f - 0.5) >> 0;
 };
 
+// noinspection DuplicatedCode
 PF.floor = function() {
 	PR.globals_float[1] = Math.floor(PR.globals_float[4]);
 };
 
+// noinspection DuplicatedCode
 PF.ceil = function() {
 	PR.globals_float[1] = Math.ceil(PR.globals_float[4]);
 };
 
+// noinspection DuplicatedCode
 PF.checkbottom = function() {
 	PR.globals_float[1] = SV.CheckBottom(SV.server.edicts[PR.globals_int[4]]);
 };
 
+// noinspection DuplicatedCode
 PF.pointcontents = function() {
 	PR.globals_float[1] = SV.PointContents([PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]]);
 };
 
+// noinspection DuplicatedCode
 PF.nextent = function() {
 	var i;
 	for (i = PR.globals_int[4] + 1; i < SV.server.num_edicts; ++i) {
@@ -526,6 +579,7 @@ PF.nextent = function() {
 	PR.globals_int[1] = 0;
 };
 
+// noinspection DuplicatedCode
 PF.aim = function() {
 	var ent = SV.server.edicts[PR.globals_int[4]];
 	var start = [ent.v_float[PR.entvars.origin], ent.v_float[PR.entvars.origin1], ent.v_float[PR.entvars.origin2] + 20.0];
@@ -603,6 +657,7 @@ PF.aim = function() {
 	PR.globals_float[3] = bestdir[2];
 };
 
+// noinspection DuplicatedCode
 PF.changeyaw = function() {
 	var ent = SV.server.edicts[PR.globals_int[PR.globalvars.self]];
 	var current = Vec.Anglemod(ent.v_float[PR.entvars.angles1]);
@@ -635,6 +690,7 @@ PF.changeyaw = function() {
 	ent.v_float[PR.entvars.angles1] = Vec.Anglemod(current + move);
 };
 
+// noinspection DuplicatedCode
 PF.WriteDest = function() {
 	switch (PR.globals_float[4] >> 0) {
 		case 0: // broadcast
@@ -654,38 +710,47 @@ PF.WriteDest = function() {
 	PR.RunError('WriteDest: bad destination');
 };
 
+// noinspection DuplicatedCode
 PF.WriteByte = function() {
 	MSG.WriteByte(PF.WriteDest(), PR.globals_float[7]);
 };
 
+// noinspection DuplicatedCode
 PF.WriteChar = function() {
 	MSG.WriteChar(PF.WriteDest(), PR.globals_float[7]);
 };
 
+// noinspection DuplicatedCode
 PF.WriteShort = function() {
 	MSG.WriteShort(PF.WriteDest(), PR.globals_float[7]);
 };
 
+// noinspection DuplicatedCode
 PF.WriteLong = function() {
 	MSG.WriteLong(PF.WriteDest(), PR.globals_float[7]);
 };
 
+// noinspection DuplicatedCode
 PF.WriteAngle = function() {
 	MSG.WriteAngle(PF.WriteDest(), PR.globals_float[7]);
 };
 
+// noinspection DuplicatedCode
 PF.WriteCoord = function() {
 	MSG.WriteCoord(PF.WriteDest(), PR.globals_float[7]);
 };
 
+// noinspection DuplicatedCode
 PF.WriteString = function() {
 	MSG.WriteString(PF.WriteDest(), PR.GetString(PR.globals_int[7]));
 };
 
+// noinspection DuplicatedCode
 PF.WriteEntity = function() {
 	MSG.WriteShort(PF.WriteDest(), PR.globals_int[7]);
 };
 
+// noinspection DuplicatedCode
 PF.makestatic = function() {
 	var ent = SV.server.edicts[PR.globals_int[4]];
 	var message = SV.server.signon;
@@ -703,6 +768,7 @@ PF.makestatic = function() {
 	ED.Free(ent);
 };
 
+// noinspection DuplicatedCode
 PF.setspawnparms = function() {
 	var i = PR.globals_int[4];
 
@@ -717,6 +783,7 @@ PF.setspawnparms = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 PF.changelevel = function() {
 	if (SV.svs.changelevel_issued === true) {
 		return;
@@ -726,10 +793,12 @@ PF.changelevel = function() {
 	Cmd.text += 'changelevel ' + PR.GetString(PR.globals_int[4]) + '\n';
 };
 
+// noinspection DuplicatedCode
 PF.Fixme = function() {
 	PR.RunError('unimplemented builtin');
 };
 
+// noinspection DuplicatedCode
 PF.builtin = [
 	PF.Fixme,
 	PF.makevectors,

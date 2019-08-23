@@ -1,10 +1,14 @@
+// noinspection DuplicatedCode
 SCR = {};
 
+// noinspection DuplicatedCode
 SCR.con_current = 0;
-
+// noinspection DuplicatedCode
 SCR.centerstring = [];
+// noinspection DuplicatedCode
 SCR.centertime_off = 0.0;
 
+// noinspection DuplicatedCode
 SCR.CenterPrint = function(str) {
 	SCR.centerstring = [];
 	var i, start = 0, next;
@@ -24,6 +28,7 @@ SCR.CenterPrint = function(str) {
 	SCR.centertime_start = CL.state.time;
 };
 
+// noinspection DuplicatedCode
 SCR.DrawCenterString = function() {
 	SCR.centertime_off -= Host.frametime;
 	if (((SCR.centertime_off <= 0.0) && (CL.state.intermission === 0)) || (Key.dest.value !== Key.dest.game)) {
@@ -62,6 +67,7 @@ SCR.DrawCenterString = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 SCR.CalcRefdef = function() {
 	SCR.recalc_refdef = false;
 
@@ -147,16 +153,19 @@ SCR.CalcRefdef = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 SCR.SizeUp_f = function() {
 	Cvar.SetValue('viewsize', SCR.viewsize.value + 10);
 	SCR.recalc_refdef = true;
 };
 
+// noinspection DuplicatedCode
 SCR.SizeDown_f = function() {
 	Cvar.SetValue('viewsize', SCR.viewsize.value - 10);
 	SCR.recalc_refdef = true;
 };
 
+// noinspection DuplicatedCode
 SCR.Init = function() {
 	SCR.fov = Cvar.RegisterVariable('fov', '90');
 	SCR.viewsize = Cvar.RegisterVariable('viewsize', '100', true);
@@ -173,7 +182,10 @@ SCR.Init = function() {
 	SCR.pause = Draw.CachePic('pause');
 };
 
+// noinspection DuplicatedCode
 SCR.count = 0;
+
+// noinspection DuplicatedCode
 SCR.DrawTurtle = function() {
 	if (SCR.showturtle.value === 0) {
 		return;
@@ -187,18 +199,21 @@ SCR.DrawTurtle = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 SCR.DrawNet = function() {
 	if (((Host.realtime - CL.state.last_received_message) >= 0.3) && (CL.cls.demoplayback !== true)) {
 		Draw.Pic(R.refdef.vrect.x, R.refdef.vrect.y, SCR.net);
 	}
 };
 
+// noinspection DuplicatedCode
 SCR.DrawPause = function() {
 	if ((SCR.showpause.value !== 0) && (CL.state.paused === true)) {
 		Draw.Pic((VID.width - SCR.pause.width) >> 1, (VID.height - 48 - SCR.pause.height) >> 1, SCR.pause);
 	}
 };
 
+// noinspection DuplicatedCode
 SCR.SetUpToDrawConsole = function() {
 	Con.forcedup = (CL.state.worldmodel == null) || (CL.cls.signon !== 4);
 
@@ -231,6 +246,7 @@ SCR.SetUpToDrawConsole = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 SCR.DrawConsole = function() {
 	if (SCR.con_current > 0) {
 		Con.DrawConsole(SCR.con_current);
@@ -243,10 +259,12 @@ SCR.DrawConsole = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 SCR.ScreenShot_f = function() {
 	SCR.screenshot = true;
 };
 
+// noinspection DuplicatedCode
 SCR.BeginLoadingPlaque = function() {
 	S.StopAllSounds();
 
@@ -260,11 +278,13 @@ SCR.BeginLoadingPlaque = function() {
 	SCR.disabled_time = Host.realtime + 60.0;
 };
 
+// noinspection DuplicatedCode
 SCR.EndLoadingPlaque = function() {
 	SCR.disabled_for_loading = false;
 	Con.ClearNotify();
 };
 
+// noinspection DuplicatedCode
 SCR.UpdateScreen = function() {
 	if (SCR.disabled_for_loading === true) {
 		if (Host.realtime <= SCR.disabled_time) {

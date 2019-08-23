@@ -1,11 +1,16 @@
+// noinspection DuplicatedCode
 COM = {};
 
+// noinspection DuplicatedCode
 COM.id = 'COM';
 
+// noinspection DuplicatedCode
 COM.argv = [];
 
+// noinspection DuplicatedCode
 COM.standard_quake = true;
 
+// noinspection DuplicatedCode
 COM.DefaultExtension = function(path, extension) {
 	Sys.DPrint(COM.id, 'DefaultExtension', arguments);
 
@@ -29,6 +34,7 @@ COM.DefaultExtension = function(path, extension) {
 	return path + extension;
 };
 
+// noinspection DuplicatedCode
 COM.Parse = function(data) {
 	// Sys.DPrint(COM.id, 'KeyState', arguments);
 
@@ -104,6 +110,7 @@ COM.Parse = function(data) {
 	return data.substring(i);
 };
 
+// noinspection DuplicatedCode
 COM.CheckParm = function(parm) {
 	Sys.DPrint(COM.id, 'CheckParm', arguments);
 
@@ -126,6 +133,7 @@ COM.CheckParm = function(parm) {
 	return null;
 };
 
+// noinspection DuplicatedCode
 COM.CheckRegistered = function() {
 	Sys.DPrint('COM.CheckRegistered()');
 
@@ -146,6 +154,7 @@ COM.CheckRegistered = function() {
 
 	var check = new Uint8Array(h);
 
+	// noinspection DuplicatedCode
 	var pop = [
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x66, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x66, 0x00, 0x00, 0x00,
@@ -179,6 +188,7 @@ COM.CheckRegistered = function() {
 	Con.Print('Playing registered version.\n');
 };
 
+// noinspection DuplicatedCode
 COM.InitArgv = function(argv) {
 	Sys.DPrint(COM.id, 'InitArgv', arguments);
 
@@ -207,6 +217,7 @@ COM.InitArgv = function(argv) {
 	}
 };
 
+// noinspection DuplicatedCode
 COM.Init = function() {
 	Sys.DPrint('COM.Init()');
 
@@ -236,8 +247,10 @@ COM.Init = function() {
 	COM.CheckRegistered();
 };
 
+// noinspection DuplicatedCode
 COM.searchpaths = [];
 
+// noinspection DuplicatedCode
 COM.Path_f = function() {
 	Sys.DPrint('COM.Path_f()');
 
@@ -259,6 +272,7 @@ COM.Path_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 COM.WriteFile = function(filename, data, len) {
 	Sys.DPrint(COM.id, 'WriteFile', arguments);
 
@@ -283,6 +297,7 @@ COM.WriteFile = function(filename, data, len) {
 	return true;
 };
 
+// noinspection DuplicatedCode
 COM.WriteTextFile = function(filename, data) {
 	Sys.DPrint(COM.id, 'ExecuteString', arguments);
 
@@ -301,6 +316,7 @@ COM.WriteTextFile = function(filename, data) {
 	return true;
 };
 
+// noinspection DuplicatedCode
 COM.LoadFile = function(filename) {
 	// Sys.DPrint(COM.id, 'LoadFile', arguments);
 
@@ -314,6 +330,7 @@ COM.LoadFile = function(filename) {
 
 	Draw.BeginDisc();
 
+	// noinspection DuplicatedCode
 	for (i = COM.searchpaths.length - 1; i >= 0; --i) {
 		search = COM.searchpaths[i];
 		netpath = search.filename + '/' + filename;
@@ -329,6 +346,7 @@ COM.LoadFile = function(filename) {
 		for (j = search.pack.length - 1; j >= 0; --j) {
 			pak = search.pack[j];
 
+			// noinspection DuplicatedCode
 			for (k = 0; k < pak.length; ++k) {
 				file = pak[k];
 
@@ -373,6 +391,7 @@ COM.LoadFile = function(filename) {
 	Draw.EndDisc();
 };
 
+// noinspection DuplicatedCode
 COM.LoadTextFile = function(filename) {
 	Sys.DPrint(COM.id, 'LoadTextFile', arguments);
 
@@ -398,6 +417,7 @@ COM.LoadTextFile = function(filename) {
 	return f.join('');
 };
 
+// noinspection DuplicatedCode
 COM.LoadPackFile = function(packfile) {
 	Sys.DPrint(COM.id, 'LoadPackFile', arguments);
 
@@ -431,6 +451,7 @@ COM.LoadPackFile = function(packfile) {
 
 	var pack = [];
 
+	// noinspection DuplicatedCode
 	if (numpackfiles !== 0) {
 		// xhr.open('GET', packfile, false);
 		xhr.open('GET', PAK[paknumber]['pak' + paknumber], false);
@@ -449,6 +470,7 @@ COM.LoadPackFile = function(packfile) {
 
 		var i;
 
+		// noinspection DuplicatedCode
 		for (i = 0; i < numpackfiles; ++i) {
 			pack[pack.length] = {
 				name: Q.memstr(new Uint8Array(info, i << 6, 56)).toLowerCase(),
@@ -466,6 +488,7 @@ COM.LoadPackFile = function(packfile) {
 	return pack;
 };
 
+// noinspection DuplicatedCode
 COM.AddGameDirectory = function(dir) {
 	Sys.DPrint(COM.id, 'AddGameDirectory', arguments);
 
@@ -490,6 +513,7 @@ COM.AddGameDirectory = function(dir) {
 	COM.searchpaths[COM.searchpaths.length] = search;
 };
 
+// noinspection DuplicatedCode
 COM.InitFilesystem = function() {
 	Sys.DPrint('COM.InitFilesystem()');
 

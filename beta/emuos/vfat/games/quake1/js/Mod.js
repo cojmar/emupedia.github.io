@@ -1,5 +1,7 @@
+// noinspection DuplicatedCode
 Mod = {};
 
+// noinspection DuplicatedCode
 Mod.effects = {
 	brightfield: 1,
 	muzzleflash: 2,
@@ -7,8 +9,10 @@ Mod.effects = {
 	dimlight: 8
 };
 
+// noinspection DuplicatedCode
 Mod.type = {brush: 0, sprite: 1, alias: 2};
 
+// noinspection DuplicatedCode
 Mod.flags = {
 	rocket: 1,
 	grenade: 2,
@@ -20,10 +24,13 @@ Mod.flags = {
 	tracer3: 128
 };
 
+// noinspection DuplicatedCode
 Mod.version = {brush: 29, sprite: 1, alias: 6};
 
+// noinspection DuplicatedCode
 Mod.known = [];
 
+// noinspection DuplicatedCode
 Mod.Init = function() {
 	Mod.novis = [];
 	var i;
@@ -40,6 +47,7 @@ Mod.Init = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.PointInLeaf = function(p, model) {
 	if (model == null) {
 		Sys.Error('Mod.PointInLeaf: bad model');
@@ -62,6 +70,7 @@ Mod.PointInLeaf = function(p, model) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.DecompressVis = function(i, model) {
 	var decompressed = [], c, out = 0, row = (model.leafs.length + 7) >> 3;
 	if (model.visdata == null) {
@@ -83,6 +92,7 @@ Mod.DecompressVis = function(i, model) {
 	return decompressed;
 };
 
+// noinspection DuplicatedCode
 Mod.LeafPVS = function(leaf, model) {
 	if (leaf === model.leafs[0]) {
 		return Mod.novis;
@@ -90,6 +100,7 @@ Mod.LeafPVS = function(leaf, model) {
 	return Mod.DecompressVis(leaf.visofs, model);
 };
 
+// noinspection DuplicatedCode
 Mod.ClearAll = function() {
 	var i, mod;
 	for (i = 0; i < Mod.known.length; ++i) {
@@ -107,6 +118,7 @@ Mod.ClearAll = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.FindName = function(name) {
 	if (name.length === 0) {
 		Sys.Error('Mod.FindName: NULL name');
@@ -129,6 +141,7 @@ Mod.FindName = function(name) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadModel = function(mod, crash) {
 	if (mod.needload !== true) {
 		return mod;
@@ -155,6 +168,7 @@ Mod.LoadModel = function(mod, crash) {
 	return mod;
 };
 
+// noinspection DuplicatedCode
 Mod.ForName = function(name, crash) {
 	return Mod.LoadModel(Mod.FindName(name), crash);
 };
@@ -167,6 +181,7 @@ Mod.ForName = function(name, crash) {
  ===============================================================================
  */
 
+// noinspection DuplicatedCode
 Mod.lump = {
 	entities: 0,
 	planes: 1,
@@ -185,6 +200,7 @@ Mod.lump = {
 	models: 14
 };
 
+// noinspection DuplicatedCode
 Mod.contents = {
 	empty: -1,
 	solid: -2,
@@ -202,6 +218,7 @@ Mod.contents = {
 	current_down: -14
 };
 
+// noinspection DuplicatedCode
 Mod.LoadTextures = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.textures << 3) + 4, true);
@@ -296,6 +313,7 @@ Mod.LoadTextures = function(buf) {
 	Mod.loadmodel.textures[Mod.loadmodel.textures.length] = R.notexture_mip;
 };
 
+// noinspection DuplicatedCode
 Mod.LoadLighting = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.lighting << 3) + 4, true);
@@ -307,6 +325,7 @@ Mod.LoadLighting = function(buf) {
 	Mod.loadmodel.lightdata.set(new Uint8Array(buf, fileofs, filelen));
 };
 
+// noinspection DuplicatedCode
 Mod.LoadVisibility = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.visibility << 3) + 4, true);
@@ -318,6 +337,7 @@ Mod.LoadVisibility = function(buf) {
 	Mod.loadmodel.visdata.set(new Uint8Array(buf, fileofs, filelen));
 };
 
+// noinspection DuplicatedCode
 Mod.LoadEntities = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.entities << 3) + 4, true);
@@ -325,6 +345,7 @@ Mod.LoadEntities = function(buf) {
 	Mod.loadmodel.entities = Q.memstr(new Uint8Array(buf, fileofs, filelen));
 };
 
+// noinspection DuplicatedCode
 Mod.LoadVertexes = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.vertexes << 3) + 4, true);
@@ -341,6 +362,7 @@ Mod.LoadVertexes = function(buf) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadSubmodels = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.models << 3) + 4, true);
@@ -419,6 +441,7 @@ Mod.LoadSubmodels = function(buf) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadEdges = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.edges << 3) + 4, true);
@@ -435,6 +458,7 @@ Mod.LoadEdges = function(buf) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadTexinfo = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.texinfo << 3) + 4, true);
@@ -463,6 +487,7 @@ Mod.LoadTexinfo = function(buf) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadFaces = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.faces << 3) + 4, true);
@@ -540,6 +565,7 @@ Mod.LoadFaces = function(buf) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.SetParent = function(node, parent) {
 	node.parent = parent;
 	if (node.contents < 0) {
@@ -549,6 +575,7 @@ Mod.SetParent = function(node, parent) {
 	Mod.SetParent(node.children[1], node);
 };
 
+// noinspection DuplicatedCode
 Mod.LoadNodes = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.nodes << 3) + 4, true);
@@ -590,6 +617,7 @@ Mod.LoadNodes = function(buf) {
 	Mod.SetParent(Mod.loadmodel.nodes[0]);
 };
 
+// noinspection DuplicatedCode
 Mod.LoadLeafs = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.leafs << 3) + 4, true);
@@ -619,6 +647,7 @@ Mod.LoadLeafs = function(buf) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadClipnodes = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.clipnodes << 3) + 4, true);
@@ -653,6 +682,7 @@ Mod.LoadClipnodes = function(buf) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.MakeHull0 = function() {
 	var node, child, clipnodes = [], i, out;
 	var hull = {
@@ -674,6 +704,7 @@ Mod.MakeHull0 = function() {
 	Mod.loadmodel.hulls[0] = hull;
 };
 
+// noinspection DuplicatedCode
 Mod.LoadMarksurfaces = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.marksurfaces << 3) + 4, true);
@@ -690,6 +721,7 @@ Mod.LoadMarksurfaces = function(buf) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadSurfedges = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.surfedges << 3) + 4, true);
@@ -702,6 +734,7 @@ Mod.LoadSurfedges = function(buf) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadPlanes = function(buf) {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.planes << 3) + 4, true);
@@ -733,6 +766,7 @@ Mod.LoadPlanes = function(buf) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadBrushModel = function(buffer) {
 	Mod.loadmodel.type = Mod.type.brush;
 	var version = (new DataView(buffer)).getUint32(0, true);
@@ -792,6 +826,7 @@ Mod.LoadBrushModel = function(buffer) {
  ==============================================================================
  */
 
+// noinspection DuplicatedCode
 Mod.TranslatePlayerSkin = function(data, skin) {
 	if ((Mod.loadmodel.skinwidth !== 512) || (Mod.loadmodel.skinheight !== 256)) {
 		data = GL.ResampleTexture(data, Mod.loadmodel.skinwidth, Mod.loadmodel.skinheight, 512, 256);
@@ -816,6 +851,7 @@ Mod.TranslatePlayerSkin = function(data, skin) {
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, GL.filter_max);
 };
 
+// noinspection DuplicatedCode
 Mod.FloodFillSkin = function(skin) {
 	var fillcolor = skin[0];
 	if (fillcolor === Mod.filledcolor) {
@@ -855,6 +891,7 @@ Mod.FloodFillSkin = function(skin) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadAllSkins = function(buffer, inmodel) {
 	Mod.loadmodel.skins = [];
 	var model = new DataView(buffer);
@@ -909,6 +946,7 @@ Mod.LoadAllSkins = function(buffer, inmodel) {
 	return inmodel;
 };
 
+// noinspection DuplicatedCode
 Mod.LoadAllFrames = function(buffer, inmodel) {
 	Mod.loadmodel.frames = [];
 	var model = new DataView(buffer);
@@ -968,6 +1006,7 @@ Mod.LoadAllFrames = function(buffer, inmodel) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.LoadAliasModel = function(buffer) {
 	var i, j, k, l;
 
@@ -1108,6 +1147,7 @@ Mod.LoadAliasModel = function(buffer) {
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cmds), gl.STATIC_DRAW);
 };
 
+// noinspection DuplicatedCode
 Mod.LoadSpriteFrame = function(identifier, buffer, inframe, frame) {
 	var i;
 
@@ -1177,6 +1217,7 @@ Mod.LoadSpriteFrame = function(identifier, buffer, inframe, frame) {
 	return inframe + 16 + frame.width * frame.height;
 };
 
+// noinspection DuplicatedCode
 Mod.LoadSpriteModel = function(buffer) {
 	Mod.loadmodel.type = Mod.type.sprite;
 	var model = new DataView(buffer);
@@ -1200,6 +1241,7 @@ Mod.LoadSpriteModel = function(buffer) {
 	var inframe = 36, i, j, frame, group, numframes;
 	for (i = 0; i < Mod.loadmodel.numframes; ++i) {
 		inframe += 4;
+		// noinspection DuplicatedCode
 		if (model.getUint32(inframe - 4, true) === 0) {
 			frame = {group: false};
 			Mod.loadmodel.frames[i] = frame;
@@ -1227,6 +1269,7 @@ Mod.LoadSpriteModel = function(buffer) {
 	}
 };
 
+// noinspection DuplicatedCode
 Mod.Print = function() {
 	Con.Print('Cached models:\n');
 	var i;

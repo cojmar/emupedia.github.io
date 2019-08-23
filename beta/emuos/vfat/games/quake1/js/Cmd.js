@@ -1,17 +1,23 @@
+// noinspection DuplicatedCode
 Cmd = {};
 
+// noinspection DuplicatedCode
 Cmd.id = 'Cmd';
 
+// noinspection DuplicatedCode
 Cmd.alias = [];
 
+// noinspection DuplicatedCode
 Cmd.Wait_f = function() {
 	Sys.DPrint('Cmd.Wait_f()');
 
 	Cmd.wait = true;
 };
 
+// noinspection DuplicatedCode
 Cmd.text = '';
 
+// noinspection DuplicatedCode
 Cmd.Execute = function() {
 	// Sys.DPrint('Cmd.Execute()');
 
@@ -50,6 +56,7 @@ Cmd.Execute = function() {
 	Cmd.text = '';
 };
 
+// noinspection DuplicatedCode
 Cmd.StuffCmds_f = function() {
 	Sys.DPrint('Cmd.StuffCmds_f()');
 
@@ -86,6 +93,7 @@ Cmd.StuffCmds_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Cmd.Exec_f = function() {
 	Sys.DPrint('Cmd.Exec_f()');
 
@@ -105,6 +113,7 @@ Cmd.Exec_f = function() {
 	Cmd.text = f + Cmd.text;
 };
 
+// noinspection DuplicatedCode
 Cmd.Echo_f = function() {
 	Sys.DPrint('Cmd.Echo_f()');
 
@@ -117,11 +126,13 @@ Cmd.Echo_f = function() {
 	Con.Print('\n');
 };
 
+// noinspection DuplicatedCode
 Cmd.Alias_f = function() {
 	Sys.DPrint('Cmd.Alias_f()');
 
 	var i;
 
+	// noinspection DuplicatedCode
 	if (Cmd.argv.length <= 1) {
 		Con.Print('Current alias commands:\n');
 
@@ -151,9 +162,12 @@ Cmd.Alias_f = function() {
 	Cmd.alias[i] = {name: s, value: value + '\n'};
 };
 
+// noinspection DuplicatedCode
 Cmd.argv = [];
+// noinspection DuplicatedCode
 Cmd.functions = [];
 
+// noinspection DuplicatedCode
 Cmd.Init = function() {
 	Sys.DPrint('Cmd.Init()');
 
@@ -165,6 +179,7 @@ Cmd.Init = function() {
 	Cmd.AddCommand('wait', Cmd.Wait_f);
 };
 
+// noinspection DuplicatedCode
 Cmd.TokenizeString = function(text) {
 	// Sys.DPrint(Cmd.id, 'TokenizeString', arguments);
 
@@ -172,6 +187,7 @@ Cmd.TokenizeString = function(text) {
 
 	var i, c;
 
+	// noinspection DuplicatedCode
 	for (; ;) {
 		for (i = 0; i < text.length; ++i) {
 			c = text.charCodeAt(i);
@@ -199,6 +215,7 @@ Cmd.TokenizeString = function(text) {
 	}
 };
 
+// noinspection DuplicatedCode
 Cmd.AddCommand = function(name, command) {
 	// Sys.DPrint(Cmd.id, 'AddCommand', arguments);
 	Sys.DPrint('Cmd.AddCommand(' + name + ')');
@@ -222,6 +239,7 @@ Cmd.AddCommand = function(name, command) {
 	Cmd.functions[Cmd.functions.length] = {name: name, command: command};
 };
 
+// noinspection DuplicatedCode
 Cmd.CompleteCommand = function(partial) {
 	Sys.DPrint(Cmd.id, 'CompleteCommand', arguments);
 
@@ -238,6 +256,7 @@ Cmd.CompleteCommand = function(partial) {
 	}
 };
 
+// noinspection DuplicatedCode
 Cmd.ExecuteString = function(text, client) {
 	// Sys.DPrint(Cmd.id, 'ExecuteString', arguments);
 
@@ -270,6 +289,7 @@ Cmd.ExecuteString = function(text, client) {
 	}
 };
 
+// noinspection DuplicatedCode
 Cmd.ForwardToServer = function() {
 	Sys.DPrint('Cmd.ForwardToServer()');
 

@@ -1,9 +1,14 @@
+// noinspection DuplicatedCode
 NET = {};
 
+// noinspection DuplicatedCode
 NET.activeSockets = [];
+// noinspection DuplicatedCode
 NET.message = {data: new ArrayBuffer(8192), cursize: 0};
+// noinspection DuplicatedCode
 NET.activeconnections = 0;
 
+// noinspection DuplicatedCode
 NET.NewQSocket = function() {
 	var i;
 
@@ -23,6 +28,7 @@ NET.NewQSocket = function() {
 	return NET.activeSockets[i];
 };
 
+// noinspection DuplicatedCode
 NET.Connect = function(host) {
 	NET.time = Sys.FloatTime();
 
@@ -56,6 +62,7 @@ NET.Connect = function(host) {
 	}
 };
 
+// noinspection DuplicatedCode
 NET.CheckForResend = function() {
 	NET.time = Sys.FloatTime();
 	var dfunc = NET.drivers[NET.newsocket.driver];
@@ -88,6 +95,7 @@ NET.CheckForResend = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 NET.CheckNewConnections = function() {
 	NET.time = Sys.FloatTime();
 	var dfunc, ret;
@@ -107,6 +115,7 @@ NET.CheckNewConnections = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 NET.Close = function(sock) {
 
 	if (sock == null) {
@@ -122,6 +131,7 @@ NET.Close = function(sock) {
 	sock.disconnected = true;
 };
 
+// noinspection DuplicatedCode
 NET.GetMessage = function(sock) {
 	if (sock == null) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -149,9 +159,11 @@ NET.GetMessage = function(sock) {
 		}
 	}
 
+	// noinspection JSConstructorReturnsPrimitive
 	return ret;
 };
 
+// noinspection DuplicatedCode
 NET.SendMessage = function(sock, data) {
 	if (sock == null) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -167,9 +179,11 @@ NET.SendMessage = function(sock, data) {
 
 	NET.time = Sys.FloatTime();
 
+	// noinspection JSConstructorReturnsPrimitive
 	return NET.drivers[sock.driver].SendMessage(sock, data);
 };
 
+// noinspection DuplicatedCode
 NET.SendUnreliableMessage = function(sock, data) {
 	if (sock == null) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -181,10 +195,14 @@ NET.SendUnreliableMessage = function(sock, data) {
 		// noinspection JSConstructorReturnsPrimitive
 		return -1;
 	}
+
 	NET.time = Sys.FloatTime();
+
+	// noinspection JSConstructorReturnsPrimitive
 	return NET.drivers[sock.driver].SendUnreliableMessage(sock, data);
 };
 
+// noinspection DuplicatedCode
 NET.CanSendMessage = function(sock) {
 	if (sock == null) {
 		return;
@@ -199,6 +217,7 @@ NET.CanSendMessage = function(sock) {
 	return NET.drivers[sock.driver].CanSendMessage(sock);
 };
 
+// noinspection DuplicatedCode
 NET.SendToAll = function(data) {
 	var i, count = 0, state1 = [], state2 = [];
 
@@ -264,6 +283,7 @@ NET.SendToAll = function(data) {
 	return count;
 };
 
+// noinspection DuplicatedCode
 NET.Init = function() {
 	NET.time = Sys.FloatTime();
 
@@ -277,10 +297,11 @@ NET.Init = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 NET.Shutdown = function() {
 	NET.time = Sys.FloatTime();
 
-	for (i = 0; i < NET.activeSockets.length; ++i) {
+	for (var i = 0; i < NET.activeSockets.length; ++i) {
 		NET.Close(NET.activeSockets[i]);
 	}
 };

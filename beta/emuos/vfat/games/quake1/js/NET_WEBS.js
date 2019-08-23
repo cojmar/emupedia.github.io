@@ -1,5 +1,7 @@
+// noinspection DuplicatedCode
 WEBS = {};
 
+// noinspection DuplicatedCode
 WEBS.Init = function() {
 	if ((window.WebSocket == null) || (document.location.protocol === 'https:')) {
 		return;
@@ -11,6 +13,7 @@ WEBS.Init = function() {
 	return true;
 };
 
+// noinspection DuplicatedCode
 WEBS.Connect = function(host) {
 	if (host.length <= 5) {
 		return;
@@ -47,8 +50,10 @@ WEBS.Connect = function(host) {
 	return 0;
 };
 
+// noinspection DuplicatedCode
 WEBS.CheckNewConnections = function() {};
 
+// noinspection DuplicatedCode
 WEBS.GetMessage = function(sock) {
 	if (sock.driverdata == null) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -71,6 +76,7 @@ WEBS.GetMessage = function(sock) {
 	return message[0];
 };
 
+// noinspection DuplicatedCode
 WEBS.SendMessage = function(sock, data) {
 	if (sock.driverdata == null) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -91,6 +97,7 @@ WEBS.SendMessage = function(sock, data) {
 	return 1;
 };
 
+// noinspection DuplicatedCode
 WEBS.SendUnreliableMessage = function(sock, data) {
 	if (sock.driverdata == null) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -111,6 +118,7 @@ WEBS.SendUnreliableMessage = function(sock, data) {
 	return 1;
 };
 
+// noinspection DuplicatedCode
 WEBS.CanSendMessage = function(sock) {
 	if (sock.driverdata == null) {
 		return;
@@ -122,12 +130,14 @@ WEBS.CanSendMessage = function(sock) {
 	}
 };
 
+// noinspection DuplicatedCode
 WEBS.Close = function(sock) {
 	if (sock.driverdata != null) {
 		sock.driverdata.close(1000);
 	}
 };
 
+// noinspection DuplicatedCode
 WEBS.CheckForResend = function() {
 	if (NET.newsocket.driverdata.readyState === 1) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -140,10 +150,12 @@ WEBS.CheckForResend = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 WEBS.OnError = function() {
 	NET.Close(this.data_socket);
 };
 
+// noinspection DuplicatedCode
 WEBS.OnMessage = function(message) {
 	var data = message.data;
 

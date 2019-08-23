@@ -1,13 +1,17 @@
+// noinspection DuplicatedCode
 Sbar = {};
 
+// noinspection DuplicatedCode
 Sbar.ShowScores = function() {
 	Sbar.showscores = true;
 };
 
+// noinspection DuplicatedCode
 Sbar.DontShowScores = function() {
 	Sbar.showscores = false;
 };
 
+// noinspection DuplicatedCode
 Sbar.Init = function() {
 	var i;
 
@@ -164,6 +168,7 @@ Sbar.Init = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.DrawPic = function(x, y, pic) {
 	if (CL.state.gametype === 1) {
 		Draw.Pic(x, y + VID.height - 24, pic);
@@ -172,6 +177,7 @@ Sbar.DrawPic = function(x, y, pic) {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.DrawCharacter = function(x, y, num) {
 	if (CL.state.gametype === 1) {
 		Draw.Character(x + 4, y + VID.height - 24, num);
@@ -180,6 +186,7 @@ Sbar.DrawCharacter = function(x, y, num) {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.DrawString = function(x, y, str) {
 	if (CL.state.gametype === 1) {
 		Draw.String(x, y + VID.height - 24, str);
@@ -188,6 +195,7 @@ Sbar.DrawString = function(x, y, str) {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.DrawNum = function(x, y, num, digits, color) {
 	var str = num.toString();
 	if (str.length > digits) {
@@ -203,8 +211,10 @@ Sbar.DrawNum = function(x, y, num, digits, color) {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.fragsort = [];
 
+// noinspection DuplicatedCode
 Sbar.SortFrags = function() {
 	Sbar.scoreboardlines = 0;
 	var i, j, k;
@@ -224,6 +234,7 @@ Sbar.SortFrags = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.SoloScoreboard = function() {
 	var str;
 
@@ -250,6 +261,7 @@ Sbar.SoloScoreboard = function() {
 	Sbar.DrawString(232 - (CL.state.levelname.length << 2), 12, CL.state.levelname);
 };
 
+// noinspection DuplicatedCode
 Sbar.DrawInventory = function() {
 	var i;
 
@@ -363,6 +375,7 @@ Sbar.DrawInventory = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.DrawFrags = function() {
 	Sbar.SortFrags();
 	var l = Sbar.scoreboardlines <= 4 ? Sbar.scoreboardlines : 4;
@@ -388,6 +401,7 @@ Sbar.DrawFrags = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.DrawFace = function() {
 	if ((COM.rogue === true) && (CL.state.maxclients !== 1) && (Host.teamplay.value >= 4) && (Host.teamplay.value <= 6)) {
 		var s = CL.state.scores[CL.state.viewentity - 1];
@@ -431,6 +445,7 @@ Sbar.DrawFace = function() {
 	Sbar.DrawPic(112, 0, Sbar.faces[CL.state.stats[Def.stat.health] >= 100.0 ? 4 : Math.floor(CL.state.stats[Def.stat.health] / 20.0)][CL.state.time <= CL.state.faceanimtime ? 1 : 0]);
 };
 
+// noinspection DuplicatedCode
 Sbar.Draw = function() {
 	if (SCR.con_current >= 200) {
 		return;
@@ -511,6 +526,7 @@ Sbar.Draw = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.IntermissionNumber = function(x, y, num) {
 	var str = num.toString();
 	if (str.length > 3) {
@@ -526,6 +542,7 @@ Sbar.IntermissionNumber = function(x, y, num) {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.DeathmatchOverlay = function() {
 	Draw.Pic((VID.width - Sbar.ranking.width) >> 1, 8, Sbar.ranking);
 	Sbar.SortFrags();
@@ -549,6 +566,7 @@ Sbar.DeathmatchOverlay = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.MiniDeathmatchOverlay = function() {
 	Sbar.SortFrags();
 	var l = Sbar.scoreboardlines;
@@ -590,6 +608,7 @@ Sbar.MiniDeathmatchOverlay = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Sbar.IntermissionOverlay = function() {
 	if (CL.state.gametype === 1) {
 		Sbar.DeathmatchOverlay();
@@ -614,6 +633,7 @@ Sbar.IntermissionOverlay = function() {
 	Sbar.IntermissionNumber(240, 144, CL.state.stats[Def.stat.totalmonsters]);
 };
 
+// noinspection DuplicatedCode
 Sbar.FinaleOverlay = function() {
 	Draw.Pic((VID.width - Sbar.finale.width) >> 1, 16, Sbar.finale);
 };

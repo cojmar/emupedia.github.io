@@ -1,7 +1,10 @@
+// noinspection DuplicatedCode
 V = {};
 
+// noinspection DuplicatedCode
 V.dmg_time = 0.0;
 
+// noinspection DuplicatedCode
 V.CalcRoll = function(angles, velocity) {
 	var right = [];
 	Vec.AngleVectors(angles, null, right);
@@ -18,6 +21,7 @@ V.CalcRoll = function(angles, velocity) {
 	return V.rollangle.value * sign;
 };
 
+// noinspection DuplicatedCode
 V.CalcBob = function() {
 	if ((V.bobcycle.value <= 0.0) || (V.bobcycle.value >= 1.0) || (V.bobup.value <= 0.0) || (V.bobup.value >= 1.0) || (V.bob.value === 0.0)) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -45,6 +49,7 @@ V.CalcBob = function() {
 	return bob;
 };
 
+// noinspection DuplicatedCode
 V.StartPitchDrift = function() {
 	if (CL.state.laststop === CL.state.time) {
 		return;
@@ -57,12 +62,14 @@ V.StartPitchDrift = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 V.StopPitchDrift = function() {
 	CL.state.laststop = CL.state.time;
 	CL.state.nodrift = true;
 	CL.state.pitchvel = 0.0;
 };
 
+// noinspection DuplicatedCode
 V.DriftPitch = function() {
 	if ((Host.noclip_anglehack === true) || (CL.state.onground !== true) || (CL.cls.demoplayback === true)) {
 		CL.state.driftmove = 0.0;
@@ -112,13 +119,18 @@ V.DriftPitch = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 V.cshift_empty = [130.0, 80.0, 50.0, 0.0];
+// noinspection DuplicatedCode
 V.cshift_water = [130.0, 80.0, 50.0, 128.0];
+// noinspection DuplicatedCode
 V.cshift_slime = [0.0, 25.0, 5.0, 150.0];
+// noinspection DuplicatedCode
 V.cshift_lava = [255.0, 80.0, 0.0, 150.0];
-
+// noinspection DuplicatedCode
 V.blend = [0.0, 0.0, 0.0, 0.0];
 
+// noinspection DuplicatedCode
 V.ParseDamage = function() {
 	var armor = MSG.ReadByte();
 	var blood = MSG.ReadByte();
@@ -160,6 +172,7 @@ V.ParseDamage = function() {
 	V.dmg_time = V.kicktime.value;
 };
 
+// noinspection DuplicatedCode
 V.cshift_f = function() {
 	var cshift = V.cshift_empty;
 	cshift[0] = Q.atoi(Cmd.argv[1]);
@@ -168,6 +181,7 @@ V.cshift_f = function() {
 	cshift[3] = Q.atoi(Cmd.argv[4]);
 };
 
+// noinspection DuplicatedCode
 V.BonusFlash_f = function() {
 	var cshift = CL.state.cshifts[CL.cshift.bonus];
 	cshift[0] = 215.0;
@@ -176,6 +190,7 @@ V.BonusFlash_f = function() {
 	cshift[3] = 50.0;
 };
 
+// noinspection DuplicatedCode
 V.SetContentsColor = function(contents) {
 	switch (contents) {
 		case Mod.contents.empty:
@@ -193,6 +208,7 @@ V.SetContentsColor = function(contents) {
 	CL.state.cshifts[CL.cshift.contents] = V.cshift_water;
 };
 
+// noinspection DuplicatedCode
 V.CalcBlend = function() {
 	var cshift = CL.state.cshifts[CL.cshift.powerup];
 
@@ -273,6 +289,7 @@ V.CalcBlend = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 V.CalcIntermissionRefdef = function() {
 	var ent = CL.entities[CL.state.viewentity];
 	R.refdef.vieworg[0] = ent.origin[0];
@@ -284,7 +301,10 @@ V.CalcIntermissionRefdef = function() {
 	CL.state.viewent.model = null;
 };
 
+// noinspection DuplicatedCode
 V.oldz = 0.0;
+
+// noinspection DuplicatedCode
 V.CalcRefdef = function() {
 	V.DriftPitch();
 
@@ -398,6 +418,7 @@ V.CalcRefdef = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 V.RenderView = function() {
 	if (Con.forcedup === true) {
 		return;
@@ -419,6 +440,7 @@ V.RenderView = function() {
 	R.RenderView();
 };
 
+// noinspection DuplicatedCode
 V.Init = function() {
 	Cmd.AddCommand('v_cshift', V.cshift_f);
 	Cmd.AddCommand('bf', V.BonusFlash_f);

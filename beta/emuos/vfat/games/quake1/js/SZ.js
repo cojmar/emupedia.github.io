@@ -1,5 +1,7 @@
+// noinspection DuplicatedCode
 SZ = {};
 
+// noinspection DuplicatedCode
 SZ.GetSpace = function(buf, length) {
 	if ((buf.cursize + length) > buf.data.byteLength) {
 
@@ -22,10 +24,12 @@ SZ.GetSpace = function(buf, length) {
 	return cursize;
 };
 
+// noinspection DuplicatedCode
 SZ.Write = function(sb, data, length) {
 	(new Uint8Array(sb.data, SZ.GetSpace(sb, length), length)).set(data.subarray(0, length));
 };
 
+// noinspection DuplicatedCode
 SZ.Print = function(sb, data) {
 	var buf = new Uint8Array(sb.data);
 	var dest;

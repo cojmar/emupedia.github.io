@@ -1,7 +1,10 @@
+// noinspection DuplicatedCode
 Host = {};
 
+// noinspection DuplicatedCode
 Host.framecount = 0;
 
+// noinspection DuplicatedCode
 Host.EndGame = function(message) {
 	Con.DPrint('Host.EndGame: ' + message + '\n');
 
@@ -14,6 +17,7 @@ Host.EndGame = function(message) {
 	throw 'Host.abortserver';
 };
 
+// noinspection DuplicatedCode
 Host.Error = function(error) {
 	if (Host.inerror === true) {
 		Sys.Error('Host.Error: recursively entered');
@@ -34,6 +38,7 @@ Host.Error = function(error) {
 	throw new Error('Host.abortserver');
 };
 
+// noinspection DuplicatedCode
 Host.FindMaxClients = function() {
 	SV.svs.maxclients = SV.svs.maxclientslimit = 1;
 	CL.cls.state = CL.active.disconnected;
@@ -48,6 +53,7 @@ Host.FindMaxClients = function() {
 	Cvar.SetValue('deathmatch', 0);
 };
 
+// noinspection DuplicatedCode
 Host.InitLocal = function() {
 	Host.InitCommands();
 	Host.framerate = Cvar.RegisterVariable('host_framerate', '0');
@@ -68,11 +74,13 @@ Host.InitLocal = function() {
 	Host.FindMaxClients();
 };
 
+// noinspection DuplicatedCode
 Host.ClientPrint = function(string) {
 	MSG.WriteByte(Host.client.message, Protocol.svc.print);
 	MSG.WriteString(Host.client.message, string);
 };
 
+// noinspection DuplicatedCode
 Host.BroadcastPrint = function(string) {
 	var i, client;
 	for (i = 0; i < SV.svs.maxclients; ++i) {
@@ -85,6 +93,7 @@ Host.BroadcastPrint = function(string) {
 	}
 };
 
+// noinspection DuplicatedCode
 Host.DropClient = function(crash) {
 	var client = Host.client;
 	if (crash !== true) {
@@ -124,6 +133,7 @@ Host.DropClient = function(crash) {
 	}
 };
 
+// noinspection DuplicatedCode
 Host.ShutdownServer = function(crash) {
 	if (SV.server.active !== true) {
 		return;
@@ -166,10 +176,12 @@ Host.ShutdownServer = function(crash) {
 	}
 };
 
+// noinspection DuplicatedCode
 Host.WriteConfiguration = function() {
 	COM.WriteTextFile('config.cfg', Key.WriteBindings() + Cvar.WriteVariables());
 };
 
+// noinspection DuplicatedCode
 Host.ServerFrame = function() {
 	PR.globals_float[PR.globalvars.frametime] = Host.frametime;
 	SV.server.datagram.cursize = 0;
@@ -181,7 +193,10 @@ Host.ServerFrame = function() {
 	SV.SendClientMessages();
 };
 
+// noinspection DuplicatedCode
 Host.time3 = 0.0;
+
+// noinspection DuplicatedCode
 Host._Frame = function() {
 	Math.random();
 
@@ -263,8 +278,12 @@ Host._Frame = function() {
 	++Host.framecount;
 };
 
+// noinspection DuplicatedCode
 Host.timetotal = 0.0;
+// noinspection DuplicatedCode
 Host.timecount = 0;
+
+// noinspection DuplicatedCode
 Host.Frame = function() {
 	if (Host.serverprofile.value === 0) {
 		Host._Frame();
@@ -288,6 +307,7 @@ Host.Frame = function() {
 	Con.Print('serverprofile: ' + (c <= 9 ? ' ' : '') + c + ' clients ' + (m <= 9 ? ' ' : '') + m + ' msec\n');
 };
 
+// noinspection DuplicatedCode
 Host.Init = function() {
 	Sys.DPrint('Host.Init()');
 
@@ -320,6 +340,7 @@ Host.Init = function() {
 	Sys.Print('========Quake Initialized=========\n');
 };
 
+// noinspection DuplicatedCode
 Host.Shutdown = function() {
 	if (Host.isdown === true) {
 		Sys.Print('recursive shutdown\n');
@@ -335,6 +356,7 @@ Host.Shutdown = function() {
 
 // Commands
 
+// noinspection DuplicatedCode
 Host.Quit_f = function() {
 	if (Key.dest.value !== Key.dest.console) {
 		M.Menu_Quit_f();
@@ -343,6 +365,7 @@ Host.Quit_f = function() {
 	Sys.Quit();
 };
 
+// noinspection DuplicatedCode
 Host.Status_f = function() {
 	var print;
 	if (Cmd.client !== true) {
@@ -406,6 +429,7 @@ Host.Status_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Host.God_f = function() {
 	if (Cmd.client !== true) {
 		Cmd.ForwardToServer();
@@ -422,6 +446,7 @@ Host.God_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Host.Notarget_f = function() {
 	if (Cmd.client !== true) {
 		Cmd.ForwardToServer();
@@ -438,6 +463,7 @@ Host.Notarget_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Host.Noclip_f = function() {
 	if (Cmd.client !== true) {
 		Cmd.ForwardToServer();
@@ -457,6 +483,7 @@ Host.Noclip_f = function() {
 	Host.ClientPrint('noclip OFF\n');
 };
 
+// noinspection DuplicatedCode
 Host.Fly_f = function() {
 	if (Cmd.client !== true) {
 		Cmd.ForwardToServer();
@@ -474,6 +501,7 @@ Host.Fly_f = function() {
 	Host.ClientPrint('flymode OFF\n');
 };
 
+// noinspection DuplicatedCode
 Host.Ping_f = function() {
 	if (Cmd.client !== true) {
 		Cmd.ForwardToServer();
@@ -502,6 +530,7 @@ Host.Ping_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Host.Map_f = function() {
 	if (Cmd.argv.length <= 1) {
 		Con.Print('USAGE: map <map>\n');
@@ -528,6 +557,7 @@ Host.Map_f = function() {
 	Cmd.ExecuteString('connect local');
 };
 
+// noinspection DuplicatedCode
 Host.Changelevel_f = function() {
 	if (Cmd.argv.length !== 2) {
 		Con.Print('changelevel <levelname> : continue game on a new level\n');
@@ -541,17 +571,20 @@ Host.Changelevel_f = function() {
 	SV.SpawnServer(Cmd.argv[1]);
 };
 
+// noinspection DuplicatedCode
 Host.Restart_f = function() {
 	if ((CL.cls.demoplayback !== true) && (SV.server.active === true) && (Cmd.client !== true)) {
 		SV.SpawnServer(PR.GetString(PR.globals_int[PR.globalvars.mapname]));
 	}
 };
 
+// noinspection DuplicatedCode
 Host.Reconnect_f = function() {
 	SCR.BeginLoadingPlaque();
 	CL.cls.signon = 0;
 };
 
+// noinspection DuplicatedCode
 Host.Connect_f = function() {
 	CL.cls.demonum = -1;
 	if (CL.cls.demoplayback === true) {
@@ -562,6 +595,7 @@ Host.Connect_f = function() {
 	CL.cls.signon = 0;
 };
 
+// noinspection DuplicatedCode
 Host.SavegameComment = function() {
 	var text = CL.state.levelname.replace(/\s/gm, '_');
 	var i;
@@ -589,6 +623,7 @@ Host.SavegameComment = function() {
 	return text + '____';
 };
 
+// noinspection DuplicatedCode
 Host.Savegame_f = function() {
 	if (Cmd.client === true) {
 		return;
@@ -686,6 +721,7 @@ Host.Savegame_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Host.Loadgame_f = function() {
 	if (Cmd.client === true) {
 		return;
@@ -739,6 +775,8 @@ Host.Loadgame_f = function() {
 	if (f[85] !== '{') {
 		Sys.Error('First token isn\'t a brace');
 	}
+
+	// noinspection DuplicatedCode
 	for (i = 86; i < f.length; ++i) {
 		if (f[i] === '}') {
 			++i;
@@ -759,6 +797,8 @@ Host.Loadgame_f = function() {
 	f[f.length] = '';
 	var entnum = 0, ent, j;
 	var data = f.slice(i).join('\n');
+
+	// noinspection DuplicatedCode
 	for (; ;) {
 		data = COM.Parse(data);
 		if (data == null) {
@@ -789,6 +829,7 @@ Host.Loadgame_f = function() {
 	Host.Reconnect_f();
 };
 
+// noinspection DuplicatedCode
 Host.Name_f = function() {
 	if (Cmd.argv.length <= 1) {
 		Con.Print('"name" is "' + CL.name.string + '"\n');
@@ -821,11 +862,13 @@ Host.Name_f = function() {
 	MSG.WriteString(msg, newName);
 };
 
+// noinspection DuplicatedCode
 Host.Version_f = function() {
 	Con.Print('Version 1.09\n');
 	Con.Print(Def.timedate);
 };
 
+// noinspection DuplicatedCode
 Host.Say = function(teamonly) {
 	if (Cmd.client !== true) {
 		Cmd.ForwardToServer();
@@ -861,10 +904,12 @@ Host.Say = function(teamonly) {
 	Sys.Print(text.substring(1));
 };
 
+// noinspection DuplicatedCode
 Host.Say_Team_f = function() {
 	Host.Say(true);
 };
 
+// noinspection DuplicatedCode
 Host.Tell_f = function() {
 	if (Cmd.client !== true) {
 		Cmd.ForwardToServer();
@@ -899,6 +944,7 @@ Host.Tell_f = function() {
 	Host.client = save;
 };
 
+// noinspection DuplicatedCode
 Host.Color_f = function() {
 	if (Cmd.argv.length <= 1) {
 		Con.Print('"color" is "' + (CL.color.value >> 4) + ' ' + (CL.color.value & 15) + '"\ncolor <0-13> [0-13]\n');
@@ -936,6 +982,7 @@ Host.Color_f = function() {
 	MSG.WriteByte(msg, playercolor);
 };
 
+// noinspection DuplicatedCode
 Host.Kill_f = function() {
 	if (Cmd.client !== true) {
 		Cmd.ForwardToServer();
@@ -950,6 +997,7 @@ Host.Kill_f = function() {
 	PR.ExecuteProgram(PR.globals_int[PR.globalvars.ClientKill]);
 };
 
+// noinspection DuplicatedCode
 Host.Pause_f = function() {
 	if (Cmd.client !== true) {
 		Cmd.ForwardToServer();
@@ -965,6 +1013,7 @@ Host.Pause_f = function() {
 	MSG.WriteByte(SV.server.reliable_datagram, SV.server.paused === true ? 1 : 0);
 };
 
+// noinspection DuplicatedCode
 Host.PreSpawn_f = function() {
 	if (Cmd.client !== true) {
 		Con.Print('prespawn is not valid from the console\n');
@@ -981,6 +1030,7 @@ Host.PreSpawn_f = function() {
 	client.sendsignon = true;
 };
 
+// noinspection DuplicatedCode
 Host.Spawn_f = function() {
 	if (Cmd.client !== true) {
 		Con.Print('spawn is not valid from the console\n');
@@ -995,6 +1045,7 @@ Host.Spawn_f = function() {
 	var i;
 
 	var ent = client.edict;
+	// noinspection DuplicatedCode
 	if (SV.server.loadgame === true) {
 		SV.server.paused = false;
 	} else {
@@ -1059,6 +1110,7 @@ Host.Spawn_f = function() {
 	Host.client.sendsignon = true;
 };
 
+// noinspection DuplicatedCode
 Host.Begin_f = function() {
 	if (Cmd.client !== true) {
 		Con.Print('begin is not valid from the console\n');
@@ -1067,6 +1119,7 @@ Host.Begin_f = function() {
 	Host.client.spawned = true;
 };
 
+// noinspection DuplicatedCode
 Host.Kick_f = function() {
 	if (Cmd.client !== true) {
 		if (SV.server.active !== true) {
@@ -1147,6 +1200,7 @@ Host.Kick_f = function() {
 	Host.client = save;
 };
 
+// noinspection DuplicatedCode
 Host.Give_f = function() {
 	if (Cmd.client !== true) {
 		Cmd.ForwardToServer();
@@ -1283,6 +1337,7 @@ Host.Give_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Host.FindViewthing = function() {
 	var i, e;
 	if (SV.server.active === true) {
@@ -1296,6 +1351,7 @@ Host.FindViewthing = function() {
 	Con.Print('No viewthing on map\n');
 };
 
+// noinspection DuplicatedCode
 Host.Viewmodel_f = function() {
 	if (Cmd.argv.length !== 2) {
 		return;
@@ -1309,15 +1365,19 @@ Host.Viewmodel_f = function() {
 		Con.Print('Can\'t load ' + Cmd.argv[1] + '\n');
 		return;
 	}
+	// noinspection JSUnresolvedVariable
 	ent.v_float[PR.entvars.frame] = 0.0;
+	// noinspection JSUnresolvedVariable
 	CL.state.model_precache[ent.v_float[PR.entvars.modelindex] >> 0] = m;
 };
 
+// noinspection DuplicatedCode
 Host.Viewframe_f = function() {
 	var e = Host.FindViewthing();
 	if (e == null) {
 		return;
 	}
+	// noinspection JSUnresolvedVariable
 	var m = CL.state.model_precache[ent.v_float[PR.entvars.modelindex] >> 0];
 	var f = Q.atoi(Cmd.argv[1]);
 	if (f >= m.frames.length) {
@@ -1326,12 +1386,15 @@ Host.Viewframe_f = function() {
 	e.v_float[PR.entvars.frame] = f;
 };
 
+// noinspection DuplicatedCode
 Host.Viewnext_f = function() {
 	var e = Host.FindViewthing();
 	if (e == null) {
 		return;
 	}
+	// noinspection JSUnresolvedVariable
 	var m = CL.state.model_precache[ent.v_float[PR.entvars.modelindex] >> 0];
+	// noinspection JSUnresolvedVariable
 	var f = (ent.v_float[PR.entvars.frame] >> 0) + 1;
 	if (f >= m.frames.length) {
 		f = m.frames.length - 1;
@@ -1340,12 +1403,15 @@ Host.Viewnext_f = function() {
 	Con.Print('frame ' + f + ': ' + m.frames[f].name + '\n');
 };
 
+// noinspection DuplicatedCode
 Host.Viewprev_f = function() {
 	var e = Host.FindViewthing();
 	if (e == null) {
 		return;
 	}
+	// noinspection JSUnresolvedVariable
 	var m = CL.state.model_precache[ent.v_float[PR.entvars.modelindex] >> 0];
+	// noinspection JSUnresolvedVariable
 	var f = (ent.v_float[PR.entvars.frame] >> 0) - 1;
 	if (f < 0) {
 		f = 0;
@@ -1354,6 +1420,7 @@ Host.Viewprev_f = function() {
 	Con.Print('frame ' + f + ': ' + m.frames[f].name + '\n');
 };
 
+// noinspection DuplicatedCode
 Host.Startdemos_f = function() {
 	Con.Print((Cmd.argv.length - 1) + ' demo(s) in loop\n');
 	CL.cls.demos = [];
@@ -1373,6 +1440,7 @@ Host.Startdemos_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Host.Demos_f = function() {
 	if (CL.cls.demonum === -1) {
 		CL.cls.demonum = 1;
@@ -1381,6 +1449,7 @@ Host.Demos_f = function() {
 	CL.NextDemo();
 };
 
+// noinspection DuplicatedCode
 Host.Stopdemo_f = function() {
 	if (CL.cls.demoplayback !== true) {
 		return;
@@ -1389,6 +1458,7 @@ Host.Stopdemo_f = function() {
 	CL.Disconnect();
 };
 
+// noinspection DuplicatedCode
 Host.InitCommands = function() {
 	Cmd.AddCommand('status', Host.Status_f);
 	Cmd.AddCommand('quit', Host.Quit_f);

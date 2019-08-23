@@ -1,12 +1,19 @@
+// noinspection DuplicatedCode
 var gl;
 
+// noinspection DuplicatedCode
 GL = {};
 
+// noinspection DuplicatedCode
 GL.textures = [];
+// noinspection DuplicatedCode
 GL.currenttextures = [];
+// noinspection DuplicatedCode
 GL.programs = [];
 
+// noinspection DuplicatedCode
 GL.Bind = function(target, texnum, flushStream) {
+	// noinspection DuplicatedCode
 	if (GL.currenttextures[target] !== texnum) {
 		if (flushStream === true) {
 			GL.StreamFlush();
@@ -22,6 +29,7 @@ GL.Bind = function(target, texnum, flushStream) {
 	}
 };
 
+// noinspection DuplicatedCode
 GL.TextureMode_f = function() {
 	var i;
 
@@ -62,6 +70,7 @@ GL.TextureMode_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 GL.ortho = [
 	0.0, 0.0, 0.0, 0.0,
 	0.0, 0.0, 0.0, 0.0,
@@ -69,6 +78,7 @@ GL.ortho = [
 	-1.0, 1.0, 0.0, 1.0
 ];
 
+// noinspection DuplicatedCode
 GL.Set2D = function() {
 	gl.viewport(0, 0, (VID.width * SCR.devicePixelRatio) >> 0, (VID.height * SCR.devicePixelRatio) >> 0);
 	GL.UnbindProgram();
@@ -92,6 +102,7 @@ GL.Set2D = function() {
 	gl.enable(gl.BLEND);
 };
 
+// noinspection DuplicatedCode
 GL.ResampleTexture = function(data, inwidth, inheight, outwidth, outheight) {
 	var outdata = new ArrayBuffer(outwidth * outheight);
 	var out = new Uint8Array(outdata);
@@ -112,6 +123,7 @@ GL.ResampleTexture = function(data, inwidth, inheight, outwidth, outheight) {
 	return out;
 };
 
+// noinspection DuplicatedCode
 GL.Upload = function(data, width, height) {
 	var scaled_width = width, scaled_height = height;
 
@@ -162,6 +174,7 @@ GL.Upload = function(data, width, height) {
 	gl.texParameterf(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, GL.filter_max);
 };
 
+// noinspection DuplicatedCode
 GL.LoadTexture = function(identifier, width, height, data) {
 	var glt, i;
 
@@ -230,6 +243,7 @@ GL.LoadTexture = function(identifier, width, height, data) {
 	return glt;
 };
 
+// noinspection DuplicatedCode
 GL.LoadPicTexture = function(pic) {
 	var data = pic.data, scaled_width = pic.width, scaled_height = pic.height;
 
@@ -281,6 +295,7 @@ GL.LoadPicTexture = function(pic) {
 	return texnum;
 };
 
+// noinspection DuplicatedCode
 GL.CreateProgram = function(identifier, uniforms, attribs, textures) {
 	var i;
 	var p = gl.createProgram();
@@ -324,6 +339,7 @@ GL.CreateProgram = function(identifier, uniforms, attribs, textures) {
 	program.vertexSize = 0;
 	program.attribBits = 0;
 
+	// noinspection DuplicatedCode
 	for (i = 0; i < attribs.length; ++i) {
 		var attribParameters = attribs[i];
 		var attrib = {
@@ -358,6 +374,7 @@ GL.CreateProgram = function(identifier, uniforms, attribs, textures) {
 	return program;
 };
 
+// noinspection DuplicatedCode
 GL.UseProgram = function(identifier, flushStream) {
 	var currentProgram = GL.currentProgram;
 
@@ -411,6 +428,7 @@ GL.UseProgram = function(identifier, flushStream) {
 	return program;
 };
 
+// noinspection DuplicatedCode
 GL.UnbindProgram = function() {
 	if (GL.currentProgram == null) {
 		return;
@@ -426,8 +444,10 @@ GL.UnbindProgram = function() {
 	GL.currentProgram = null;
 };
 
+// noinspection DuplicatedCode
 GL.identity = [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0];
 
+// noinspection DuplicatedCode
 GL.RotationMatrix = function(pitch, yaw, roll) {
 	pitch *= Math.PI / -180.0;
 	yaw *= Math.PI / 180.0;
@@ -447,6 +467,7 @@ GL.RotationMatrix = function(pitch, yaw, roll) {
 	];
 };
 
+// noinspection DuplicatedCode
 GL.StreamFlush = function() {
 	if (GL.streamArrayVertexCount === 0) {
 		return;
@@ -472,6 +493,7 @@ GL.StreamFlush = function() {
 	GL.streamArrayVertexCount = 0;
 };
 
+// noinspection DuplicatedCode
 GL.StreamGetSpace = function(vertexCount) {
 	var program = GL.currentProgram;
 
@@ -489,11 +511,13 @@ GL.StreamGetSpace = function(vertexCount) {
 	GL.streamArrayVertexCount += vertexCount;
 };
 
+// noinspection DuplicatedCode
 GL.StreamWriteFloat = function(x) {
 	GL.streamArrayView.setFloat32(GL.streamArrayPosition, x, true);
 	GL.streamArrayPosition += 4;
 };
 
+// noinspection DuplicatedCode
 GL.StreamWriteFloat2 = function(x, y) {
 	var view = GL.streamArrayView;
 	var position = GL.streamArrayPosition;
@@ -502,6 +526,7 @@ GL.StreamWriteFloat2 = function(x, y) {
 	GL.streamArrayPosition += 8;
 };
 
+// noinspection DuplicatedCode
 GL.StreamWriteFloat3 = function(x, y, z) {
 	var view = GL.streamArrayView;
 	var position = GL.streamArrayPosition;
@@ -513,6 +538,7 @@ GL.StreamWriteFloat3 = function(x, y, z) {
 	GL.streamArrayPosition += 12;
 };
 
+// noinspection DuplicatedCode
 GL.StreamWriteFloat4 = function(x, y, z, w) {
 	var view = GL.streamArrayView;
 	var position = GL.streamArrayPosition;
@@ -525,6 +551,7 @@ GL.StreamWriteFloat4 = function(x, y, z, w) {
 	GL.streamArrayPosition += 16;
 };
 
+// noinspection DuplicatedCode
 GL.StreamWriteUByte4 = function(x, y, z, w) {
 	var view = GL.streamArrayView;
 	var position = GL.streamArrayPosition;
@@ -536,6 +563,7 @@ GL.StreamWriteUByte4 = function(x, y, z, w) {
 	GL.streamArrayPosition += 4;
 };
 
+// noinspection DuplicatedCode
 GL.StreamDrawTexturedQuad = function(x, y, w, h, u, v, u2, v2) {
 	var x2 = x + w, y2 = y + h;
 
@@ -548,6 +576,7 @@ GL.StreamDrawTexturedQuad = function(x, y, w, h, u, v, u2, v2) {
 	GL.StreamWriteFloat4(x2, y2, u2, v2);
 };
 
+// noinspection DuplicatedCode
 GL.StreamDrawColoredQuad = function(x, y, w, h, r, g, b, a) {
 	var x2 = x + w, y2 = y + h;
 
@@ -566,6 +595,7 @@ GL.StreamDrawColoredQuad = function(x, y, w, h, r, g, b, a) {
 	GL.StreamWriteUByte4(r, g, b, a);
 };
 
+// noinspection DuplicatedCode
 GL.Init = function() {
 	Sys.DPrint('GL.Init()');
 

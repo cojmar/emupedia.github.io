@@ -1,19 +1,25 @@
+// noinspection DuplicatedCode
 R = {};
 
 // efrag
 
+// noinspection DuplicatedCode
 R.SplitEntityOnNode = function(node) {
 	if (node.contents === Mod.contents.solid) {
 		return;
 	}
+
 	if (node.contents < 0) {
 		R.currententity.leafs[R.currententity.leafs.length] = node.num - 1;
 		return;
 	}
+
 	var sides = Vec.BoxOnPlaneSide(R.emins, R.emaxs, node.plane);
+
 	if ((sides & 1) !== 0) {
 		R.SplitEntityOnNode(node.children[0]);
 	}
+
 	if ((sides & 2) !== 0) {
 		R.SplitEntityOnNode(node.children[1]);
 	}
@@ -21,14 +27,20 @@ R.SplitEntityOnNode = function(node) {
 
 // light
 
+// noinspection DuplicatedCode
 R.dlightframecount = 0;
 
+// noinspection DuplicatedCode
 R.lightstylevalue = new Uint8Array(new ArrayBuffer(64));
 
+// noinspection DuplicatedCode
 R.AnimateLight = function() {
 	var j;
+
+	// noinspection DuplicatedCode
 	if (R.fullbright.value === 0) {
 		var i = Math.floor(CL.state.time * 10.0);
+
 		for (j = 0; j < 64; ++j) {
 			if (CL.lightstyle[j].length === 0) {
 				R.lightstylevalue[j] = 12;
@@ -41,25 +53,32 @@ R.AnimateLight = function() {
 			R.lightstylevalue[j] = 12;
 		}
 	}
+
 	GL.Bind(0, R.lightstyle_texture);
 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.ALPHA, 64, 1, 0, gl.ALPHA, gl.UNSIGNED_BYTE, R.lightstylevalue);
 };
 
+// noinspection DuplicatedCode
 R.RenderDlights = function() {
 	if (R.flashblend.value === 0) {
 		return;
 	}
+
 	++R.dlightframecount;
 	gl.enable(gl.BLEND);
 	var program = GL.UseProgram('Dlight'), l, a;
 	gl.bindBuffer(gl.ARRAY_BUFFER, R.dlightvecs);
 	// noinspection JSUnresolvedVariable
 	gl.vertexAttribPointer(program.aPosition.location, 3, gl.FLOAT, false, 0, 0);
+
+	// noinspection DuplicatedCode
 	for (var i = 0; i <= 31; ++i) {
 		l = CL.dlights[i];
+
 		if ((l.die < CL.state.time) || (l.radius === 0.0)) {
 			continue;
 		}
+
 		if (Vec.Length([l.origin[0] - R.refdef.vieworg[0], l.origin[1] - R.refdef.vieworg[1], l.origin[2] - R.refdef.vieworg[2]]) < (l.radius * 0.35)) {
 			a = l.radius * 0.0003;
 			V.blend[3] += a * (1.0 - V.blend[3]);
@@ -69,15 +88,18 @@ R.RenderDlights = function() {
 			V.blend[2] *= 1.0 - a;
 			continue;
 		}
+
 		// noinspection JSUnresolvedVariable
 		gl.uniform3fv(program.uOrigin, l.origin);
 		// noinspection JSUnresolvedVariable
 		gl.uniform1f(program.uRadius, l.radius);
 		gl.drawArrays(gl.TRIANGLE_FAN, 0, 18);
 	}
+
 	gl.disable(gl.BLEND);
 };
 
+// noinspection DuplicatedCode
 R.MarkLights = function(light, bit, node) {
 	if (node.contents < 0) {
 		return;
@@ -108,6 +130,7 @@ R.MarkLights = function(light, bit, node) {
 	R.MarkLights(light, bit, node.children[1]);
 };
 
+// noinspection DuplicatedCode
 R.PushDlights = function() {
 	if (R.flashblend.value !== 0) {
 		return;
@@ -165,6 +188,7 @@ R.PushDlights = function() {
 	++R.dlightframecount;
 };
 
+// noinspection DuplicatedCode
 R.RecursiveLightPoint = function(node, start, end) {
 	if (node.contents < 0) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -198,6 +222,7 @@ R.RecursiveLightPoint = function(node, start, end) {
 	}
 
 	var i, surf, tex, s, t, ds, dt, lightmap, size, maps;
+
 	for (i = 0; i < node.numfaces; ++i) {
 		surf = CL.state.worldmodel.faces[node.firstface + i];
 		if ((surf.sky === true) || (surf.turbulent === true)) {
@@ -246,6 +271,7 @@ R.RecursiveLightPoint = function(node, start, end) {
 	return R.RecursiveLightPoint(node.children[side !== true ? 1 : 0], mid, end);
 };
 
+// noinspection DuplicatedCode
 R.LightPoint = function(p) {
 	if (CL.state.worldmodel.lightdata == null) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -264,20 +290,26 @@ R.LightPoint = function(p) {
 
 // main
 
+// noinspection DuplicatedCode
 R.visframecount = 0;
 
+// noinspection DuplicatedCode
 R.frustum = [{}, {}, {}, {}];
 
+// noinspection DuplicatedCode
 R.vup = [];
+// noinspection DuplicatedCode
 R.vpn = [];
+// noinspection DuplicatedCode
 R.vright = [];
-
+// noinspection DuplicatedCode
 R.refdef = {
 	vrect: {},
 	vieworg: [0.0, 0.0, 0.0],
 	viewangles: [0.0, 0.0, 0.0]
 };
 
+// noinspection DuplicatedCode
 R.CullBox = function(mins, maxs) {
 	if (Vec.BoxOnPlaneSide(mins, maxs, R.frustum[0]) === 2) {
 		// noinspection JSConstructorReturnsPrimitive
@@ -300,6 +332,7 @@ R.CullBox = function(mins, maxs) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.DrawSpriteModel = function(e) {
 	var program = GL.UseProgram('Sprite', true);
 	var num = e.frame;
@@ -370,6 +403,7 @@ R.DrawSpriteModel = function(e) {
 	GL.StreamWriteFloat2(1.0, 0.0);
 };
 
+// noinspection DuplicatedCode
 R.avertexnormals = [
 	[-0.525731, 0.0, 0.850651],
 	[-0.442863, 0.238856, 0.864188],
@@ -535,6 +569,7 @@ R.avertexnormals = [
 	[-0.688191, -0.587785, -0.425325]
 ];
 
+// noinspection DuplicatedCode
 R.DrawAliasModel = function(e) {
 	var clmodel = e.model;
 
@@ -674,6 +709,7 @@ R.DrawAliasModel = function(e) {
 	gl.drawArrays(gl.TRIANGLES, 0, clmodel.numtris * 3);
 };
 
+// noinspection DuplicatedCode
 R.DrawEntitiesOnList = function() {
 	if (R.drawentities.value === 0) {
 		return;
@@ -741,6 +777,7 @@ R.DrawEntitiesOnList = function() {
 	gl.depthMask(true);
 };
 
+// noinspection DuplicatedCode
 R.DrawViewModel = function() {
 	if (R.drawviewmodel.value === 0) {
 		return;
@@ -782,6 +819,7 @@ R.DrawViewModel = function() {
 	gl.depthRange(0.0, 1.0);
 };
 
+// noinspection DuplicatedCode
 R.PolyBlend = function() {
 	if (R.polyblend.value === 0) {
 		return;
@@ -795,6 +833,7 @@ R.PolyBlend = function() {
 		V.blend[0], V.blend[1], V.blend[2], V.blend[3] * 255.0);
 };
 
+// noinspection DuplicatedCode
 R.SetFrustum = function() {
 	R.frustum[0].normal = Vec.RotatePointAroundVector(R.vup, R.vpn, -(90.0 - R.refdef.fov_x * 0.5));
 	R.frustum[1].normal = Vec.RotatePointAroundVector(R.vup, R.vpn, 90.0 - R.refdef.fov_x * 0.5);
@@ -821,6 +860,7 @@ R.SetFrustum = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 R.perspective = [
 	0.0, 0.0, 0.0, 0.0,
 	0.0, 0.0, 0.0, 0.0,
@@ -828,6 +868,7 @@ R.perspective = [
 	0.0, 0.0, -524288.0 / 65532.0, 0.0
 ];
 
+// noinspection DuplicatedCode
 R.Perspective = function() {
 	var viewangles = [
 		R.refdef.viewangles[0] * Math.PI / 180.0,
@@ -884,6 +925,7 @@ R.Perspective = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 R.SetupGL = function() {
 	if (R.dowarp === true) {
 		gl.bindFramebuffer(gl.FRAMEBUFFER, R.warpbuffer);
@@ -898,6 +940,7 @@ R.SetupGL = function() {
 	gl.enable(gl.DEPTH_TEST);
 };
 
+// noinspection DuplicatedCode
 R.RenderScene = function() {
 	if (CL.state.maxclients >= 2) {
 		Cvar.Set('r_fullbright', '0');
@@ -922,6 +965,7 @@ R.RenderScene = function() {
 	R.DrawParticles();
 };
 
+// noinspection DuplicatedCode
 R.RenderView = function() {
 	gl.finish();
 	var time1;
@@ -945,6 +989,7 @@ R.RenderView = function() {
 
 // mesh
 
+// noinspection DuplicatedCode
 R.MakeBrushModelDisplayLists = function(m) {
 	if (m.cmds != null) {
 		gl.deleteBuffer(m.cmds);
@@ -1035,6 +1080,7 @@ R.MakeBrushModelDisplayLists = function(m) {
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cmds), gl.STATIC_DRAW);
 };
 
+// noinspection DuplicatedCode
 R.MakeWorldModelDisplayLists = function(m) {
 	if (m.cmds != null) {
 		return;
@@ -1167,6 +1213,7 @@ R.MakeWorldModelDisplayLists = function(m) {
 
 // misc
 
+// noinspection DuplicatedCode
 R.InitTextures = function() {
 	var data = new Uint8Array(new ArrayBuffer(256));
 	var i, j;
@@ -1217,6 +1264,7 @@ R.InitTextures = function() {
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 };
 
+// noinspection DuplicatedCode
 R.Init = function() {
 	R.InitTextures();
 
@@ -1306,6 +1354,7 @@ R.Init = function() {
 	R.MakeSky();
 };
 
+// noinspection DuplicatedCode
 R.NewMap = function() {
 	var i;
 	for (i = 0; i < 64; ++i) {
@@ -1322,6 +1371,7 @@ R.NewMap = function() {
 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.ALPHA, 1024, 1024, 0, gl.ALPHA, gl.UNSIGNED_BYTE, null);
 };
 
+// noinspection DuplicatedCode
 R.TimeRefresh_f = function() {
 	gl.finish();
 	var i;
@@ -1337,6 +1387,7 @@ R.TimeRefresh_f = function() {
 
 // part
 
+// noinspection DuplicatedCode
 R.ptype = {
 	tracer: 0,
 	grav: 1,
@@ -1348,10 +1399,14 @@ R.ptype = {
 	blob2: 7
 };
 
+// noinspection DuplicatedCode
 R.ramp1 = [0x6f, 0x6d, 0x6b, 0x69, 0x67, 0x65, 0x63, 0x61];
+// noinspection DuplicatedCode
 R.ramp2 = [0x6f, 0x6e, 0x6d, 0x6c, 0x6b, 0x6a, 0x68, 0x66];
+// noinspection DuplicatedCode
 R.ramp3 = [0x6d, 0x6b, 6, 5, 4, 3];
 
+// noinspection DuplicatedCode
 R.InitParticles = function() {
 	var i = COM.CheckParm('-particles');
 	if (i != null) {
@@ -1374,9 +1429,11 @@ R.InitParticles = function() {
 		[]);
 };
 
+// noinspection DuplicatedCode
 R.EntityParticles = function(ent) {
 	var allocated = R.AllocParticles(162), i;
 	var angle, sp, sy, cp, cy;
+	// noinspection DuplicatedCode
 	for (i = 0; i < allocated.length; ++i) {
 		angle = CL.state.time * R.avelocities[i][0];
 		sp = Math.sin(angle);
@@ -1400,6 +1457,7 @@ R.EntityParticles = function(ent) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.ClearParticles = function() {
 	var i;
 	R.particles = [];
@@ -1408,6 +1466,7 @@ R.ClearParticles = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 R.ReadPointFile_f = function() {
 	if (SV.server.active !== true) {
 		return;
@@ -1443,6 +1502,7 @@ R.ReadPointFile_f = function() {
 	Con.Print(c + ' points read\n');
 };
 
+// noinspection DuplicatedCode
 R.ParseParticleEffect = function() {
 	var org = [MSG.ReadCoord(), MSG.ReadCoord(), MSG.ReadCoord()];
 	var dir = [MSG.ReadChar() * 0.0625, MSG.ReadChar() * 0.0625, MSG.ReadChar() * 0.0625];
@@ -1455,6 +1515,7 @@ R.ParseParticleEffect = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 R.ParticleExplosion = function(org) {
 	var allocated = R.AllocParticles(1024), i;
 	for (i = 0; i < allocated.length; ++i) {
@@ -1473,6 +1534,7 @@ R.ParticleExplosion = function(org) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.ParticleExplosion2 = function(org, colorStart, colorLength) {
 	var allocated = R.AllocParticles(512), i, colorMod = 0;
 	for (i = 0; i < allocated.length; ++i) {
@@ -1490,6 +1552,7 @@ R.ParticleExplosion2 = function(org, colorStart, colorLength) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.BlobExplosion = function(org) {
 	var allocated = R.AllocParticles(1024), i, p;
 	for (i = 0; i < allocated.length; ++i) {
@@ -1511,6 +1574,7 @@ R.BlobExplosion = function(org) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.RunParticleEffect = function(org, dir, color, count) {
 	var allocated = R.AllocParticles(count), i;
 	for (i = 0; i < allocated.length; ++i) {
@@ -1528,6 +1592,7 @@ R.RunParticleEffect = function(org, dir, color, count) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.LavaSplash = function(org) {
 	var allocated = R.AllocParticles(1024), i, j, k = 0, p;
 	var dir = [], vel;
@@ -1551,6 +1616,7 @@ R.LavaSplash = function(org) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.TeleportSplash = function(org) {
 	var allocated = R.AllocParticles(896), i, j, k, l = 0, p;
 	var dir = [], vel;
@@ -1580,7 +1646,10 @@ R.TeleportSplash = function(org) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.tracercount = 0;
+
+// noinspection DuplicatedCode
 R.RocketTrail = function(start, end, type) {
 	var vec = [end[0] - start[0], end[1] - start[1], end[2] - start[2]];
 	var len = Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2]);
@@ -1665,6 +1734,7 @@ R.RocketTrail = function(start, end, type) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.DrawParticles = function() {
 	GL.StreamFlush();
 
@@ -1760,6 +1830,7 @@ R.DrawParticles = function() {
 	gl.depthMask(true);
 };
 
+// noinspection DuplicatedCode
 R.AllocParticles = function(count) {
 	var allocated = [], i;
 	for (i = 0; i < R.numparticles; ++i) {
@@ -1776,10 +1847,14 @@ R.AllocParticles = function(count) {
 
 // surf
 
+// noinspection DuplicatedCode
 R.lightmap_modified = [];
+// noinspection DuplicatedCode
 R.lightmaps = new Uint8Array(new ArrayBuffer(4194304));
+// noinspection DuplicatedCode
 R.dlightmaps = new Uint8Array(new ArrayBuffer(1048576));
 
+// noinspection DuplicatedCode
 R.AddDynamicLights = function(surf) {
 	var smax = (surf.extents[0] >> 4) + 1;
 	var tmax = (surf.extents[1] >> 4) + 1;
@@ -1849,6 +1924,7 @@ R.AddDynamicLights = function(surf) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.RemoveDynamicLights = function(surf) {
 	var smax = (surf.extents[0] >> 4) + 1;
 	var tmax = (surf.extents[1] >> 4) + 1;
@@ -1862,6 +1938,7 @@ R.RemoveDynamicLights = function(surf) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.BuildLightMap = function(surf) {
 	var dest;
 	var smax = (surf.extents[0] >> 4) + 1;
@@ -1890,6 +1967,7 @@ R.BuildLightMap = function(surf) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.TextureAnimation = function(base) {
 	var frame = 0;
 	if (base.anim_base != null) {
@@ -1906,6 +1984,7 @@ R.TextureAnimation = function(base) {
 	return R.currententity.model.textures[anims[(Math.floor(CL.state.time * 5.0) + frame) % anims.length]];
 };
 
+// noinspection DuplicatedCode
 R.DrawBrushModel = function(e) {
 	var clmodel = e.model;
 
@@ -2003,6 +2082,7 @@ R.DrawBrushModel = function(e) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.RecursiveWorldNode = function(node) {
 	if (node.contents === Mod.contents.solid) {
 		return;
@@ -2021,6 +2101,7 @@ R.RecursiveWorldNode = function(node) {
 	R.RecursiveWorldNode(node.children[1]);
 };
 
+// noinspection DuplicatedCode
 R.DrawWorld = function() {
 	var clmodel = CL.state.worldmodel;
 	R.currententity = CL.entities[0];
@@ -2106,6 +2187,7 @@ R.DrawWorld = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 R.MarkLeaves = function() {
 	if ((R.oldviewleaf === R.viewleaf) && (R.novis.value === 0)) {
 		return;
@@ -2125,6 +2207,8 @@ R.MarkLeaves = function() {
 			node.markvisframe = R.visframecount;
 		}
 	}
+
+	// noinspection DuplicatedCode,PointlessBooleanExpressionJS
 	do {
 		if (R.novis.value !== 0) {
 			break;
@@ -2162,6 +2246,7 @@ R.MarkLeaves = function() {
 	R.RecursiveWorldNode(CL.state.worldmodel.nodes[0]);
 };
 
+// noinspection DuplicatedCode
 R.AllocBlock = function(surf) {
 	var w = (surf.extents[0] >> 4) + 1, h = (surf.extents[1] >> 4) + 1;
 	var x, y, i, j, best = 1024, best2;
@@ -2192,6 +2277,7 @@ R.AllocBlock = function(surf) {
 };
 
 // Based on Quake 2 polygon generation algorithm by Toji - http://blog.tojicode.com/2010/06/quake-2-bsp-quite-possibly-worst-format.html
+// noinspection DuplicatedCode
 R.BuildSurfaceDisplayList = function(fa) {
 	fa.verts = [];
 	if (fa.numedges <= 2) {
@@ -2226,6 +2312,7 @@ R.BuildSurfaceDisplayList = function(fa) {
 	}
 };
 
+// noinspection DuplicatedCode
 R.BuildLightmaps = function() {
 	var i, j;
 
@@ -2265,6 +2352,7 @@ R.BuildLightmaps = function() {
 
 // scan
 
+// noinspection DuplicatedCode
 R.WarpScreen = function() {
 	GL.StreamFlush();
 	gl.finish();
@@ -2282,6 +2370,7 @@ R.WarpScreen = function() {
 
 // warp
 
+// noinspection DuplicatedCode
 R.MakeSky = function() {
 	var sin = [0.0, 0.19509, 0.382683, 0.55557, 0.707107, 0.831470, 0.92388, 0.980785, 1.0];
 	var vecs = [], i, j;
@@ -2321,6 +2410,7 @@ R.MakeSky = function() {
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vecs), gl.STATIC_DRAW);
 };
 
+// noinspection DuplicatedCode
 R.DrawSkyBox = function() {
 	if (R.drawsky !== true) {
 		return;
@@ -2392,6 +2482,7 @@ R.DrawSkyBox = function() {
 	gl.depthFunc(gl.LESS);
 };
 
+// noinspection DuplicatedCode
 R.InitSky = function(src) {
 	var i, j, p;
 	var trans = new ArrayBuffer(65536);

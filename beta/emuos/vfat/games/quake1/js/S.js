@@ -1,16 +1,26 @@
+// noinspection DuplicatedCode
 S = {};
 
+// noinspection DuplicatedCode
 S.channels = [];
+// noinspection DuplicatedCode
 S.static_channels = [];
+// noinspection DuplicatedCode
 S.ambient_channels = [];
 
+// noinspection DuplicatedCode
 S.listener_origin = [0.0, 0.0, 0.0];
+// noinspection DuplicatedCode
 S.listener_forward = [0.0, 0.0, 0.0];
+// noinspection DuplicatedCode
 S.listener_right = [0.0, 0.0, 0.0];
+// noinspection DuplicatedCode
 S.listener_up = [0.0, 0.0, 0.0];
 
+// noinspection DuplicatedCode
 S.known_sfx = [];
 
+// noinspection DuplicatedCode
 S.Init = function() {
 	Con.Print('\nSound Initialization\n');
 	Cmd.AddCommand('play', S.Play);
@@ -33,16 +43,21 @@ S.Init = function() {
 	 S.context = new webkitAudioContext(); */
 
 	var i, ambient_sfx = ['water1', 'wind2'], ch, nodes;
+
+	// noinspection DuplicatedCode
 	for (i = 0; i < ambient_sfx.length; ++i) {
 		ch = {sfx: S.PrecacheSound('ambience/' + ambient_sfx[i] + '.wav'), end: 0.0, master_vol: 0.0};
 		S.ambient_channels[i] = ch;
+
 		if (S.LoadSound(ch.sfx) !== true) {
 			continue;
 		}
+
 		if (ch.sfx.cache.loopstart == null) {
 			Con.Print('Sound ambience/' + ch.sfx.name + '.wav not looped\n');
 			continue;
 		}
+
 		if (S.context != null) {
 			// noinspection JSUnresolvedFunction
 			nodes = {
@@ -64,6 +79,7 @@ S.Init = function() {
 	Con.sfx_talk = S.PrecacheSound('misc/talk.wav');
 };
 
+// noinspection DuplicatedCode
 S.NoteOff = function(node) {
 	// noinspection JSUnresolvedVariable
 	if ((node.playbackState === 1) || (node.playbackState === 2)) {
@@ -75,6 +91,7 @@ S.NoteOff = function(node) {
 	}
 };
 
+// noinspection DuplicatedCode
 S.NoteOn = function(node) {
 	// noinspection JSUnresolvedVariable
 	if ((node.playbackState === 0) || (node.playbackState === 3)) {
@@ -86,6 +103,7 @@ S.NoteOn = function(node) {
 	}
 };
 
+// noinspection DuplicatedCode
 S.PrecacheSound = function(name) {
 	if (S.nosound.value !== 0) {
 		return;
@@ -107,6 +125,7 @@ S.PrecacheSound = function(name) {
 	return sfx;
 };
 
+// noinspection DuplicatedCode
 S.PickChannel = function(entnum, entchannel) {
 	var i, channel;
 
@@ -149,6 +168,7 @@ S.PickChannel = function(entnum, entchannel) {
 	return channel;
 };
 
+// noinspection DuplicatedCode
 S.Spatialize = function(ch) {
 	if (ch.entnum === CL.state.viewentity) {
 		ch.leftvol = ch.master_vol;
@@ -182,6 +202,7 @@ S.Spatialize = function(ch) {
 	}
 };
 
+// noinspection DuplicatedCode
 S.StartSound = function(entnum, entchannel, sfx, origin, vol, attenuation) {
 	if ((S.nosound.value !== 0) || (sfx == null)) {
 		return;
@@ -207,6 +228,8 @@ S.StartSound = function(entnum, entchannel, sfx, origin, vol, attenuation) {
 	target_chan.pos = 0.0;
 	target_chan.end = Host.realtime + sfx.cache.length;
 	var volume;
+
+	// noinspection DuplicatedCode
 	if (S.context != null) {
 		// noinspection JSUnresolvedFunction
 		var nodes = {
@@ -291,6 +314,7 @@ S.StartSound = function(entnum, entchannel, sfx, origin, vol, attenuation) {
 	}
 };
 
+// noinspection DuplicatedCode
 S.StopSound = function(entnum, entchannel) {
 	if (S.nosound.value !== 0) {
 		return;
@@ -316,6 +340,7 @@ S.StopSound = function(entnum, entchannel) {
 	}
 };
 
+// noinspection DuplicatedCode
 S.StopAllSounds = function() {
 	if (S.nosound.value !== 0) {
 		return;
@@ -358,6 +383,7 @@ S.StopAllSounds = function() {
 	S.static_channels = [];
 };
 
+// noinspection DuplicatedCode
 S.StaticSound = function(sfx, origin, vol, attenuation) {
 	if ((S.nosound.value !== 0) || (sfx == null)) {
 		return;
@@ -406,6 +432,7 @@ S.StaticSound = function(sfx, origin, vol, attenuation) {
 	}
 };
 
+// noinspection DuplicatedCode
 S.SoundList = function() {
 	var total = 0, i, sfx, sc, size;
 	for (i = 0; i < S.known_sfx.length; ++i) {
@@ -429,10 +456,12 @@ S.SoundList = function() {
 	Con.Print('Total resident: ' + total + '\n');
 };
 
+// noinspection DuplicatedCode
 S.LocalSound = function(sound) {
 	S.StartSound(CL.state.viewentity, -1, sound, Vec.origin, 1.0, 1.0);
 };
 
+// noinspection DuplicatedCode
 S.UpdateAmbientSounds = function() {
 	if (CL.state.worldmodel == null) {
 		return;
@@ -456,6 +485,7 @@ S.UpdateAmbientSounds = function() {
 		return;
 	}
 
+	// noinspection DuplicatedCode
 	for (i = 0; i < S.ambient_channels.length; ++i) {
 		ch = S.ambient_channels[i];
 		if ((ch.nodes == null) && (ch.audio == null)) {
@@ -519,8 +549,11 @@ S.UpdateAmbientSounds = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 S.UpdateDynamicSounds = function() {
 	var i, ch, sc, volume;
+
+	// noinspection DuplicatedCode
 	for (i = 0; i < S.channels.length; ++i) {
 		ch = S.channels[i];
 		if (ch == null) {
@@ -548,7 +581,10 @@ S.UpdateDynamicSounds = function() {
 				continue;
 			}
 		}
+
 		S.Spatialize(ch);
+
+		// noinspection DuplicatedCode
 		if (S.context != null) {
 			if (ch.leftvol > 1.0) {
 				ch.leftvol = 1.0;
@@ -572,6 +608,7 @@ S.UpdateDynamicSounds = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 S.UpdateStaticSounds = function() {
 	var i, j, ch, ch2, sfx, sc, volume;
 
@@ -597,6 +634,7 @@ S.UpdateStaticSounds = function() {
 	}
 
 	if (S.context != null) {
+		// noinspection DuplicatedCode
 		for (i = 0; i < S.static_channels.length; ++i) {
 			ch = S.static_channels[i];
 			if ((ch.leftvol === 0.0) && (ch.rightvol === 0.0)) {
@@ -614,6 +652,7 @@ S.UpdateStaticSounds = function() {
 			S.NoteOn(ch.nodes.source);
 		}
 	} else {
+		// noinspection DuplicatedCode
 		for (i = 0; i < S.static_channels.length; ++i) {
 			ch = S.static_channels[i];
 			volume = (ch.leftvol + ch.rightvol) * 0.5;
@@ -650,6 +689,7 @@ S.UpdateStaticSounds = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 S.Update = function(origin, forward, right, up) {
 	if (S.nosound.value !== 0) {
 		return;
@@ -679,6 +719,7 @@ S.Update = function(origin, forward, right, up) {
 	S.UpdateStaticSounds();
 };
 
+// noinspection DuplicatedCode
 S.Play = function() {
 	if (S.nosound.value !== 0) {
 		return;
@@ -692,6 +733,7 @@ S.Play = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 S.PlayVol = function() {
 	if (S.nosound.value !== 0) {
 		return;
@@ -705,6 +747,7 @@ S.PlayVol = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 S.LoadSound = function(s) {
 	if (S.nosound.value !== 0) {
 		return;

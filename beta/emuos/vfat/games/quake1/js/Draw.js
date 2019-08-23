@@ -1,7 +1,10 @@
+// noinspection DuplicatedCode
 Draw = {};
 
+// noinspection DuplicatedCode
 Draw.id = 'Draw';
 
+// noinspection DuplicatedCode
 Draw.CharToConback = function(num, dest) {
 	// Sys.DPrint(Draw.id, 'CharToConback', arguments);
 
@@ -20,6 +23,7 @@ Draw.CharToConback = function(num, dest) {
 	}
 };
 
+// noinspection DuplicatedCode
 Draw.Init = function() {
 	Sys.DPrint('Draw.Init()');
 
@@ -53,7 +57,7 @@ Draw.Init = function() {
 	Draw.conback.height = 200;
 	Draw.conback.data = new Uint8Array(cb, 8, 64000);
 
-	var ver = location.host.indexOf('dekadence.ro') !== -1 ? '1.09' : '(WebQuake build ' + Def.webquake_version + ') 1.09';
+	var ver = '(WebQuake build ' + Def.webquake_version + ') 1.09';
 
 	for (i = 0; i < ver.length; ++i) {
 		Draw.CharToConback(ver.charCodeAt(i), 59829 - ((ver.length - i) << 3), 186);
@@ -72,12 +76,14 @@ Draw.Init = function() {
 	GL.CreateProgram('PicTranslate', ['uOrtho', 'uTop', 'uBottom'], [['aPosition', gl.FLOAT, 2], ['aTexCoord', gl.FLOAT, 2]], ['tTexture', 'tTrans']);
 };
 
+// noinspection DuplicatedCode
 Draw.Char = function(x, y, num) {
 	// Sys.DPrint(Draw.id, 'Char', arguments);
 
 	GL.StreamDrawTexturedQuad(x, y, 8, 8, (num & 15) * 0.0625, (num >> 4) * 0.0625, ((num & 15) + 1) * 0.0625, ((num >> 4) + 1) * 0.0625);
 };
 
+// noinspection DuplicatedCode
 Draw.Character = function(x, y, num) {
 	// Sys.DPrint(Draw.id, 'Character', arguments);
 
@@ -87,6 +93,7 @@ Draw.Character = function(x, y, num) {
 	Draw.Char(x, y, num);
 };
 
+// noinspection DuplicatedCode
 Draw.String = function(x, y, str) {
 	// Sys.DPrint(Draw.id, 'String', arguments);
 
@@ -100,6 +107,7 @@ Draw.String = function(x, y, str) {
 	}
 };
 
+// noinspection DuplicatedCode
 Draw.StringWhite = function(x, y, str) {
 	// Sys.DPrint(Draw.id, 'StringWhite', arguments);
 
@@ -113,6 +121,7 @@ Draw.StringWhite = function(x, y, str) {
 	}
 };
 
+// noinspection DuplicatedCode
 Draw.PicFromWad = function(name) {
 	Sys.DPrint(Draw.id, 'PicFromWad', arguments);
 
@@ -128,6 +137,7 @@ Draw.PicFromWad = function(name) {
 	return p;
 };
 
+// noinspection DuplicatedCode
 Draw.CachePic = function(path) {
 	// Sys.DPrint(Draw.id, 'CachePic', arguments);
 
@@ -150,6 +160,7 @@ Draw.CachePic = function(path) {
 	return dat;
 };
 
+// noinspection DuplicatedCode
 Draw.Pic = function(x, y, pic) {
 	// Sys.DPrint(Draw.id, 'Pic', arguments);
 
@@ -159,6 +170,7 @@ Draw.Pic = function(x, y, pic) {
 	GL.StreamDrawTexturedQuad(x, y, pic.width, pic.height, 0.0, 0.0, 1.0, 1.0);
 };
 
+// noinspection DuplicatedCode
 Draw.PicTranslate = function(x, y, pic, top, bottom) {
 	Sys.DPrint(Draw.id, 'PicTranslate', arguments);
 
@@ -182,6 +194,7 @@ Draw.PicTranslate = function(x, y, pic, top, bottom) {
 	GL.StreamFlush();
 };
 
+// noinspection DuplicatedCode
 Draw.ConsoleBackground = function(lines) {
 	// Sys.DPrint(Draw.id, 'ConsoleBackground', arguments);
 
@@ -191,6 +204,7 @@ Draw.ConsoleBackground = function(lines) {
 	GL.StreamDrawTexturedQuad(0, lines - VID.height, VID.width, VID.height, 0.0, 0.0, 1.0, 1.0);
 };
 
+// noinspection DuplicatedCode
 Draw.Fill = function(x, y, w, h, c) {
 	Sys.DPrint(Draw.id, 'Fill', arguments);
 
@@ -199,6 +213,7 @@ Draw.Fill = function(x, y, w, h, c) {
 	GL.StreamDrawColoredQuad(x, y, w, h, color & 0xff, (color >> 8) & 0xff, color >> 16, 255);
 };
 
+// noinspection DuplicatedCode
 Draw.FadeScreen = function() {
 	// Sys.DPrint('Draw.FadeScreen()');
 
@@ -206,6 +221,7 @@ Draw.FadeScreen = function() {
 	GL.StreamDrawColoredQuad(0, 0, VID.width, VID.height, 0, 0, 0, 204);
 };
 
+// noinspection DuplicatedCode
 Draw.BeginDisc = function() {
 	// Sys.DPrint('Draw.BeginDisc()');
 
@@ -218,6 +234,7 @@ Draw.BeginDisc = function() {
 	Draw.loadingElem.style.display = 'inline-block';
 };
 
+// noinspection DuplicatedCode
 Draw.EndDisc = function() {
 	// Sys.DPrint('Draw.EndDisc()');
 
@@ -226,6 +243,7 @@ Draw.EndDisc = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Draw.PicToDataURL = function(pic) {
 	// Sys.DPrint(Draw.id, 'PicToDataURL', arguments);
 

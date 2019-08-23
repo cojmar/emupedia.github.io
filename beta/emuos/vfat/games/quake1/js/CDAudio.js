@@ -1,9 +1,13 @@
+// noinspection DuplicatedCode
 CDAudio = {};
 
+// noinspection DuplicatedCode
 CDAudio.id = 'CDAudio';
 
+// noinspection DuplicatedCode
 CDAudio.known = [];
 
+// noinspection DuplicatedCode
 CDAudio.Play = function(track, looping) {
 	Sys.DPrint(CDAudio.id, 'Play', arguments);
 
@@ -18,6 +22,7 @@ CDAudio.Play = function(track, looping) {
 			CDAudio.cd.loop = looping;
 
 			if ((looping === true) && (CDAudio.cd.paused === true)) {
+				// noinspection JSIgnoredPromiseFromCall
 				CDAudio.cd.play();
 			}
 		}
@@ -36,9 +41,11 @@ CDAudio.Play = function(track, looping) {
 	CDAudio.cd = new Audio(CDAudio.known[track]);
 	CDAudio.cd.loop = looping;
 	CDAudio.cd.volume = CDAudio.cdvolume;
+	// noinspection JSIgnoredPromiseFromCall
 	CDAudio.cd.play();
 };
 
+// noinspection DuplicatedCode
 CDAudio.Stop = function() {
 	Sys.DPrint('CDAudio.Stop()');
 
@@ -54,6 +61,7 @@ CDAudio.Stop = function() {
 	CDAudio.cd = null;
 };
 
+// noinspection DuplicatedCode
 CDAudio.Pause = function() {
 	Sys.DPrint('CDAudio.Pause()');
 
@@ -66,6 +74,7 @@ CDAudio.Pause = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 CDAudio.Resume = function() {
 	Sys.DPrint('CDAudio.Resume()');
 
@@ -74,10 +83,12 @@ CDAudio.Resume = function() {
 	}
 
 	if (CDAudio.cd != null) {
+		// noinspection JSIgnoredPromiseFromCall
 		CDAudio.cd.play();
 	}
 };
 
+// noinspection DuplicatedCode
 CDAudio.CD_f = function() {
 	Sys.DPrint('CDAudio.CD_f()');
 
@@ -87,6 +98,7 @@ CDAudio.CD_f = function() {
 
 	var command = Cmd.argv[1].toLowerCase();
 
+	// noinspection DuplicatedCode
 	switch (command) {
 		case 'on':
 			CDAudio.enabled = true;
@@ -124,6 +136,7 @@ CDAudio.CD_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 CDAudio.Update = function() {
 	// Sys.DPrint('CDAudio.Update()');
 
@@ -148,6 +161,7 @@ CDAudio.Update = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 CDAudio.Init = function() {
 	Sys.DPrint('CDAudio.Init()');
 

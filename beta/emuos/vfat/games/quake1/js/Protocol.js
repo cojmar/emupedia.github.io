@@ -1,7 +1,10 @@
+// noinspection DuplicatedCode
 Protocol = {};
 
+// noinspection DuplicatedCode
 Protocol.version = 15;
 
+// noinspection DuplicatedCode
 Protocol.u = {
 	morebits: 1,
 	origin1: 1 << 1,
@@ -21,6 +24,7 @@ Protocol.u = {
 	longentity: 1 << 14
 };
 
+// noinspection DuplicatedCode
 Protocol.su = {
 	viewheight: 1,
 	idealpitch: 1 << 1,
@@ -38,8 +42,10 @@ Protocol.su = {
 	weapon: 1 << 14
 };
 
+// noinspection DuplicatedCode
 Protocol.default_viewheight = 22;
 
+// noinspection DuplicatedCode
 Protocol.svc = {
 	nop: 1,
 	disconnect: 2,
@@ -76,6 +82,7 @@ Protocol.svc = {
 	cutscene: 34
 };
 
+// noinspection DuplicatedCode
 Protocol.clc = {
 	nop: 1,
 	disconnect: 2,
@@ -83,6 +90,7 @@ Protocol.clc = {
 	stringcmd: 4
 };
 
+// noinspection DuplicatedCode
 Protocol.te = {
 	spike: 0,
 	superspike: 1,

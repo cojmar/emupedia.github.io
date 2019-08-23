@@ -1,5 +1,7 @@
+// noinspection DuplicatedCode
 ED = {};
 
+// noinspection DuplicatedCode
 ED.ClearEdict = function(e) {
 	var i;
 
@@ -10,6 +12,7 @@ ED.ClearEdict = function(e) {
 	e.free = false;
 };
 
+// noinspection DuplicatedCode
 ED.Alloc = function() {
 	var i, e;
 
@@ -32,6 +35,7 @@ ED.Alloc = function() {
 	return e;
 };
 
+// noinspection DuplicatedCode
 ED.Free = function(ed) {
 	SV.UnlinkEdict(ed);
 	ed.free = true;
@@ -48,6 +52,7 @@ ED.Free = function(ed) {
 	ed.freetime = SV.server.time;
 };
 
+// noinspection DuplicatedCode
 ED.GlobalAtOfs = function(ofs) {
 	var i, def;
 
@@ -60,6 +65,7 @@ ED.GlobalAtOfs = function(ofs) {
 	}
 };
 
+// noinspection DuplicatedCode
 ED.FieldAtOfs = function(ofs) {
 	var i, def;
 
@@ -72,6 +78,7 @@ ED.FieldAtOfs = function(ofs) {
 	}
 };
 
+// noinspection DuplicatedCode
 ED.FindField = function(name) {
 	var def, i;
 
@@ -84,6 +91,7 @@ ED.FindField = function(name) {
 	}
 };
 
+// noinspection DuplicatedCode
 ED.FindGlobal = function(name) {
 	var def, i;
 
@@ -96,6 +104,7 @@ ED.FindGlobal = function(name) {
 	}
 };
 
+// noinspection DuplicatedCode
 ED.FindFunction = function(name) {
 	var i;
 
@@ -107,6 +116,7 @@ ED.FindFunction = function(name) {
 	}
 };
 
+// noinspection DuplicatedCode
 ED.Print = function(ed) {
 	if (ed.free === true) {
 		Con.Print('FREE\n');
@@ -116,6 +126,7 @@ ED.Print = function(ed) {
 	Con.Print('\nEDICT ' + ed.num + ':\n');
 	var i, d, name, v;
 
+	// noinspection DuplicatedCode
 	for (i = 1; i < PR.fielddefs.length; ++i) {
 		d = PR.fielddefs[i];
 		name = PR.GetString(d.name);
@@ -144,6 +155,7 @@ ED.Print = function(ed) {
 	}
 };
 
+// noinspection DuplicatedCode
 ED.PrintEdicts = function() {
 	if (SV.server.active !== true) {
 		return;
@@ -158,6 +170,7 @@ ED.PrintEdicts = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 ED.PrintEdict_f = function() {
 	if (SV.server.active !== true) {
 		return;
@@ -170,6 +183,7 @@ ED.PrintEdict_f = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 ED.Count = function() {
 	if (SV.server.active !== true) {
 		return;
@@ -208,9 +222,11 @@ ED.Count = function() {
 	Con.Print('step      :' + (step <= 9 ? '  ' : (step <= 99 ? ' ' : '')) + step + '\n');
 };
 
+// noinspection DuplicatedCode
 ED.ParseGlobals = function(data) {
 	var keyname, key;
 
+	// noinspection DuplicatedCode
 	for (; ;) {
 		data = COM.Parse(data);
 
@@ -246,6 +262,7 @@ ED.ParseGlobals = function(data) {
 	}
 };
 
+// noinspection DuplicatedCode
 ED.NewString = function(string) {
 	var newstring = [], i, c;
 
@@ -265,6 +282,7 @@ ED.NewString = function(string) {
 	return PR.NewString(newstring.join(''), string.length + 1);
 };
 
+// noinspection DuplicatedCode
 ED.ParseEpair = function(base, key, s) {
 	var d_float = new Float32Array(base);
 	var d_int = new Int32Array(base);
@@ -316,6 +334,7 @@ ED.ParseEpair = function(base, key, s) {
 	return true;
 };
 
+// noinspection DuplicatedCode
 ED.ParseEdict = function(data, ent) {
 	var i, init, anglehack, keyname, n, key;
 
@@ -325,6 +344,7 @@ ED.ParseEdict = function(data, ent) {
 		}
 	}
 
+	// noinspection DuplicatedCode
 	for (; ;) {
 		data = COM.Parse(data);
 
@@ -389,13 +409,16 @@ ED.ParseEdict = function(data, ent) {
 		ent.free = true;
 	}
 
+	// noinspection JSConstructorReturnsPrimitive
 	return data;
 };
 
+// noinspection DuplicatedCode
 ED.LoadFromFile = function(data) {
 	var ent = null, spawnflags, inhibit = 0, func;
 	PR.globals_float[PR.globalvars.time] = SV.server.time;
 
+	// noinspection DuplicatedCode
 	for (; ;) {
 		data = COM.Parse(data);
 
@@ -458,10 +481,12 @@ ED.LoadFromFile = function(data) {
 	Con.DPrint(inhibit + ' entities inhibited\n');
 };
 
+// noinspection DuplicatedCode
 ED.Vector = function(e, o) {
 	return [e.v_float[o], e.v_float[o + 1], e.v_float[o + 2]];
 };
 
+// noinspection DuplicatedCode
 ED.SetVector = function(e, o, v) {
 	e.v_float[o] = v[0];
 	e.v_float[o + 1] = v[1];

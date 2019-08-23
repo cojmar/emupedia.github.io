@@ -1,5 +1,7 @@
+// noinspection DuplicatedCode
 M = {};
 
+// noinspection DuplicatedCode
 M.state = {
 	none: 0,
 	main: 1,
@@ -15,26 +17,32 @@ M.state = {
 	value: 0
 };
 
+// noinspection DuplicatedCode
 M.DrawCharacter = function(cx, line, num) {
 	Draw.Character(cx + (VID.width >> 1) - 160, line + (VID.height >> 1) - 100, num);
 };
 
+// noinspection DuplicatedCode
 M.Print = function(cx, cy, str) {
 	Draw.StringWhite(cx + (VID.width >> 1) - 160, cy + (VID.height >> 1) - 100, str);
 };
 
+// noinspection DuplicatedCode
 M.PrintWhite = function(cx, cy, str) {
 	Draw.String(cx + (VID.width >> 1) - 160, cy + (VID.height >> 1) - 100, str);
 };
 
+// noinspection DuplicatedCode
 M.DrawPic = function(x, y, pic) {
 	Draw.Pic(x + (VID.width >> 1) - 160, y + (VID.height >> 1) - 100, pic);
 };
 
+// noinspection DuplicatedCode
 M.DrawPicTranslate = function(x, y, pic, top, bottom) {
 	Draw.PicTranslate(x + (VID.width >> 1) - 160, y + (VID.height >> 1) - 100, pic, top, bottom);
 };
 
+// noinspection DuplicatedCode
 M.DrawTextBox = function(x, y, width, lines) {
 	var cx, cy, n;
 
@@ -70,6 +78,7 @@ M.DrawTextBox = function(x, y, width, lines) {
 	M.DrawPic(cx, cy + 8, M.box_br);
 };
 
+// noinspection DuplicatedCode
 M.ToggleMenu_f = function() {
 	M.entersound = true;
 	if (Key.dest.value === Key.dest.menu) {
@@ -85,9 +94,12 @@ M.ToggleMenu_f = function() {
 };
 
 // Main menu
+// noinspection DuplicatedCode
 M.main_cursor = 0;
+// noinspection DuplicatedCode
 M.main_items = 5;
 
+// noinspection DuplicatedCode
 M.Menu_Main_f = function() {
 	if (Key.dest.value !== Key.dest.menu) {
 		M.save_demonum = CL.cls.demonum;
@@ -98,6 +110,7 @@ M.Menu_Main_f = function() {
 	M.entersound = true;
 };
 
+// noinspection DuplicatedCode
 M.Main_Draw = function() {
 	M.DrawPic(16, 4, M.qplaque);
 	M.DrawPic(160 - (M.ttl_main.width >> 1), 4, M.ttl_main);
@@ -105,7 +118,9 @@ M.Main_Draw = function() {
 	M.DrawPic(54, 32 + M.main_cursor * 20, M.menudot[Math.floor(Host.realtime * 10.0) % 6]);
 };
 
+// noinspection DuplicatedCode
 M.Main_Key = function(k) {
+	// noinspection DuplicatedCode
 	switch (k) {
 		case Key.k.escape:
 			Key.dest.value = Key.dest.game;
@@ -149,15 +164,19 @@ M.Main_Key = function(k) {
 };
 
 // Single player menu
+// noinspection DuplicatedCode
 M.singleplayer_cursor = 0;
+// noinspection DuplicatedCode
 M.singleplayer_items = 3;
 
+// noinspection DuplicatedCode
 M.Menu_SinglePlayer_f = function() {
 	Key.dest.value = Key.dest.menu;
 	M.state.value = M.state.singleplayer;
 	M.entersound = true;
 };
 
+// noinspection DuplicatedCode
 M.SinglePlayer_Draw = function() {
 	M.DrawPic(16, 4, M.qplaque);
 	M.DrawPic(160 - (M.ttl_sgl.width >> 1), 4, M.ttl_sgl);
@@ -165,6 +184,7 @@ M.SinglePlayer_Draw = function() {
 	M.DrawPic(54, 32 + M.singleplayer_cursor * 20, M.menudot[Math.floor(Host.realtime * 10.0) % 6]);
 };
 
+// noinspection DuplicatedCode
 M.SinglePlayer_Key = function(k) {
 	switch (k) {
 		case Key.k.escape:
@@ -205,15 +225,22 @@ M.SinglePlayer_Key = function(k) {
 };
 
 // Load/save menu
+// noinspection DuplicatedCode
 M.load_cursor = 0;
+// noinspection DuplicatedCode
 M.max_savegames = 12;
+// noinspection DuplicatedCode
 M.filenames = [];
+// noinspection DuplicatedCode
 M.loadable = [];
+// noinspection DuplicatedCode
 M.removable = [];
 
+// noinspection DuplicatedCode
 M.ScanSaves = function() {
 	var searchpaths = COM.searchpaths, i, j, search = 'Quake.' + COM.gamedir[0].filename + '/s', f, version, name, c;
 	COM.searchpaths = COM.gamedir;
+	// noinspection DuplicatedCode
 	for (i = 0; i < M.max_savegames; ++i) {
 		f = localStorage.getItem(search + i + '.sav');
 		if (f != null) {
@@ -252,6 +279,7 @@ M.ScanSaves = function() {
 	COM.searchpaths = searchpaths;
 };
 
+// noinspection DuplicatedCode
 M.Menu_Load_f = function() {
 	M.entersound = true;
 	M.state.value = M.state.load;
@@ -259,6 +287,7 @@ M.Menu_Load_f = function() {
 	M.ScanSaves();
 };
 
+// noinspection DuplicatedCode
 M.Menu_Save_f = function() {
 	if ((SV.server.active !== true) || (CL.state.intermission !== 0) || (SV.svs.maxclients !== 1)) {
 		return;
@@ -269,6 +298,7 @@ M.Menu_Save_f = function() {
 	M.ScanSaves();
 };
 
+// noinspection DuplicatedCode
 M.Load_Draw = function() {
 	M.DrawPic(160 - (M.p_load.width >> 1), 4, M.p_load);
 	var i;
@@ -278,6 +308,7 @@ M.Load_Draw = function() {
 	M.DrawCharacter(8, 32 + (M.load_cursor << 3), 12 + ((Host.realtime * 4.0) & 1));
 };
 
+// noinspection DuplicatedCode
 M.Save_Draw = function() {
 	M.DrawPic(160 - (M.p_save.width >> 1), 4, M.p_save);
 	var i;
@@ -287,6 +318,7 @@ M.Save_Draw = function() {
 	M.DrawCharacter(8, 32 + (M.load_cursor << 3), 12 + ((Host.realtime * 4.0) & 1));
 };
 
+// noinspection DuplicatedCode
 M.Load_Key = function(k) {
 	switch (k) {
 		case Key.k.escape:
@@ -328,6 +360,7 @@ M.Load_Key = function(k) {
 	}
 };
 
+// noinspection DuplicatedCode
 M.Save_Key = function(k) {
 	switch (k) {
 		case Key.k.escape:
@@ -366,10 +399,14 @@ M.Save_Key = function(k) {
 
 // Multiplayer menu
 M.multiplayer_cursor = 0;
+// noinspection DuplicatedCode
 M.multiplayer_cursor_table = [56, 72, 96, 120, 156];
-M.multiplayer_joinname = 'ftp.dekadence.ro:26000';
+// noinspection DuplicatedCode
+M.multiplayer_joinname = 'q1.emupedia.net:26000';
+// noinspection DuplicatedCode
 M.multiplayer_items = 5;
 
+// noinspection DuplicatedCode
 M.Menu_MultiPlayer_f = function() {
 	Key.dest.value = Key.dest.menu;
 	M.state.value = M.state.multiplayer;
@@ -379,6 +416,7 @@ M.Menu_MultiPlayer_f = function() {
 	M.multiplayer_bottom = M.multiplayer_oldbottom = CL.color.value & 15;
 };
 
+// noinspection DuplicatedCode
 M.MultiPlayer_Draw = function() {
 	M.DrawPic(16, 4, M.qplaque);
 	M.DrawPic(160 - (M.p_multi.width >> 1), 4, M.p_multi);
@@ -415,11 +453,13 @@ M.MultiPlayer_Draw = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 M.MultiPlayer_Key = function(k) {
 	if (k === Key.k.escape) {
 		M.Menu_Main_f();
 	}
 
+	// noinspection DuplicatedCode
 	switch (k) {
 		case Key.k.uparrow:
 			S.LocalSound(M.sfx_menu1);
@@ -457,6 +497,7 @@ M.MultiPlayer_Key = function(k) {
 			S.LocalSound(M.sfx_menu3);
 			return;
 		case Key.k.enter:
+			// noinspection DuplicatedCode
 			switch (M.multiplayer_cursor) {
 				case 0:
 					S.LocalSound(M.sfx_menu2);
@@ -521,15 +562,19 @@ M.MultiPlayer_Key = function(k) {
 };
 
 // Options menu
+// noinspection DuplicatedCode
 M.options_cursor = 0;
+// noinspection DuplicatedCode
 M.options_items = 13;
 
+// noinspection DuplicatedCode
 M.Menu_Options_f = function() {
 	Key.dest.value = Key.dest.menu;
 	M.state.value = M.state.options;
 	M.entersound = true;
 };
 
+// noinspection DuplicatedCode
 M.AdjustSliders = function(dir) {
 	S.LocalSound(M.sfx_menu3);
 
@@ -603,6 +648,7 @@ M.AdjustSliders = function(dir) {
 	}
 };
 
+// noinspection DuplicatedCode
 M.DrawSlider = function(x, y, range) {
 	if (range < 0) {
 		range = 0;
@@ -624,6 +670,7 @@ M.DrawSlider = function(x, y, range) {
 	M.DrawCharacter(x + Math.floor(72 * range), y, 131);
 };
 
+// noinspection DuplicatedCode
 M.Options_Draw = function() {
 	M.DrawPic(16, 4, M.qplaque);
 	M.DrawPic(160 - (M.p_option.width >> 1), 4, M.p_option);
@@ -656,6 +703,7 @@ M.Options_Draw = function() {
 	M.DrawCharacter(200, 32 + (M.options_cursor << 3), 12 + ((Host.realtime * 4.0) & 1));
 };
 
+// noinspection DuplicatedCode
 M.Options_Key = function(k) {
 	switch (k) {
 		case Key.k.escape:
@@ -699,6 +747,7 @@ M.Options_Key = function(k) {
 };
 
 // Keys menu
+// noinspection DuplicatedCode
 M.bindnames = [
 	['+attack', 'attack'],
 	['impulse 10', 'change weapon'],
@@ -719,15 +768,17 @@ M.bindnames = [
 	['+moveup', 'swim up'],
 	['+movedown', 'swim down']
 ];
-
+// noinspection DuplicatedCode
 M.keys_cursor = 0;
 
+// noinspection DuplicatedCode
 M.Menu_Keys_f = function() {
 	Key.dest.value = Key.dest.menu;
 	M.state.value = M.state.keys;
 	M.entersound = true;
 };
 
+// noinspection DuplicatedCode
 M.FindKeysForCommand = function(command) {
 	var twokeys = [], i;
 	for (i = 0; i < Key.bindings.length; ++i) {
@@ -741,6 +792,7 @@ M.FindKeysForCommand = function(command) {
 	return twokeys;
 };
 
+// noinspection DuplicatedCode
 M.UnbindCommand = function(command) {
 	var i;
 	for (i = 0; i < Key.bindings.length; ++i) {
@@ -750,6 +802,7 @@ M.UnbindCommand = function(command) {
 	}
 };
 
+// noinspection DuplicatedCode
 M.Keys_Draw = function() {
 	M.DrawPic(160 - (M.ttl_cstm.width >> 1), 4, M.ttl_cstm);
 
@@ -783,7 +836,9 @@ M.Keys_Draw = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 M.Keys_Key = function(k) {
+	// noinspection DuplicatedCode
 	if (M.bind_grab === true) {
 		S.LocalSound(M.sfx_menu1);
 
@@ -835,8 +890,10 @@ M.Keys_Key = function(k) {
 };
 
 // Help menu
+// noinspection DuplicatedCode
 M.num_help_pages = 6;
 
+// noinspection DuplicatedCode
 M.Menu_Help_f = function() {
 	Key.dest.value = Key.dest.menu;
 	M.state.value = M.state.help;
@@ -844,11 +901,14 @@ M.Menu_Help_f = function() {
 	M.help_page = 0;
 };
 
+// noinspection DuplicatedCode
 M.Help_Draw = function() {
 	M.DrawPic(0, 0, M.help_pages[M.help_page]);
 };
 
+// noinspection DuplicatedCode
 M.Help_Key = function(k) {
+	// noinspection DuplicatedCode
 	switch (k) {
 		case Key.k.escape:
 			M.Menu_Main_f();
@@ -874,6 +934,7 @@ M.Help_Key = function(k) {
 };
 
 // Quit menu
+// noinspection DuplicatedCode
 M.quitMessage = [
 	['  Are you gonna quit', '  this game just like', '   everything else?', ''],
 	[' Milord, methinks that', '   thou art a lowly', ' quitter. Is this true?', ''],
@@ -885,6 +946,7 @@ M.quitMessage = [
 	['  If you quit now, I\'ll', '  throw a blanket-party', '   for you next time!', '']
 ];
 
+// noinspection DuplicatedCode
 M.Menu_Quit_f = function() {
 	if (M.state.value === M.state.quit) {
 		return;
@@ -898,6 +960,7 @@ M.Menu_Quit_f = function() {
 	M.msgNumber = Math.floor(Math.random() * M.quitMessage.length);
 };
 
+// noinspection DuplicatedCode
 M.Quit_Draw = function() {
 	if (M.wasInMenus === true) {
 		M.state.value = M.quit_prevstate;
@@ -913,7 +976,9 @@ M.Quit_Draw = function() {
 	M.Print(64, 108, M.quitMessage[M.msgNumber][3]);
 };
 
+// noinspection DuplicatedCode
 M.Quit_Key = function(k) {
+	// noinspection DuplicatedCode
 	switch (k) {
 		case Key.k.escape:
 		case 110:
@@ -932,6 +997,7 @@ M.Quit_Key = function(k) {
 };
 
 // Menu Subsystem
+// noinspection DuplicatedCode
 M.Init = function() {
 	Cmd.AddCommand('togglemenu', M.ToggleMenu_f);
 	Cmd.AddCommand('menu_main', M.Menu_Main_f);
@@ -1019,6 +1085,7 @@ M.Init = function() {
 	];
 };
 
+// noinspection DuplicatedCode
 M.Draw = function() {
 	if ((M.state.value === M.state.none) || (Key.dest.value !== Key.dest.menu)) {
 		return;
@@ -1068,6 +1135,7 @@ M.Draw = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 M.Keydown = function(key) {
 	switch (M.state.value) {
 		case M.state.main:

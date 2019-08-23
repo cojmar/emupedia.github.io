@@ -1,9 +1,13 @@
+// noinspection DuplicatedCode
 Cvar = {};
 
+// noinspection DuplicatedCode
 Cvar.id = 'Cvar';
 
+// noinspection DuplicatedCode
 Cvar.vars = [];
 
+// noinspection DuplicatedCode
 Cvar.FindVar = function(name) {
 	// Sys.DPrint(Cvar.id, 'FindVar', arguments);
 
@@ -16,6 +20,7 @@ Cvar.FindVar = function(name) {
 	}
 };
 
+// noinspection DuplicatedCode
 Cvar.CompleteVariable = function(partial) {
 	Sys.DPrint(Cvar.id, 'CompleteVariable', arguments);
 
@@ -32,6 +37,7 @@ Cvar.CompleteVariable = function(partial) {
 	}
 };
 
+// noinspection DuplicatedCode
 Cvar.Set = function(name, value) {
 	Sys.DPrint(Cvar.id, 'Set', arguments);
 
@@ -61,12 +67,14 @@ Cvar.Set = function(name, value) {
 	Con.Print('Cvar.Set: variable ' + name + ' not found\n');
 };
 
+// noinspection DuplicatedCode
 Cvar.SetValue = function(name, value) {
 	Sys.DPrint(Cvar.id, 'SetValue', arguments);
 
 	Cvar.Set(name, value.toFixed(6));
 };
 
+// noinspection DuplicatedCode
 Cvar.RegisterVariable = function(name, value, archive, server) {
 	Sys.DPrint(Cvar.id, 'RegisterVariable', arguments);
 
@@ -91,6 +99,7 @@ Cvar.RegisterVariable = function(name, value, archive, server) {
 	return Cvar.vars[Cvar.vars.length - 1];
 };
 
+// noinspection DuplicatedCode
 Cvar.Command = function() {
 	Sys.DPrint('Cvar.Command()');
 
@@ -113,6 +122,7 @@ Cvar.Command = function() {
 	return true;
 };
 
+// noinspection DuplicatedCode
 Cvar.WriteVariables = function() {
 	Sys.DPrint('Cvar.WriteVariables()');
 

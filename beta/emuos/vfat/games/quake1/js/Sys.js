@@ -1,11 +1,16 @@
+// noinspection DuplicatedCode
 Sys = {};
 
+// noinspection DuplicatedCode
 Sys.debug = true;
 
+// noinspection DuplicatedCode
 Sys.id = 'Sys';
 
+// noinspection DuplicatedCode
 Sys.events = ['onbeforeunload', 'oncontextmenu', 'onfocus', 'onkeydown', 'onkeyup', 'onmousedown', 'onmouseup', 'onmousewheel', 'onunload', 'onwheel'];
 
+// noinspection DuplicatedCode
 Sys.Start = function() {
 	var i;
 
@@ -116,6 +121,7 @@ Sys.Start = function() {
 	Sys.frame = setInterval(Host.Frame, 1000.0 / 60.0);
 };
 
+// noinspection DuplicatedCode
 Sys.Quit = function() {
 	Sys.DPrint('Sys.Quit()');
 
@@ -142,12 +148,14 @@ Sys.Quit = function() {
 	throw new Error;
 };
 
+// noinspection DuplicatedCode
 Sys.Print = function(text) {
 	if (window.console != null) {
 		console.log(text);
 	}
 };
 
+// noinspection DuplicatedCode
 Sys.DPrint = function(id, name, args) {
 	if (Sys.debug) {
 		if (typeof args === 'object') {
@@ -158,6 +166,7 @@ Sys.DPrint = function(id, name, args) {
 	}
 };
 
+// noinspection DuplicatedCode
 Sys.Error = function(text) {
 	if (Sys.frame != null) {
 		clearInterval(Sys.frame);
@@ -192,23 +201,26 @@ Sys.Error = function(text) {
 	throw new Error(text);
 };
 
+// noinspection DuplicatedCode
 Sys.FloatTime = function() {
 	// noinspection JSConstructorReturnsPrimitive
 	return Date.now() * 0.001 - Sys.oldtime;
 };
 
-// window.onload = function() {
-// 	Sys.Start();
-// };
+/*window.onload = function() {
+	Sys.Start();
+};
 
-// Sys.onbeforeunload = function() {
-// 	return 'Are you sure you want to quit?';
-// };
+Sys.onbeforeunload = function() {
+	return 'Are you sure you want to quit?';
+};*/
 
+// noinspection DuplicatedCode
 Sys.oncontextmenu = function(e) {
 	e.preventDefault();
 };
 
+// noinspection DuplicatedCode
 Sys.onfocus = function() {
 	var i;
 
@@ -218,6 +230,7 @@ Sys.onfocus = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 Sys.onkeydown = function(e) {
 	var key = Sys.scantokey[e.keyCode];
 
@@ -232,6 +245,7 @@ Sys.onkeydown = function(e) {
 	}
 };
 
+// noinspection DuplicatedCode
 Sys.onkeyup = function(e) {
 	var key = Sys.scantokey[e.keyCode];
 
@@ -246,6 +260,7 @@ Sys.onkeyup = function(e) {
 	}
 };
 
+// noinspection DuplicatedCode
 Sys.onmousedown = function(e) {
 	var key;
 
@@ -268,6 +283,7 @@ Sys.onmousedown = function(e) {
 	e.preventDefault();
 };
 
+// noinspection DuplicatedCode
 Sys.onmouseup = function(e) {
 	var key;
 
@@ -290,7 +306,9 @@ Sys.onmouseup = function(e) {
 	e.preventDefault();
 };
 
+// noinspection DuplicatedCode
 Sys.onmousewheel = function(e) {
+	// noinspection JSUnresolvedVariable
 	var key = e.wheelDeltaY > 0 ? Key.k.mwheelup : Key.k.mwheeldown;
 
 	Key.Event(key, true);
@@ -299,10 +317,12 @@ Sys.onmousewheel = function(e) {
 	e.preventDefault();
 };
 
+// noinspection DuplicatedCode
 Sys.onunload = function() {
 	Host.Shutdown();
 };
 
+// noinspection DuplicatedCode
 Sys.onwheel = function(e) {
 	var key = e.deltaY < 0 ? Key.k.mwheelup : Key.k.mwheeldown;
 
@@ -312,6 +332,7 @@ Sys.onwheel = function(e) {
 	e.preventDefault();
 };
 
+// noinspection DuplicatedCode
 Sys.ongamepadpoll = function(e) {
 	Key.gamepadlastaxes = e.axes;
 

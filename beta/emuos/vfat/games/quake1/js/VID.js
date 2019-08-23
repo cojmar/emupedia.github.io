@@ -1,7 +1,10 @@
+// noinspection DuplicatedCode
 VID = {};
 
+// noinspection DuplicatedCode
 VID.d_8to24table = new Uint32Array(new ArrayBuffer(1024));
 
+// noinspection DuplicatedCode
 VID.SetPalette = function() {
 	Sys.DPrint('VID.SetPalette()');
 
@@ -12,15 +15,16 @@ VID.SetPalette = function() {
 	}
 
 	var pal = new Uint8Array(palette);
-
 	var i, src = 0;
 
+	// noinspection DuplicatedCode
 	for (i = 0; i < 256; ++i) {
 		VID.d_8to24table[i] = pal[src] + (pal[src + 1] << 8) + (pal[src + 2] << 16);
 		src += 3;
 	}
 };
 
+// noinspection DuplicatedCode
 VID.Init = function() {
 	Sys.DPrint('VID.Init()');
 

@@ -1,10 +1,16 @@
+// noinspection DuplicatedCode
 IN = {};
 
+// noinspection DuplicatedCode
 IN.mouse_x = 0.0;
+// noinspection DuplicatedCode
 IN.mouse_y = 0.0;
+// noinspection DuplicatedCode
 IN.old_mouse_x = 0.0;
+// noinspection DuplicatedCode
 IN.old_mouse_y = 0.0;
 
+// noinspection DuplicatedCode
 IN.StartupMouse = function() {
 	IN.m_filter = Cvar.RegisterVariable('m_filter', '1');
 
@@ -18,20 +24,26 @@ IN.StartupMouse = function() {
 		IN.pointerLockElement = 'pointerLockElement';
 		IN.requestPointerLock = 'requestPointerLock';
 		IN.pointerlockchange = 'onpointerlockchange';
-	} else if (VID.mainwindow.webkitRequestPointerLock != null) {
-		IN.movementX = 'webkitMovementX';
-		IN.movementY = 'webkitMovementY';
-		IN.pointerLockElement = 'webkitPointerLockElement';
-		IN.requestPointerLock = 'webkitRequestPointerLock';
-		IN.pointerlockchange = 'onwebkitpointerlockchange';
-	} else if (VID.mainwindow.mozRequestPointerLock != null) {
-		IN.movementX = 'mozMovementX';
-		IN.movementY = 'mozMovementY';
-		IN.pointerLockElement = 'mozPointerLockElement';
-		IN.requestPointerLock = 'mozRequestPointerLock';
-		IN.pointerlockchange = 'onmozpointerlockchange';
 	} else {
-		return;
+		// noinspection JSUnresolvedVariable
+		if (VID.mainwindow.webkitRequestPointerLock != null) {
+			IN.movementX = 'webkitMovementX';
+			IN.movementY = 'webkitMovementY';
+			IN.pointerLockElement = 'webkitPointerLockElement';
+			IN.requestPointerLock = 'webkitRequestPointerLock';
+			IN.pointerlockchange = 'onwebkitpointerlockchange';
+		} else {
+			// noinspection JSUnresolvedVariable
+			if (VID.mainwindow.mozRequestPointerLock != null) {
+				IN.movementX = 'mozMovementX';
+				IN.movementY = 'mozMovementY';
+				IN.pointerLockElement = 'mozPointerLockElement';
+				IN.requestPointerLock = 'mozRequestPointerLock';
+				IN.pointerlockchange = 'onmozpointerlockchange';
+			} else {
+				return;
+			}
+		}
 	}
 
 	VID.mainwindow.onclick = IN.onclick;
@@ -40,10 +52,12 @@ IN.StartupMouse = function() {
 	IN.mouse_avail = true;
 };
 
+// noinspection DuplicatedCode
 IN.Init = function() {
 	IN.StartupMouse();
 };
 
+// noinspection DuplicatedCode
 IN.Shutdown = function() {
 	if (IN.mouse_avail === true) {
 		VID.mainwindow.onclick = null;
@@ -52,12 +66,14 @@ IN.Shutdown = function() {
 	}
 };
 
+// noinspection DuplicatedCode
 IN.MouseMove = function() {
 	if (IN.mouse_avail !== true) {
 		return;
 	}
 
 	var mouse_x, mouse_y;
+
 	if (IN.m_filter.value !== 0) {
 		mouse_x = (IN.mouse_x + IN.old_mouse_x) * 0.5;
 		mouse_y = (IN.mouse_y + IN.old_mouse_y) * 0.5;
@@ -65,6 +81,7 @@ IN.MouseMove = function() {
 		mouse_x = IN.mouse_x;
 		mouse_y = IN.mouse_y;
 	}
+
 	IN.old_mouse_x = IN.mouse_x;
 	IN.old_mouse_y = IN.mouse_y;
 	mouse_x *= CL.sensitivity.value;
@@ -102,10 +119,12 @@ IN.MouseMove = function() {
 	IN.mouse_x = IN.mouse_y = 0;
 };
 
+// noinspection DuplicatedCode
 IN.Move = function() {
 	IN.MouseMove();
 };
 
+// noinspection DuplicatedCode
 IN.onclick = function() {
 	VID.mainwindow.focus();
 
@@ -113,20 +132,30 @@ IN.onclick = function() {
 		this[IN.requestPointerLock]();
 	}
 
-	// noinspection JSUnresolvedVariable
+	// noinspection JSUnresolvedVariable, DuplicatedCode
 	if (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) {
 		if (VID.mainwindow.requestFullscreen) {
 			VID.mainwindow.requestFullscreen();
-		} else if (VID.mainwindow.webkitRequestFullscreen) {
-			VID.mainwindow.webkitRequestFullscreen();
-		} else if (VID.mainwindow.mozRequestFullScreen) {
-			VID.mainwindow.mozRequestFullScreen();
-		} else if (VID.mainwindow.msRequestFullscreen) {
-			VID.mainwindow.msRequestFullscreen();
+		} else {
+			// noinspection JSUnresolvedVariable
+			if (VID.mainwindow.webkitRequestFullscreen) {
+				VID.mainwindow.webkitRequestFullscreen();
+			} else {
+				// noinspection JSUnresolvedVariable
+				if (VID.mainwindow.mozRequestFullScreen) {
+					VID.mainwindow.mozRequestFullScreen();
+				} else {
+					// noinspection JSUnresolvedVariable
+					if (VID.mainwindow.msRequestFullscreen) {
+						VID.mainwindow.msRequestFullscreen();
+					}
+				}
+			}
 		}
 	}
 };
 
+// noinspection DuplicatedCode
 IN.onmousemove = function(e) {
 	if (document[IN.pointerLockElement] !== VID.mainwindow) {
 		return;
@@ -136,6 +165,7 @@ IN.onmousemove = function(e) {
 	IN.mouse_y += e[IN.movementY];
 };
 
+// noinspection DuplicatedCode
 IN.onpointerlockchange = function() {
 	if (document[IN.pointerLockElement] === VID.mainwindow) {
 		// noinspection UnnecessaryReturnStatementJS

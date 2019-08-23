@@ -1,7 +1,10 @@
+// noinspection DuplicatedCode
 Vec = {};
 
+// noinspection DuplicatedCode
 Vec.origin = [0.0, 0.0, 0.0];
 
+// noinspection DuplicatedCode
 Vec.Perpendicular = function(v) {
 	var pos = 0;
 	var minelem = 1;
@@ -33,6 +36,7 @@ Vec.Perpendicular = function(v) {
 	return dst;
 };
 
+// noinspection DuplicatedCode
 Vec.RotatePointAroundVector = function(dir, point, degrees) {
 	var r = Vec.Perpendicular(dir);
 	var up = Vec.CrossProduct(r, dir);
@@ -61,11 +65,13 @@ Vec.RotatePointAroundVector = function(dir, point, degrees) {
 	];
 };
 
+// noinspection DuplicatedCode
 Vec.Anglemod = function(a) {
 	// noinspection JSConstructorReturnsPrimitive
 	return (a % 360.0 + 360.0) % 360.0;
 };
 
+// noinspection DuplicatedCode
 Vec.BoxOnPlaneSide = function(emins, emaxs, p) {
 	if (p.type <= 2) {
 		if (p.dist <= emins[p.type]) {
@@ -135,6 +141,7 @@ Vec.BoxOnPlaneSide = function(emins, emaxs, p) {
 	return sides;
 };
 
+// noinspection DuplicatedCode
 Vec.AngleVectors = function(angles, forward, right, up) {
 	var angle;
 
@@ -167,18 +174,22 @@ Vec.AngleVectors = function(angles, forward, right, up) {
 	}
 };
 
+// noinspection DuplicatedCode
 Vec.DotProduct = function(v1, v2) {
 	// noinspection JSConstructorReturnsPrimitive
 	return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
 };
 
+// noinspection DuplicatedCode
 Vec.Copy = function(v1, v2) {
 	v2[0] = v1[0];
 	v2[1] = v1[1];
 	v2[2] = v1[2];
 };
 
+// noinspection DuplicatedCode
 Vec.CrossProduct = function(v1, v2) {
+	// noinspection DuplicatedCode
 	return [
 		v1[1] * v2[2] - v1[2] * v2[1],
 		v1[2] * v2[0] - v1[0] * v2[2],
@@ -186,11 +197,13 @@ Vec.CrossProduct = function(v1, v2) {
 	];
 };
 
+// noinspection DuplicatedCode
 Vec.Length = function(v) {
 	// noinspection JSConstructorReturnsPrimitive
 	return Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 };
 
+// noinspection DuplicatedCode
 Vec.Normalize = function(v) {
 	var length = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 
@@ -209,7 +222,9 @@ Vec.Normalize = function(v) {
 	return length;
 };
 
+// noinspection DuplicatedCode
 Vec.ConcatRotations = function(m1, m2) {
+	// noinspection DuplicatedCode
 	return [[
 		m1[0][0] * m2[0][0] + m1[0][1] * m2[1][0] + m1[0][2] * m2[2][0],
 		m1[0][0] * m2[0][1] + m1[0][1] * m2[1][1] + m1[0][2] * m2[2][1],

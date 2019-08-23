@@ -1,11 +1,15 @@
+// noinspection DuplicatedCode
 Def = {};
 
+// noinspection DuplicatedCode
 Def.webquake_version = 56;
+// noinspection DuplicatedCode
 Def.timedate = 'Exe: 14:40:32 Nov 22 2018\n';
-
+// noinspection DuplicatedCode
 Def.max_edicts = 600;
+// noinspection DuplicatedCode
 // Def.max_edicts = 8192;
-
+// noinspection DuplicatedCode
 Def.stat = {
 	health: 0,
 	frags: 1,
@@ -23,7 +27,7 @@ Def.stat = {
 	secrets: 13,
 	monsters: 14
 };
-
+// noinspection DuplicatedCode
 Def.it = {
 	shotgun: 1,
 	super_shotgun: 2,
@@ -49,7 +53,7 @@ Def.it = {
 	suit: 2097152,
 	quad: 4194304
 };
-
+// noinspection DuplicatedCode
 Def.rit = {
 	shells: 128,
 	nails: 256,
@@ -71,7 +75,7 @@ Def.rit = {
 	antigrav: 1073741824,
 	superhealth: 2147483648
 };
-
+// noinspection DuplicatedCode
 Def.hit = {
 	proximity_gun_bit: 16,
 	mjolnir_bit: 7,

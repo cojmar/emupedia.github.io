@@ -1,5 +1,7 @@
+// noinspection DuplicatedCode
 Chase = {};
 
+// noinspection DuplicatedCode
 Chase.Init = function() {
 	Sys.DPrint('Chase.Init()');
 
@@ -9,6 +11,7 @@ Chase.Init = function() {
 	Chase.active = Cvar.RegisterVariable('chase_active', '0');
 };
 
+// noinspection DuplicatedCode
 Chase.Update = function() {
 	Sys.DPrint('Chase.Update()');
 
@@ -16,7 +19,11 @@ Chase.Update = function() {
 	Vec.AngleVectors(CL.state.viewangles, forward, right);
 
 	var trace = {plane: {}}, org = R.refdef.vieworg;
-	SV.RecursiveHullCheck(CL.state.worldmodel.hulls[0], 0, 0.0, 1.0, org, [org[0] + 4096.0 * forward[0], org[1] + 4096.0 * forward[1], org[2] + 4096.0 * forward[2]], trace);
+	SV.RecursiveHullCheck(CL.state.worldmodel.hulls[0], 0, 0.0, 1.0, org, [
+		org[0] + 4096.0 * forward[0],
+		org[1] + 4096.0 * forward[1],
+		org[2] + 4096.0 * forward[2]
+	], trace);
 
 	var stop = trace.endpos;
 	stop[2] -= org[2];
