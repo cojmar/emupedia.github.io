@@ -1,6 +1,5 @@
 // noinspection DuplicatedCode
 IN = {};
-
 // noinspection DuplicatedCode
 IN.mouse_x = 0.0;
 // noinspection DuplicatedCode
@@ -103,6 +102,7 @@ IN.MouseMove = function() {
 
 	if ((mlook !== 0) && (strafe === 0)) {
 		angles[0] += CL.m_pitch.value * mouse_y;
+
 		if (angles[0] > 80.0) {
 			angles[0] = 80.0;
 		} else if (angles[0] < -70.0) {
@@ -129,7 +129,8 @@ IN.onclick = function() {
 	VID.mainwindow.focus();
 
 	if (document[IN.pointerLockElement] !== this) {
-		this[IN.requestPointerLock]();
+		// this[IN.requestPointerLock]();
+		VID.mainwindow[IN.requestPointerLock]();
 	}
 
 	// noinspection JSUnresolvedVariable, DuplicatedCode
