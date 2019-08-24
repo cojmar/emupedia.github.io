@@ -478,13 +478,15 @@ GL.StreamDrawColoredQuad = (x, y, w, h, r, g, b, a) => {
 
 GL.Init = () => {
 	VID.mainwindow = document.getElementById('mainwindow');
-	try
-	{
+	VID.container = document.getElementById('container');
+
+	try {
 		gl = VID.mainwindow.getContext('webgl') || VID.mainwindow.getContext('experimental-webgl');
-	}
-	catch (e) {}
-	if (gl == null)
+	} catch (e) {}
+
+	if (gl == null) {
 		Sys.Error('Unable to initialize WebGL. Your browser may not support it.');
+	}
 
 	GL.maxtexturesize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
 

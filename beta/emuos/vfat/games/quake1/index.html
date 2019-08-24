@@ -19,12 +19,12 @@
 		<link type="text/css" rel="stylesheet" href="css/main.css" />
 	</head>
 	<body>
-		<div>
+		<div id="container">
 			<span id="progress">Starting Quake 1...</span>
 			<canvas id="mainwindow" tabindex="1"></canvas>
 			<!--suppress RequiredAttributes -->
-			<img id="loading" alt="Loading" style="display: none; position: fixed;">
-			<div id="loading-message" style="display: none; position: fixed; color: burlywood; font-family: monospace; font-weight: bold; background: rgba(0, 0, 0, 0.2) none repeat scroll 0% 0%; padding: 3px 10px; margin-left: -7px;"></div>
+			<img id="loading" alt="Loading">
+			<div id="loading-message"></div>
 		</div>
 
 		<script type="text/javascript" src="js/polyfills/es6-promise-4.2.5.min.js"></script>

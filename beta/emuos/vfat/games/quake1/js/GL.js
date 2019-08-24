@@ -600,6 +600,7 @@ GL.Init = function() {
 	Sys.DPrint('GL.Init()');
 
 	VID.mainwindow = document.getElementById('mainwindow');
+	VID.container = document.getElementById('container');
 
 	try {
 		gl = VID.mainwindow.getContext('webgl') || VID.mainwindow.getContext('experimental-webgl');

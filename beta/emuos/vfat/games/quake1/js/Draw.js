@@ -223,7 +223,7 @@ Draw.FadeScreen = function() {
 };
 
 // noinspection DuplicatedCode
-Draw.BeginDisc = function(file) {
+Draw.BeginDisc = function(filename) {
 	// Sys.DPrint('Draw.BeginDisc()');
 
 	if (Draw.loadingElem == null) {
@@ -232,12 +232,12 @@ Draw.BeginDisc = function(file) {
 
 	Draw.loadingElem.style.left = ((VID.width - Draw.loading.width) >> 1) + 'px';
 	Draw.loadingElem.style.top = ((VID.height - Draw.loading.height) >> 1) + 'px';
-	Draw.loadingElem.style.display = 'inline-block';
+	Draw.loadingElem.style.display = 'block';
 
 	Draw.loadingMsg.style.left = ((VID.width - Draw.loading.width) >> 1) + 'px';
 	Draw.loadingMsg.style.top = ((VID.height - Draw.loading.height + 50) >> 1) + 'px';
-	Draw.loadingMsg.style.display = 'inline-block';
-	Draw.loadingMsg.innerText = file;
+	Draw.loadingMsg.style.display = 'block';
+	Draw.loadingMsg.innerText = filename;
 };
 
 // noinspection DuplicatedCode

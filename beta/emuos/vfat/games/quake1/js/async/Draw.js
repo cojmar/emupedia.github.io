@@ -163,19 +163,19 @@ Draw.FadeScreen = () => {
 	GL.StreamDrawColoredQuad(0, 0, VID.width, VID.height, 0, 0, 0, 204);
 };
 
-Draw.BeginDisc = (file) => {
+Draw.BeginDisc = (filename) => {
 	if (Draw.loadingElem == null) {
 		return;
 	}
 
 	Draw.loadingElem.style.left = ((VID.width - Draw.loading.width) >> 1) + 'px';
 	Draw.loadingElem.style.top = ((VID.height - Draw.loading.height) >> 1) + 'px';
-	Draw.loadingElem.style.display = 'inline-block';
+	Draw.loadingElem.style.display = 'block';
 
 	Draw.loadingMsg.style.left = ((VID.width - Draw.loading.width) >> 1) + 'px';
 	Draw.loadingMsg.style.top = ((VID.height - Draw.loading.height + 50) >> 1) + 'px';
-	Draw.loadingMsg.style.display = 'inline-block';
-	Draw.loadingMsg.innerText = file;
+	Draw.loadingMsg.style.display = 'block';
+	Draw.loadingMsg.innerText = filename;
 };
 
 Draw.EndDisc = () => {
