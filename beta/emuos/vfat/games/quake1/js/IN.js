@@ -135,20 +135,20 @@ IN.onclick = function() {
 
 	// noinspection JSUnresolvedVariable, DuplicatedCode
 	if (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) {
-		if (VID.mainwindow.requestFullscreen) {
-			VID.mainwindow.requestFullscreen();
+		if (VID.container.requestFullscreen) {
+			VID.container.requestFullscreen();
 		} else {
 			// noinspection JSUnresolvedVariable
-			if (VID.mainwindow.webkitRequestFullscreen) {
-				VID.mainwindow.webkitRequestFullscreen();
+			if (VID.container.webkitRequestFullscreen) {
+				VID.container.webkitRequestFullscreen();
 			} else {
 				// noinspection JSUnresolvedVariable
-				if (VID.mainwindow.mozRequestFullScreen) {
-					VID.mainwindow.mozRequestFullScreen();
+				if (VID.container.mozRequestFullScreen) {
+					VID.container.mozRequestFullScreen();
 				} else {
 					// noinspection JSUnresolvedVariable
-					if (VID.mainwindow.msRequestFullscreen) {
-						VID.mainwindow.msRequestFullscreen();
+					if (VID.container.msRequestFullscreen) {
+						VID.container.msRequestFullscreen();
 					}
 				}
 			}
