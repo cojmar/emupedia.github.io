@@ -1,12 +1,10 @@
 Loop = {};
 
-Loop.Init = function()
-{
+Loop.Init = () => {
 	return true;
 };
 
-Loop.Connect = function(host)
-{
+Loop.Connect = (host) => {
 	if (host !== 'local')
 		return;
 
@@ -36,8 +34,7 @@ Loop.Connect = function(host)
 	return Loop.client;
 };
 
-Loop.CheckNewConnections = function()
-{
+Loop.CheckNewConnections = () => {
 	if (Loop.localconnectpending !== true)
 		return;
 	Loop.localconnectpending = false;
@@ -48,8 +45,7 @@ Loop.CheckNewConnections = function()
 	return Loop.server;
 };
 
-Loop.GetMessage = function(sock)
-{
+Loop.GetMessage = (sock) => {
 	if (sock.receiveMessageLength === 0)
 		return 0;
 	var ret = sock.receiveMessage[0];
@@ -71,8 +67,7 @@ Loop.GetMessage = function(sock)
 	return ret;
 };
 
-Loop.SendMessage = function(sock, data)
-{
+Loop.SendMessage = (sock, data) => {
 	if (sock.driverdata == null)
 		return -1;
 	var bufferLength = sock.driverdata.receiveMessageLength;
@@ -88,8 +83,7 @@ Loop.SendMessage = function(sock, data)
 	return 1;
 };
 
-Loop.SendUnreliableMessage = function(sock, data)
-{
+Loop.SendUnreliableMessage = (sock, data) => {
 	if (sock.driverdata == null)
 		return -1;
 	var bufferLength = sock.driverdata.receiveMessageLength;
@@ -104,14 +98,12 @@ Loop.SendUnreliableMessage = function(sock, data)
 	return 1;
 };
 
-Loop.CanSendMessage = function(sock)
-{
+Loop.CanSendMessage = (sock) => {
 	if (sock.driverdata != null)
 		return sock.canSend;
 };
 
-Loop.Close = function(sock)
-{
+Loop.Close = (sock) => {
 	if (sock.driverdata != null)
 		sock.driverdata.driverdata = null;
 	sock.receiveMessageLength = 0;

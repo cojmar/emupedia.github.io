@@ -7,7 +7,11 @@ Mod.effects = {
 	dimlight: 8
 };
 
-Mod.type = {brush: 0, sprite: 1, alias: 2};
+Mod.type = {
+	brush: 0,
+	sprite: 1,
+	alias: 2
+};
 
 Mod.flags = {
 	rocket: 1,
@@ -20,12 +24,15 @@ Mod.flags = {
 	tracer3: 128
 };
 
-Mod.version = {brush: 29, sprite: 1, alias: 6};
+Mod.version = {
+	brush: 29,
+	sprite: 1,
+	alias: 6
+};
 
 Mod.known = [];
 
-Mod.Init = function()
-{
+Mod.Init = () => {
 	Mod.novis = [];
 	var i;
 	for (i = 0; i < 1024; ++i)
@@ -42,8 +49,7 @@ Mod.Init = function()
 	}
 };
 
-Mod.PointInLeaf = function(p, model)
-{
+Mod.PointInLeaf = (p, model) => {
 	if (model == null)
 		Sys.Error('Mod.PointInLeaf: bad model');
 	if (model.nodes == null)
@@ -62,8 +68,7 @@ Mod.PointInLeaf = function(p, model)
 	}
 };
 
-Mod.DecompressVis = function(i, model)
-{
+Mod.DecompressVis = (i, model) => {
 	var decompressed = [], c, out, row = (model.leafs.length + 7) >> 3;
 	if (model.visdata == null)
 	{
@@ -85,15 +90,13 @@ Mod.DecompressVis = function(i, model)
 	return decompressed;
 };
 
-Mod.LeafPVS = function(leaf, model)
-{
+Mod.LeafPVS = (leaf, model) => {
 	if (leaf === model.leafs[0])
 		return Mod.novis;
 	return Mod.DecompressVis(leaf.visofs, model);
 };
 
-Mod.ClearAll = function()
-{
+Mod.ClearAll = () => {
 	var i, mod;
 	for (i = 0; i < Mod.known.length; ++i)
 	{
@@ -109,8 +112,7 @@ Mod.ClearAll = function()
 	}
 };
 
-Mod.FindName = function(name)
-{
+Mod.FindName = (name) => {
 	if (name.length === 0)
 		Sys.Error('Mod.FindName: NULL name');
 	var i;
@@ -130,8 +132,7 @@ Mod.FindName = function(name)
 	}
 };
 
-Mod.LoadModel = async function(mod, crash)
-{
+Mod.LoadModel = async (mod, crash) => {
 	if (mod.needload !== true)
 		return mod;
 	var buf = await COM.LoadFile(mod.name);
@@ -157,8 +158,7 @@ Mod.LoadModel = async function(mod, crash)
 	return mod;
 };
 
-Mod.ForName = async function(name, crash)
-{
+Mod.ForName = async (name, crash) => {
 	return await Mod.LoadModel(Mod.FindName(name), crash);
 };
 
@@ -170,8 +170,7 @@ Mod.ForName = async function(name, crash)
 ===============================================================================
 */
 
-Mod.lump =
-{
+Mod.lump = {
 	entities: 0,
 	planes: 1,
 	textures: 2,
@@ -206,8 +205,7 @@ Mod.contents = {
 	current_down: -14
 };
 
-Mod.LoadTextures = function(buf)
-{
+Mod.LoadTextures = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.textures << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.textures << 3) + 8, true);
@@ -225,12 +223,11 @@ Mod.LoadTextures = function(buf)
 			continue;
 		}
 		miptexofs += fileofs;
-		tx =
-		{
+		tx = {
 			name: Q.memstr(new Uint8Array(buf, miptexofs, 16)),
 			width: view.getUint32(miptexofs + 16, true),
 			height: view.getUint32(miptexofs + 20, true)
-		}
+		};
 		if (tx.name.substring(0, 3).toLowerCase() === 'sky')
 		{
 			R.InitSky(new Uint8Array(buf, miptexofs + view.getUint32(miptexofs + 24, true), 32768));
@@ -303,8 +300,7 @@ Mod.LoadTextures = function(buf)
 	Mod.loadmodel.textures[Mod.loadmodel.textures.length] = R.notexture_mip;
 };
 
-Mod.LoadLighting = function(buf)
-{
+Mod.LoadLighting = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.lighting << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.lighting << 3) + 8, true);
@@ -314,8 +310,7 @@ Mod.LoadLighting = function(buf)
 	Mod.loadmodel.lightdata.set(new Uint8Array(buf, fileofs, filelen));
 };
 
-Mod.LoadVisibility = function(buf)
-{
+Mod.LoadVisibility = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.visibility << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.visibility << 3) + 8, true);
@@ -325,16 +320,14 @@ Mod.LoadVisibility = function(buf)
 	Mod.loadmodel.visdata.set(new Uint8Array(buf, fileofs, filelen));
 };
 
-Mod.LoadEntities = function(buf)
-{
+Mod.LoadEntities = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.entities << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.entities << 3) + 8, true);
 	Mod.loadmodel.entities = Q.memstr(new Uint8Array(buf, fileofs, filelen));
 };
 
-Mod.LoadVertexes = function(buf)
-{
+Mod.LoadVertexes = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.vertexes << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.vertexes << 3) + 8, true);
@@ -350,8 +343,7 @@ Mod.LoadVertexes = function(buf)
 	}
 };
 
-Mod.LoadSubmodels = function(buf)
-{
+Mod.LoadSubmodels = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.models << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.models << 3) + 8, true);
@@ -421,8 +413,7 @@ Mod.LoadSubmodels = function(buf)
 	}
 };
 
-Mod.LoadEdges = function(buf)
-{
+Mod.LoadEdges = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.edges << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.edges << 3) + 8, true);
@@ -438,8 +429,7 @@ Mod.LoadEdges = function(buf)
 	}
 };
 
-Mod.LoadTexinfo = function(buf)
-{
+Mod.LoadTexinfo = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.texinfo << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.texinfo << 3) + 8, true);
@@ -468,8 +458,7 @@ Mod.LoadTexinfo = function(buf)
 	}
 };
 
-Mod.LoadFaces = function(buf)
-{
+Mod.LoadFaces = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.faces << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.faces << 3) + 8, true);
@@ -537,8 +526,7 @@ Mod.LoadFaces = function(buf)
 	}
 };
 
-Mod.SetParent = function(node, parent)
-{
+Mod.SetParent = (node, parent) => {
 	node.parent = parent;
 	if (node.contents < 0)
 		return;
@@ -546,8 +534,7 @@ Mod.SetParent = function(node, parent)
 	Mod.SetParent(node.children[1], node);
 };
 
-Mod.LoadNodes = function(buf)
-{
+Mod.LoadNodes = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.nodes << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.nodes << 3) + 8, true);
@@ -587,8 +574,7 @@ Mod.LoadNodes = function(buf)
 	Mod.SetParent(Mod.loadmodel.nodes[0]);
 };
 
-Mod.LoadLeafs = function(buf)
-{
+Mod.LoadLeafs = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.leafs << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.leafs << 3) + 8, true);
@@ -614,11 +600,10 @@ Mod.LoadLeafs = function(buf)
 		};
 		Mod.loadmodel.leafs[i] = out;
 		fileofs += 28;
-	};
+	}
 };
 
-Mod.LoadClipnodes = function(buf)
-{
+Mod.LoadClipnodes = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.clipnodes << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.clipnodes << 3) + 8, true);
@@ -653,8 +638,7 @@ Mod.LoadClipnodes = function(buf)
 	}
 };
 
-Mod.MakeHull0 = function()
-{
+Mod.MakeHull0 = () => {
 	var node, child, clipnodes = [], i, out;
 	var hull = {
 		clipnodes: clipnodes,
@@ -676,8 +660,7 @@ Mod.MakeHull0 = function()
 	Mod.loadmodel.hulls[0] = hull;
 };
 
-Mod.LoadMarksurfaces = function(buf)
-{
+Mod.LoadMarksurfaces = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.marksurfaces << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.marksurfaces << 3) + 8, true);
@@ -693,8 +676,7 @@ Mod.LoadMarksurfaces = function(buf)
 	}
 };
 
-Mod.LoadSurfedges = function(buf)
-{
+Mod.LoadSurfedges = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.surfedges << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.surfedges << 3) + 8, true);
@@ -703,10 +685,9 @@ Mod.LoadSurfedges = function(buf)
 	var i;
 	for (i = 0; i < count; ++i)
 		Mod.loadmodel.surfedges[i] = view.getInt32(fileofs + (i << 2), true);
-}
+};
 
-Mod.LoadPlanes = function(buf)
-{
+Mod.LoadPlanes = (buf) => {
 	var view = new DataView(buf);
 	var fileofs = view.getUint32((Mod.lump.planes << 3) + 4, true);
 	var filelen = view.getUint32((Mod.lump.planes << 3) + 8, true);
@@ -734,8 +715,7 @@ Mod.LoadPlanes = function(buf)
 	}
 };
 
-Mod.LoadBrushModel = function(buffer)
-{
+Mod.LoadBrushModel = (buffer) => {
 	Mod.loadmodel.type = Mod.type.brush;
 	var version = (new DataView(buffer)).getUint32(0, true);
 	if (version !== Mod.version.brush)
@@ -775,7 +755,7 @@ Mod.LoadBrushModel = function(buffer)
 			mins[2] = vert[2];
 		else if (vert[2] > maxs[2])
 			maxs[2] = vert[2];
-	};
+	}
 	Mod.loadmodel.radius = Vec.Length([
 		Math.abs(mins[0]) > Math.abs(maxs[0]) ? Math.abs(mins[0]) : Math.abs(maxs[0]),
 		Math.abs(mins[1]) > Math.abs(maxs[1]) ? Math.abs(mins[1]) : Math.abs(maxs[1]),
@@ -791,8 +771,7 @@ ALIAS MODELS
 ==============================================================================
 */
 
-Mod.TranslatePlayerSkin = function(data, skin)
-{
+Mod.TranslatePlayerSkin = (data, skin) => {
 	if ((Mod.loadmodel.skinwidth !== 512) || (Mod.loadmodel.skinheight !== 256))
 		data = GL.ResampleTexture(data, Mod.loadmodel.skinwidth, Mod.loadmodel.skinheight, 512, 256);
 	var out = new Uint8Array(new ArrayBuffer(524288));
@@ -819,8 +798,7 @@ Mod.TranslatePlayerSkin = function(data, skin)
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, GL.filter_max);
 };
 
-Mod.FloodFillSkin = function(skin)
-{
+Mod.FloodFillSkin = (skin) => {
 	var fillcolor = skin[0];
 	if (fillcolor === Mod.filledcolor)
 		return;
@@ -859,8 +837,7 @@ Mod.FloodFillSkin = function(skin)
 	}
 };
 
-Mod.LoadAllSkins = function(buffer, inmodel)
-{
+Mod.LoadAllSkins = (buffer, inmodel) => {
 	Mod.loadmodel.skins = [];
 	var model = new DataView(buffer);
 	var i, j, group, numskins;
@@ -917,8 +894,7 @@ Mod.LoadAllSkins = function(buffer, inmodel)
 	return inmodel;
 };
 
-Mod.LoadAllFrames = function(buffer, inmodel)
-{
+Mod.LoadAllFrames = (buffer, inmodel) => {
 	Mod.loadmodel.frames = [];
 	var model = new DataView(buffer);
 	var i, j, k, frame, group, numframes;
@@ -984,8 +960,7 @@ Mod.LoadAllFrames = function(buffer, inmodel)
 	}
 };
 
-Mod.LoadAliasModel = function(buffer)
-{
+Mod.LoadAliasModel = (buffer) => {
 	var i, j, k, l;
 
 	Mod.loadmodel.type = Mod.type.alias;
@@ -1129,8 +1104,7 @@ Mod.LoadAliasModel = function(buffer)
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cmds), gl.STATIC_DRAW);
 };
 
-Mod.LoadSpriteFrame = function(identifier, buffer, inframe, frame)
-{
+Mod.LoadSpriteFrame = (identifier, buffer, inframe, frame) => {
 	var i;
 
 	var model = new DataView(buffer);
@@ -1198,10 +1172,9 @@ Mod.LoadSpriteFrame = function(identifier, buffer, inframe, frame)
 	GL.textures[GL.textures.length] = glt;
 	frame.texturenum = glt.texnum;
 	return inframe + 16 + frame.width * frame.height;
-}
+};
 
-Mod.LoadSpriteModel = function(buffer)
-{
+Mod.LoadSpriteModel = (buffer) => {
 	Mod.loadmodel.type = Mod.type.sprite;
 	var model = new DataView(buffer);
 	var version = model.getUint32(4, true);
@@ -1251,8 +1224,7 @@ Mod.LoadSpriteModel = function(buffer)
 	}
 };
 
-Mod.Print = function()
-{
+Mod.Print = () => {
 	Con.Print('Cached models:\n');
 	var i;
 	for (i = 0; i < Mod.known.length; ++i)

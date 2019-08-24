@@ -15,8 +15,7 @@ CL.active = {
 
 // demo
 
-CL.StopPlayback = function()
-{
+CL.StopPlayback = () => {
 	if (CL.cls.demoplayback !== true)
 		return;
 	CL.cls.demoplayback = false;
@@ -26,8 +25,7 @@ CL.StopPlayback = function()
 		CL.FinishTimeDemo();
 };
 
-CL.WriteDemoMessage = function()
-{
+CL.WriteDemoMessage = () => {
 	let len = CL.cls.demoofs + 16 + NET.message.cursize;
 	if (CL.cls.demofile.byteLength < len)
 	{
@@ -44,8 +42,7 @@ CL.WriteDemoMessage = function()
 	CL.cls.demoofs = len;
 };
 
-CL.GetMessage = function()
-{
+CL.GetMessage = () => {
 	if (CL.cls.demoplayback === true)
 	{
 		if (CL.cls.signon === 4)
@@ -118,8 +115,7 @@ CL.GetMessage = function()
 	return r;
 };
 
-CL.Stop_f = function()
-{
+CL.Stop_f = () => {
 	if (Cmd.client === true)
 		return;
 	if (CL.cls.demorecording !== true)
@@ -137,8 +133,7 @@ CL.Stop_f = function()
 	Con.Print('Completed demo\n');
 };
 
-CL.Record_f = async function()
-{
+CL.Record_f = async () => {
 	var c = Cmd.argv.length;
 	if ((c <= 1) || (c >= 5))
 	{
@@ -175,8 +170,7 @@ CL.Record_f = async function()
 	CL.cls.demorecording = true;
 };
 
-CL.PlayDemo_f = async function()
-{
+CL.PlayDemo_f = async () => {
 	if (Cmd.client === true)
 		return;
 	if (Cmd.argv.length !== 2)
@@ -217,8 +211,7 @@ CL.PlayDemo_f = async function()
 	CL.cls.demoofs = i + 1;
 };
 
-CL.FinishTimeDemo = function()
-{
+CL.FinishTimeDemo = () => {
 	CL.cls.timedemo = false;
 	var frames = Host.framecount - CL.cls.td_startframe - 1;
 	var time = Host.realtime - CL.cls.td_starttime;
@@ -227,8 +220,7 @@ CL.FinishTimeDemo = function()
 	Con.Print(frames + ' frames ' + time.toFixed(1) + ' seconds ' + (frames / time).toFixed(1) + ' fps\n');
 };
 
-CL.TimeDemo_f = async function()
-{
+CL.TimeDemo_f = async () => {
 	if (Cmd.client === true)
 		return;
 	if (Cmd.argv.length !== 2)
@@ -266,8 +258,7 @@ CL.kbutton = {
 };
 CL.kbuttons = [];
 
-CL.KeyDown = function()
-{
+CL.KeyDown = () => {
 	var b = CL.kbutton[Cmd.argv[0].substring(1)];
 	if (b == null)
 		return;
@@ -296,8 +287,7 @@ CL.KeyDown = function()
 		b.state |= 3;
 };
 
-CL.KeyUp = function()
-{
+CL.KeyUp = () => {
 	var b = CL.kbutton[Cmd.argv[0].substring(1)];
 	if (b == null)
 		return;
@@ -326,20 +316,18 @@ CL.KeyUp = function()
 		b.state = (b.state - 1) | 4;
 };
 
-CL.MLookUp = function()
-{
+CL.MLookUp = () => {
 	CL.KeyUp();
 	if (((CL.kbuttons[CL.kbutton.mlook].state & 1) === 0) && (CL.lookspring.value !== 0))
 		V.StartPitchDrift();
 };
 
-CL.Impulse = function()
+CL.Impulse = () =>
 {
 	CL.impulse = Q.atoi(Cmd.argv[1]);
 };
 
-CL.KeyState = function(key)
-{
+CL.KeyState = (key) => {
 	key = CL.kbuttons[key];
 	var down = key.state & 1;
 	key.state &= 1;
@@ -354,8 +342,7 @@ CL.KeyState = function(key)
 	return (down !== 0) ? 1.0 : 0.0;
 };
 
-CL.AdjustAngles = function()
-{
+CL.AdjustAngles = () => {
 	var speed = Host.frametime;
 	if ((CL.kbuttons[CL.kbutton.speed].state & 1) !== 0)
 		speed *= CL.anglespeedkey.value;
@@ -391,8 +378,7 @@ CL.AdjustAngles = function()
 		angles[2] = -50.0;
 };
 
-CL.BaseMove = function()
-{
+CL.BaseMove = () => {
 	if (CL.cls.signon !== 4)
 		return;
 
@@ -420,8 +406,7 @@ CL.BaseMove = function()
 };
 
 CL.sendmovebuf = {data: new ArrayBuffer(16), cursize: 0};
-CL.SendMove = async function()
-{
+CL.SendMove = async () => {
 	var buf = CL.sendmovebuf;
 	buf.cursize = 0;
 	MSG.WriteByte(buf, Protocol.clc.move);
@@ -453,8 +438,7 @@ CL.SendMove = async function()
 	}
 };
 
-CL.InitInput = function()
-{
+CL.InitInput = () => {
 	var i;
 
 	var commands = ['moveup', 'movedown', 'left', 'right',
@@ -487,8 +471,7 @@ CL.cls = {
 CL.static_entities = [];
 CL.visedicts = [];
 
-CL.Rcon_f = function()
-{
+CL.Rcon_f = () => {
 	if (CL.rcon_password.string.length === 0)
 	{
 		Con.Print('You must set \'rcon_password\' before\nissuing an rcon command.\n');
@@ -535,8 +518,7 @@ CL.Rcon_f = function()
 	xhr.send();
 };
 
-CL.ClearState = function()
-{
+CL.ClearState = () => {
 	if (SV.server.active !== true)
 	{
 		Con.DPrint('Clearing memory\n');
@@ -608,8 +590,7 @@ CL.ClearState = function()
 		CL.beams[i] = {endtime: 0.0};
 };
 
-CL.Disconnect = async function()
-{
+CL.Disconnect = async () => {
 	S.StopAllSounds();
 	if (CL.cls.demoplayback === true)
 		CL.StopPlayback();
@@ -631,8 +612,7 @@ CL.Disconnect = async function()
 	CL.cls.signon = 0;
 };
 
-CL.Connect = function(sock)
-{
+CL.Connect = (sock) => {
 	CL.cls.netcon = sock;
 	Con.DPrint('CL.Connect: connected to ' + CL.host + '\n');
 	CL.cls.demonum = -1;
@@ -640,8 +620,7 @@ CL.Connect = function(sock)
 	CL.cls.signon = 0;
 };
 
-CL.EstablishConnection = async function(host)
-{
+CL.EstablishConnection = async (host) => {
 	if (CL.cls.demoplayback === true)
 		return;
 	await CL.Disconnect();
@@ -652,8 +631,7 @@ CL.EstablishConnection = async function(host)
 	CL.Connect(sock);
 };
 
-CL.SignonReply = function()
-{
+CL.SignonReply = () => {
 	Con.DPrint('CL.SignonReply: ' + CL.cls.signon + '\n');
 	switch (CL.cls.signon)
 	{
@@ -678,8 +656,7 @@ CL.SignonReply = function()
 	}
 };
 
-CL.NextDemo = function()
-{
+CL.NextDemo = () => {
 	if (CL.cls.demonum === -1)
 		return;
 	SCR.BeginLoadingPlaque();
@@ -696,8 +673,7 @@ CL.NextDemo = function()
 	Cmd.text = 'playdemo ' + CL.cls.demos[CL.cls.demonum++] + '\n' + Cmd.text;
 };
 
-CL.PrintEntities_f = function()
-{
+CL.PrintEntities_f = () => {
 	var i, ent;
 	for (i = 0; i < CL.entities.length; ++i)
 	{
@@ -719,8 +695,7 @@ CL.PrintEntities_f = function()
 	}
 };
 
-CL.AllocDlight = function(key)
-{
+CL.AllocDlight = (key) => {
 	var i, dl;
 	if (key !== 0)
 	{
@@ -755,8 +730,7 @@ CL.AllocDlight = function(key)
 	return dl;
 };
 
-CL.DecayLights = function()
-{
+CL.DecayLights = () => {
 	var i, dl, time = CL.state.time - CL.state.oldtime;
 	for (i = 0; i <= 31; ++i)
 	{
@@ -767,10 +741,9 @@ CL.DecayLights = function()
 		if (dl.radius < 0.0)
 			dl.radius = 0.0;
 	}
-}
+};
 
-CL.LerpPoint = function()
-{
+CL.LerpPoint = () => {
 	var f = CL.state.mtime[0] - CL.state.mtime[1];
 	if ((f === 0.0) || (CL.nolerp.value !== 0) || (CL.cls.timedemo === true) || (SV.server.active === true))
 	{
@@ -798,8 +771,7 @@ CL.LerpPoint = function()
 	return frac;
 };
 
-CL.RelinkEntities = function()
-{
+CL.RelinkEntities = () => {
 	var i, j;
 	var frac = CL.LerpPoint(), f, d, delta = [];
 
@@ -906,7 +878,7 @@ CL.RelinkEntities = function()
 		else if ((ent.model.flags & Mod.flags.rocket) !== 0)
 		{
 			R.RocketTrail(oldorg, ent.origin, 0);
-			dl = CL.AllocDlight(i)
+			dl = CL.AllocDlight(i);
 			dl.origin = [ent.origin[0], ent.origin[1], ent.origin[2]];
 			dl.radius = 200.0;
 			dl.die = CL.state.time + 0.01;
@@ -922,8 +894,7 @@ CL.RelinkEntities = function()
 	}
 };
 
-CL.ReadFromServer = async function()
-{
+CL.ReadFromServer = async () => {
 	CL.state.oldtime = CL.state.time;
 	CL.state.time += Host.frametime;
 	var ret;
@@ -945,8 +916,7 @@ CL.ReadFromServer = async function()
 	CL.UpdateTEnts();
 };
 
-CL.SendCmd = async function()
-{
+CL.SendCmd = async () => {
 	if (CL.cls.state !== CL.active.connected)
 		return;
 
@@ -978,8 +948,7 @@ CL.SendCmd = async function()
 	CL.cls.message.cursize = 0;
 };
 
-CL.Init = async function()
-{
+CL.Init = async () => {
 	CL.ClearState();
 	CL.InitInput();
 	await CL.InitTEnts();
@@ -1053,8 +1022,7 @@ CL.svc_strings = [
 	'cutscene'
 ];
 
-CL.EntityNum = function(num)
-{
+CL.EntityNum = (num) => {
 	if (num < CL.entities.length)
 		return CL.entities[num];
 	for (; CL.entities.length <= num; )
@@ -1088,8 +1056,7 @@ CL.EntityNum = function(num)
 	return CL.entities[num];
 };
 
-CL.ParseStartSoundPacket = async function()
-{
+CL.ParseStartSoundPacket = async () => {
 	var field_mask = MSG.ReadByte();
 	var volume = ((field_mask & 1) !== 0) ? MSG.ReadByte() : 255;
 	var attenuation = ((field_mask & 2) !== 0) ? MSG.ReadByte() * 0.015625 : 1.0;
@@ -1102,8 +1069,7 @@ CL.ParseStartSoundPacket = async function()
 };
 
 CL.lastmsg = 0.0;
-CL.KeepaliveMessage = async function()
-{
+CL.KeepaliveMessage = async () => {
 	if ((SV.server.active === true) || (CL.cls.demoplayback === true))
 		return;
 	var oldsize = NET.message.cursize;
@@ -1113,17 +1079,19 @@ CL.KeepaliveMessage = async function()
 	for (;;)
 	{
 		ret = CL.GetMessage();
-		switch (ret)
-		{
-		case 0:
-			break;
-		case 1:
-			await Host.Error('CL.KeepaliveMessage: received a message');
-		case 2:
-			if (MSG.ReadByte() !== Protocol.svc.nop)
-				await Host.Error('CL.KeepaliveMessage: datagram wasn\'t a nop');
-		default:
-			await Host.Error('CL.KeepaliveMessage: CL.GetMessage failed');
+
+		// noinspection FallThroughInSwitchStatementJS
+		switch (ret) {
+			case 0:
+				break;
+			case 1:
+				await Host.Error('CL.KeepaliveMessage: received a message');
+			case 2:
+				if (MSG.ReadByte() !== Protocol.svc.nop) {
+					await Host.Error('CL.KeepaliveMessage: datagram wasn\'t a nop');
+				}
+			default:
+				await Host.Error('CL.KeepaliveMessage: CL.GetMessage failed');
 		}
 		if (ret === 0)
 			break;
@@ -1140,8 +1108,7 @@ CL.KeepaliveMessage = async function()
 	CL.cls.message.cursize = 0;
 };
 
-CL.ParseServerInfo = async function()
-{
+CL.ParseServerInfo = async () => {
 	Con.DPrint('Serverinfo packet received.\n');
 	CL.ClearState();
 	var i = MSG.ReadLong();
@@ -1213,8 +1180,7 @@ CL.ParseServerInfo = async function()
 	Host.noclip_anglehack = false;
 };
 
-CL.ParseUpdate = function(bits)
-{
+CL.ParseUpdate = (bits) => {
 	if (CL.cls.signon === 3)
 	{
 		CL.cls.signon = 4;
@@ -1268,8 +1234,7 @@ CL.ParseUpdate = function(bits)
 	}
 };
 
-CL.ParseBaseline = function(ent)
-{
+CL.ParseBaseline = (ent) => {
 	ent.baseline.modelindex = MSG.ReadByte();
 	ent.baseline.frame = MSG.ReadByte();
 	ent.baseline.colormap = MSG.ReadByte();
@@ -1282,8 +1247,7 @@ CL.ParseBaseline = function(ent)
 	ent.baseline.angles[2] = MSG.ReadAngle();
 };
 
-CL.ParseClientdata = function(bits)
-{
+CL.ParseClientdata = (bits) => {
 	var i;
 
 	CL.state.viewheight = ((bits & Protocol.su.viewheight) !== 0) ? MSG.ReadChar() : Protocol.default_viewheight;
@@ -1332,8 +1296,7 @@ CL.ParseClientdata = function(bits)
 		CL.state.stats[Def.stat.activeweapon] = 1 << MSG.ReadByte();
 };
 
-CL.ParseStatic = function()
-{
+CL.ParseStatic = () => {
 	var ent = {
 		num: -1,
 		update_type: 0,
@@ -1361,8 +1324,7 @@ CL.ParseStatic = function()
 	R.SplitEntityOnNode(CL.state.worldmodel.nodes[0]);
 };
 
-CL.ParseStaticSound = async function()
-{
+CL.ParseStaticSound = async () => {
 	var org = [MSG.ReadCoord(), MSG.ReadCoord(), MSG.ReadCoord()];
 	var sound_num = MSG.ReadByte();
 	var vol = MSG.ReadByte();
@@ -1370,8 +1332,7 @@ CL.ParseStaticSound = async function()
 	await S.StaticSound(CL.state.sound_precache[sound_num], org, vol / 255.0, atten);
 };
 
-CL.Shownet = function(x)
-{
+CL.Shownet = (x) => {
 	if (CL.shownet.value === 2)
 	{
 		Con.Print((MSG.readcount <= 99 ? (MSG.readcount <= 9 ? '  ' : ' ') : '')
@@ -1379,8 +1340,7 @@ CL.Shownet = function(x)
 	}
 };
 
-CL.ParseServerMessage = async function()
-{
+CL.ParseServerMessage = async () => {
 	if (CL.shownet.value === 1)
 		Con.Print(NET.message.cursize + ' ');
 	else if (CL.shownet.value === 2)
@@ -1412,148 +1372,149 @@ CL.ParseServerMessage = async function()
 		}
 
 		CL.Shownet('svc_' + CL.svc_strings[cmd]);
+		// noinspection FallThroughInSwitchStatementJS
 		switch (cmd)
 		{
-		case Protocol.svc.nop:
-			continue;
-		case Protocol.svc.time:
-			CL.state.mtime[1] = CL.state.mtime[0];
-			CL.state.mtime[0] = MSG.ReadFloat();
-			continue;
-		case Protocol.svc.clientdata:
-			CL.ParseClientdata(MSG.ReadShort());
-			continue;
-		case Protocol.svc.version:
-			i = MSG.ReadLong();
-			if (i !== Protocol.version)
-				await Host.Error('CL.ParseServerMessage: Server is protocol ' + i + ' instead of ' + Protocol.version + '\n');
-			continue;
-		case Protocol.svc.disconnect:
-			await Host.EndGame('Server disconnected\n');
-		case Protocol.svc.print:
-			Con.Print(MSG.ReadString());
-			continue;
-		case Protocol.svc.centerprint:
-			SCR.CenterPrint(MSG.ReadString());
-			continue;
-		case Protocol.svc.stufftext:
-			Cmd.text += MSG.ReadString();
-			continue;
-		case Protocol.svc.damage:
-			V.ParseDamage();
-			continue;
-		case Protocol.svc.serverinfo:
-			await CL.ParseServerInfo();
-			SCR.recalc_refdef = true;
-			continue;
-		case Protocol.svc.setangle:
-			CL.state.viewangles[0] = MSG.ReadAngle();
-			CL.state.viewangles[1] = MSG.ReadAngle();
-			CL.state.viewangles[2] = MSG.ReadAngle();
-			continue;
-		case Protocol.svc.setview:
-			CL.state.viewentity = MSG.ReadShort();
-			continue;
-		case Protocol.svc.lightstyle:
-			i = MSG.ReadByte();
-			if (i >= 64)
-				Sys.Error('svc_lightstyle > MAX_LIGHTSTYLES');
-			CL.lightstyle[i] = MSG.ReadString();
-			continue;
-		case Protocol.svc.sound:
-			await CL.ParseStartSoundPacket();
-			continue;
-		case Protocol.svc.stopsound:
-			i = MSG.ReadShort();
-			S.StopSound(i >> 3, i & 7);
-			continue;
-		case Protocol.svc.updatename:
-			i = MSG.ReadByte();
-			if (i >= CL.state.maxclients)
-				await Host.Error('CL.ParseServerMessage: svc_updatename > MAX_SCOREBOARD');
-			CL.state.scores[i].name = MSG.ReadString();
-			continue;
-		case Protocol.svc.updatefrags:
-			i = MSG.ReadByte();
-			if (i >= CL.state.maxclients)
-				await Host.Error('CL.ParseServerMessage: svc_updatefrags > MAX_SCOREBOARD');
-			CL.state.scores[i].frags = MSG.ReadShort();
-			continue;
-		case Protocol.svc.updatecolors:
-			i = MSG.ReadByte();
-			if (i >= CL.state.maxclients)
-				await Host.Error('CL.ParseServerMessage: svc_updatecolors > MAX_SCOREBOARD');
-			CL.state.scores[i].colors = MSG.ReadByte();
-			continue;
-		case Protocol.svc.particle:
-			R.ParseParticleEffect();
-			continue;
-		case Protocol.svc.spawnbaseline:
-			CL.ParseBaseline(CL.EntityNum(MSG.ReadShort()));
-			continue;
-		case Protocol.svc.spawnstatic:
-			CL.ParseStatic();
-			continue;
-		case Protocol.svc.temp_entity:
-			await CL.ParseTEnt();
-			continue;
-		case Protocol.svc.setpause:
-			CL.state.paused = MSG.ReadByte() !== 0;
-			if (CL.state.paused === true)
-				CDAudio.Pause();
-			else
-				CDAudio.Resume();
-			continue;
-		case Protocol.svc.signonnum:
-			i = MSG.ReadByte();
-			if (i <= CL.cls.signon)
-				await Host.Error('Received signon ' + i + ' when at ' + CL.cls.signon);
-			CL.cls.signon = i;
-			CL.SignonReply();
-			continue;
-		case Protocol.svc.killedmonster:
-			++CL.state.stats[Def.stat.monsters];
-			continue;
-		case Protocol.svc.foundsecret:
-			++CL.state.stats[Def.stat.secrets];
-			continue;
-		case Protocol.svc.updatestat:
-			i = MSG.ReadByte();
-			if (i >= 32)
-				Sys.Error('svc_updatestat: ' + i + ' is invalid');
-			CL.state.stats[i] = MSG.ReadLong();
-			continue;
-		case Protocol.svc.spawnstaticsound:
-			await CL.ParseStaticSound();
-			continue;
-		case Protocol.svc.cdtrack:
-			CL.state.cdtrack = MSG.ReadByte();
-			MSG.ReadByte();
-			if (((CL.cls.demoplayback === true) || (CL.cls.demorecording === true)) && (CL.cls.forcetrack !== -1))
-				await CDAudio.Play(CL.cls.forcetrack, true);
-			else
-				await CDAudio.Play(CL.state.cdtrack, true);
-			continue;
-		case Protocol.svc.intermission:
-			CL.state.intermission = 1;
-			CL.state.completed_time = CL.state.time;
-			SCR.recalc_refdef = true;
-			continue;
-		case Protocol.svc.finale:
-			CL.state.intermission = 2;
-			CL.state.completed_time = CL.state.time;
-			SCR.recalc_refdef = true;
-			SCR.CenterPrint(MSG.ReadString());
-			continue;
-		case Protocol.svc.cutscene:
-			CL.state.intermission = 3;
-			CL.state.completed_time = CL.state.time;
-			SCR.recalc_refdef = true;
-			SCR.CenterPrint(MSG.ReadString());
-			continue;
-		case Protocol.svc.sellscreen:
-			await Cmd.ExecuteString('help');
-			continue;
+			case Protocol.svc.nop:
+				continue;
+			case Protocol.svc.time:
+				CL.state.mtime[1] = CL.state.mtime[0];
+				CL.state.mtime[0] = MSG.ReadFloat();
+				continue;
+			case Protocol.svc.clientdata:
+				CL.ParseClientdata(MSG.ReadShort());
+				continue;
+			case Protocol.svc.version:
+				i = MSG.ReadLong();
+				if (i !== Protocol.version)
+					await Host.Error('CL.ParseServerMessage: Server is protocol ' + i + ' instead of ' + Protocol.version + '\n');
+				continue;
+			case Protocol.svc.disconnect:
+				await Host.EndGame('Server disconnected\n');
+			case Protocol.svc.print:
+				Con.Print(MSG.ReadString());
+				continue;
+			case Protocol.svc.centerprint:
+				SCR.CenterPrint(MSG.ReadString());
+				continue;
+			case Protocol.svc.stufftext:
+				Cmd.text += MSG.ReadString();
+				continue;
+			case Protocol.svc.damage:
+				V.ParseDamage();
+				continue;
+			case Protocol.svc.serverinfo:
+				await CL.ParseServerInfo();
+				SCR.recalc_refdef = true;
+				continue;
+			case Protocol.svc.setangle:
+				CL.state.viewangles[0] = MSG.ReadAngle();
+				CL.state.viewangles[1] = MSG.ReadAngle();
+				CL.state.viewangles[2] = MSG.ReadAngle();
+				continue;
+			case Protocol.svc.setview:
+				CL.state.viewentity = MSG.ReadShort();
+				continue;
+			case Protocol.svc.lightstyle:
+				i = MSG.ReadByte();
+				if (i >= 64)
+					Sys.Error('svc_lightstyle > MAX_LIGHTSTYLES');
+				CL.lightstyle[i] = MSG.ReadString();
+				continue;
+			case Protocol.svc.sound:
+				await CL.ParseStartSoundPacket();
+				continue;
+			case Protocol.svc.stopsound:
+				i = MSG.ReadShort();
+				S.StopSound(i >> 3, i & 7);
+				continue;
+			case Protocol.svc.updatename:
+				i = MSG.ReadByte();
+				if (i >= CL.state.maxclients)
+					await Host.Error('CL.ParseServerMessage: svc_updatename > MAX_SCOREBOARD');
+				CL.state.scores[i].name = MSG.ReadString();
+				continue;
+			case Protocol.svc.updatefrags:
+				i = MSG.ReadByte();
+				if (i >= CL.state.maxclients)
+					await Host.Error('CL.ParseServerMessage: svc_updatefrags > MAX_SCOREBOARD');
+				CL.state.scores[i].frags = MSG.ReadShort();
+				continue;
+			case Protocol.svc.updatecolors:
+				i = MSG.ReadByte();
+				if (i >= CL.state.maxclients)
+					await Host.Error('CL.ParseServerMessage: svc_updatecolors > MAX_SCOREBOARD');
+				CL.state.scores[i].colors = MSG.ReadByte();
+				continue;
+			case Protocol.svc.particle:
+				R.ParseParticleEffect();
+				continue;
+			case Protocol.svc.spawnbaseline:
+				CL.ParseBaseline(CL.EntityNum(MSG.ReadShort()));
+				continue;
+			case Protocol.svc.spawnstatic:
+				CL.ParseStatic();
+				continue;
+			case Protocol.svc.temp_entity:
+				await CL.ParseTEnt();
+				continue;
+			case Protocol.svc.setpause:
+				CL.state.paused = MSG.ReadByte() !== 0;
+				if (CL.state.paused === true)
+					CDAudio.Pause();
+				else
+					CDAudio.Resume();
+				continue;
+			case Protocol.svc.signonnum:
+				i = MSG.ReadByte();
+				if (i <= CL.cls.signon)
+					await Host.Error('Received signon ' + i + ' when at ' + CL.cls.signon);
+				CL.cls.signon = i;
+				CL.SignonReply();
+				continue;
+			case Protocol.svc.killedmonster:
+				++CL.state.stats[Def.stat.monsters];
+				continue;
+			case Protocol.svc.foundsecret:
+				++CL.state.stats[Def.stat.secrets];
+				continue;
+			case Protocol.svc.updatestat:
+				i = MSG.ReadByte();
+				if (i >= 32)
+					Sys.Error('svc_updatestat: ' + i + ' is invalid');
+				CL.state.stats[i] = MSG.ReadLong();
+				continue;
+			case Protocol.svc.spawnstaticsound:
+				await CL.ParseStaticSound();
+				continue;
+			case Protocol.svc.cdtrack:
+				CL.state.cdtrack = MSG.ReadByte();
+				MSG.ReadByte();
+				if (((CL.cls.demoplayback === true) || (CL.cls.demorecording === true)) && (CL.cls.forcetrack !== -1))
+					await CDAudio.Play(CL.cls.forcetrack, true);
+				else
+					await CDAudio.Play(CL.state.cdtrack, true);
+				continue;
+			case Protocol.svc.intermission:
+				CL.state.intermission = 1;
+				CL.state.completed_time = CL.state.time;
+				SCR.recalc_refdef = true;
+				continue;
+			case Protocol.svc.finale:
+				CL.state.intermission = 2;
+				CL.state.completed_time = CL.state.time;
+				SCR.recalc_refdef = true;
+				SCR.CenterPrint(MSG.ReadString());
+				continue;
+			case Protocol.svc.cutscene:
+				CL.state.intermission = 3;
+				CL.state.completed_time = CL.state.time;
+				SCR.recalc_refdef = true;
+				SCR.CenterPrint(MSG.ReadString());
+				continue;
+			case Protocol.svc.sellscreen:
+				await Cmd.ExecuteString('help');
+				continue;
 		}
 		await Host.Error('CL.ParseServerMessage: Illegible server message\n');
 	}
@@ -1563,8 +1524,7 @@ CL.ParseServerMessage = async function()
 
 CL.temp_entities = [];
 
-CL.InitTEnts = async function()
-{
+CL.InitTEnts = async () => {
 	CL.sfx_wizhit = await S.PrecacheSound('wizard/hit.wav');
 	CL.sfx_knighthit = await S.PrecacheSound('hknight/hit.wav');
 	CL.sfx_tink1 = await S.PrecacheSound('weapons/tink1.wav');
@@ -1574,8 +1534,7 @@ CL.InitTEnts = async function()
 	CL.sfx_r_exp3 = await S.PrecacheSound('weapons/r_exp3.wav');
 };
 
-CL.ParseBeam = function(m)
-{
+CL.ParseBeam = (m) => {
 	var ent = MSG.ReadShort();
 	var start = [MSG.ReadCoord(), MSG.ReadCoord(), MSG.ReadCoord()];
 	var end = [MSG.ReadCoord(), MSG.ReadCoord(), MSG.ReadCoord()];
@@ -1606,8 +1565,7 @@ CL.ParseBeam = function(m)
 	Con.Print('beam list overflow!\n');
 };
 
-CL.ParseTEnt = async function()
-{
+CL.ParseTEnt = async () => {
 	var type = MSG.ReadByte();
 
 	switch (type)
@@ -1682,16 +1640,14 @@ CL.ParseTEnt = async function()
 	Sys.Error('CL.ParseTEnt: bad type');
 };
 
-CL.NewTempEntity = function()
-{
+CL.NewTempEntity = () => {
 	var ent = {frame: 0, syncbase: 0.0, skinnum: 0};
 	CL.temp_entities[CL.num_temp_entities++] = ent;
 	CL.visedicts[CL.numvisedicts++] = ent;
 	return ent;
 };
 
-CL.UpdateTEnts = function()
-{
+CL.UpdateTEnts = () => {
 	CL.num_temp_entities = 0;
 	var i, b, dist = [], yaw, pitch, org = [], d, ent;
 	for (i = 0; i <= 23; ++i)

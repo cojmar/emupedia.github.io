@@ -2,8 +2,7 @@ CDAudio = {};
 
 CDAudio.known = [];
 
-CDAudio.Play = async function(track, looping)
-{
+CDAudio.Play = async (track, looping) => {
 	if ((CDAudio.initialized !== true) || (CDAudio.enabled !== true))
 		return;
 	track -= 2;
@@ -30,8 +29,7 @@ CDAudio.Play = async function(track, looping)
 	await CDAudio.cd.play();
 };
 
-CDAudio.Stop = function()
-{
+CDAudio.Stop = () => {
 	if ((CDAudio.initialized !== true) || (CDAudio.enabled !== true))
 		return;
 	if (CDAudio.cd != null)
@@ -40,24 +38,21 @@ CDAudio.Stop = function()
 	CDAudio.cd = null;
 };
 
-CDAudio.Pause = function()
-{
+CDAudio.Pause = () => {
 	if ((CDAudio.initialized !== true) || (CDAudio.enabled !== true))
 		return;
 	if (CDAudio.cd != null)
 		CDAudio.cd.pause();
 };
 
-CDAudio.Resume = function()
-{
+CDAudio.Resume = () => {
 	if ((CDAudio.initialized !== true) || (CDAudio.enabled !== true))
 		return;
 	if (CDAudio.cd != null)
 		CDAudio.cd.play();
 };
 
-CDAudio.CD_f = async function()
-{
+CDAudio.CD_f = async () => {
 	if ((CDAudio.initialized !== true) || (Cmd.argv.length <= 1))
 		return;
 	var command = Cmd.argv[1].toLowerCase();
@@ -97,8 +92,7 @@ CDAudio.CD_f = async function()
 	}
 };
 
-CDAudio.Update = function()
-{
+CDAudio.Update = () => {
 	if ((CDAudio.initialized !== true) || (CDAudio.enabled !== true))
 		return;
 	if (S.bgmvolume.value === CDAudio.cdvolume)
@@ -112,7 +106,7 @@ CDAudio.Update = function()
 		CDAudio.cd.volume = CDAudio.cdvolume;
 };
 
-CDAudio.TrackExists = async function(trackPath) {
+CDAudio.TrackExists = async (trackPath) => {
 	return new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
 		xhr.open('HEAD', trackPath);
@@ -126,8 +120,7 @@ CDAudio.TrackExists = async function(trackPath) {
 	})
 };
 
-CDAudio.Init = async function()
-{
+CDAudio.Init = async () => {
 	Cmd.AddCommand('cd', CDAudio.CD_f);
 	if (COM.CheckParm('-nocdaudio') != null)
 		return;
@@ -137,7 +130,7 @@ CDAudio.Init = async function()
 		track = '/media/quake' + (i <= 9 ? '0' : '') + i + '.ogg';
 		for (j = COM.searchpaths.length - 1; j >= 0; --j)
 		{
-			const exists = await CDAudio.TrackExists(COM.searchpaths[j].filename + track)
+			const exists = await CDAudio.TrackExists(COM.searchpaths[j].filename + track);
 			if ((exists.status >= 200) && (exists.status <= 299))
 			{
 				CDAudio.known[i - 1] = COM.searchpaths[j].filename + track;

@@ -1,17 +1,14 @@
 Sbar = {};
 
-Sbar.ShowScores = function()
-{
+Sbar.ShowScores = () => {
 	Sbar.showscores = true;
 };
 
-Sbar.DontShowScores = function()
-{
+Sbar.DontShowScores = () => {
 	Sbar.showscores = false;
 };
 
-Sbar.Init = async function()
-{
+Sbar.Init = async () => {
 	var i;
 
 	Sbar.nums = [[], []];
@@ -172,32 +169,28 @@ Sbar.Init = async function()
 	}
 };
 
-Sbar.DrawPic = function(x, y, pic)
-{
+Sbar.DrawPic = (x, y, pic) => {
 	if (CL.state.gametype === 1)
 		Draw.Pic(x, y + VID.height - 24, pic);
 	else
 		Draw.Pic(x + (VID.width >> 1) - 160, y + VID.height - 24, pic);
 };
 
-Sbar.DrawCharacter = function(x, y, num)
-{
+Sbar.DrawCharacter = (x, y, num) => {
 	if (CL.state.gametype === 1)
 		Draw.Character(x + 4, y + VID.height - 24, num);
 	else
 		Draw.Character(x + (VID.width >> 1) - 156, y + VID.height - 24, num);
 };
 
-Sbar.DrawString = function(x, y, str)
-{
+Sbar.DrawString = (x, y, str) => {
 	if (CL.state.gametype === 1)
 		Draw.String(x, y + VID.height - 24, str);
 	else
 		Draw.String(x + (VID.width >> 1) - 160, y + VID.height - 24, str);
 };
 
-Sbar.DrawNum = function(x, y, num, digits, color)
-{
+Sbar.DrawNum = (x, y, num, digits, color) => {
 	var str = num.toString();
 	if (str.length > digits)
 		str = str.substring(str.length - digits, str.length);
@@ -214,8 +207,7 @@ Sbar.DrawNum = function(x, y, num, digits, color)
 
 Sbar.fragsort = [];
 
-Sbar.SortFrags = function()
-{
+Sbar.SortFrags = () => {
 	Sbar.scoreboardlines = 0;
 	var i, j, k;
 	for (i = 0; i < CL.state.maxclients; ++i)
@@ -237,8 +229,7 @@ Sbar.SortFrags = function()
 	}
 };
 
-Sbar.SoloScoreboard = function()
-{
+Sbar.SoloScoreboard = () => {
 	var str;
 
 	Sbar.DrawString(8, 4, 'Monsters:    /');
@@ -264,8 +255,7 @@ Sbar.SoloScoreboard = function()
 	Sbar.DrawString(232 - (CL.state.levelname.length << 2), 12, CL.state.levelname);
 };
 
-Sbar.DrawInventory = function()
-{
+Sbar.DrawInventory = () => {
 	var i;
 
 	if (COM.rogue === true)
@@ -389,8 +379,7 @@ Sbar.DrawInventory = function()
 	}
 };
 
-Sbar.DrawFrags = function()
-{
+Sbar.DrawFrags = () => {
 	Sbar.SortFrags();
 	var l = Sbar.scoreboardlines <= 4 ? Sbar.scoreboardlines : 4;
 	var x = 23;
@@ -416,8 +405,7 @@ Sbar.DrawFrags = function()
 	}
 };
 
-Sbar.DrawFace = function()
-{
+Sbar.DrawFace = () => {
 	if ((COM.rogue === true) && (CL.state.maxclients !== 1) && (Host.teamplay.value >= 4) && (Host.teamplay.value <= 6))
 	{
 		var s = CL.state.scores[CL.state.viewentity - 1];
@@ -467,8 +455,7 @@ Sbar.DrawFace = function()
 	Sbar.DrawPic(112, 0, Sbar.faces[CL.state.stats[Def.stat.health] >= 100.0 ? 4 : Math.floor(CL.state.stats[Def.stat.health] / 20.0)][CL.state.time <= CL.state.faceanimtime ? 1 : 0]);
 };
 
-Sbar.Draw = function()
-{
+Sbar.Draw = () => {
 	if (SCR.con_current >= 200)
 		return;
 
@@ -546,8 +533,7 @@ Sbar.Draw = function()
 		Sbar.MiniDeathmatchOverlay();
 };
 
-Sbar.IntermissionNumber = function(x, y, num)
-{
+Sbar.IntermissionNumber = (x, y, num) => {
 	var str = num.toString();
 	if (str.length > 3)
 		str = str.substring(str.length - 3, str.length);
@@ -562,8 +548,7 @@ Sbar.IntermissionNumber = function(x, y, num)
 	}
 };
 
-Sbar.DeathmatchOverlay = function()
-{
+Sbar.DeathmatchOverlay = () => {
 	Draw.Pic((VID.width - Sbar.ranking.width) >> 1, 8, Sbar.ranking);
 	Sbar.SortFrags();
 
@@ -585,8 +570,7 @@ Sbar.DeathmatchOverlay = function()
 	}
 };
 
-Sbar.MiniDeathmatchOverlay = function()
-{
+Sbar.MiniDeathmatchOverlay = () => {
 	Sbar.SortFrags();
 	var l = Sbar.scoreboardlines;
 	var y = VID.height - Sbar.lines;
@@ -626,8 +610,7 @@ Sbar.MiniDeathmatchOverlay = function()
 	}
 };
 
-Sbar.IntermissionOverlay = function()
-{
+Sbar.IntermissionOverlay = () => {
 	if (CL.state.gametype === 1)
 	{
 		Sbar.DeathmatchOverlay();
@@ -652,7 +635,6 @@ Sbar.IntermissionOverlay = function()
 	Sbar.IntermissionNumber(240, 144, CL.state.stats[Def.stat.totalmonsters]);
 };
 
-Sbar.FinaleOverlay = function()
-{
+Sbar.FinaleOverlay = () => {
 	Draw.Pic((VID.width - Sbar.finale.width) >> 1, 16, Sbar.finale);
 };

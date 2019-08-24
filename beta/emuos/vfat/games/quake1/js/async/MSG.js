@@ -1,55 +1,45 @@
 MSG = {};
 
-MSG.WriteChar = function(sb, c)
-{
+MSG.WriteChar = (sb, c) => {
 	(new DataView(sb.data)).setInt8(SZ.GetSpace(sb, 1), c);
 };
 
-MSG.WriteByte = function(sb, c)
-{
+MSG.WriteByte = (sb, c) => {
 	(new DataView(sb.data)).setUint8(SZ.GetSpace(sb, 1), c);
 };
 
-MSG.WriteShort = function(sb, c)
-{
+MSG.WriteShort = (sb, c) => {
 	(new DataView(sb.data)).setInt16(SZ.GetSpace(sb, 2), c, true);
 };
 
-MSG.WriteLong = function(sb, c)
-{
+MSG.WriteLong = (sb, c) => {
 	(new DataView(sb.data)).setInt32(SZ.GetSpace(sb, 4), c, true);
 };
 
-MSG.WriteFloat = function(sb, f)
-{
+MSG.WriteFloat = (sb, f) => {
 	(new DataView(sb.data)).setFloat32(SZ.GetSpace(sb, 4), f, true);
 };
 
-MSG.WriteString = function(sb, s)
-{
+MSG.WriteString = (sb, s) => {
 	if (s != null)
 		SZ.Write(sb, new Uint8Array(Q.strmem(s)), s.length);
 	MSG.WriteChar(sb, 0)
 };
 
-MSG.WriteCoord = function(sb, f)
-{
+MSG.WriteCoord = (sb, f) => {
 	MSG.WriteShort(sb, f * 8.0);
 };
 
-MSG.WriteAngle = function(sb, f)
-{
+MSG.WriteAngle = (sb, f) => {
 	MSG.WriteByte(sb, ((f >> 0) * (256.0 / 360.0)) & 255);
 };
 
-MSG.BeginReading = function()
-{
+MSG.BeginReading = () => {
 	MSG.readcount = 0;
 	MSG.badread = false;
 };
 
-MSG.ReadChar = function()
-{
+MSG.ReadChar = () => {
 	if (MSG.readcount >= NET.message.cursize)
 	{
 		MSG.badread = true;
@@ -60,8 +50,7 @@ MSG.ReadChar = function()
 	return c;
 };
 
-MSG.ReadByte = function()
-{
+MSG.ReadByte = () => {
 	if (MSG.readcount >= NET.message.cursize)
 	{
 		MSG.badread = true;
@@ -72,8 +61,7 @@ MSG.ReadByte = function()
 	return c;
 };
 
-MSG.ReadShort = function()
-{
+MSG.ReadShort = () => {
 	if ((MSG.readcount + 2) > NET.message.cursize)
 	{
 		MSG.badread = true;
@@ -84,8 +72,7 @@ MSG.ReadShort = function()
 	return c;
 };
 
-MSG.ReadLong = function()
-{
+MSG.ReadLong = () => {
 	if ((MSG.readcount + 4) > NET.message.cursize)
 	{
 		MSG.badread = true;
@@ -96,8 +83,7 @@ MSG.ReadLong = function()
 	return c;
 };
 
-MSG.ReadFloat = function()
-{
+MSG.ReadFloat = () => {
 	if ((MSG.readcount + 4) > NET.message.cursize)
 	{
 		MSG.badread = true;
@@ -108,8 +94,7 @@ MSG.ReadFloat = function()
 	return f;
 };
 
-MSG.ReadString = function()
-{
+MSG.ReadString = () => {
 	var string = [], l, c;
 	for (l = 0; l < 2048; ++l)
 	{
@@ -121,12 +106,10 @@ MSG.ReadString = function()
 	return string.join('');
 };
 
-MSG.ReadCoord = function()
-{
+MSG.ReadCoord = () => {
 	return MSG.ReadShort() * 0.125;
 };
 
-MSG.ReadAngle = function()
-{
+MSG.ReadAngle = () => {
 	return MSG.ReadChar() * 1.40625;
 };

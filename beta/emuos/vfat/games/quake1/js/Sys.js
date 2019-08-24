@@ -338,6 +338,7 @@ Sys.ongamepadpoll = function(e) {
 
 	if (Key.gamepadlastbuttons) {
 		for (var i = 0; i < e.buttons.length; i++) {
+			// noinspection DuplicatedCode
 			if (e.buttons[i].value !== Key.gamepadlastbuttons[i]) {
 				if (e.buttons[i].value) {
 					Key.Event(Key.k['joy' + (i + 1)], true);

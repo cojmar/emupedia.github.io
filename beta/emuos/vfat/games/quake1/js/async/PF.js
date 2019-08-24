@@ -1,29 +1,25 @@
 PF = {};
 
-PF.VarString = function(first)
-{
+PF.VarString = (first) => {
 	var i, out = '';
 	for (i = first; i < PR.argc; ++i)
 		out += PR.GetString(PR.globals_int[4 + i * 3]);
 	return out;
 };
 
-PF.error = async function()
-{
+PF.error = async () => {
 	Con.Print('======SERVER ERROR in ' + PR.GetString(PR.xfunction.name) + '\n' + PF.VarString(0) + '\n');
 	ED.Print(SV.server.edicts[PR.globals_int[PR.globalvars.self]]);
 	await Host.Error('Program error');
 };
 
-PF.objerror = async function()
-{
+PF.objerror = async () => {
 	Con.Print('======OBJECT ERROR in ' + PR.GetString(PR.xfunction.name) + '\n' + PF.VarString(0) + '\n');
 	ED.Print(SV.server.edicts[PR.globals_int[PR.globalvars.self]]);
 	await Host.Error('Program error');
 };
 
-PF.makevectors = function()
-{
+PF.makevectors = () => {
 	var forward = [], right = [], up = [];
 	Vec.AngleVectors([PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]], forward, right, up);
 	var i;
@@ -35,8 +31,7 @@ PF.makevectors = function()
 	}
 };
 
-PF.setorigin = async function()
-{
+PF.setorigin = async () => {
 	var e = SV.server.edicts[PR.globals_int[4]];
 	e.v_float[PR.entvars.origin] = PR.globals_float[7];
 	e.v_float[PR.entvars.origin1] = PR.globals_float[8];
@@ -44,8 +39,7 @@ PF.setorigin = async function()
 	await SV.LinkEdict(e);
 };
 
-PF.SetMinMaxSize = async function(e, min, max)
-{
+PF.SetMinMaxSize = async (e, min, max) => {
 	if ((min[0] > max[0]) || (min[1] > max[1]) || (min[2] > max[2]))
 		await PR.RunError('backwards mins/maxs');
 	ED.SetVector(e, PR.entvars.mins, min);
@@ -56,15 +50,13 @@ PF.SetMinMaxSize = async function(e, min, max)
 	await SV.LinkEdict(e);
 };
 
-PF.setsize = function()
-{
+PF.setsize = () => {
 	PF.SetMinMaxSize(SV.server.edicts[PR.globals_int[4]],
 		[PR.globals_float[7], PR.globals_float[8], PR.globals_float[9]],
 		[PR.globals_float[10], PR.globals_float[11], PR.globals_float[12]]);
 };
 
-PF.setmodel = async function()
-{
+PF.setmodel = async () => {
 	var e = SV.server.edicts[PR.globals_int[4]];
 	var m = PR.GetString(PR.globals_int[7]);
 	var i;
@@ -85,13 +77,11 @@ PF.setmodel = async function()
 		await PF.SetMinMaxSize(e, Vec.origin, Vec.origin);
 };
 
-PF.bprint = function()
-{
+PF.bprint = () => {
 	Host.BroadcastPrint(PF.VarString(0));
 };
 
-PF.sprint = function()
-{
+PF.sprint = () => {
 	var entnum = PR.globals_int[4];
 	if ((entnum <= 0) || (entnum > SV.svs.maxclients))
 	{
@@ -103,8 +93,7 @@ PF.sprint = function()
 	MSG.WriteString(client.message, PF.VarString(1));
 };
 
-PF.centerprint = function()
-{
+PF.centerprint = () => {
 	var entnum = PR.globals_int[4];
 	if ((entnum <= 0) || (entnum > SV.svs.maxclients))
 	{
@@ -116,8 +105,7 @@ PF.centerprint = function()
 	MSG.WriteString(client.message, PF.VarString(1));
 };
 
-PF.normalize = function()
-{
+PF.normalize = () => {
 	var newvalue = [PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]];
 	Vec.Normalize(newvalue);
 	PR.globals_float[1] = newvalue[0];
@@ -125,13 +113,11 @@ PF.normalize = function()
 	PR.globals_float[3] = newvalue[2];
 };
 
-PF.vlen = function()
-{
+PF.vlen = () => {
 	PR.globals_float[1] = Math.sqrt(PR.globals_float[4] * PR.globals_float[4] + PR.globals_float[5] * PR.globals_float[5] + PR.globals_float[6] * PR.globals_float[6]);
 };
 
-PF.vectoyaw = function()
-{
+PF.vectoyaw = () => {
 	var value1 = PR.globals_float[4], value2 = PR.globals_float[5];
 	if ((value1 === 0.0) && (value2 === 0.0))
 	{
@@ -144,8 +130,7 @@ PF.vectoyaw = function()
 	PR.globals_float[1] = yaw;
 };
 
-PF.vectoangles = function()
-{
+PF.vectoangles = () => {
 	PR.globals_float[3] = 0.0;
 	var value1 = [PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]];
 	if ((value1[0] === 0.0) && (value1[1] === 0.0))
@@ -168,20 +153,17 @@ PF.vectoangles = function()
 	PR.globals_float[2] = yaw;
 };
 
-PF.random = function()
-{
+PF.random = () => {
 	PR.globals_float[1] = Math.random();
 };
 
-PF.particle = function()
-{
+PF.particle = () => {
 	SV.StartParticle([PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]],
 		[PR.globals_float[7], PR.globals_float[8], PR.globals_float[9]],
 		PR.globals_float[10] >> 0, PR.globals_float[13] >> 0);
 };
 
-PF.ambientsound = function()
-{
+PF.ambientsound = () => {
 	var samp = PR.GetString(PR.globals_int[7]), i;
 	for (i = 0; i < SV.server.sound_precache.length; ++i)
 	{
@@ -203,8 +185,7 @@ PF.ambientsound = function()
 	MSG.WriteByte(signon, PR.globals_float[13] * 64.0);
 };
 
-PF.sound = async function()
-{
+PF.sound = async () => {
 	SV.StartSound(SV.server.edicts[PR.globals_int[4]],
 		PR.globals_float[7] >> 0,
 		PR.GetString(PR.globals_int[10]),
@@ -212,13 +193,11 @@ PF.sound = async function()
 		PR.globals_float[16]);
 };
 
-PF.breakstatement = function()
-{
+PF.breakstatement = () => {
 	Con.Print('break statement\n');
 };
 
-PF.traceline = function()
-{
+PF.traceline = () => {
 	var trace = SV.Move([PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]],
 		Vec.origin, Vec.origin, [PR.globals_float[7], PR.globals_float[8], PR.globals_float[9]],
 		PR.globals_float[10] >> 0, SV.server.edicts[PR.globals_int[13]]);
@@ -238,8 +217,7 @@ PF.traceline = function()
 	PR.globals_int[PR.globalvars.trace_ent] = (trace.ent != null) ? trace.ent.num : 0;
 };
 
-PF.newcheckclient = function(check)
-{
+PF.newcheckclient = (check) => {
 	if (check <= 0)
 		check = 1;
 	else if (check > SV.svs.maxclients)
@@ -269,8 +247,7 @@ PF.newcheckclient = function(check)
 	return i;
 };
 
-PF.checkclient = function()
-{
+PF.checkclient = () => {
 	if ((SV.server.time - SV.server.lastchecktime) >= 0.1)
 	{
 		SV.server.lastcheck = PF.newcheckclient(SV.server.lastcheck);
@@ -296,8 +273,7 @@ PF.checkclient = function()
 	PR.globals_int[1] = ent.num;
 };
 
-PF.stuffcmd = async function()
-{
+PF.stuffcmd = async () => {
 	var entnum = PR.globals_int[4];
 	if ((entnum <= 0) || (entnum > SV.svs.maxclients))
 		await PR.RunError('Parm 0 not a client');
@@ -306,24 +282,20 @@ PF.stuffcmd = async function()
 	MSG.WriteString(client.message, PR.GetString(PR.globals_int[7]));
 };
 
-PF.localcmd = function()
-{
+PF.localcmd = () => {
 	Cmd.text += PR.GetString(PR.globals_int[4]);
 };
 
-PF.cvar = function()
-{
+PF.cvar = () => {
 	var v = Cvar.FindVar(PR.GetString(PR.globals_int[4]));
 	PR.globals_float[1] = v != null ? v.value : 0.0;
 };
 
-PF.cvar_set = function()
-{
+PF.cvar_set = () => {
 	Cvar.Set(PR.GetString(PR.globals_int[4]), PR.GetString(PR.globals_int[7]));
 };
 
-PF.findradius = function()
-{
+PF.findradius = () => {
 	var chain = 0;
 	var org = [PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]], eorg = [];
 	var rad = PR.globals_float[7];
@@ -346,13 +318,11 @@ PF.findradius = function()
 	PR.globals_int[1] = chain;
 };
 
-PF.dprint = function()
-{
+PF.dprint = () => {
 	Con.DPrint(PF.VarString(0));
 };
 
-PF.ftos = function()
-{
+PF.ftos = () => {
 	var v = PR.globals_float[4];
 	if (v === Math.floor(v))
 		PR.TempString(v.toString());
@@ -361,31 +331,26 @@ PF.ftos = function()
 	PR.globals_int[1] = PR.string_temp;
 };
 
-PF.fabs = function()
-{
+PF.fabs = () => {
 	PR.globals_float[1] = Math.abs(PR.globals_float[4]);
 };
 
-PF.vtos = function()
-{
+PF.vtos = () => {
 	PR.TempString(PR.globals_float[4].toFixed(1)
 		+ ' ' + PR.globals_float[5].toFixed(1)
 		+ ' ' + PR.globals_float[6].toFixed(1));
 	PR.globals_int[1] = PR.string_temp;
 };
 
-PF.Spawn = function()
-{
+PF.Spawn = () => {
 	PR.globals_int[1] = ED.Alloc().num;
 };
 
-PF.Remove = function()
-{
+PF.Remove = () => {
 	ED.Free(SV.server.edicts[PR.globals_int[4]]);
 };
 
-PF.Find = function()
-{
+PF.Find = () => {
 	var e = PR.globals_int[4];
 	var f = PR.globals_int[7];
 	var s = PR.GetString(PR.globals_int[10]);
@@ -404,8 +369,7 @@ PF.Find = function()
 	PR.globals_int[1] = 0;
 };
 
-PF.MoveToGoal = async function()
-{
+PF.MoveToGoal = async () => {
 	var ent = SV.server.edicts[PR.globals_int[PR.globalvars.self]];
 	if ((ent.v_float[PR.entvars.flags] & (SV.fl.onground + SV.fl.fly + SV.fl.swim)) === 0)
 	{
@@ -420,13 +384,11 @@ PF.MoveToGoal = async function()
 		await SV.NewChaseDir(ent, goal, dist);
 };
 
-PF.precache_file = function()
-{
+PF.precache_file = () => {
 	PR.globals_int[1] = PR.globals_int[4];
 };
 
-PF.precache_sound = async function()
-{
+PF.precache_sound = async () => {
 	var s = PR.GetString(PR.globals_int[4]);
 	PR.globals_int[1] = PR.globals_int[4];
 	await PR.CheckEmptyString(s);
@@ -439,8 +401,7 @@ PF.precache_sound = async function()
 	SV.server.sound_precache[i] = s;
 };
 
-PF.precache_model = async function()
-{
+PF.precache_model = async () => {
 	if (SV.server.loading !== true)
 		await PR.RunError('PF.Precache_*: Precache can only be done in spawn functions');
 	var s = PR.GetString(PR.globals_int[4]);
@@ -456,28 +417,23 @@ PF.precache_model = async function()
 	SV.server.models[i] = await Mod.ForName(s, true);
 };
 
-PF.coredump = function()
-{
+PF.coredump = () => {
 	ED.PrintEdicts();
 };
 
-PF.traceon = function()
-{
+PF.traceon = () => {
 	PR.trace = true;
 };
 
-PF.traceoff = function()
-{
+PF.traceoff = () => {
 	PR.trace = false;
 };
 
-PF.eprint = function()
-{
+PF.eprint = () => {
 	ED.Print(SV.server.edicts[PR.globals_float[4]]);
 };
 
-PF.walkmove = async function()
-{
+PF.walkmove = async () => {
 	var ent = SV.server.edicts[PR.globals_int[PR.globalvars.self]];
 	if ((ent.v_float[PR.entvars.flags] & (SV.fl.onground + SV.fl.fly + SV.fl.swim)) === 0)
 	{
@@ -492,8 +448,7 @@ PF.walkmove = async function()
 	PR.globals_int[PR.globalvars.self] = ent.num;
 };
 
-PF.droptofloor = async function()
-{
+PF.droptofloor = async () => {
 	var ent = SV.server.edicts[PR.globals_int[PR.globalvars.self]];
 	var trace = SV.Move(ED.Vector(ent, PR.entvars.origin),
 		ED.Vector(ent, PR.entvars.mins), ED.Vector(ent, PR.entvars.maxs),
@@ -510,8 +465,7 @@ PF.droptofloor = async function()
 	PR.globals_float[1] = 1.0;
 };
 
-PF.lightstyle = function()
-{
+PF.lightstyle = () => {
 	var style = PR.globals_float[4] >> 0;
 	var val = PR.GetString(PR.globals_int[7]);
 	SV.server.lightstyles[style] = val;
@@ -529,34 +483,28 @@ PF.lightstyle = function()
 	}
 };
 
-PF.rint = function()
-{
+PF.rint = () => {
 	var f = PR.globals_float[4];
 	PR.globals_float[1] = (f >= 0.0 ? f + 0.5 : f - 0.5) >> 0;
 };
 
-PF.floor = function()
-{
+PF.floor = () => {
 	PR.globals_float[1] = Math.floor(PR.globals_float[4]);
 };
 
-PF.ceil = function()
-{
+PF.ceil = () => {
 	PR.globals_float[1] = Math.ceil(PR.globals_float[4]);
 };
 
-PF.checkbottom = function()
-{
+PF.checkbottom = () => {
 	PR.globals_float[1] = SV.CheckBottom(SV.server.edicts[PR.globals_int[4]]);
 };
 
-PF.pointcontents = function()
-{
+PF.pointcontents = () => {
 	PR.globals_float[1] = SV.PointContents([PR.globals_float[4], PR.globals_float[5], PR.globals_float[6]]);
 };
 
-PF.nextent = function()
-{
+PF.nextent = () => {
 	var i;
 	for (i = PR.globals_int[4] + 1; i < SV.server.num_edicts; ++i)
 	{
@@ -569,13 +517,11 @@ PF.nextent = function()
 	PR.globals_int[1] = 0;
 };
 
-PF.aim = function()
-{
+PF.aim = () => {
 	var ent = SV.server.edicts[PR.globals_int[4]];
 	var start = [ent.v_float[PR.entvars.origin], ent.v_float[PR.entvars.origin1], ent.v_float[PR.entvars.origin2] + 20.0];
 	var dir = [PR.globals_float[PR.globalvars.v_forward], PR.globals_float[PR.globalvars.v_forward1], PR.globals_float[PR.globalvars.v_forward2]];
-	var end = [start[0] + 2048.0 * dir[0], start[1] + 2048.0 * dir[1], start[2] + 2048.0 * dir[2]];
-	var tr = SV.Move(start, Vec.origin, Vec.origin, end, 0, ent);
+	var tr = SV.Move(start, Vec.origin, Vec.origin, [start[0] + 2048.0 * dir[0], start[1] + 2048.0 * dir[1], start[2] + 2048.0 * dir[2]], 0, ent);
 	if (tr.ent != null)
 	{
 		if ((tr.ent.v_float[PR.entvars.takedamage] === SV.damage.aim) &&
@@ -637,8 +583,7 @@ PF.aim = function()
 	PR.globals_float[3] = bestdir[2];
 };
 
-PF.changeyaw = function()
-{
+PF.changeyaw = () => {
 	var ent = SV.server.edicts[PR.globals_int[PR.globalvars.self]];
 	var current = Vec.Anglemod(ent.v_float[PR.entvars.angles1]);
 	var ideal = ent.v_float[PR.entvars.ideal_yaw];
@@ -663,8 +608,7 @@ PF.changeyaw = function()
 	ent.v_float[PR.entvars.angles1] = Vec.Anglemod(current + move);
 };
 
-PF.WriteDest = async function()
-{
+PF.WriteDest = async () => {
 	switch (PR.globals_float[4] >> 0)
 	{
 	case 0: // broadcast
@@ -682,17 +626,47 @@ PF.WriteDest = async function()
 	await PR.RunError('WriteDest: bad destination');
 };
 
-PF.WriteByte = async function() {MSG.WriteByte(await PF.WriteDest(), PR.globals_float[7]);};
-PF.WriteChar = async function() {MSG.WriteChar(await PF.WriteDest(), PR.globals_float[7]);};
-PF.WriteShort = async function() {MSG.WriteShort(await PF.WriteDest(), PR.globals_float[7]);};
-PF.WriteLong = async function() {MSG.WriteLong(await PF.WriteDest(), PR.globals_float[7]);};
-PF.WriteAngle = async function() {MSG.WriteAngle(await PF.WriteDest(), PR.globals_float[7]);};
-PF.WriteCoord = async function() {MSG.WriteCoord(await PF.WriteDest(), PR.globals_float[7]);};
-PF.WriteString = async function() {MSG.WriteString(await PF.WriteDest(), PR.GetString(PR.globals_int[7]));};
-PF.WriteEntity = async function() {MSG.WriteShort(await PF.WriteDest(), PR.globals_int[7]);};
+// noinspection DuplicatedCode
+PF.WriteByte = async () => {
+	MSG.WriteByte(await PF.WriteDest(), PR.globals_float[7]);
+};
 
-PF.makestatic = function()
-{
+// noinspection DuplicatedCode
+PF.WriteChar = async () => {
+	MSG.WriteChar(await PF.WriteDest(), PR.globals_float[7]);
+};
+
+// noinspection DuplicatedCode
+PF.WriteShort = async () => {
+	MSG.WriteShort(await PF.WriteDest(), PR.globals_float[7]);
+};
+
+// noinspection DuplicatedCode
+PF.WriteLong = async () => {
+	MSG.WriteLong(await PF.WriteDest(), PR.globals_float[7]);
+};
+
+// noinspection DuplicatedCode
+PF.WriteAngle = async () => {
+	MSG.WriteAngle(await PF.WriteDest(), PR.globals_float[7]);
+};
+
+// noinspection DuplicatedCode
+PF.WriteCoord =async () => {
+	MSG.WriteCoord(await PF.WriteDest(), PR.globals_float[7]);
+};
+
+// noinspection DuplicatedCode
+PF.WriteString = async () => {
+	MSG.WriteString(await PF.WriteDest(), PR.GetString(PR.globals_int[7]));
+};
+
+// noinspection DuplicatedCode
+PF.WriteEntity = async () => {
+	MSG.WriteShort(await PF.WriteDest(), PR.globals_int[7]);
+};
+
+PF.makestatic = () => {
 	var ent = SV.server.edicts[PR.globals_int[4]];
 	var message = SV.server.signon;
 	MSG.WriteByte(message, Protocol.svc.spawnstatic);
@@ -709,8 +683,7 @@ PF.makestatic = function()
 	ED.Free(ent);
 };
 
-PF.setspawnparms = async function()
-{
+PF.setspawnparms = async () => {
 	var i = PR.globals_int[4];
 	if ((i <= 0) || (i > SV.svs.maxclients))
 		await PR.RunError('Entity is not a client');
@@ -719,16 +692,14 @@ PF.setspawnparms = async function()
 		PR.globals_float[PR.globalvars.parms + i] = spawn_parms[i];
 };
 
-PF.changelevel = function()
-{
+PF.changelevel = () => {
 	if (SV.svs.changelevel_issued === true)
 		return;
 	SV.svs.changelevel_issued = true;
 	Cmd.text += 'changelevel ' + PR.GetString(PR.globals_int[4]) + '\n';
 };
 
-PF.Fixme = async function()
-{
+PF.Fixme = async () => {
 	await PR.RunError('unimplemented builtin');
 };
 

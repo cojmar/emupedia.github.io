@@ -1,15 +1,13 @@
 WEBS = {};
 
-WEBS.Init = function()
-{
+WEBS.Init = () => {
 	if ((window.WebSocket == null) || (document.location.protocol === 'https:'))
 		return;
 	WEBS.available = true;
 	return true;
 };
 
-WEBS.Connect = function(host)
-{
+WEBS.Connect = (host) => {
 	if (host.length <= 5)
 		return;
 	if (host.charCodeAt(5) === 47)
@@ -37,12 +35,11 @@ WEBS.Connect = function(host)
 	return 0;
 };
 
-WEBS.CheckNewConnections = function()
+WEBS.CheckNewConnections = () =>
 {
 };
 
-WEBS.GetMessage = function(sock)
-{
+WEBS.GetMessage = (sock) => {
 	if (sock.driverdata == null)
 		return -1;
 	if (sock.driverdata.readyState !== 1)
@@ -55,8 +52,7 @@ WEBS.GetMessage = function(sock)
 	return message[0];
 };
 
-WEBS.SendMessage = function(sock, data)
-{
+WEBS.SendMessage = (sock, data) => {
 	if (sock.driverdata == null)
 		return -1;
 	if (sock.driverdata.readyState !== 1)
@@ -68,8 +64,7 @@ WEBS.SendMessage = function(sock, data)
 	return 1;
 };
 
-WEBS.SendUnreliableMessage = function(sock, data)
-{
+WEBS.SendUnreliableMessage = (sock, data) => {
 	if (sock.driverdata == null)
 		return -1;
 	if (sock.driverdata.readyState !== 1)
@@ -81,35 +76,30 @@ WEBS.SendUnreliableMessage = function(sock, data)
 	return 1;
 };
 
-WEBS.CanSendMessage = function(sock)
-{
+WEBS.CanSendMessage = (sock) => {
 	if (sock.driverdata == null)
 		return;
 	if (sock.driverdata.readyState === 1)
 		return true;
 };
 
-WEBS.Close = function(sock)
-{
+WEBS.Close = (sock) => {
 	if (sock.driverdata != null)
 		sock.driverdata.close(1000);
 };
 
-WEBS.CheckForResend = function()
-{
+WEBS.CheckForResend = () => {
 	if (NET.newsocket.driverdata.readyState === 1)
 		return 1;
 	if (NET.newsocket.driverdata.readyState !== 0)
 		return -1;
 };
 
-WEBS.OnError = function()
-{
+WEBS.OnError = () => {
 	NET.Close(this.data_socket);
 };
 
-WEBS.OnMessage = function(message)
-{
+WEBS.OnMessage = (message) => {
 	var data = message.data;
 	if (typeof(data) === 'string')
 		return;

@@ -5,8 +5,7 @@ IN.mouse_y = 0.0;
 IN.old_mouse_x = 0.0;
 IN.old_mouse_y = 0.0;
 
-IN.StartupMouse = function()
-{
+IN.StartupMouse = () => {
 	IN.m_filter = Cvar.RegisterVariable('m_filter', '1');
 	if (COM.CheckParm('-nomouse') != null)
 		return;
@@ -42,13 +41,11 @@ IN.StartupMouse = function()
 	IN.mouse_avail = true;
 };
 
-IN.Init = function()
-{
+IN.Init = () => {
 	IN.StartupMouse();
 };
 
-IN.Shutdown = function()
-{
+IN.Shutdown = () => {
 	if (IN.mouse_avail === true)
 	{
 		VID.mainwindow.onclick = null;
@@ -57,8 +54,7 @@ IN.Shutdown = function()
 	}
 };
 
-IN.MouseMove = function()
-{
+IN.MouseMove = () => {
 	if (IN.mouse_avail !== true)
 		return;
 
@@ -105,31 +101,27 @@ IN.MouseMove = function()
 		else
 			CL.state.cmd.forwardmove -= CL.m_forward.value * mouse_y;
 	}
-	
+
 	IN.mouse_x = IN.mouse_y = 0;
 };
 
-IN.Move = function()
-{
+IN.Move = () => {
 	IN.MouseMove();
 };
 
-IN.onclick = function()
-{
+IN.onclick = () => {
 	if (document[IN.pointerLockElement] !== this)
 		this[IN.requestPointerLock]();
 };
 
-IN.onmousemove = function(e)
-{
+IN.onmousemove = (e) => {
 	if (document[IN.pointerLockElement] !== VID.mainwindow)
 		return;
 	IN.mouse_x += e[IN.movementX];
 	IN.mouse_y += e[IN.movementY];
 };
 
-IN.onpointerlockchange = async function()
-{
+IN.onpointerlockchange = async () => {
 	if (document[IN.pointerLockElement] === VID.mainwindow)
 		return;
 	await Key.Event(Key.k.escape, true);

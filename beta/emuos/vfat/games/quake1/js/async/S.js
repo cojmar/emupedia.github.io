@@ -11,8 +11,7 @@ S.listener_up = [0.0, 0.0, 0.0];
 
 S.known_sfx = [];
 
-S.Init = async function()
-{
+S.Init = async () => {
 	Con.Print('\nSound Initialization\n');
 	Cmd.AddCommand('play', S.Play);
 	Cmd.AddCommand('playvol', S.PlayVol);
@@ -66,24 +65,21 @@ S.Init = async function()
 	Con.sfx_talk = S.PrecacheSound('misc/talk.wav');
 };
 
-S.NoteOff = function(node)
-{
+S.NoteOff = (node) => {
 	if ((node.playbackState === 1) || (node.playbackState === 2))
 	{
 		try { node.noteOff(0.0); } catch (e) {}
 	}
-}
+};
 
-S.NoteOn = function(node)
-{
+S.NoteOn = (node) => {
 	if ((node.playbackState === 0) || (node.playbackState === 3))
 	{
 		try { node.noteOn(0.0); } catch (e) {}
 	}
-}
+};
 
-S.PrecacheSound = async function(name)
-{
+S.PrecacheSound = async (name) => {
 	if (S.nosound.value !== 0)
 		return;
 	var i, sfx;
@@ -105,8 +101,7 @@ S.PrecacheSound = async function(name)
 	return sfx;
 };
 
-S.PickChannel = function(entnum, entchannel)
-{
+S.PickChannel = (entnum, entchannel) => {
 	var i, channel;
 
 	if (entchannel !== 0)
@@ -154,8 +149,7 @@ S.PickChannel = function(entnum, entchannel)
 	return channel;
 };
 
-S.Spatialize = function(ch)
-{
+S.Spatialize = (ch) => {
 	if (ch.entnum === CL.state.viewentity)
 	{
 		ch.leftvol = ch.master_vol;
@@ -188,8 +182,7 @@ S.Spatialize = function(ch)
 		ch.leftvol = 0.0;
 };
 
-S.StartSound = async function(entnum, entchannel, sfx, origin, vol, attenuation)
-{
+S.StartSound = async (entnum, entchannel, sfx, origin, vol, attenuation) => {
 	if ((S.nosound.value !== 0) || (sfx == null))
 		return;
 
@@ -279,8 +272,7 @@ S.StartSound = async function(entnum, entchannel, sfx, origin, vol, attenuation)
 	}
 };
 
-S.StopSound = function(entnum, entchannel)
-{
+S.StopSound = (entnum, entchannel) => {
 	if (S.nosound.value !== 0)
 		return;
 	var i, ch;
@@ -308,8 +300,7 @@ S.StopSound = function(entnum, entchannel)
 	}
 };
 
-S.StopAllSounds = function()
-{
+S.StopAllSounds = () => {
 	if (S.nosound.value !== 0)
 		return;
 
@@ -350,8 +341,7 @@ S.StopAllSounds = function()
 	S.static_channels = [];
 };
 
-S.StaticSound = async function(sfx, origin, vol, attenuation)
-{
+S.StaticSound = async (sfx, origin, vol, attenuation) => {
 	if ((S.nosound.value !== 0) || (sfx == null))
 		return;
 	if (await S.LoadSound(sfx) !== true)
@@ -400,8 +390,7 @@ S.StaticSound = async function(sfx, origin, vol, attenuation)
 	}
 };
 
-S.SoundList = function()
-{
+S.SoundList = () => {
 	var total = 0, i, sfx, sc, size;
 	for (i = 0; i < S.known_sfx.length; ++i)
 	{
@@ -422,13 +411,11 @@ S.SoundList = function()
 	Con.Print('Total resident: ' + total + '\n');
 };
 
-S.LocalSound = async function(sound)
-{
+S.LocalSound = async (sound) => {
 	await S.StartSound(CL.state.viewentity, -1, sound, Vec.origin, 1.0, 1.0);
 };
 
-S.UpdateAmbientSounds = async function()
-{
+S.UpdateAmbientSounds = async () => {
 	if (CL.state.worldmodel == null)
 		return;
 
@@ -523,8 +510,7 @@ S.UpdateAmbientSounds = async function()
 	}
 };
 
-S.UpdateDynamicSounds = function()
-{
+S.UpdateDynamicSounds = () => {
 	var i, ch, sc, volume;
 	for (i = 0; i < S.channels.length; ++i)
 	{
@@ -580,8 +566,7 @@ S.UpdateDynamicSounds = function()
 	}
 };
 
-S.UpdateStaticSounds = async function()
-{
+S.UpdateStaticSounds = async () => {
 	var i, j, ch, ch2, sfx, sc, volume;
 
 	for (i = 0; i < S.static_channels.length; ++i)
@@ -656,6 +641,7 @@ S.UpdateStaticSounds = async function()
 				catch (e)
 				{
 					ch.end = Host.realtime;
+					// noinspection UnnecessaryContinueJS
 					continue;
 				}
 			}
@@ -663,8 +649,7 @@ S.UpdateStaticSounds = async function()
 	}
 };
 
-S.Update = async function(origin, forward, right, up)
-{
+S.Update = async (origin, forward, right, up) => {
 	if (S.nosound.value !== 0)
 		return;
 
@@ -691,8 +676,7 @@ S.Update = async function(origin, forward, right, up)
 	await S.UpdateStaticSounds();
 };
 
-S.Play = async function()
-{
+S.Play = async () => {
 	if (S.nosound.value !== 0)
 		return;
 	var i, sfx;
@@ -704,8 +688,7 @@ S.Play = async function()
 	}
 };
 
-S.PlayVol = async function()
-{
+S.PlayVol = async () => {
 	if (S.nosound.value !== 0)
 		return;
 	var i, sfx;
@@ -717,8 +700,7 @@ S.PlayVol = async function()
 	}
 };
 
-S.LoadSound = async function(s)
-{
+S.LoadSound = async (s) => {
 	if (S.nosound.value !== 0)
 		return;
 	if (s.cache != null)

@@ -1,11 +1,13 @@
 NET = {};
 
 NET.activeSockets = [];
-NET.message = {data: new ArrayBuffer(8192), cursize: 0};
+NET.message = {
+	data: new ArrayBuffer(8192),
+	cursize: 0
+};
 NET.activeconnections = 0;
 
-NET.NewQSocket = function()
-{
+NET.NewQSocket = () => {
 	var i;
 	for (i = 0; i < NET.activeSockets.length; ++i)
 	{
@@ -21,8 +23,7 @@ NET.NewQSocket = function()
 	return NET.activeSockets[i];
 };
 
-NET.Connect = function(host)
-{
+NET.Connect = (host) => {
 	NET.time = Sys.FloatTime();
 
 	if (host === 'local')
@@ -51,8 +52,7 @@ NET.Connect = function(host)
 	}
 };
 
-NET.CheckForResend = async function()
-{
+NET.CheckForResend = async () => {
 	NET.time = Sys.FloatTime();
 	var dfunc = NET.drivers[NET.newsocket.driver];
 	if (NET.reps <= 2)
@@ -89,8 +89,7 @@ NET.CheckForResend = async function()
 	}
 };
 
-NET.CheckNewConnections = function()
-{
+NET.CheckNewConnections = () => {
 	NET.time = Sys.FloatTime();
 	var dfunc, ret;
 	for (NET.driverlevel = 0; NET.driverlevel < NET.drivers.length; ++NET.driverlevel)
@@ -104,8 +103,7 @@ NET.CheckNewConnections = function()
 	}
 };
 
-NET.Close = function(sock)
-{
+NET.Close = (sock) => {
 	if (sock == null)
 		return;
 	if (sock.disconnected === true)
@@ -115,8 +113,7 @@ NET.Close = function(sock)
 	sock.disconnected = true;
 };
 
-NET.GetMessage = function(sock)
-{
+NET.GetMessage = (sock) => {
 	if (sock == null)
 		return -1;
 	if (sock.disconnected === true)
@@ -142,8 +139,7 @@ NET.GetMessage = function(sock)
 	return ret;
 };
 
-NET.SendMessage = function(sock, data)
-{
+NET.SendMessage = (sock, data) => {
 	if (sock == null)
 		return -1;
 	if (sock.disconnected === true)
@@ -155,8 +151,7 @@ NET.SendMessage = function(sock, data)
 	return NET.drivers[sock.driver].SendMessage(sock, data);
 };
 
-NET.SendUnreliableMessage = function(sock, data)
-{
+NET.SendUnreliableMessage = (sock, data) => {
 	if (sock == null)
 		return -1;
 	if (sock.disconnected === true)
@@ -168,8 +163,7 @@ NET.SendUnreliableMessage = function(sock, data)
 	return NET.drivers[sock.driver].SendUnreliableMessage(sock, data);
 };
 
-NET.CanSendMessage = function(sock)
-{
+NET.CanSendMessage = (sock) => {
 	if (sock == null)
 		return;
 	if (sock.disconnected === true)
@@ -178,8 +172,7 @@ NET.CanSendMessage = function(sock)
 	return NET.drivers[sock.driver].CanSendMessage(sock);
 };
 
-NET.SendToAll = function(data)
-{
+NET.SendToAll = (data) => {
 	var i, count = 0, state1 = [], state2 = [];
 	for (i = 0; i < SV.svs.maxclients; ++i)
 	{
@@ -234,8 +227,7 @@ NET.SendToAll = function(data)
 	return count;
 };
 
-NET.Init = function()
-{
+NET.Init = () => {
 	NET.time = Sys.FloatTime();
 
 	NET.messagetimeout = Cvar.RegisterVariable('net_messagetimeout', '300');
@@ -246,8 +238,7 @@ NET.Init = function()
 		NET.drivers[NET.driverlevel].initialized = NET.drivers[NET.driverlevel].Init();
 };
 
-NET.Shutdown = function()
-{
+NET.Shutdown = () => {
 	NET.time = Sys.FloatTime();
 	for (i = 0; i < NET.activeSockets.length; ++i)
 		NET.Close(NET.activeSockets[i]);

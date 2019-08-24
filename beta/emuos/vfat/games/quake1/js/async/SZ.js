@@ -1,7 +1,6 @@
 SZ = {};
 
-SZ.GetSpace = function(buf, length)
-{
+SZ.GetSpace = (buf, length) => {
 	if ((buf.cursize + length) > buf.data.byteLength)
 	{
 		if (buf.allowoverflow !== true)
@@ -17,13 +16,11 @@ SZ.GetSpace = function(buf, length)
 	return cursize;
 };
 
-SZ.Write = function(sb, data, length)
-{
+SZ.Write = (sb, data, length) => {
 	(new Uint8Array(sb.data, SZ.GetSpace(sb, length), length)).set(data.subarray(0, length));
 };
 
-SZ.Print = function(sb, data)
-{
+SZ.Print = (sb, data) => {
 	var buf = new Uint8Array(sb.data);
 	var dest;
 	if (sb.cursize !== 0)

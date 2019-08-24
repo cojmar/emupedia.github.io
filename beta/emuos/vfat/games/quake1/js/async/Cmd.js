@@ -2,15 +2,14 @@ Cmd = {};
 
 Cmd.alias = [];
 
-Cmd.Wait_f = function()
+Cmd.Wait_f = () =>
 {
 	Cmd.wait = true;
 };
 
 Cmd.text = '';
 
-Cmd.Execute = async function()
-{
+Cmd.Execute = async () => {
 	var i, c, line = '', quotes = false;
 	while (Cmd.text.length !== 0)
 	{
@@ -40,8 +39,7 @@ Cmd.Execute = async function()
 	Cmd.text = '';
 };
 
-Cmd.StuffCmds_f = function()
-{
+Cmd.StuffCmds_f = () => {
 	var i, s = false, build = '', c;
 	for (i = 0; i < COM.argv.length; ++i)
 	{
@@ -72,8 +70,7 @@ Cmd.StuffCmds_f = function()
 		Cmd.text = build + '\n' + Cmd.text;
 };
 
-Cmd.Exec_f = async function()
-{
+Cmd.Exec_f = async () => {
 	if (Cmd.argv.length !== 2)
 	{
 		Con.Print('exec <filename> : execute a script file\n');
@@ -89,16 +86,14 @@ Cmd.Exec_f = async function()
 	Cmd.text = f + Cmd.text;
 };
 
-Cmd.Echo_f = function()
-{
+Cmd.Echo_f = () => {
 	var i;
 	for (i = 1; i < Cmd.argv.length; ++i)
 		Con.Print(Cmd.argv[i] + ' ');
 	Con.Print('\n');
 };
 
-Cmd.Alias_f = function()
-{
+Cmd.Alias_f = () => {
 	var i;
 	if (Cmd.argv.length <= 1)
 	{
@@ -125,8 +120,7 @@ Cmd.Alias_f = function()
 Cmd.argv = [];
 Cmd.functions = [];
 
-Cmd.Init = function()
-{
+Cmd.Init = () => {
 	Cmd.AddCommand('stuffcmds', Cmd.StuffCmds_f);
 	Cmd.AddCommand('exec', Cmd.Exec_f);
 	Cmd.AddCommand('echo', Cmd.Echo_f);
@@ -135,8 +129,7 @@ Cmd.Init = function()
 	Cmd.AddCommand('wait', Cmd.Wait_f);
 };
 
-Cmd.TokenizeString = function(text)
-{
+Cmd.TokenizeString = (text) => {
 	Cmd.argv = [];
 	var i, c;
 	for (;;)
@@ -158,8 +151,7 @@ Cmd.TokenizeString = function(text)
 	}
 };
 
-Cmd.AddCommand = function(name, command)
-{
+Cmd.AddCommand = (name, command) => {
 	var i;
 	for (i = 0; i < Cvar.vars.length; ++i)
 	{
@@ -180,8 +172,7 @@ Cmd.AddCommand = function(name, command)
 	Cmd.functions[Cmd.functions.length] = {name: name, command: command};
 };
 
-Cmd.CompleteCommand = function(partial)
-{
+Cmd.CompleteCommand = (partial) => {
 	if (partial.length === 0)
 		return;
 	var i;
@@ -192,8 +183,7 @@ Cmd.CompleteCommand = function(partial)
 	}
 };
 
-Cmd.ExecuteString = async function(text, client)
-{
+Cmd.ExecuteString = async (text, client) => {
 	Cmd.client = client;
 	Cmd.TokenizeString(text);
 	if (Cmd.argv.length === 0)
@@ -220,8 +210,7 @@ Cmd.ExecuteString = async function(text, client)
 		Con.Print('Unknown command "' + name + '"\n');
 };
 
-Cmd.ForwardToServer = function()
-{
+Cmd.ForwardToServer = () => {
 	if (CL.cls.state !== CL.active.connected)
 	{
 		Con.Print('Can\'t "' + Cmd.argv[0] + '", not connected\n');

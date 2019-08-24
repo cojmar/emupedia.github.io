@@ -2,8 +2,7 @@ VID = {};
 
 VID.d_8to24table = new Uint32Array(new ArrayBuffer(1024));
 
-VID.SetPalette = async function()
-{
+VID.SetPalette = async () => {
 	var palette = await COM.LoadFile('gfx/palette.lmp');
 	if (palette == null)
 		Sys.Error('Couldn\'t load gfx/palette.lmp');
@@ -16,8 +15,7 @@ VID.SetPalette = async function()
 	}
 };
 
-VID.Init = async function()
-{
+VID.Init = async () => {
 	document.getElementById('progress').style.display = 'none';
 	GL.Init();
 	await VID.SetPalette();

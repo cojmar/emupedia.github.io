@@ -1,17 +1,18 @@
+// noinspection DuplicatedCode
 Key = {};
-
+// noinspection DuplicatedCode
 Key.k = {
 	tab: 9,
 	enter: 13,
 	escape: 27,
 	space: 32,
-	
+
 	backspace: 127,
 	uparrow: 128,
 	downarrow: 129,
 	leftarrow: 130,
 	rightarrow: 131,
-	
+
 	alt: 132,
 	ctrl: 133,
 	shift: 134,
@@ -33,35 +34,53 @@ Key.k = {
 	pgup: 150,
 	home: 151,
 	end: 152,
-	
+
 	pause: 255,
-	
+
 	mouse1: 200,
 	mouse2: 201,
 	mouse3: 202,
 
+	joy1: 205,
+	joy2: 206,
+	joy3: 207,
+	joy4: 208,
+	joy5: 209,
+	joy6: 210,
+	joy7: 211,
+	joy8: 212,
+	joy9: 213,
+	joy10: 214,
+	joy11: 215,
+	joy12: 216,
+
 	mwheelup: 239,
 	mwheeldown: 240
 };
-
+// noinspection DuplicatedCode
 Key.lines = [''];
+// noinspection DuplicatedCode
 Key.edit_line = '';
+// noinspection DuplicatedCode
 Key.history_line = 1;
-
+// noinspection DuplicatedCode
 Key.dest = {
 	game: 0,
 	console: 1,
 	message: 2,
 	menu: 3,
-	
+
 	value: 0
 };
-
+// noinspection DuplicatedCode
 Key.bindings = [];
+// noinspection DuplicatedCode
 Key.consolekeys = [];
+// noinspection DuplicatedCode
 Key.shift = [];
+// noinspection DuplicatedCode
 Key.down = [];
-
+// noinspection DuplicatedCode
 Key.names = [
 	{name: 'TAB', keynum: Key.k.tab},
 	{name: 'ENTER', keynum: Key.k.enter},
@@ -102,176 +121,216 @@ Key.names = [
 	{name: 'SEMICOLON', keynum: 59}
 ];
 
-Key.Console = function(key)
-{
-	if (key === Key.k.enter)
-	{
+// noinspection DuplicatedCode
+Key.Console = (key) => {
+	// noinspection DuplicatedCode
+	if (key === Key.k.enter) {
 		Cmd.text += Key.edit_line + '\n';
 		Con.Print(']' + Key.edit_line + '\n');
 		Key.lines[Key.lines.length] = Key.edit_line;
 		Key.edit_line = '';
 		Key.history_line = Key.lines.length;
+
 		return;
 	}
 
-	if (key === Key.k.tab)
-	{
-		var cmd = Cmd.CompleteCommand(Key.edit_line);
-		if (cmd == null)
+	if (key === Key.k.tab) {
+		let cmd = Cmd.CompleteCommand(Key.edit_line);
+
+		if (cmd == null) {
 			cmd = Cvar.CompleteVariable(Key.edit_line);
-		if (cmd == null)
-			return;
-		Key.edit_line = cmd + ' ';
-		return;
-	}
+		}
 
-	if ((key === Key.k.backspace) || (key === Key.k.leftarrow))
-	{
-		if (Key.edit_line.length > 0)
-			Key.edit_line = Key.edit_line.substring(0, Key.edit_line.length - 1);
-		return;
-	}
-
-	if (key === Key.k.uparrow)
-	{
-		if (--Key.history_line < 0)
-			Key.history_line = 0;
-		Key.edit_line = Key.lines[Key.history_line];
-		return;
-	}
-
-	if (key === Key.k.downarrow)
-	{
-		if (Key.history_line >= Key.lines.length)
-			return;
-		if (++Key.history_line >= Key.lines.length)
-		{
-			Key.history_line = Key.lines.length;
-			Key.edit_line = '';
+		if (cmd == null) {
 			return;
 		}
+
+
+		Key.edit_line = cmd + ' ';
+
+		return;
+	}
+
+	if ((key === Key.k.backspace) || (key === Key.k.leftarrow)) {
+		if (Key.edit_line.length > 0) {
+			Key.edit_line = Key.edit_line.substring(0, Key.edit_line.length - 1);
+		}
+
+		return;
+	}
+
+	if (key === Key.k.uparrow) {
+		if (--Key.history_line < 0) {
+			Key.history_line = 0;
+		}
+
 		Key.edit_line = Key.lines[Key.history_line];
+
 		return;
 	}
 
-	if (key === Key.k.pgup)
-	{
+	if (key === Key.k.downarrow) {
+		if (Key.history_line >= Key.lines.length) {
+			return;
+		}
+
+		if (++Key.history_line >= Key.lines.length) {
+			Key.history_line = Key.lines.length;
+			Key.edit_line = '';
+
+			return;
+		}
+
+		Key.edit_line = Key.lines[Key.history_line];
+
+		return;
+	}
+
+	if (key === Key.k.pgup) {
 		Con.backscroll += 2;
-		if (Con.backscroll > Con.text.length)
+
+		if (Con.backscroll > Con.text.length) {
 			Con.backscroll = Con.text.length;
+		}
+
 		return;
 	}
 
-	if (key === Key.k.pgdn)
-	{
+	if (key === Key.k.pgdn) {
 		Con.backscroll -= 2;
-		if (Con.backscroll < 0)
+
+		if (Con.backscroll < 0) {
 			Con.backscroll = 0;
+		}
+
 		return;
 	}
 
-	if (key === Key.k.home)
-	{
+	if (key === Key.k.home) {
 		Con.backscroll = Con.text.length - 10;
-		if (Con.backscroll < 0)
+
+		if (Con.backscroll < 0) {
 			Con.backscroll = 0;
+		}
+
 		return;
 	}
 
-	if (key === Key.k.end)
-	{
+	if (key === Key.k.end) {
 		Con.backscroll = 0;
+
 		return;
 	}
 
-	if ((key < 32) || (key > 127))
-		return;
+	if ((key < 32) || (key > 127)) {
+		Con.backscroll = 0;
+	}
 
 	Key.edit_line += String.fromCharCode(key);
 };
 
+// noinspection DuplicatedCode
 Key.chat_buffer = '';
 
-Key.Message = function(key)
-{
-	if (key === Key.k.enter)
-	{
-		if (Key.team_message === true)
+// noinspection DuplicatedCode
+Key.Message = (key) => {
+	if (key === Key.k.enter) {
+		if (Key.team_message === true) {
 			Cmd.text += 'say_team "' + Key.chat_buffer + '"\n';
-		else
+		} else {
 			Cmd.text += 'say "' + Key.chat_buffer + '"\n';
+		}
+
 		Key.dest.value = Key.dest.game;
 		Key.chat_buffer = '';
+
 		return;
 	}
-	if (key === Key.k.escape)
-	{
+
+	if (key === Key.k.escape) {
 		Key.dest.value = Key.dest.game;
 		Key.chat_buffer = '';
+
 		return;
 	}
-	if ((key < 32) || (key > 127))
+
+	if ((key < 32) || (key > 127)) {
 		return;
-	if (key === Key.k.backspace)
-	{
-		if (Key.chat_buffer.length !== 0)
+	}
+
+	if (key === Key.k.backspace) {
+		if (Key.chat_buffer.length !== 0) {
 			Key.chat_buffer = Key.chat_buffer.substring(0, Key.chat_buffer.length - 1);
+		}
+
 		return;
 	}
-	if (Key.chat_buffer.length >= 31)
+
+	if (Key.chat_buffer.length >= 31) {
 		return;
+	}
+
 	Key.chat_buffer = Key.chat_buffer + String.fromCharCode(key);
 };
 
-Key.StringToKeynum = function(str)
-{
-	if (str.length === 1)
+// noinspection DuplicatedCode
+Key.StringToKeynum = (str) => {
+	if (str.length === 1) {
+		// noinspection JSConstructorReturnsPrimitive
 		return str.charCodeAt(0);
+	}
+
 	str = str.toUpperCase();
-	var i;
-	for (i = 0; i < Key.names.length; ++i)
-	{
-		if (Key.names[i].name === str)
+
+	for (let i = 0; i < Key.names.length; ++i) {
+		if (Key.names[i].name === str) {
 			return Key.names[i].keynum;
+		}
 	}
 };
 
-Key.KeynumToString = function(keynum)
-{
-	if ((keynum > 32) && (keynum < 127))
+// noinspection DuplicatedCode
+Key.KeynumToString = (keynum) => {
+	if ((keynum > 32) && (keynum < 127)) {
+		// noinspection JSConstructorReturnsPrimitive
 		return String.fromCharCode(keynum);
-	var i;
-	for (i = 0; i < Key.names.length; ++i)
-	{
-		if (Key.names[i].keynum === keynum)
-			return Key.names[i].name;
 	}
+
+	for (let i = 0; i < Key.names.length; ++i) {
+		if (Key.names[i].keynum === keynum) {
+			return Key.names[i].name;
+		}
+	}
+
+	// noinspection JSConstructorReturnsPrimitive
 	return '<UNKNOWN KEYNUM>';
 };
 
-Key.Unbind_f = function()
-{
-	if (Cmd.argv.length !== 2)
-	{
+// noinspection DuplicatedCode
+Key.Unbind_f = () => {
+	if (Cmd.argv.length !== 2) {
 		Con.Print('unbind <key> : remove commands from a key\n');
+
 		return;
 	}
-	var b = Key.StringToKeynum(Cmd.argv[1]);
-	if (b == null)
-	{
+
+	let b = Key.StringToKeynum(Cmd.argv[1]);
+
+	if (b == null) {
 		Con.Print('"' + Cmd.argv[1] + '" isn\'t a valid key\n');
 		return;
 	}
+
 	Key.bindings[b] = null;
 };
 
-Key.Unbindall_f = function()
-{
+// noinspection DuplicatedCode
+Key.Unbindall_f = () => {
 	Key.bindings = [];
 };
 
-Key.Bind_f = function()
-{
+// noinspection DuplicatedCode
+Key.Bind_f = () => {
 	var c = Cmd.argv.length;
 	if ((c !== 2) && (c !== 3))
 	{
@@ -301,24 +360,26 @@ Key.Bind_f = function()
 	Key.bindings[b] = cmd;
 };
 
-Key.WriteBindings = function()
-{
-	var f = [];
-	var i;
-	for (i = 0; i < Key.bindings.length; ++i)
-	{
-		if (Key.bindings[i] != null)
+// noinspection DuplicatedCode
+Key.WriteBindings = () => {
+	let f = [];
+
+	for (let i = 0; i < Key.bindings.length; ++i) {
+		if (Key.bindings[i] != null) {
 			f[f.length] = 'bind "' + Key.KeynumToString(i) + '" "' + Key.bindings[i] + '"\n';
+		}
 	}
+
+	// noinspection JSConstructorReturnsPrimitive
 	return f.join('');
 };
 
-Key.Init = function()
-{
-	var i;
-
-	for (i = 32; i < 128; ++i)
+// noinspection DuplicatedCode
+Key.Init = () => {
+	for (let i = 32; i < 128; ++i) {
 		Key.consolekeys[i] = true;
+	}
+
 	Key.consolekeys[Key.k.enter] = true;
 	Key.consolekeys[Key.k.tab] = true;
 	Key.consolekeys[Key.k.leftarrow] = true;
@@ -334,10 +395,14 @@ Key.Init = function()
 	Key.consolekeys[96] = false;
 	Key.consolekeys[126] = false;
 
-	for (i = 0; i < 256; ++i)
+	for (let i = 0; i < 256; ++i) {
 		Key.shift[i] = i;
-	for (i = 97; i <= 122; ++i)
-		Key.shift[i] = i - 32;
+	}
+
+	for (let i = 97; i <= 122; ++i) {
+		Key.shift[i] = i;
+	}
+
 	Key.shift[49] = 33;
 	Key.shift[50] = 64;
 	Key.shift[51] = 35;
@@ -365,85 +430,98 @@ Key.Init = function()
 	Cmd.AddCommand('unbindall', Key.Unbindall_f);
 };
 
-Key.Event = async function(key, down)
-{
-	if (CL.cls.state === CL.active.connecting)
+// noinspection DuplicatedCode
+Key.Event = async (key, down) => {
+	if (CL.cls.state === CL.active.connecting) {
 		return;
-	if (down === true)
-	{
-		if ((key !== Key.k.backspace) && (key !== Key.k.pause) && (Key.down[key] === true))
-			return;
-		if ((key >= 200) && (Key.bindings[key] == null))
-			Con.Print(Key.KeynumToString(key) + ' is unbound, hit F4 to set.\n');
 	}
+
+	if (down === true) {
+		if ((key !== Key.k.backspace) && (key !== Key.k.pause) && (Key.down[key] === true)) {
+			return;
+		}
+
+		if ((key >= 200) && (Key.bindings[key] == null)) {
+			Con.Print(Key.KeynumToString(key) + ' is unbound, hit F4 to set.\n');
+		}
+	}
+
 	Key.down[key] = down;
 
-	if (key === Key.k.shift)
+	if (key === Key.k.shift) {
 		Key.shift_down = down;
+	}
 
-	if (key === Key.k.escape)
-	{
-		if (down !== true)
+	if (key === Key.k.escape) {
+		if (down !== true) {
 			return;
-		if (Key.dest.value === Key.dest.message)
+		}
+
+		if (Key.dest.value === Key.dest.message) {
 			Key.Message(key);
-		else if (Key.dest.value === Key.dest.menu)
+		} else if (Key.dest.value === Key.dest.menu) {
 			await M.Keydown(key);
-		else
+		} else {
 			M.ToggleMenu_f();
+		}
+
 		return;
 	}
 
-	var kb;
+	// noinspection DuplicatedCode
+	if (down !== true) {
+		let kb = Key.bindings[key];
 
-	if (down !== true)
-	{
-		kb = Key.bindings[key];
-		if (kb != null)
-		{
-			if (kb.charCodeAt(0) === 43)
+		if (kb != null) {
+			if (kb.charCodeAt(0) === 43) {
 				Cmd.text += '-' + kb.substring(1) + ' ' + key + '\n';
+			}
+
 		}
-		if (Key.shift[key] !== key)
-		{
+
+		if (Key.shift[key] !== key) {
 			kb = Key.bindings[Key.shift[key]];
-			if (kb != null)
-			{
-				if (kb.charCodeAt(0) === 43)
+
+			if (kb != null) {
+				if (kb.charCodeAt(0) === 43) {
 					Cmd.text += '-' + kb.substring(1) + ' ' + key + '\n';
+				}
 			}
 		}
+
 		return;
 	}
 
-	if ((CL.cls.demoplayback === true) && (Key.consolekeys[key] === true) && (Key.dest.value === Key.dest.game))
-	{
+	if (CL.cls.demoplayback === true && Key.consolekeys[key] === true && Key.dest.value === Key.dest.game) {
 		M.ToggleMenu_f();
+
 		return;
 	}
 
-	if (((Key.dest.value === Key.dest.menu) && ((key === Key.k.escape) || ((key >= Key.k.f1) && (key <= Key.k.f12))))
-		|| ((Key.dest.value === Key.dest.console) && (Key.consolekeys[key] !== true))
-		|| ((Key.dest.value === Key.dest.game) && ((Con.forcedup !== true) || (Key.consolekeys[key] !== true))))
-	{
-		kb = Key.bindings[key];
-		if (kb != null)
-		{
-			if (kb.charCodeAt(0) === 43)
+	// noinspection DuplicatedCode
+	if ((Key.dest.value === Key.dest.menu && (key === Key.k.escape || (key >= Key.k.f1 && key <= Key.k.f12))) || (Key.dest.value === Key.dest.console && Key.consolekeys[key] !== true) || (Key.dest.value === Key.dest.game && (Con.forcedup !== true || Key.consolekeys[key] !== true))) {
+		let kb = Key.bindings[key];
+
+		if (kb != null) {
+			if (kb.charCodeAt(0) === 43) {
 				Cmd.text += kb + ' ' + key + '\n';
-			else
+			} else {
 				Cmd.text += kb + '\n';
+			}
 		}
+
 		return;
 	}
 
-	if (Key.shift_down === true)
+	if (Key.shift_down === true) {
 		key = Key.shift[key];
+	}
 
-	if (Key.dest.value === Key.dest.message)
+	if (Key.dest.value === Key.dest.message) {
 		Key.Message(key);
-	else if (Key.dest.value === Key.dest.menu)
+	} else if (Key.dest.value === Key.dest.menu) {
 		await M.Keydown(key);
-	else
+	} else {
 		Key.Console(key);
+	}
 };

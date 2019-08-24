@@ -2,8 +2,7 @@ W = {};
 
 W.lumps = [];
 
-W.LoadWadFile = async function(filename)
-{
+W.LoadWadFile = async (filename) => {
 	var base = await COM.LoadFile(filename);
 	if (base == null)
 		Sys.Error('W.LoadWadFile: couldn\'t load ' + filename);
@@ -23,8 +22,7 @@ W.LoadWadFile = async function(filename)
 	}
 };
 
-W.GetLumpName = function(name)
-{
+W.GetLumpName = (name) => {
 	var lump = W.lumps[name];
 	if (lump == null)
 		Sys.Error('W.GetLumpName: ' + name + ' not found');

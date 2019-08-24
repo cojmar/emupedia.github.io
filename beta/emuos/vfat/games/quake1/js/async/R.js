@@ -1,9 +1,7 @@
 R = {};
 
 // efrag
-
-R.SplitEntityOnNode = function(node)
-{
+R.SplitEntityOnNode = (node) => {
 	if (node.contents === Mod.contents.solid)
 		return;
 	if (node.contents < 0)
@@ -19,13 +17,11 @@ R.SplitEntityOnNode = function(node)
 };
 
 // light
-
 R.dlightframecount = 0;
 
 R.lightstylevalue = new Uint8Array(new ArrayBuffer(64));
 
-R.AnimateLight = function()
-{
+R.AnimateLight = () => {
 	var j;
 	if (R.fullbright.value === 0)
 	{
@@ -49,8 +45,7 @@ R.AnimateLight = function()
 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.ALPHA, 64, 1, 0, gl.ALPHA, gl.UNSIGNED_BYTE, R.lightstylevalue);
 };
 
-R.RenderDlights = function()
-{
+R.RenderDlights = () => {
 	if (R.flashblend.value === 0)
 		return;
 	++R.dlightframecount;
@@ -80,8 +75,7 @@ R.RenderDlights = function()
 	gl.disable(gl.BLEND);
 };
 
-R.MarkLights = function(light, bit, node)
-{
+R.MarkLights = (light, bit, node) => {
 	if (node.contents < 0)
 		return;
 	var normal = node.plane.normal;
@@ -113,8 +107,7 @@ R.MarkLights = function(light, bit, node)
 	R.MarkLights(light, bit, node.children[1]);
 };
 
-R.PushDlights = function()
-{
+R.PushDlights = () => {
 	if (R.flashblend.value !== 0)
 		return;
 	var i;
@@ -170,8 +163,7 @@ R.PushDlights = function()
 	++R.dlightframecount;
 };
 
-R.RecursiveLightPoint = function(node, start, end)
-{
+R.RecursiveLightPoint = (node, start, end) => {
 	if (node.contents < 0)
 		return -1;
 
@@ -239,8 +231,7 @@ R.RecursiveLightPoint = function(node, start, end)
 	return R.RecursiveLightPoint(node.children[side !== true ? 1 : 0], mid, end);
 };
 
-R.LightPoint = function(p)
-{
+R.LightPoint = (p) => {
 	if (CL.state.worldmodel.lightdata == null)
 		return 255;
 	var r = R.RecursiveLightPoint(CL.state.worldmodel.nodes[0], p, [p[0], p[1], p[2] - 2048.0]);
@@ -250,7 +241,6 @@ R.LightPoint = function(p)
 };
 
 // main
-
 R.visframecount = 0;
 
 R.frustum = [{}, {}, {}, {}];
@@ -265,8 +255,7 @@ R.refdef = {
 	viewangles: [0.0, 0.0, 0.0]
 };
 
-R.CullBox = function(mins, maxs)
-{
+R.CullBox = (mins, maxs) => {
 	if (Vec.BoxOnPlaneSide(mins, maxs, R.frustum[0]) === 2)
 		return true;
 	if (Vec.BoxOnPlaneSide(mins, maxs, R.frustum[1]) === 2)
@@ -277,8 +266,7 @@ R.CullBox = function(mins, maxs)
 		return true;
 };
 
-R.DrawSpriteModel = function(e)
-{
+R.DrawSpriteModel = (e) => {
 	var program = GL.UseProgram('Sprite', true);
 	var num = e.frame;
 	if ((num >= e.model.numframes) || (num < 0))
@@ -515,17 +503,14 @@ R.avertexnormals = [
 	[-0.688191, -0.587785, -0.425325]
 ];
 
-R.DrawAliasModel = function(e)
-{
+R.DrawAliasModel = (e) => {
 	var clmodel = e.model;
 
-	if (R.CullBox(
-		[
+	if (R.CullBox([
 			e.origin[0] - clmodel.boundingradius,
 			e.origin[1] - clmodel.boundingradius,
 			e.origin[2] - clmodel.boundingradius
-		],
-		[
+		] , [
 			e.origin[0] + clmodel.boundingradius,
 			e.origin[1] + clmodel.boundingradius,
 			e.origin[2] + clmodel.boundingradius
@@ -556,8 +541,8 @@ R.DrawAliasModel = function(e)
 	var shadelight = ambientlight;
 	if ((e === CL.state.viewent) && (ambientlight < 24.0))
 		ambientlight = shadelight = 24.0;
-	var i, dl, add;
-	for (i = 0; i <= 31; ++i)
+	var dl, add;
+	for (let i = 0; i <= 31; ++i)
 	{
 		dl = CL.dlights[i];
 		if (dl.die < CL.state.time)
@@ -598,7 +583,7 @@ R.DrawAliasModel = function(e)
 	}
 	var frame = clmodel.frames[num];
 	if (frame.group === true)
-	{	
+	{
 		num = frame.frames.length - 1;
 		fullinterval = frame.frames[num].interval;
 		targettime = time - Math.floor(time / fullinterval) * fullinterval;
@@ -622,7 +607,7 @@ R.DrawAliasModel = function(e)
 	}
 	var skin = clmodel.skins[num];
 	if (skin.group === true)
-	{	
+	{
 		num = skin.skins.length - 1;
 		fullinterval = skin.skins[num].interval;
 		targettime = time - Math.floor(time / fullinterval) * fullinterval;
@@ -640,8 +625,7 @@ R.DrawAliasModel = function(e)
 	gl.drawArrays(gl.TRIANGLES, 0, clmodel.numtris * 3);
 };
 
-R.DrawEntitiesOnList = function()
-{
+R.DrawEntitiesOnList = () => {
 	if (R.drawentities.value === 0)
 		return;
 	var vis = (R.novis.value !== 0) ? Mod.novis : Mod.LeafPVS(R.viewleaf, CL.state.worldmodel);
@@ -706,8 +690,7 @@ R.DrawEntitiesOnList = function()
 	gl.depthMask(true);
 };
 
-R.DrawViewModel = function()
-{
+R.DrawViewModel = () => {
 	if (R.drawviewmodel.value === 0)
 		return;
 	if (Chase.active.value !== 0)
@@ -740,8 +723,7 @@ R.DrawViewModel = function()
 	gl.depthRange(0.0, 1.0);
 };
 
-R.PolyBlend = function()
-{
+R.PolyBlend = () => {
 	if (R.polyblend.value === 0)
 		return;
 	if (V.blend[3] === 0.0)
@@ -752,8 +734,7 @@ R.PolyBlend = function()
 		V.blend[0], V.blend[1], V.blend[2], V.blend[3] * 255.0);
 };
 
-R.SetFrustum = function()
-{
+R.SetFrustum = () => {
 	R.frustum[0].normal = Vec.RotatePointAroundVector(R.vup, R.vpn, -(90.0 - R.refdef.fov_x * 0.5));
 	R.frustum[1].normal = Vec.RotatePointAroundVector(R.vup, R.vpn, 90.0 - R.refdef.fov_x * 0.5);
 	R.frustum[2].normal = Vec.RotatePointAroundVector(R.vright, R.vpn, 90.0 - R.refdef.fov_y * 0.5);
@@ -783,8 +764,7 @@ R.perspective = [
 	0.0, 0.0, -524288.0 / 65532.0, 0.0
 ];
 
-R.Perspective = function()
-{
+R.Perspective = () => {
 	var viewangles = [
 		R.refdef.viewangles[0] * Math.PI / 180.0,
 		(R.refdef.viewangles[1] - 90.0) * Math.PI / -180.0,
@@ -824,8 +804,7 @@ R.Perspective = function()
 	}
 };
 
-R.SetupGL = function()
-{
+R.SetupGL = () => {
 	if (R.dowarp === true)
 	{
 		gl.bindFramebuffer(gl.FRAMEBUFFER, R.warpbuffer);
@@ -842,8 +821,7 @@ R.SetupGL = function()
 	gl.enable(gl.DEPTH_TEST);
 };
 
-R.RenderScene = function()
-{
+R.RenderScene = () => {
 	if (CL.state.maxclients >= 2)
 		Cvar.Set('r_fullbright', '0');
 	R.AnimateLight();
@@ -866,8 +844,7 @@ R.RenderScene = function()
 	R.DrawParticles();
 };
 
-R.RenderView = function()
-{
+R.RenderView = () => {
 	gl.finish();
 	var time1;
 	if (R.speeds.value !== 0)
@@ -889,9 +866,7 @@ R.RenderView = function()
 };
 
 // mesh
-
-R.MakeBrushModelDisplayLists = function(m)
-{
+R.MakeBrushModelDisplayLists = (m) => {
 	if (m.cmds != null)
 		gl.deleteBuffer(m.cmds);
 	var i, j, k;
@@ -911,16 +886,18 @@ R.MakeBrushModelDisplayLists = function(m)
 			if (surf.texture !== i)
 				continue;
 			styles[0] = styles[1] = styles[2] = styles[3] = 0.0;
+
+			// noinspection FallThroughInSwitchStatementJS
 			switch (surf.styles.length)
 			{
-			case 4:
-				styles[3] = surf.styles[3] * 0.015625 + 0.0078125;
-			case 3:
-				styles[2] = surf.styles[2] * 0.015625 + 0.0078125;
-			case 2:
-				styles[1] = surf.styles[1] * 0.015625 + 0.0078125;
-			case 1:
-				styles[0] = surf.styles[0] * 0.015625 + 0.0078125;
+				case 4:
+					styles[3] = surf.styles[3] * 0.015625 + 0.0078125;
+				case 3:
+					styles[2] = surf.styles[2] * 0.015625 + 0.0078125;
+				case 2:
+					styles[1] = surf.styles[1] * 0.015625 + 0.0078125;
+				case 1:
+					styles[0] = surf.styles[0] * 0.015625 + 0.0078125;
 			}
 			chain[2] += surf.verts.length;
 			for (k = 0; k < surf.verts.length; ++k)
@@ -980,8 +957,7 @@ R.MakeBrushModelDisplayLists = function(m)
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cmds), gl.STATIC_DRAW);
 };
 
-R.MakeWorldModelDisplayLists = function(m)
-{
+R.MakeWorldModelDisplayLists = (m) => {
 	if (m.cmds != null)
 		return;
 	var i, j, k, l;
@@ -1003,6 +979,7 @@ R.MakeWorldModelDisplayLists = function(m)
 				if (surf.texture !== i)
 					continue;
 				styles[0] = styles[1] = styles[2] = styles[3] = 0.0;
+				// noinspection FallThroughInSwitchStatementJS
 				switch (surf.styles.length)
 				{
 				case 4:
@@ -1113,9 +1090,7 @@ R.MakeWorldModelDisplayLists = function(m)
 };
 
 // misc
-
-R.InitTextures = function()
-{
+R.InitTextures = () => {
 	var data = new Uint8Array(new ArrayBuffer(256));
 	var i, j;
 	for (i = 0; i < 8; ++i)
@@ -1167,8 +1142,7 @@ R.InitTextures = function()
 	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 };
 
-R.Init = function()
-{
+R.Init = () => {
 	R.InitTextures();
 
 	Cmd.AddCommand('timerefresh', R.TimeRefresh_f);
@@ -1257,8 +1231,7 @@ R.Init = function()
 	R.MakeSky();
 };
 
-R.NewMap = function()
-{
+R.NewMap = () => {
 	var i;
 	for (i = 0; i < 64; ++i)
 		R.lightstylevalue[i] = 12;
@@ -1272,8 +1245,7 @@ R.NewMap = function()
 	gl.texImage2D(gl.TEXTURE_2D, 0, gl.ALPHA, 1024, 1024, 0, gl.ALPHA, gl.UNSIGNED_BYTE, null);
 };
 
-R.TimeRefresh_f = function()
-{
+R.TimeRefresh_f = () => {
 	gl.finish();
 	var i;
 	var start = Sys.FloatTime();
@@ -1288,7 +1260,6 @@ R.TimeRefresh_f = function()
 };
 
 // part
-
 R.ptype = {
 	tracer: 0,
 	grav: 1,
@@ -1304,8 +1275,7 @@ R.ramp1 = [0x6f, 0x6d, 0x6b, 0x69, 0x67, 0x65, 0x63, 0x61];
 R.ramp2 = [0x6f, 0x6e, 0x6d, 0x6c, 0x6b, 0x6a, 0x68, 0x66];
 R.ramp3 = [0x6d, 0x6b, 6, 5, 4, 3];
 
-R.InitParticles = function()
-{
+R.InitParticles = () => {
 	var i = COM.CheckParm('-particles');
 	if (i != null)
 	{
@@ -1326,8 +1296,7 @@ R.InitParticles = function()
 		[]);
 };
 
-R.EntityParticles = function(ent)
-{
+R.EntityParticles = (ent) => {
 	var allocated = R.AllocParticles(162), i;
 	var angle, sp, sy, cp, cy, forward = [];
 	for (i = 0; i < allocated.length; ++i)
@@ -1354,16 +1323,14 @@ R.EntityParticles = function(ent)
 	}
 };
 
-R.ClearParticles = function()
-{
+R.ClearParticles = () => {
 	var i;
 	R.particles = [];
 	for (i = 0; i < R.numparticles; ++i)
 		R.particles[i] = {die: -1.0};
 };
 
-R.ReadPointFile_f = async function()
-{
+R.ReadPointFile_f = async () => {
 	if (SV.server.active !== true)
 		return;
 	var name = 'maps/' + PR.GetString(PR.globals_int[PR.globalvars.mapname]) + '.pts';
@@ -1399,8 +1366,7 @@ R.ReadPointFile_f = async function()
 	Con.Print(c + ' points read\n');
 };
 
-R.ParseParticleEffect = function()
-{
+R.ParseParticleEffect = () => {
 	var org = [MSG.ReadCoord(), MSG.ReadCoord(), MSG.ReadCoord()];
 	var dir = [MSG.ReadChar() * 0.0625, MSG.ReadChar() * 0.0625, MSG.ReadChar() * 0.0625];
 	var msgcount = MSG.ReadByte();
@@ -1411,8 +1377,7 @@ R.ParseParticleEffect = function()
 		R.RunParticleEffect(org, dir, color, msgcount);
 };
 
-R.ParticleExplosion = function(org)
-{
+R.ParticleExplosion = (org) => {
 	var allocated = R.AllocParticles(1024), i;
 	for (i = 0; i < allocated.length; ++i)
 	{
@@ -1431,8 +1396,7 @@ R.ParticleExplosion = function(org)
 	}
 };
 
-R.ParticleExplosion2 = function(org, colorStart, colorLength)
-{
+R.ParticleExplosion2 = (org, colorStart, colorLength) => {
 	var allocated = R.AllocParticles(512), i, colorMod = 0;
 	for (i = 0; i < allocated.length; ++i)
 	{
@@ -1450,8 +1414,7 @@ R.ParticleExplosion2 = function(org, colorStart, colorLength)
 	}
 };
 
-R.BlobExplosion = function(org)
-{
+R.BlobExplosion = (org) => {
 	var allocated = R.AllocParticles(1024), i, p;
 	for (i = 0; i < allocated.length; ++i)
 	{
@@ -1476,8 +1439,7 @@ R.BlobExplosion = function(org)
 	}
 };
 
-R.RunParticleEffect = function(org, dir, color, count)
-{
+R.RunParticleEffect = (org, dir, color, count) => {
 	var allocated = R.AllocParticles(count), i;
 	for (i = 0; i < allocated.length; ++i)
 	{
@@ -1495,8 +1457,7 @@ R.RunParticleEffect = function(org, dir, color, count)
 	}
 };
 
-R.LavaSplash = function(org)
-{
+R.LavaSplash = (org) => {
 	var allocated = R.AllocParticles(1024), i, j, k = 0, p;
 	var dir = [], vel;
 	for (i = -16; i <= 15; ++i)
@@ -1520,8 +1481,7 @@ R.LavaSplash = function(org)
 	}
 };
 
-R.TeleportSplash = function(org)
-{
+R.TeleportSplash = (org) => {
 	var allocated = R.AllocParticles(896), i, j, k, l = 0, p;
 	var dir = [], vel;
 	for (i = -16; i <= 15; i += 4)
@@ -1553,8 +1513,8 @@ R.TeleportSplash = function(org)
 };
 
 R.tracercount = 0;
-R.RocketTrail = function(start, end, type)
-{
+
+R.RocketTrail = (start, end, type) => {
 	var vec = [end[0] - start[0], end[1] - start[1], end[2] - start[2]];
 	var len = Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2]);
 	if (len === 0.0)
@@ -1640,8 +1600,7 @@ R.RocketTrail = function(start, end, type)
 	}
 };
 
-R.DrawParticles = function()
-{
+R.DrawParticles = () => {
 	GL.StreamFlush();
 
 	var program = GL.UseProgram('Particle');
@@ -1734,8 +1693,7 @@ R.DrawParticles = function()
 	gl.depthMask(true);
 };
 
-R.AllocParticles = function(count)
-{
+R.AllocParticles = (count) => {
 	var allocated = [], i;
 	for (i = 0; i < R.numparticles; ++i)
 	{
@@ -1751,13 +1709,11 @@ R.AllocParticles = function(count)
 };
 
 // surf
-
 R.lightmap_modified = [];
 R.lightmaps = new Uint8Array(new ArrayBuffer(4194304));
 R.dlightmaps = new Uint8Array(new ArrayBuffer(1048576));
 
-R.AddDynamicLights = function(surf)
-{
+R.AddDynamicLights = (surf) => {
 	var smax = (surf.extents[0] >> 4) + 1;
 	var tmax = (surf.extents[1] >> 4) + 1;
 	var size = smax * tmax;
@@ -1823,8 +1779,7 @@ R.AddDynamicLights = function(surf)
 	}
 };
 
-R.RemoveDynamicLights = function(surf)
-{
+R.RemoveDynamicLights = (surf) => {
 	var smax = (surf.extents[0] >> 4) + 1;
 	var tmax = (surf.extents[1] >> 4) + 1;
 	var dest, s, t;
@@ -1837,8 +1792,7 @@ R.RemoveDynamicLights = function(surf)
 	}
 };
 
-R.BuildLightMap = function(surf)
-{
+R.BuildLightMap = (surf) => {
 	var dest;
 	var smax = (surf.extents[0] >> 4) + 1;
 	var tmax = (surf.extents[1] >> 4) + 1;
@@ -1868,8 +1822,7 @@ R.BuildLightMap = function(surf)
 	}
 };
 
-R.TextureAnimation = function(base)
-{
+R.TextureAnimation = (base) => {
 	var frame = 0;
 	if (base.anim_base != null)
 	{
@@ -1884,8 +1837,7 @@ R.TextureAnimation = function(base)
 	return R.currententity.model.textures[anims[(Math.floor(CL.state.time * 5.0) + frame) % anims.length]];
 };
 
-R.DrawBrushModel = function(e)
-{
+R.DrawBrushModel = (e) => {
 	var clmodel = e.model;
 
 	if (clmodel.submodel === true)
@@ -1964,8 +1916,7 @@ R.DrawBrushModel = function(e)
 	}
 };
 
-R.RecursiveWorldNode = function(node)
-{
+R.RecursiveWorldNode = (node) => {
 	if (node.contents === Mod.contents.solid)
 		return;
 	if (node.contents < 0)
@@ -1981,8 +1932,7 @@ R.RecursiveWorldNode = function(node)
 	R.RecursiveWorldNode(node.children[1]);
 };
 
-R.DrawWorld = function()
-{
+R.DrawWorld = () => {
 	var clmodel = CL.state.worldmodel;
 	R.currententity = CL.entities[0];
 	gl.bindBuffer(gl.ARRAY_BUFFER, clmodel.cmds);
@@ -2042,8 +1992,7 @@ R.DrawWorld = function()
 	}
 };
 
-R.MarkLeaves = function()
-{
+R.MarkLeaves = () => {
 	if ((R.oldviewleaf === R.viewleaf) && (R.novis.value === 0))
 		return;
 	++R.visframecount;
@@ -2061,11 +2010,12 @@ R.MarkLeaves = function()
 			node.markvisframe = R.visframecount;
 		}
 	}
+	// noinspection PointlessBooleanExpressionJS
 	do
 	{
 		if (R.novis.value !== 0)
 			break;
-		var p = [R.refdef.vieworg[0], R.refdef.vieworg[1], R.refdef.vieworg[2]];
+		//var p = [R.refdef.vieworg[0], R.refdef.vieworg[1], R.refdef.vieworg[2]];
 		var leaf;
 		if (R.viewleaf.contents <= Mod.contents.water)
 		{
@@ -2098,8 +2048,7 @@ R.MarkLeaves = function()
 	R.RecursiveWorldNode(CL.state.worldmodel.nodes[0]);
 };
 
-R.AllocBlock = function(surf)
-{
+R.AllocBlock = (surf) => {
 	var w = (surf.extents[0] >> 4) + 1, h = (surf.extents[1] >> 4) + 1;
 	var x, y, i, j, best = 1024, best2;
 	for (i = 0; i < (1024 - w); ++i)
@@ -2128,8 +2077,7 @@ R.AllocBlock = function(surf)
 };
 
 // Based on Quake 2 polygon generation algorithm by Toji - http://blog.tojicode.com/2010/06/quake-2-bsp-quite-possibly-worst-format.html
-R.BuildSurfaceDisplayList = function(fa)
-{
+R.BuildSurfaceDisplayList = (fa) => {
 	fa.verts = [];
 	if (fa.numedges <= 2)
 		return;
@@ -2165,8 +2113,7 @@ R.BuildSurfaceDisplayList = function(fa)
 	}
 };
 
-R.BuildLightmaps = function()
-{
+R.BuildLightmaps = () => {
 	var i, j;
 
 	R.allocated = [];
@@ -2204,9 +2151,7 @@ R.BuildLightmaps = function()
 };
 
 // scan
-
-R.WarpScreen = function()
-{
+R.WarpScreen = () => {
 	GL.StreamFlush();
 	gl.finish();
 	gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -2220,9 +2165,7 @@ R.WarpScreen = function()
 };
 
 // warp
-
-R.MakeSky = function()
-{
+R.MakeSky = () => {
 	var sin = [0.0, 0.19509, 0.382683, 0.55557, 0.707107, 0.831470, 0.92388, 0.980785, 1.0];
 	var vecs = [], i, j;
 
@@ -2263,8 +2206,7 @@ R.MakeSky = function()
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vecs), gl.STATIC_DRAW);
 };
 
-R.DrawSkyBox = function()
-{
+R.DrawSkyBox = () => {
 	if (R.drawsky !== true)
 		return;
 
@@ -2325,8 +2267,7 @@ R.DrawSkyBox = function()
 	gl.depthFunc(gl.LESS);
 };
 
-R.InitSky = function(src)
-{
+R.InitSky = (src) => {
 	var i, j, p;
 	var trans = new ArrayBuffer(65536);
 	var trans32 = new Uint32Array(trans);

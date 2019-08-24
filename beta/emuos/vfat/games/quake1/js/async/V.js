@@ -2,8 +2,7 @@ V = {};
 
 V.dmg_time = 0.0;
 
-V.CalcRoll = function(angles, velocity)
-{
+V.CalcRoll = (angles, velocity) => {
 	var right = [];
 	Vec.AngleVectors(angles, null, right);
 	var side = velocity[0] * right[0] + velocity[1] * right[1] + velocity[2] * right[2];
@@ -14,8 +13,7 @@ V.CalcRoll = function(angles, velocity)
 	return V.rollangle.value * sign;
 };
 
-V.CalcBob = function()
-{
+V.CalcBob = () => {
 	if ((V.bobcycle.value <= 0.0)
 		|| (V.bobcycle.value >= 1.0)
 		|| (V.bobup.value <= 0.0)
@@ -37,8 +35,7 @@ V.CalcBob = function()
 	return bob;
 };
 
-V.StartPitchDrift = function()
-{
+V.StartPitchDrift = () => {
 	if (CL.state.laststop === CL.state.time)
 		return;
 	if ((CL.state.nodrift === true) || (CL.state.pitchvel === 0.0))
@@ -49,15 +46,13 @@ V.StartPitchDrift = function()
 	}
 };
 
-V.StopPitchDrift = function()
-{
+V.StopPitchDrift = () => {
 	CL.state.laststop = CL.state.time;
 	CL.state.nodrift = true;
 	CL.state.pitchvel = 0.0;
 };
 
-V.DriftPitch = function()
-{
+V.DriftPitch = () => {
 	if ((Host.noclip_anglehack === true) || (CL.state.onground !== true) || (CL.cls.demoplayback === true))
 	{
 		CL.state.driftmove = 0.0;
@@ -113,8 +108,7 @@ V.cshift_lava = [255.0, 80.0, 0.0, 150.0];
 
 V.blend = [0.0, 0.0, 0.0, 0.0];
 
-V.ParseDamage = function()
-{
+V.ParseDamage = () => {
 	var armor = MSG.ReadByte();
 	var blood = MSG.ReadByte();
 	var ent = CL.entities[CL.state.viewentity];
@@ -155,8 +149,7 @@ V.ParseDamage = function()
 	V.dmg_time = V.kicktime.value;
 };
 
-V.cshift_f = function()
-{
+V.cshift_f = () => {
 	var cshift = V.cshift_empty;
 	cshift[0] = Q.atoi(Cmd.argv[1]);
 	cshift[1] = Q.atoi(Cmd.argv[2]);
@@ -164,8 +157,7 @@ V.cshift_f = function()
 	cshift[3] = Q.atoi(Cmd.argv[4]);
 };
 
-V.BonusFlash_f = function()
-{
+V.BonusFlash_f = () => {
 	var cshift = CL.state.cshifts[CL.cshift.bonus];
 	cshift[0] = 215.0;
 	cshift[1] = 186.0;
@@ -173,8 +165,7 @@ V.BonusFlash_f = function()
 	cshift[3] = 50.0;
 };
 
-V.SetContentsColor = function(contents)
-{
+V.SetContentsColor = (contents) => {
 	switch (contents)
 	{
 	case Mod.contents.empty:
@@ -191,8 +182,7 @@ V.SetContentsColor = function(contents)
 	CL.state.cshifts[CL.cshift.contents] = V.cshift_water;
 };
 
-V.CalcBlend = function()
-{
+V.CalcBlend = () => {
 	var cshift = CL.state.cshifts[CL.cshift.powerup];
 	if ((CL.state.items & Def.it.quad) !== 0)
 	{
@@ -238,7 +228,7 @@ V.CalcBlend = function()
 		return;
 	}
 
-	var r = 0.0, g = 0.0, b = 0.0, a = 0.0, a2, i, cshift;
+	var r = 0.0, g = 0.0, b = 0.0, a = 0.0, a2, i;
 	for (i = 0; i <= 3; ++i)
 	{
 		cshift = CL.state.cshifts[i];
@@ -265,8 +255,7 @@ V.CalcBlend = function()
 		V.blend[3] = 0.0;
 };
 
-V.CalcIntermissionRefdef = function()
-{
+V.CalcIntermissionRefdef = () => {
 	var ent = CL.entities[CL.state.viewentity];
 	R.refdef.vieworg[0] = ent.origin[0];
 	R.refdef.vieworg[1] = ent.origin[1];
@@ -278,8 +267,8 @@ V.CalcIntermissionRefdef = function()
 };
 
 V.oldz = 0.0;
-V.CalcRefdef = function()
-{
+
+V.CalcRefdef = () => {
 	V.DriftPitch();
 
 	var ent = CL.entities[CL.state.viewentity];
@@ -378,8 +367,7 @@ V.CalcRefdef = function()
 		Chase.Update();
 };
 
-V.RenderView = function()
-{
+V.RenderView = () => {
 	if (Con.forcedup === true)
 		return;
 	if (CL.state.maxclients >= 2)
@@ -396,8 +384,7 @@ V.RenderView = function()
 	R.RenderView();
 };
 
-V.Init = function()
-{
+V.Init = () => {
 	Cmd.AddCommand('v_cshift', V.cshift_f);
 	Cmd.AddCommand('bf', V.BonusFlash_f);
 	Cmd.AddCommand('centerview', V.StartPitchDrift);

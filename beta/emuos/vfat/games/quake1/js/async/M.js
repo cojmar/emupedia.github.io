@@ -1,7 +1,6 @@
 M = {};
 
-M.state =
-{
+M.state = {
 	none: 0,
 	main: 1,
 	singleplayer: 2,
@@ -12,37 +11,31 @@ M.state =
 	keys: 7,
 	help: 8,
 	quit: 9,
-	
+
 	value: 0
 };
 
-M.DrawCharacter = function(cx, line, num)
-{
+M.DrawCharacter = (cx, line, num) => {
 	Draw.Character(cx + (VID.width >> 1) - 160, line + (VID.height >> 1) - 100, num);
 };
 
-M.Print = function(cx, cy, str)
-{
+M.Print = (cx, cy, str) => {
 	Draw.StringWhite(cx + (VID.width >> 1) - 160, cy + (VID.height >> 1) - 100, str);
 };
 
-M.PrintWhite = function(cx, cy, str)
-{
+M.PrintWhite = (cx, cy, str) => {
 	Draw.String(cx + (VID.width >> 1) - 160, cy + (VID.height >> 1) - 100, str);
 };
 
-M.DrawPic = function(x, y, pic)
-{
+M.DrawPic = (x, y, pic) => {
 	Draw.Pic(x + (VID.width >> 1) - 160, y + (VID.height >> 1) - 100, pic);
 };
 
-M.DrawPicTranslate = function(x, y, pic, top, bottom)
-{
+M.DrawPicTranslate = (x, y, pic, top, bottom) => {
 	Draw.PicTranslate(x + (VID.width >> 1) - 160, y + (VID.height >> 1) - 100, pic, top, bottom);
 };
 
-M.DrawTextBox = function(x, y, width, lines)
-{
+M.DrawTextBox = (x, y, width, lines) => {
 	var cx, cy, n;
 
 	cy = y;
@@ -76,8 +69,7 @@ M.DrawTextBox = function(x, y, width, lines)
 	M.DrawPic(cx, cy + 8, M.box_br);
 };
 
-M.ToggleMenu_f = function()
-{
+M.ToggleMenu_f = () => {
 	M.entersound = true;
 	if (Key.dest.value === Key.dest.menu)
 	{
@@ -93,13 +85,11 @@ M.ToggleMenu_f = function()
 	M.Menu_Main_f();
 };
 
-
 // Main menu
 M.main_cursor = 0;
 M.main_items = 5;
 
-M.Menu_Main_f = function()
-{
+M.Menu_Main_f = () => {
 	if (Key.dest.value !== Key.dest.menu)
 	{
 		M.save_demonum = CL.cls.demonum;
@@ -110,16 +100,14 @@ M.Menu_Main_f = function()
 	M.entersound = true;
 };
 
-M.Main_Draw = function()
-{
+M.Main_Draw = () => {
 	M.DrawPic(16, 4, M.qplaque);
 	M.DrawPic(160 - (M.ttl_main.width >> 1), 4, M.ttl_main);
 	M.DrawPic(72, 32, M.mainmenu);
 	M.DrawPic(54, 32 + M.main_cursor * 20, M.menudot[Math.floor(Host.realtime * 10.0) % 6]);
 };
 
-M.Main_Key = async function(k)
-{
+M.Main_Key = async (k) => {
 	switch (k)
 	{
 	case Key.k.escape:
@@ -165,23 +153,20 @@ M.Main_Key = async function(k)
 M.singleplayer_cursor = 0;
 M.singleplayer_items = 3;
 
-M.Menu_SinglePlayer_f = function()
-{
+M.Menu_SinglePlayer_f = () => {
 	Key.dest.value = Key.dest.menu;
 	M.state.value = M.state.singleplayer;
 	M.entersound = true;
 };
 
-M.SinglePlayer_Draw = function()
-{
+M.SinglePlayer_Draw = () => {
 	M.DrawPic(16, 4, M.qplaque);
 	M.DrawPic(160 - (M.ttl_sgl.width >> 1), 4, M.ttl_sgl);
 	M.DrawPic(72, 32, M.sp_menu);
 	M.DrawPic(54, 32 + M.singleplayer_cursor * 20, M.menudot[Math.floor(Host.realtime * 10.0) % 6]);
 };
 
-M.SinglePlayer_Key = async function(k)
-{
+M.SinglePlayer_Key = async (k) => {
 	switch (k)
 	{
 	case Key.k.escape:
@@ -227,8 +212,7 @@ M.filenames = [];
 M.loadable = [];
 M.removable = [];
 
-M.ScanSaves = async function()
-{
+M.ScanSaves = async () => {
 	var searchpaths = COM.searchpaths, i, j, search = 'Quake.' + COM.gamedir[0].filename + '/s', f, version, name, j, c;
 	COM.searchpaths = COM.gamedir;
 	for (i = 0; i < M.max_savegames; ++i)
@@ -273,16 +257,14 @@ M.ScanSaves = async function()
 	COM.searchpaths = searchpaths;
 };
 
-M.Menu_Load_f = async function()
-{
+M.Menu_Load_f = async () => {
 	M.entersound = true;
 	M.state.value = M.state.load;
 	Key.dest.value = Key.dest.menu;
 	await M.ScanSaves();
 };
 
-M.Menu_Save_f = async function()
-{
+M.Menu_Save_f = async () => {
 	if ((SV.server.active !== true) || (CL.state.intermission !== 0) || (SV.svs.maxclients !== 1))
 		return;
 	M.entersound = true;
@@ -291,8 +273,7 @@ M.Menu_Save_f = async function()
 	await M.ScanSaves();
 };
 
-M.Load_Draw = function()
-{
+M.Load_Draw = () => {
 	M.DrawPic(160 - (M.p_load.width >> 1), 4, M.p_load);
 	var i;
 	for (i = 0; i < M.max_savegames; ++i)
@@ -300,8 +281,7 @@ M.Load_Draw = function()
 	M.DrawCharacter(8, 32 + (M.load_cursor << 3), 12 + ((Host.realtime * 4.0) & 1));
 };
 
-M.Save_Draw = function()
-{
+M.Save_Draw = () => {
 	M.DrawPic(160 - (M.p_save.width >> 1), 4, M.p_save);
 	var i;
 	for (i = 0; i < M.max_savegames; ++i)
@@ -309,8 +289,7 @@ M.Save_Draw = function()
 	M.DrawCharacter(8, 32 + (M.load_cursor << 3), 12 + ((Host.realtime * 4.0) & 1));
 };
 
-M.Load_Key = async function(k)
-{
+M.Load_Key = async (k) => {
 	switch (k)
 	{
 	case Key.k.escape:
@@ -347,8 +326,7 @@ M.Load_Key = async function(k)
 	}
 };
 
-M.Save_Key = async function(k)
-{
+M.Save_Key = async (k) => {
 	switch (k)
 	{
 	case Key.k.escape:
@@ -387,8 +365,7 @@ M.multiplayer_cursor_table = [56, 72, 96, 120, 156];
 M.multiplayer_joinname = '';
 M.multiplayer_items = 5;
 
-M.Menu_MultiPlayer_f = function()
-{
+M.Menu_MultiPlayer_f = () => {
 	Key.dest.value = Key.dest.menu;
 	M.state.value = M.state.multiplayer;
 	M.entersound = true;
@@ -397,8 +374,7 @@ M.Menu_MultiPlayer_f = function()
 	M.multiplayer_bottom = M.multiplayer_oldbottom = CL.color.value & 15;
 };
 
-M.MultiPlayer_Draw = function()
-{
+M.MultiPlayer_Draw = () => {
 	M.DrawPic(16, 4, M.qplaque);
 	M.DrawPic(160 - (M.p_multi.width >> 1), 4, M.p_multi);
 
@@ -432,8 +408,7 @@ M.MultiPlayer_Draw = function()
 		M.PrintWhite(52, 172, 'No Communications Available');
 };
 
-M.MultiPlayer_Key = async function(k)
-{
+M.MultiPlayer_Key = async (k) => {
 	if (k === Key.k.escape)
 		M.Menu_Main_f();
 
@@ -539,17 +514,15 @@ M.MultiPlayer_Key = async function(k)
 M.options_cursor = 0;
 M.options_items = 11;
 
-M.Menu_Options_f = function()
-{
+M.Menu_Options_f = () => {
 	Key.dest.value = Key.dest.menu;
 	M.state.value = M.state.options;
 	M.entersound = true;
 };
 
-M.AdjustSliders = async function(dir)
-{
+M.AdjustSliders = async (dir) => {
 	await S.LocalSound(M.sfx_menu3);
-	
+
 	switch (M.options_cursor)
 	{
 	case 3: // screen size
@@ -613,8 +586,7 @@ M.AdjustSliders = async function(dir)
 	}
 };
 
-M.DrawSlider = function(x, y, range)
-{
+M.DrawSlider = (x, y, range) => {
 	if (range < 0)
 		range = 0;
 	else if (range > 1)
@@ -634,15 +606,14 @@ M.DrawSlider = function(x, y, range)
 	M.DrawCharacter(x + Math.floor(72 * range), y, 131);
 };
 
-M.Options_Draw = function()
-{
+M.Options_Draw = () => {
 	M.DrawPic(16, 4, M.qplaque);
 	M.DrawPic(160 - (M.p_option.width >> 1), 4, M.p_option);
-	
+
 	M.Print(48, 32, 'Customize controls');
 	M.Print(88, 40, 'Go to console');
 	M.Print(56, 48, 'Reset to defaults');
-	
+
 	M.Print(104, 56, 'Screen size');
 	M.DrawSlider(220, 56, (SCR.viewsize.value - 30) / 90);
 	M.Print(112, 64, 'Brightness');
@@ -661,12 +632,11 @@ M.Options_Draw = function()
 	M.Print(220, 112, (CL.lookspring.value !== 0) ? 'on' : 'off');
 	M.Print(112, 120, 'Lookstrafe');
 	M.Print(220, 120, (CL.lookstrafe.value !== 0) ? 'on' : 'off');
-	
+
 	M.DrawCharacter(200, 32 + (M.options_cursor << 3), 12 + ((Host.realtime * 4.0) & 1));
 };
 
-M.Options_Key = async function(k)
-{
+M.Options_Key = async (k) => {
 	switch (k)
 	{
 	case Key.k.escape:
@@ -732,15 +702,13 @@ M.bindnames = [
 
 M.keys_cursor = 0;
 
-M.Menu_Keys_f = function()
-{
+M.Menu_Keys_f = () => {
 	Key.dest.value = Key.dest.menu;
 	M.state.value = M.state.keys;
 	M.entersound = true;
 };
 
-M.FindKeysForCommand = function(command)
-{
+M.FindKeysForCommand = (command) => {
 	var twokeys = [], i;
 	for (i = 0; i < Key.bindings.length; ++i)
 	{
@@ -754,8 +722,7 @@ M.FindKeysForCommand = function(command)
 	return twokeys;
 };
 
-M.UnbindCommand = function(command)
-{
+M.UnbindCommand = (command) => {
 	var i;
 	for (i = 0; i < Key.bindings.length; ++i)
 	{
@@ -764,8 +731,7 @@ M.UnbindCommand = function(command)
 	}
 };
 
-M.Keys_Draw = function()
-{
+M.Keys_Draw = () => {
 	M.DrawPic(160 - (M.ttl_cstm.width >> 1), 4, M.ttl_cstm);
 
 	if (M.bind_grab === true)
@@ -797,8 +763,7 @@ M.Keys_Draw = function()
 	}
 };
 
-M.Keys_Key = async function(k)
-{
+M.Keys_Key = async (k) => {
 	if (M.bind_grab === true)
 	{
 		await S.LocalSound(M.sfx_menu1);
@@ -841,43 +806,39 @@ M.Keys_Key = async function(k)
 // Help menu
 M.num_help_pages = 6;
 
-M.Menu_Help_f = function()
-{
+M.Menu_Help_f = () => {
 	Key.dest.value = Key.dest.menu;
 	M.state.value = M.state.help;
 	M.entersound = true;
 	M.help_page = 0;
 };
 
-M.Help_Draw = function()
+M.Help_Draw = () =>
 {
 	M.DrawPic(0, 0, M.help_pages[M.help_page]);
 };
 
-M.Help_Key = function(k)
-{
-	switch (k)
-	{
-	case Key.k.escape:
-		M.Menu_Main_f();
-		return;
-	case Key.k.uparrow:
-	case Key.k.rightarrow:
-		M.entersound = true;
-		if (++M.help_page >= M.num_help_pages)
-			M.help_page = 0;
-		return;
-	case Key.k.downarrow:
-	case Key.k.leftarrow:
-		M.entersound = true;
-		if (--M.help_page < 0)
-			M.help_page = M.num_help_pages - 1;
-	};
+M.Help_Key = (k) => {
+	switch (k) {
+		case Key.k.escape:
+			M.Menu_Main_f();
+			return;
+		case Key.k.uparrow:
+		case Key.k.rightarrow:
+			M.entersound = true;
+			if (++M.help_page >= M.num_help_pages)
+				M.help_page = 0;
+			return;
+		case Key.k.downarrow:
+		case Key.k.leftarrow:
+			M.entersound = true;
+			if (--M.help_page < 0)
+				M.help_page = M.num_help_pages - 1;
+	}
 };
 
 // Quit menu
-M.quitMessage =
-[
+M.quitMessage = [
 	['  Are you gonna quit', '  this game just like', '   everything else?', ''],
 	[' Milord, methinks that', '   thou art a lowly', ' quitter. Is this true?', ''],
 	[' Do I need to bust your', '  face open for trying', '        to quit?', ''],
@@ -888,8 +849,7 @@ M.quitMessage =
 	['  If you quit now, I\'ll', '  throw a blanket-party', '   for you next time!', '']
 ];
 
-M.Menu_Quit_f = function()
-{
+M.Menu_Quit_f = () => {
 	if (M.state.value === M.state.quit)
 		return;
 	M.wasInMenus = (Key.dest.value === Key.dest.menu);
@@ -900,8 +860,7 @@ M.Menu_Quit_f = function()
 	M.msgNumber = Math.floor(Math.random() * M.quitMessage.length);
 };
 
-M.Quit_Draw = async function()
-{
+M.Quit_Draw = async () => {
 	if (M.wasInMenus === true)
 	{
 		M.state.value = M.quit_prevstate;
@@ -916,8 +875,7 @@ M.Quit_Draw = async function()
 	M.Print(64, 108, M.quitMessage[M.msgNumber][3]);
 };
 
-M.Quit_Key = function(k)
-{
+M.Quit_Key = (k) => {
 	switch (k)
 	{
 	case Key.k.escape:
@@ -939,10 +897,8 @@ M.Quit_Key = function(k)
 	}
 };
 
-
 // Menu Subsystem
-M.Init = async function()
-{
+M.Init = async () => {
 	Cmd.AddCommand('togglemenu', M.ToggleMenu_f);
 	Cmd.AddCommand('menu_main', M.Menu_Main_f);
 	Cmd.AddCommand('menu_singleplayer', M.Menu_SinglePlayer_f);
@@ -1029,8 +985,7 @@ M.Init = async function()
 	];
 };
 
-M.Draw = async function()
-{
+M.Draw = async () => {
 	if ((M.state.value === M.state.none) || (Key.dest.value !== Key.dest.menu))
 		return;
 
@@ -1043,7 +998,7 @@ M.Draw = async function()
 	}
 	else
 		M.recursiveDraw = false;
-	
+
 	switch (M.state.value)
 	{
 	case M.state.main:
@@ -1080,8 +1035,7 @@ M.Draw = async function()
 	}
 };
 
-M.Keydown = async function(key)
-{
+M.Keydown = async (key) => {
 	switch (M.state.value)
 	{
 	case M.state.main:

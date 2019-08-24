@@ -2,8 +2,7 @@ Sys = {};
 
 Sys.events = ['onbeforeunload', 'oncontextmenu', 'onfocus', 'onkeydown', 'onkeyup', 'onmousedown', 'onmouseup', 'onmousewheel', 'onunload', 'onwheel'];
 
-Sys.Quit = function()
-{
+Sys.Quit = () => {
 	if (Sys.looping)
 		Sys.looping = false;
 	var i;
@@ -19,14 +18,12 @@ Sys.Quit = function()
 	// throw new Error;
 };
 
-Sys.Print = function(text)
-{
+Sys.Print = (text) => {
 	if (window.console != null)
 		console.log(text);
 };
 
-Sys.Error = function(text)
-{
+Sys.Error = (text) => {
 	if (Sys.looping)
 		Sys.looping = false;
 	var i;
@@ -47,12 +44,12 @@ Sys.Error = function(text)
 	throw new Error(text);
 };
 
-Sys.FloatTime = function()
-{
+Sys.FloatTime = () => {
+	// noinspection JSConstructorReturnsPrimitive
 	return Date.now() * 0.001 - Sys.oldtime;
 };
 
-Sys.Start = async function() {
+Sys.Start = async () => {
 	if (Number.isNaN != null)
 		Q.isNaN = Number.isNaN;
 	else
@@ -169,18 +166,15 @@ Sys.Start = async function() {
 	gameLoop();
 };
 
-Sys.onbeforeunload = function()
-{
+/*Sys.onbeforeunload = () => {
 	return 'Are you sure you want to quit?';
-};
+};*/
 
-Sys.oncontextmenu = function(e)
-{
+Sys.oncontextmenu = (e) => {
 	e.preventDefault();
 };
 
-Sys.onfocus = async function()
-{
+Sys.onfocus = async () => {
 	var i;
 	for (i = 0; i < 256; ++i)
 	{
@@ -189,8 +183,7 @@ Sys.onfocus = async function()
 	}
 };
 
-Sys.onkeydown = async function(e)
-{
+Sys.onkeydown = async (e) => {
 	var key = Sys.scantokey[e.keyCode];
 	if (key == null)
 		return;
@@ -198,8 +191,7 @@ Sys.onkeydown = async function(e)
 	e.preventDefault();
 };
 
-Sys.onkeyup = async function(e)
-{
+Sys.onkeyup = async (e) => {
 	var key = Sys.scantokey[e.keyCode];
 	if (key == null)
 		return;
@@ -207,65 +199,92 @@ Sys.onkeyup = async function(e)
 	e.preventDefault();
 };
 
-Sys.onmousedown = async function(e)
-{
-	var key;
-	switch (e.which)
-	{
-	case 1:
-		key = Key.k.mouse1;
-		break;
-	case 2:
-		key = Key.k.mouse3;
-		break;
-	case 3:
-		key = Key.k.mouse2;
-		break;
-	default:
-		return;
+Sys.onmousedown = async (e) => {
+	let key;
+
+	switch (e.which) {
+		case 1:
+			key = Key.k.mouse1;
+			break;
+		case 2:
+			key = Key.k.mouse3;
+			break;
+		case 3:
+			key = Key.k.mouse2;
+			break;
+		default:
+			return;
 	}
-	await Key.Event(key, true)
+
+	await Key.Event(key, true);
+
 	e.preventDefault();
 };
 
-Sys.onmouseup = async function(e)
-{
-	var key;
-	switch (e.which)
-	{
-	case 1:
-		key = Key.k.mouse1;
-		break;
-	case 2:
-		key = Key.k.mouse3;
-		break;
-	case 3:
-		key = Key.k.mouse2;
-		break;
-	default:
-		return;
+Sys.onmouseup = async (e) => {
+	let key;
+
+	switch (e.which) {
+		case 1:
+			key = Key.k.mouse1;
+			break;
+		case 2:
+			key = Key.k.mouse3;
+			break;
+		case 3:
+			key = Key.k.mouse2;
+			break;
+		default:
+			return;
 	}
-	await Key.Event(key)
+
+	await Key.Event(key);
+
 	e.preventDefault();
 };
 
-Sys.onmousewheel = async function(e)
-{
+Sys.onmousewheel = async (e) => {
 	var key = e.wheelDeltaY > 0 ? Key.k.mwheelup : Key.k.mwheeldown;
 	await Key.Event(key, true);
 	await Key.Event(key);
 	e.preventDefault();
 };
 
-Sys.onunload = function()
-{
+Sys.onunload = () => {
 	Host.Shutdown();
 };
 
-Sys.onwheel = async function(e)
-{
+Sys.onwheel = async (e) => {
 	var key = e.deltaY < 0 ? Key.k.mwheelup : Key.k.mwheeldown;
 	await Key.Event(key, true);
 	await Key.Event(key);
 	e.preventDefault();
+};
+
+// noinspection DuplicatedCode
+Sys.ongamepadpoll = (e) => {
+	Key.gamepadlastaxes = e.axes;
+
+	if (Key.gamepadlastbuttons) {
+		for (let i = 0; i < e.buttons.length; i++) {
+			// noinspection DuplicatedCode
+			if (e.buttons[i].value !== Key.gamepadlastbuttons[i]) {
+				if (e.buttons[i].value) {
+					Key.Event(Key.k['joy' + (i + 1)], true);
+					//console.log("JOY"+(i+1), true)
+				} else {
+					Key.Event(Key.k['joy' + (i + 1)]);
+					//console.log("JOY"+(i+1), false)
+				}
+			}
+		}
+
+		Key.gamepadlastbuttons = e.buttons.map(function(b) {
+			return b.value;
+		});
+	} else {
+		Key.gamepadlastbuttons = e.buttons.map(function(b) {
+			return b.value;
+		});
+	}
 };

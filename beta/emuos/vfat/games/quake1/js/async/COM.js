@@ -4,23 +4,23 @@ COM.argv = [];
 
 COM.standard_quake = true;
 
-COM.GetFile = async function(file) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.overrideMimeType('text/plain; charset=x-user-defined');
-    xhr.open('GET', file);
-    xhr.onload = () => {
-      resolve({
-        status: xhr.status,
-        responseText: xhr.responseText
-      });
-    }
-    xhr.onerror = (e) => reject(e)
-    xhr.send();
-  });
+COM.GetFile = async (file) => {
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest();
+		xhr.overrideMimeType('text/plain; charset=x-user-defined');
+		xhr.open('GET', file);
+		xhr.onload = () => {
+		  resolve({
+			status: xhr.status,
+			responseText: xhr.responseText
+		  });
+		};
+		xhr.onerror = (e) => reject(e);
+		xhr.send();
+	});
 };
 
-COM.GetFileRange = async function(file, rangeFrom, rangeTo) {
+COM.GetFileRange = async (file, rangeFrom, rangeTo) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.overrideMimeType('text/plain; charset=x-user-defined');
@@ -37,8 +37,7 @@ COM.GetFileRange = async function(file, rangeFrom, rangeTo) {
   });
 };
 
-COM.DefaultExtension = function(path, extension)
-{
+COM.DefaultExtension = (path, extension) => {
 	var i, src;
 	for (i = path.length - 1; i >= 0; --i)
 	{
@@ -51,8 +50,7 @@ COM.DefaultExtension = function(path, extension)
 	return path + extension;
 };
 
-COM.Parse = function(data)
-{
+COM.Parse = (data) => {
 	COM.token = '';
 	var i = 0, c;
 	if (data.length === 0)
@@ -73,7 +71,7 @@ COM.Parse = function(data)
 				break;
 			++i;
 		}
-		if ((c === 47) && (data.charCodeAt(i + 1) == 47))
+		if ((c === 47) && (data.charCodeAt(i + 1) === 47))
 		{
 			for (;;)
 			{
@@ -110,8 +108,7 @@ COM.Parse = function(data)
 	return data.substring(i);
 };
 
-COM.CheckParm = function(parm)
-{
+COM.CheckParm = (parm) => {
 	var i;
 	for (i = 1; i < COM.argv.length; ++i)
 	{
@@ -120,8 +117,7 @@ COM.CheckParm = function(parm)
 	}
 };
 
-COM.CheckRegistered = async function()
-{
+COM.CheckRegistered = async () => {
 	var h = await COM.LoadFile('gfx/pop.lmp');
 	if (h == null)
 	{
@@ -160,8 +156,7 @@ COM.CheckRegistered = async function()
 	Con.Print('Playing registered version.\n');
 };
 
-COM.InitArgv = function(argv)
-{
+COM.InitArgv = (argv) => {
 	COM.cmdline = (argv.join(' ') + ' ').substring(0, 256);
 	var i;
 	for (i = 0; i < argv.length; ++i)
@@ -184,8 +179,7 @@ COM.InitArgv = function(argv)
 	}
 };
 
-COM.Init = async function()
-{
+COM.Init = async () => {
 	/*if ((document.location.protocol !== 'http:') && (document.location.protocol !== 'https:')) {
 		Sys.Error('Protocol is ' + document.location.protocol + ', not http: or https:');
 	}*/
@@ -208,8 +202,7 @@ COM.Init = async function()
 
 COM.searchpaths = [];
 
-COM.Path_f = function()
-{
+COM.Path_f = () => {
 	Con.Print('Current search path:\n');
 	var i = COM.searchpaths.length, j, s;
 	for (i = COM.searchpaths.length - 1; i >= 0; --i)
@@ -221,8 +214,7 @@ COM.Path_f = function()
 	}
 };
 
-COM.WriteFile = function(filename, data, len)
-{
+COM.WriteFile = (filename, data, len) => {
 	filename = filename.toLowerCase();
 	var dest = [], i;
 	for (i = 0; i < len; ++i)
@@ -240,8 +232,7 @@ COM.WriteFile = function(filename, data, len)
 	return true;
 };
 
-COM.WriteTextFile = function(filename, data)
-{
+COM.WriteTextFile = (filename, data) => {
 	filename = filename.toLowerCase();
 	try
 	{
@@ -256,8 +247,7 @@ COM.WriteTextFile = function(filename, data)
 	return true;
 };
 
-COM.LoadFile = async function(filename)
-{
+COM.LoadFile = async (filename) => {
 	filename = filename.toLowerCase();
 	var i, j, k, search, netpath, pak, file, data;
 	Draw.BeginDisc();
@@ -292,7 +282,7 @@ COM.LoadFile = async function(filename)
 
 				if ((gotFile.status >= 200) && (gotFile.status <= 299) && (gotFile.responseText.length === file.filelen))
 				{
-					Sys.Print('PackFile: ' + search.filename + '/pak' + j + '.pak : ' + filename + '\n');
+					Sys.Print('PackFile: ' + search.filename + '/pak' + j + '.pak | File: ' + filename + '\n');
 					Draw.EndDisc();
 					return Q.strmem(gotFile.responseText);
 				}
@@ -312,8 +302,7 @@ COM.LoadFile = async function(filename)
 	Draw.EndDisc();
 };
 
-COM.LoadTextFile = async function(filename)
-{
+COM.LoadTextFile = async (filename) => {
 	var buf = await COM.LoadFile(filename);
 	if (buf == null)
 		return;
@@ -328,8 +317,7 @@ COM.LoadTextFile = async function(filename)
 	return f.join('');
 };
 
-COM.LoadPackFile = async function(packfile)
-{
+COM.LoadPackFile = async (packfile) => {
 	var paknumber = parseInt(packfile.split('.')[0].split('/')[1].replace('pak', ''), 10);
 
 	// const gotHeader = await COM.GetFileRange(packfile, 0, 11);
@@ -369,8 +357,7 @@ COM.LoadPackFile = async function(packfile)
 	return pack;
 };
 
-COM.AddGameDirectory = async function(dir)
-{
+COM.AddGameDirectory = async (dir) => {
 	var search = {filename: dir, pack: []};
 	var pak, i = 0;
 	for (;;)
@@ -384,8 +371,7 @@ COM.AddGameDirectory = async function(dir)
 	COM.searchpaths[COM.searchpaths.length] = search;
 };
 
-COM.InitFilesystem = async function()
-{
+COM.InitFilesystem = async () => {
 	var i, search;
 
 	i = COM.CheckParm('-basedir');

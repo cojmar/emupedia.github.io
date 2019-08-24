@@ -1,7 +1,6 @@
 Q = {};
 
-Q.memstr = function(src)
-{
+Q.memstr = (src) => {
 	var dest = [], i;
 	for (i = 0; i < src.length; ++i)
 	{
@@ -12,8 +11,7 @@ Q.memstr = function(src)
 	return dest.join('');
 };
 
-Q.strmem = function(src)
-{
+Q.strmem = (src) => {
 	var buf = new ArrayBuffer(src.length);
 	var dest = new Uint8Array(buf);
 	var i;
@@ -22,8 +20,7 @@ Q.strmem = function(src)
 	return buf;
 };
 
-Q.atoi = function(str)
-{
+Q.atoi = (str) => {
 	if (str == null)
 		return 0;
 	var ptr, val = 0, sign, c, c2;
@@ -39,6 +36,7 @@ Q.atoi = function(str)
 	}
 	c = str.charCodeAt(ptr);
 	c2 = str.charCodeAt(ptr + 1);
+
 	if ((c === 48) && ((c2 === 120) || (c2 === 88)))
 	{
 		ptr += 2;
@@ -55,12 +53,14 @@ Q.atoi = function(str)
 				return val * sign;
 		}
 	}
+
 	if (c === 39)
 	{
 		if (Q.isNaN(c2) === true)
 			return 0;
 		return sign * c2;
 	}
+
 	for (;;)
 	{
 		c = str.charCodeAt(ptr++);
@@ -68,11 +68,12 @@ Q.atoi = function(str)
 			return val * sign;
 		val = val * 10 + c - 48;
 	}
+
+	// noinspection UnreachableCodeJS
 	return 0;
 };
 
-Q.atof = function(str)
-{
+Q.atof = (str) => {
 	if (str == null)
 		return 0.0;
 	var ptr, val, sign, c, c2;
@@ -117,8 +118,7 @@ Q.atof = function(str)
 	return val;
 };
 
-Q.btoa = function(src)
-{
+Q.btoa = (src) => {
 	var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	var val = [];
 	var len = src.length - (src.length % 3);

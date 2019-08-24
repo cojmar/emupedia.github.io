@@ -200,8 +200,7 @@ PR.progheader_crc = 5927;
 
 // cmds
 
-PR.CheckEmptyString = async function(s)
-{
+PR.CheckEmptyString = async (s) => {
 	var c = s.charCodeAt(0);
 	if ((Q.isNaN(c) === true) || (c <= 32))
 		await PR.RunError('Bad string');
@@ -209,8 +208,7 @@ PR.CheckEmptyString = async function(s)
 
 // edict
 
-PR.ValueString = function(type, val, ofs)
-{
+PR.ValueString = (type, val, ofs) => {
 	var val_float = new Float32Array(val);
 	var val_int = new Int32Array(val);
 	type &= 0x7fff;
@@ -241,8 +239,7 @@ PR.ValueString = function(type, val, ofs)
 	return 'bad type ' + type;
 };
 
-PR.UglyValueString = function(type, val, ofs)
-{
+PR.UglyValueString = (type, val, ofs) => {
 	var val_float = new Float32Array(val);
 	var val_int = new Int32Array(val);
 	type &= 0x7fff;
@@ -271,8 +268,7 @@ PR.UglyValueString = function(type, val, ofs)
 	return 'bad type ' + type;
 };
 
-PR.GlobalString = function(ofs)
-{
+PR.GlobalString = (ofs) => {
 	var def = ED.GlobalAtOfs(ofs), line;
 	if (def != null)
 		line = ofs + '(' + PR.GetString(def.name) + ')' + PR.ValueString(def.type, PR.globals, ofs);
@@ -283,8 +279,7 @@ PR.GlobalString = function(ofs)
 	return line;
 };
 
-PR.GlobalStringNoContents = function(ofs)
-{
+PR.GlobalStringNoContents = (ofs) => {
 	var def = ED.GlobalAtOfs(ofs), line;
 	if (def != null)
 		line = ofs + '(' + PR.GetString(def.name) + ')';
@@ -295,8 +290,7 @@ PR.GlobalStringNoContents = function(ofs)
 	return line;
 };
 
-PR.LoadProgs = async function()
-{
+PR.LoadProgs = async () => {
 	var progs = await COM.LoadFile('progs.dat');
 	if (progs == null)
 		Sys.Error('PR.LoadProgs: couldn\'t load progs.dat');
@@ -422,8 +416,7 @@ PR.LoadProgs = async function()
 	}
 };
 
-PR.Init = function()
-{
+PR.Init = () => {
 	Cmd.AddCommand('edict', ED.PrintEdict_f);
 	Cmd.AddCommand('edicts', ED.PrintEdicts);
 	Cmd.AddCommand('edictcount', ED.Count);
@@ -468,8 +461,7 @@ PR.opnames = [
 	'BITAND', 'BITOR'
 ];
 
-PR.PrintStatement = function(s)
-{
+PR.PrintStatement = (s) => {
 	var text;
 	if (s.op < PR.opnames.length)
 	{
@@ -497,8 +489,7 @@ PR.PrintStatement = function(s)
 	Con.Print(text + '\n');
 };
 
-PR.StackTrace = function()
-{
+PR.StackTrace = () => {
 	if (PR.depth === 0)
 	{
 		Con.Print('<NO STACK>\n');
@@ -522,8 +513,7 @@ PR.StackTrace = function()
 	PR.depth = 0;
 };
 
-PR.Profile_f = function()
-{
+PR.Profile_f = () => {
 	if (SV.server.active !== true)
 		return;
 	var num = 0, max, best, i, f, profile;
@@ -554,16 +544,14 @@ PR.Profile_f = function()
 	}
 };
 
-PR.RunError = async function(error)
-{
+PR.RunError = async (error) => {
 	PR.PrintStatement(PR.statements[PR.xstatement]);
 	PR.StackTrace();
 	Con.Print(error + '\n');
 	await Host.Error('Program error');
 };
 
-PR.EnterFunction = async function(f)
-{
+PR.EnterFunction = async (f) => {
 	PR.stack[PR.depth++] = [PR.xstatement, PR.xfunction];
 	var c = f.locals;
 	if ((PR.localstack_used + c) > PR.localstack_size)
@@ -582,8 +570,7 @@ PR.EnterFunction = async function(f)
 	return f.first_statement - 1;
 };
 
-PR.LeaveFunction = async function()
-{
+PR.LeaveFunction = async () => {
 	if (PR.depth <= 0)
 		Sys.Error('prog stack underflow');
 	var c = PR.xfunction.locals;
@@ -596,8 +583,7 @@ PR.LeaveFunction = async function()
 	return PR.stack[PR.depth][0];
 };
 
-PR.ExecuteProgram = async function(fnum)
-{
+PR.ExecuteProgram = async (fnum) => {
 	if ((fnum === 0) || (fnum >= PR.functions.length))
 	{
 		if (PR.globals_int[PR.globalvars.self] !== 0)
@@ -832,8 +818,7 @@ PR.ExecuteProgram = async function(fnum)
 	}
 };
 
-PR.GetString = function(num)
-{
+PR.GetString = (num) => {
 	var string = [], c;
 	for (; num < PR.strings.length; ++num)
 	{
@@ -844,8 +829,7 @@ PR.GetString = function(num)
 	return string.join('');
 };
 
-PR.NewString = function(s, length)
-{
+PR.NewString = (s, length) => {
 	var ofs = PR.strings.length;
 	var i;
 	if (s.length >= length)
@@ -863,8 +847,7 @@ PR.NewString = function(s, length)
 	return ofs;
 };
 
-PR.TempString = function(string)
-{
+PR.TempString = (string) => {
 	var i;
 	if (string.length > 127)
 		string = string.substring(0, 127);

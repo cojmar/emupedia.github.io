@@ -2,8 +2,7 @@ Vec = {};
 
 Vec.origin = [0.0, 0.0, 0.0];
 
-Vec.Perpendicular = function(v)
-{
+Vec.Perpendicular = (v) => {
 	var pos = 0;
 	var minelem = 1;
 	if (Math.abs(v[0]) < minelem)
@@ -34,8 +33,7 @@ Vec.Perpendicular = function(v)
 	return dst;
 };
 
-Vec.RotatePointAroundVector = function(dir, point, degrees)
-{
+Vec.RotatePointAroundVector = (dir, point, degrees) => {
 	var r = Vec.Perpendicular(dir);
 	var up = Vec.CrossProduct(r, dir);
 	var m = [
@@ -59,13 +57,11 @@ Vec.RotatePointAroundVector = function(dir, point, degrees)
 	];
 };
 
-Vec.Anglemod = function(a)
-{
+Vec.Anglemod = (a) => {
 	return (a % 360.0 + 360.0) % 360.0;
 };
 
-Vec.BoxOnPlaneSide = function(emins, emaxs, p)
-{
+Vec.BoxOnPlaneSide = (emins, emaxs, p) => {
 	if (p.type <= 2)
 	{
 		if (p.dist <= emins[p.type])
@@ -120,10 +116,9 @@ Vec.BoxOnPlaneSide = function(emins, emaxs, p)
 	return sides;
 };
 
-Vec.AngleVectors = function(angles, forward, right, up)
-{
+Vec.AngleVectors = (angles, forward, right, up) => {
 	var angle;
-	
+
 	angle = angles[0] * Math.PI / 180.0;
 	var sp = Math.sin(angle);
 	var cp = Math.cos(angle);
@@ -154,20 +149,17 @@ Vec.AngleVectors = function(angles, forward, right, up)
 	}
 };
 
-Vec.DotProduct = function(v1, v2)
-{
+Vec.DotProduct = (v1, v2) => {
 	return v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2];
 };
 
-Vec.Copy = function(v1, v2)
-{
+Vec.Copy = (v1, v2) => {
 	v2[0] = v1[0];
 	v2[1] = v1[1];
 	v2[2] = v1[2];
 };
 
-Vec.CrossProduct = function(v1, v2)
-{
+Vec.CrossProduct = (v1, v2) => {
 	return [
 		v1[1] * v2[2] - v1[2] * v2[1],
 		v1[2] * v2[0] - v1[0] * v2[2],
@@ -175,13 +167,11 @@ Vec.CrossProduct = function(v1, v2)
 	];
 };
 
-Vec.Length = function(v)
-{
+Vec.Length = (v) => {
 	return Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 };
 
-Vec.Normalize = function(v)
-{
+Vec.Normalize = (v) => {
 	var length = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 	if (length === 0.0)
 	{
@@ -194,8 +184,7 @@ Vec.Normalize = function(v)
 	return length;
 };
 
-Vec.ConcatRotations = function(m1, m2)
-{
+Vec.ConcatRotations = (m1, m2) => {
 	return [
 		[
 			m1[0][0] * m2[0][0] + m1[0][1] * m2[1][0] + m1[0][2] * m2[2][0],

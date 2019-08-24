@@ -145,18 +145,23 @@ Key.Console = function(key) {
 		Key.lines[Key.lines.length] = Key.edit_line;
 		Key.edit_line = '';
 		Key.history_line = Key.lines.length;
+
 		return;
 	}
 
 	if (key === Key.k.tab) {
 		var cmd = Cmd.CompleteCommand(Key.edit_line);
+
 		if (cmd == null) {
 			cmd = Cvar.CompleteVariable(Key.edit_line);
 		}
+
 		if (cmd == null) {
 			return;
 		}
+
 		Key.edit_line = cmd + ' ';
+
 		return;
 	}
 
@@ -164,6 +169,7 @@ Key.Console = function(key) {
 		if (Key.edit_line.length > 0) {
 			Key.edit_line = Key.edit_line.substring(0, Key.edit_line.length - 1);
 		}
+
 		return;
 	}
 
@@ -171,7 +177,9 @@ Key.Console = function(key) {
 		if (--Key.history_line < 0) {
 			Key.history_line = 0;
 		}
+
 		Key.edit_line = Key.lines[Key.history_line];
+
 		return;
 	}
 
@@ -179,41 +187,52 @@ Key.Console = function(key) {
 		if (Key.history_line >= Key.lines.length) {
 			return;
 		}
+
 		if (++Key.history_line >= Key.lines.length) {
 			Key.history_line = Key.lines.length;
 			Key.edit_line = '';
+
 			return;
 		}
+
 		Key.edit_line = Key.lines[Key.history_line];
+
 		return;
 	}
 
 	if (key === Key.k.pgup) {
 		Con.backscroll += 2;
+
 		if (Con.backscroll > Con.text.length) {
 			Con.backscroll = Con.text.length;
 		}
+
 		return;
 	}
 
 	if (key === Key.k.pgdn) {
 		Con.backscroll -= 2;
+
 		if (Con.backscroll < 0) {
 			Con.backscroll = 0;
 		}
+
 		return;
 	}
 
 	if (key === Key.k.home) {
 		Con.backscroll = Con.text.length - 10;
+
 		if (Con.backscroll < 0) {
 			Con.backscroll = 0;
 		}
+
 		return;
 	}
 
 	if (key === Key.k.end) {
 		Con.backscroll = 0;
+
 		return;
 	}
 

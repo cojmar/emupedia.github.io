@@ -4,8 +4,7 @@ Con.backscroll = 0;
 Con.current = 0;
 Con.text = [];
 
-Con.ToggleConsole_f = function()
-{
+Con.ToggleConsole_f = () => {
 	SCR.EndLoadingPlaque();
 	if (Key.dest.value === Key.dest.console)
 	{
@@ -22,15 +21,13 @@ Con.ToggleConsole_f = function()
 	Key.dest.value = Key.dest.console;
 };
 
-Con.Clear_f = function()
-{
+Con.Clear_f = () => {
 	Con.backscroll = 0;
 	Con.current = 0;
 	Con.text = [];
 };
 
-Con.ClearNotify = function()
-{
+Con.ClearNotify = () => {
 	var i = Con.text.length - 4;
 	if (i < 0)
 		i = 0;
@@ -38,20 +35,17 @@ Con.ClearNotify = function()
 		Con.text[i].time = 0.0;
 };
 
-Con.MessageMode_f = function()
-{
+Con.MessageMode_f = () => {
 	Key.dest.value = Key.dest.message;
 	Key.team_message = false;
 };
 
-Con.MessageMode2_f = function()
-{
+Con.MessageMode2_f = () => {
 	Key.dest.value = Key.dest.message;
 	Key.team_message = true;
 };
 
-Con.Init = function()
-{
+Con.Init = () => {
 	Con.debuglog = (COM.CheckParm('-condebug') != null);
 	if (Con.debuglog === true)
 		COM.WriteTextFile('qconsole.log', '');
@@ -64,8 +58,7 @@ Con.Init = function()
 	Cmd.AddCommand('clear', Con.Clear_f);
 };
 
-Con.Print = async function(msg)
-{
+Con.Print = async (msg) => {
 	if (Con.debuglog === true)
 	{
 		var data = await COM.LoadTextFile('qconsole.log');
@@ -108,14 +101,12 @@ Con.Print = async function(msg)
 	}
 };
 
-Con.DPrint = function(msg)
-{
+Con.DPrint = (msg) => {
 	if (Host.developer.value !== 0)
 		Con.Print(msg);
 };
 
-Con.DrawInput = function()
-{
+Con.DrawInput = () => {
 	if ((Key.dest.value !== Key.dest.console) && (Con.forcedup !== true))
 		return;
 	var text = ']' + Key.edit_line + String.fromCharCode(10 + ((Host.realtime * 4.0) & 1));
@@ -125,8 +116,7 @@ Con.DrawInput = function()
 	Draw.String(8, Con.vislines - 16, text);
 };
 
-Con.DrawNotify = function()
-{
+Con.DrawNotify = () => {
 	var width = (VID.width >> 3) - 2;
 	var i = Con.text.length - 4, v = 0;
 	if (i < 0)
@@ -142,8 +132,7 @@ Con.DrawNotify = function()
 		Draw.String(8, v, 'say: ' + Key.chat_buffer + String.fromCharCode(10 + ((Host.realtime * 4.0) & 1)));
 };
 
-Con.DrawConsole = function(lines)
-{
+Con.DrawConsole = (lines) => {
 	if (lines <= 0)
 		return;
 	lines = Math.floor(lines * VID.height * 0.005);

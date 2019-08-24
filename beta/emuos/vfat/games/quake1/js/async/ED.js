@@ -1,15 +1,13 @@
 ED = {};
 
-ED.ClearEdict = function(e)
-{
+ED.ClearEdict = (e) => {
 	var i;
 	for (i = 0; i < PR.entityfields; ++i)
 		e.v_int[i] = 0;
 	e.free = false;
 };
 
-ED.Alloc = function()
-{
+ED.Alloc = () => {
 	var i, e;
 	for (i = SV.svs.maxclients + 1; i < SV.server.num_edicts; ++i)
 	{
@@ -27,8 +25,7 @@ ED.Alloc = function()
 	return e;
 };
 
-ED.Free = function(ed)
-{
+ED.Free = (ed) => {
 	SV.UnlinkEdict(ed);
 	ed.free = true;
 	ed.v_int[PR.entvars.model] = 0;
@@ -44,8 +41,7 @@ ED.Free = function(ed)
 	ed.freetime = SV.server.time;
 };
 
-ED.GlobalAtOfs = function(ofs)
-{
+ED.GlobalAtOfs = (ofs) => {
 	var i, def;
 	for (i = 0; i < PR.globaldefs.length; ++i)
 	{
@@ -55,8 +51,7 @@ ED.GlobalAtOfs = function(ofs)
 	}
 };
 
-ED.FieldAtOfs = function(ofs)
-{
+ED.FieldAtOfs = (ofs) => {
 	var i, def;
 	for (i = 0; i < PR.fielddefs.length; ++i)
 	{
@@ -66,8 +61,7 @@ ED.FieldAtOfs = function(ofs)
 	}
 };
 
-ED.FindField = function(name)
-{
+ED.FindField = (name) => {
 	var def, i;
 	for (i = 0; i < PR.fielddefs.length; ++i)
 	{
@@ -77,8 +71,7 @@ ED.FindField = function(name)
 	}
 };
 
-ED.FindGlobal = function(name)
-{
+ED.FindGlobal = (name) => {
 	var def, i;
 	for (i = 0; i < PR.globaldefs.length; ++i)
 	{
@@ -88,8 +81,7 @@ ED.FindGlobal = function(name)
 	}
 };
 
-ED.FindFunction = function(name)
-{
+ED.FindFunction = (name) => {
 	var i;
 	for (i = 0; i < PR.functions.length; ++i)
 	{
@@ -98,8 +90,7 @@ ED.FindFunction = function(name)
 	}
 };
 
-ED.Print = function(ed)
-{
+ED.Print = (ed) => {
 	if (ed.free === true)
 	{
 		Con.Print('FREE\n');
@@ -130,8 +121,7 @@ ED.Print = function(ed)
 	}
 };
 
-ED.PrintEdicts = function()
-{
+ED.PrintEdicts = () => {
 	if (SV.server.active !== true)
 		return;
 	Con.Print(SV.server.num_edicts + ' entities\n');
@@ -140,8 +130,7 @@ ED.PrintEdicts = function()
 		ED.Print(SV.server.edicts[i]);
 };
 
-ED.PrintEdict_f = function()
-{
+ED.PrintEdict_f = () => {
 	if (SV.server.active !== true)
 		return;
 	var i = Q.atoi(Cmd.argv[1]);
@@ -149,8 +138,7 @@ ED.PrintEdict_f = function()
 		ED.Print(SV.server.edicts[i]);
 };
 
-ED.Count = function()
-{
+ED.Count = () => {
 	if (SV.server.active !== true)
 		return;
 	var i, ent, active = 0, models = 0, solid = 0, step = 0;
@@ -175,8 +163,7 @@ ED.Count = function()
 	Con.Print('step      :' + (step <= 9 ? '  ' : (step <= 99 ? ' ' : '')) + step + '\n');
 };
 
-ED.ParseGlobals = async function(data)
-{
+ED.ParseGlobals = async (data) => {
 	var keyname, key;
 	for (;;)
 	{
@@ -202,8 +189,7 @@ ED.ParseGlobals = async function(data)
 	}
 };
 
-ED.NewString = function(string)
-{
+ED.NewString = (string) => {
 	var newstring = [], i, c;
 	for (i = 0; i < string.length; ++i)
 	{
@@ -219,8 +205,7 @@ ED.NewString = function(string)
 	return PR.NewString(newstring.join(''), string.length + 1);
 };
 
-ED.ParseEpair = function(base, key, s)
-{
+ED.ParseEpair = (base, key, s) => {
 	var d_float = new Float32Array(base);
 	var d_int = new Int32Array(base);
 	var d, v;
@@ -262,8 +247,7 @@ ED.ParseEpair = function(base, key, s)
 	return true;
 };
 
-ED.ParseEdict = async function(data, ent)
-{
+ED.ParseEdict = async (data, ent) => {
 	var i, init, anglehack, keyname, n, key;
 	if (ent !== SV.server.edicts[0])
 	{
@@ -308,7 +292,7 @@ ED.ParseEdict = async function(data, ent)
 			Con.Print('\'' + keyname + '\' is not a field\n');
 			continue;
 		}
-		if (anglehack == true)
+		if (anglehack === true)
 			COM.token = '0 ' + COM.token + ' 0';
 		if (ED.ParseEpair(ent.v, key, COM.token) !== true)
 			await Host.Error('ED.ParseEdict: parse error');
@@ -318,8 +302,7 @@ ED.ParseEdict = async function(data, ent)
 	return data;
 };
 
-ED.LoadFromFile = async function(data)
-{
+ED.LoadFromFile = async (data) => {
 	var ent, spawnflags, inhibit = 0, func;
 	PR.globals_float[PR.globalvars.time] = SV.server.time;
 
@@ -380,13 +363,11 @@ ED.LoadFromFile = async function(data)
 	Con.DPrint(inhibit + ' entities inhibited\n');
 };
 
-ED.Vector = function(e, o)
-{
+ED.Vector = (e, o) => {
 	return [e.v_float[o], e.v_float[o + 1], e.v_float[o + 2]];
 };
 
-ED.SetVector = function(e, o, v)
-{
+ED.SetVector = (e, o, v) => {
 	e.v_float[o] = v[0];
 	e.v_float[o + 1] = v[1];
 	e.v_float[o + 2] = v[2];

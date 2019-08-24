@@ -55,8 +55,7 @@ SV.server = {
 
 SV.svs = {};
 
-SV.Init = function()
-{
+SV.Init = () => {
 	SV.maxvelocity = Cvar.RegisterVariable('sv_maxvelocity', '2000');
 	SV.gravity = Cvar.RegisterVariable('sv_gravity', '800', false, true);
 	SV.friction = Cvar.RegisterVariable('sv_friction', '4', false, true);
@@ -77,8 +76,7 @@ SV.Init = function()
 	SV.InitBoxHull();
 };
 
-SV.StartParticle = function(org, dir, color, count)
-{
+SV.StartParticle = (org, dir, color, count) => {
 	var datagram = SV.server.datagram;
 	if (datagram.cursize >= 1009)
 		return;
@@ -100,8 +98,7 @@ SV.StartParticle = function(org, dir, color, count)
 	MSG.WriteByte(datagram, color);
 };
 
-SV.StartSound = function(entity, channel, sample, volume, attenuation)
-{
+SV.StartSound = (entity, channel, sample, volume, attenuation) => {
 	if ((volume < 0) || (volume > 255))
 		Sys.Error('SV.StartSound: volume = ' + volume);
 	if ((attenuation < 0.0) || (attenuation > 4.0))
@@ -147,8 +144,7 @@ SV.StartSound = function(entity, channel, sample, volume, attenuation)
 		(entity.v_float[PR.entvars.mins2] + entity.v_float[PR.entvars.maxs2]));
 };
 
-SV.SendServerinfo = function(client)
-{
+SV.SendServerinfo = (client) => {
 	var message = client.message;
 	MSG.WriteByte(message, Protocol.svc.print);
 	MSG.WriteString(message, '\2\nVERSION 1.09 SERVER (' + PR.crc + ' CRC)');
@@ -175,8 +171,7 @@ SV.SendServerinfo = function(client)
 	client.spawned = false;
 };
 
-SV.ConnectClient = async function(clientnum)
-{
+SV.ConnectClient = async (clientnum) => {
 	var client = SV.svs.clients[clientnum];
 	var i, spawn_parms;
 	if (SV.server.loadgame === true)
@@ -226,8 +221,7 @@ SV.ConnectClient = async function(clientnum)
 
 SV.fatpvs = [];
 
-SV.CheckForNewClients = async function()
-{
+SV.CheckForNewClients = async () => {
 	var ret, i;
 	for (;;)
 	{
@@ -247,8 +241,7 @@ SV.CheckForNewClients = async function()
 	}
 };
 
-SV.AddToFatPVS = function(org, node)
-{
+SV.AddToFatPVS = (org, node) => {
 	var pvs, i, normal, d;
 	for (;;)
 	{
@@ -275,8 +268,7 @@ SV.AddToFatPVS = function(org, node)
 	}
 };
 
-SV.FatPVS = function(org)
-{
+SV.FatPVS = (org) => {
 	SV.fatbytes = (SV.server.worldmodel.leafs.length + 31) >> 3;
 	var i;
 	for (i = 0; i < SV.fatbytes; ++i)
@@ -284,8 +276,7 @@ SV.FatPVS = function(org)
 	SV.AddToFatPVS(org, SV.server.worldmodel.nodes[0]);
 };
 
-SV.WriteEntitiesToClient = function(clent, msg)
-{
+SV.WriteEntitiesToClient = (clent, msg) => {
 	SV.FatPVS([
 		clent.v_float[PR.entvars.origin] + clent.v_float[PR.entvars.view_ofs],
 		clent.v_float[PR.entvars.origin1] + clent.v_float[PR.entvars.view_ofs1],
@@ -375,8 +366,7 @@ SV.WriteEntitiesToClient = function(clent, msg)
 	}
 };
 
-SV.WriteClientdataToMessage = function(ent, msg)
-{
+SV.WriteClientdataToMessage = (ent, msg) => {
 	if ((ent.v_float[PR.entvars.dmg_take] !== 0.0) || (ent.v_float[PR.entvars.dmg_save] !== 0.0))
 	{
 		var other = SV.server.edicts[ent.v_int[PR.entvars.dmg_inflictor]];
@@ -399,7 +389,7 @@ SV.WriteClientdataToMessage = function(ent, msg)
 		MSG.WriteAngle(msg, ent.v_float[PR.entvars.angles1]);
 		MSG.WriteAngle(msg, ent.v_float[PR.entvars.angles2]);
 		ent.v_float[PR.entvars.fixangle] = 0.0;
-	};
+	}
 
 	var bits = Protocol.su.items + Protocol.su.weapon;
 	if (ent.v_float[PR.entvars.view_ofs2] !== Protocol.default_viewheight)
@@ -418,6 +408,7 @@ SV.WriteClientdataToMessage = function(ent, msg)
 	else
 		items = (ent.v_float[PR.entvars.items] >> 0) + ((PR.globals_float[PR.globalvars.serverflags] << 28) >>> 0);
 
+	// noinspection JSBitwiseOperatorUsage
 	if (ent.v_float[PR.entvars.flags] & SV.fl.onground)
 		bits += Protocol.su.onground;
 	if (ent.v_float[PR.entvars.waterlevel] >= 2.0)
@@ -489,9 +480,12 @@ SV.WriteClientdataToMessage = function(ent, msg)
 	}
 };
 
-SV.clientdatagram = {data: new ArrayBuffer(1024), cursize: 0};
-SV.SendClientDatagram = async function()
-{
+SV.clientdatagram = {
+	data: new ArrayBuffer(1024),
+	cursize: 0
+};
+
+SV.SendClientDatagram = async () => {
 	var client = Host.client;
 	var msg = SV.clientdatagram;
 	msg.cursize = 0;
@@ -509,8 +503,7 @@ SV.SendClientDatagram = async function()
 	return true;
 };
 
-SV.UpdateToReliableMessages = function()
-{
+SV.UpdateToReliableMessages = () => {
 	var i, frags, j, client;
 
 	for (i = 0; i < SV.svs.maxclients; ++i)
@@ -542,8 +535,7 @@ SV.UpdateToReliableMessages = function()
 	SV.server.reliable_datagram.cursize = 0;
 };
 
-SV.SendClientMessages = async function()
-{
+SV.SendClientMessages = async () => {
 	SV.UpdateToReliableMessages();
 	var i, client;
 	for (i = 0; i < SV.svs.maxclients; ++i)
@@ -593,8 +585,7 @@ SV.SendClientMessages = async function()
 		SV.server.edicts[i].v_float[PR.entvars.effects] &= (~Mod.effects.muzzleflash >>> 0);
 };
 
-SV.ModelIndex = function(name)
-{
+SV.ModelIndex = (name) => {
 	if (name == null)
 		return 0;
 	if (name.length === 0)
@@ -608,8 +599,7 @@ SV.ModelIndex = function(name)
 	Sys.Error('SV.ModelIndex: model ' + name + ' not precached');
 };
 
-SV.CreateBaseline = function()
-{
+SV.CreateBaseline = () => {
 	var i, svent, baseline;
 	var player = SV.ModelIndex('progs/player.mdl');
 	var signon = SV.server.signon;
@@ -650,8 +640,7 @@ SV.CreateBaseline = function()
 	}
 };
 
-SV.SaveSpawnparms = async function()
-{
+SV.SaveSpawnparms = async () => {
 	SV.svs.serverflags = PR.globals_float[PR.globalvars.serverflags];
 	var i, j;
 	for (i = 0; i < SV.svs.maxclients; ++i)
@@ -666,8 +655,7 @@ SV.SaveSpawnparms = async function()
 	}
 };
 
-SV.SpawnServer = async function(server)
-{
+SV.SpawnServer = async (server) => {
 	var i;
 
 	if (NET.hostname.string.length === 0)
@@ -794,13 +782,11 @@ SV.SpawnServer = async function(server)
 	Con.DPrint('Server spawned.\n');
 };
 
-SV.GetClientName = function(client)
-{
+SV.GetClientName = (client) => {
 	return PR.GetString(PR.netnames + (client.num << 5));
 };
 
-SV.SetClientName = function(client, name)
-{
+SV.SetClientName = (client, name) => {
 	var ofs = PR.netnames + (client.num << 5), i;
 	for (i = 0; i < name.length; ++i)
 		PR.strings[ofs + i] = name.charCodeAt(i);
@@ -809,8 +795,8 @@ SV.SetClientName = function(client, name)
 
 // move
 
-SV.CheckBottom = function(ent)
-{
+// noinspection DuplicatedCode
+SV.CheckBottom = (ent) => {
 	var mins = [
 		ent.v_float[PR.entvars.origin] + ent.v_float[PR.entvars.mins],
 		ent.v_float[PR.entvars.origin1] + ent.v_float[PR.entvars.mins1],
@@ -821,6 +807,8 @@ SV.CheckBottom = function(ent)
 		ent.v_float[PR.entvars.origin1] + ent.v_float[PR.entvars.maxs1],
 		ent.v_float[PR.entvars.origin2] + ent.v_float[PR.entvars.maxs2]
 	];
+
+	// noinspection LoopStatementThatDoesntLoopJS,DuplicatedCode
 	for (;;)
 	{
 		if (SV.PointContents([mins[0], mins[1], mins[2] - 1.0]) !== Mod.contents.solid)
@@ -857,8 +845,7 @@ SV.CheckBottom = function(ent)
 	return true;
 };
 
-SV.movestep = async function(ent, move, relink)
-{
+SV.movestep = async (ent, move, relink) => {
 	var oldorg = ED.Vector(ent, PR.entvars.origin);
 	var neworg = [];
 	var mins = ED.Vector(ent, PR.entvars.mins), maxs = ED.Vector(ent, PR.entvars.maxs);
@@ -944,8 +931,7 @@ SV.movestep = async function(ent, move, relink)
 	return 1;
 };
 
-SV.StepDirection = async function(ent, yaw, dist)
-{
+SV.StepDirection = async (ent, yaw, dist) => {
 	ent.v_float[PR.entvars.ideal_yaw] = yaw;
 	PF.changeyaw();
 	yaw *= Math.PI / 180.0;
@@ -961,8 +947,7 @@ SV.StepDirection = async function(ent, yaw, dist)
 	await SV.LinkEdict(ent, true);
 };
 
-SV.NewChaseDir = async function(actor, enemy, dist)
-{
+SV.NewChaseDir = async (actor, enemy, dist) => {
 	var olddir = Vec.Anglemod(((actor.v_float[PR.entvars.ideal_yaw] / 45.0) >> 0) * 45.0);
 	var turnaround = Vec.Anglemod(olddir - 180.0);
 	var deltax = enemy.v_float[PR.entvars.origin] - actor.v_float[PR.entvars.origin];
@@ -1025,8 +1010,7 @@ SV.NewChaseDir = async function(actor, enemy, dist)
 		actor.v_float[PR.entvars.flags] |= SV.fl.partialground;
 };
 
-SV.CloseEnough = function(ent, goal, dist)
-{
+SV.CloseEnough = (ent, goal, dist) => {
 	var i;
 	for (i = 0; i <= 2; ++i)
 	{
@@ -1040,8 +1024,7 @@ SV.CloseEnough = function(ent, goal, dist)
 
 // phys
 
-SV.CheckAllEnts = function()
-{
+SV.CheckAllEnts = () => {
 	var e, check, movetype;
 	for (e = 1; e < SV.server.num_edicts; ++e)
 	{
@@ -1060,8 +1043,7 @@ SV.CheckAllEnts = function()
 	}
 };
 
-SV.CheckVelocity = function(ent)
-{
+SV.CheckVelocity = (ent) => {
 	var i, velocity;
 	for (i = 0; i <= 2; ++i)
 	{
@@ -1084,8 +1066,7 @@ SV.CheckVelocity = function(ent)
 	}
 };
 
-SV.RunThink = async function(ent)
-{
+SV.RunThink = async (ent) => {
 	var thinktime = ent.v_float[PR.entvars.nextthink];
 	if ((thinktime <= 0.0) || (thinktime > (SV.server.time + Host.frametime)))
 		return true;
@@ -1099,8 +1080,7 @@ SV.RunThink = async function(ent)
 	return (ent.free !== true);
 };
 
-SV.Impact = async function(e1, e2)
-{
+SV.Impact = async (e1, e2) => {
 	var old_self = PR.globals_int[PR.globalvars.self];
 	var old_other = PR.globals_int[PR.globalvars.other];
 	PR.globals_float[PR.globalvars.time] = SV.server.time;
@@ -1122,8 +1102,7 @@ SV.Impact = async function(e1, e2)
 	PR.globals_int[PR.globalvars.other] = old_other;
 };
 
-SV.ClipVelocity = function(vec, normal, out, overbounce)
-{
+SV.ClipVelocity = (vec, normal, out, overbounce) => {
 	var backoff = (vec[0] * normal[0] + vec[1] * normal[1] + vec[2] * normal[2]) * overbounce;
 
 	out[0] = vec[0] - normal[0] * backoff;
@@ -1137,8 +1116,7 @@ SV.ClipVelocity = function(vec, normal, out, overbounce)
 		out[2] = 0.0;
 };
 
-SV.FlyMove = async function(ent, time)
-{
+SV.FlyMove = async (ent, time) => {
 	var bumpcount;
 	var numplanes = 0;
 	var dir, d;
@@ -1243,8 +1221,7 @@ SV.FlyMove = async function(ent, time)
 	return blocked;
 };
 
-SV.AddGravity = function(ent)
-{
+SV.AddGravity = (ent) => {
 	var val = PR.entvars.gravity, ent_gravity;
 	if (val != null)
 		ent_gravity = (ent.v_float[val] !== 0.0) ? ent.v_float[val] : 1.0;
@@ -1253,8 +1230,7 @@ SV.AddGravity = function(ent)
 	ent.v_float[PR.entvars.velocity2] -= ent_gravity * SV.gravity.value * Host.frametime;
 };
 
-SV.PushEntity = async function(ent, push)
-{
+SV.PushEntity = async (ent, push) => {
 	var end = [
 		ent.v_float[PR.entvars.origin] + push[0],
 		ent.v_float[PR.entvars.origin1] + push[1],
@@ -1265,7 +1241,7 @@ SV.PushEntity = async function(ent, push)
 	if (ent.v_float[PR.entvars.movetype] === SV.movetype.flymissile)
 		nomonsters = SV.move.missile;
 	else if ((solid === SV.solid.trigger) || (solid === SV.solid.not))
-		nomonsters = SV.move.nomonsters
+		nomonsters = SV.move.nomonsters;
 	else
 		nomonsters = SV.move.normal;
 	var trace = SV.Move(ED.Vector(ent, PR.entvars.origin), ED.Vector(ent, PR.entvars.mins),
@@ -1277,8 +1253,7 @@ SV.PushEntity = async function(ent, push)
 	return trace;
 };
 
-SV.PushMove = async function(pusher, movetime)
-{
+SV.PushMove = async (pusher, movetime) => {
 	if ((pusher.v_float[PR.entvars.velocity] === 0.0) &&
 		(pusher.v_float[PR.entvars.velocity1] === 0.0) &&
 		(pusher.v_float[PR.entvars.velocity2] === 0.0))
@@ -1378,8 +1353,7 @@ SV.PushMove = async function(pusher, movetime)
 	}
 };
 
-SV.Physics_Pusher = async function(ent)
-{
+SV.Physics_Pusher = async (ent) => {
 	var oldltime = ent.v_float[PR.entvars.ltime];
 	var thinktime = ent.v_float[PR.entvars.nextthink];
 	var movetime;
@@ -1402,8 +1376,7 @@ SV.Physics_Pusher = async function(ent)
 	await PR.ExecuteProgram(ent.v_int[PR.entvars.think]);
 };
 
-SV.CheckStuck = async function(ent)
-{
+SV.CheckStuck = async (ent) => {
 	if (SV.TestEntityPosition(ent) !== true)
 	{
 		ent.v_float[PR.entvars.oldorigin] = ent.v_float[PR.entvars.origin];
@@ -1444,8 +1417,7 @@ SV.CheckStuck = async function(ent)
 	Con.DPrint('player is stuck.\n');
 };
 
-SV.CheckWater = function(ent)
-{
+SV.CheckWater = (ent) => {
 	var point = [
 		ent.v_float[PR.entvars.origin],
 		ent.v_float[PR.entvars.origin1],
@@ -1471,8 +1443,7 @@ SV.CheckWater = function(ent)
 	return ent.v_float[PR.entvars.waterlevel] > 1.0;
 };
 
-SV.WallFriction = function(ent, trace)
-{
+SV.WallFriction = (ent, trace) => {
 	var forward = [];
 	Vec.AngleVectors(ED.Vector(ent, PR.entvars.v_angle), forward);
 	var normal = trace.plane.normal;
@@ -1483,12 +1454,11 @@ SV.WallFriction = function(ent, trace)
 	var i = normal[0] * ent.v_float[PR.entvars.velocity]
 		+ normal[1] * ent.v_float[PR.entvars.velocity1]
 		+ normal[2] * ent.v_float[PR.entvars.velocity2];
-	ent.v_float[PR.entvars.velocity] = (ent.v_float[PR.entvars.velocity] - normal[0] * i) * d; 
-	ent.v_float[PR.entvars.velocity1] = (ent.v_float[PR.entvars.velocity1] - normal[1] * i) * d; 
+	ent.v_float[PR.entvars.velocity] = (ent.v_float[PR.entvars.velocity] - normal[0] * i) * d;
+	ent.v_float[PR.entvars.velocity1] = (ent.v_float[PR.entvars.velocity1] - normal[1] * i) * d;
 };
 
-SV.TryUnstick = async function(ent, oldvel)
-{
+SV.TryUnstick = async (ent, oldvel) => {
 	var oldorg = ED.Vector(ent, PR.entvars.origin);
 	var dir = [2.0, 0.0, 0.0];
 	var i, clip;
@@ -1518,8 +1488,7 @@ SV.TryUnstick = async function(ent, oldvel)
 	return 7;
 };
 
-SV.WalkMove = async function(ent)
-{
+SV.WalkMove = async (ent) => {
 	var oldonground = ent.v_float[PR.entvars.flags] & SV.fl.onground;
 	ent.v_float[PR.entvars.flags] ^= oldonground;
 	var oldorg = ED.Vector(ent, PR.entvars.origin);
@@ -1565,8 +1534,7 @@ SV.WalkMove = async function(ent)
 	ED.SetVector(ent, PR.entvars.velocity, nostepvel);
 };
 
-SV.Physics_Client = async function(ent)
-{
+SV.Physics_Client = async (ent) => {
 	if (SV.svs.clients[ent.num - 1].active !== true)
 		return;
 	PR.globals_float[PR.globalvars.time] = SV.server.time;
@@ -1608,8 +1576,7 @@ SV.Physics_Client = async function(ent)
 	await PR.ExecuteProgram(PR.globals_int[PR.globalvars.PlayerPostThink]);
 };
 
-SV.Physics_Noclip = async function(ent)
-{
+SV.Physics_Noclip = async (ent) => {
 	if (await SV.RunThink(ent) !== true)
 		return;
 	ent.v_float[PR.entvars.angles] += Host.frametime * ent.v_float[PR.entvars.avelocity];
@@ -1621,8 +1588,7 @@ SV.Physics_Noclip = async function(ent)
 	await SV.LinkEdict(ent);
 };
 
-SV.CheckWaterTransition = function(ent)
-{
+SV.CheckWaterTransition = (ent) => {
 	var cont = SV.PointContents(ED.Vector(ent, PR.entvars.origin));
 	if (ent.v_float[PR.entvars.watertype] === 0.0)
 	{
@@ -1644,8 +1610,7 @@ SV.CheckWaterTransition = function(ent)
 	ent.v_float[PR.entvars.waterlevel] = cont;
 };
 
-SV.Physics_Toss = async function(ent)
-{
+SV.Physics_Toss = async (ent) => {
 	if (await SV.RunThink(ent) !== true)
 		return;
 	if ((ent.v_float[PR.entvars.flags] & SV.fl.onground) !== 0)
@@ -1681,8 +1646,7 @@ SV.Physics_Toss = async function(ent)
 	SV.CheckWaterTransition(ent);
 };
 
-SV.Physics_Step = async function(ent)
-{
+SV.Physics_Step = async (ent) => {
 	if ((ent.v_float[PR.entvars.flags] & (SV.fl.onground + SV.fl.fly + SV.fl.swim)) === 0)
 	{
 		var hitsound = (ent.v_float[PR.entvars.velocity2] < (SV.gravity.value * -0.1));
@@ -1697,8 +1661,7 @@ SV.Physics_Step = async function(ent)
 	SV.CheckWaterTransition(ent);
 };
 
-SV.Physics = async function()
-{
+SV.Physics = async () => {
 	PR.globals_int[PR.globalvars.self] = 0;
 	PR.globals_int[PR.globalvars.other] = 0;
 	PR.globals_float[PR.globalvars.time] = SV.server.time;
@@ -1746,8 +1709,7 @@ SV.Physics = async function()
 
 // user
 
-SV.SetIdealPitch = function()
-{
+SV.SetIdealPitch = () => {
 	var ent = SV.player;
 	if ((ent.v_float[PR.entvars.flags] & SV.fl.onground) === 0)
 		return;
@@ -1786,8 +1748,7 @@ SV.SetIdealPitch = function()
 		ent.v_float[PR.entvars.idealpitch] = -dir * SV.idealpitchscale.value;
 };
 
-SV.UserFriction = function()
-{
+SV.UserFriction = () => {
 	var ent = SV.player;
 	var vel0 = ent.v_float[PR.entvars.velocity], vel1 = ent.v_float[PR.entvars.velocity1];
 	var speed = Math.sqrt(vel0 * vel0 + vel1 * vel1);
@@ -1810,8 +1771,7 @@ SV.UserFriction = function()
 	ent.v_float[PR.entvars.velocity2] *= newspeed;
 };
 
-SV.Accelerate = function(wishvel, air)
-{
+SV.Accelerate = (wishvel, air) => {
 	var ent = SV.player;
 	var wishdir = [wishvel[0], wishvel[1], wishvel[2]];
 	var wishspeed = Vec.Normalize(wishdir);
@@ -1831,8 +1791,7 @@ SV.Accelerate = function(wishvel, air)
 	ent.v_float[PR.entvars.velocity2] += accelspeed * wishdir[2];
 };
 
-SV.WaterMove = function()
-{
+SV.WaterMove = () => {
 	var ent = SV.player, cmd = Host.client.cmd;
 	var forward = [], right = [];
 	Vec.AngleVectors(ED.Vector(ent, PR.entvars.v_angle), forward, right);
@@ -1885,8 +1844,7 @@ SV.WaterMove = function()
 	ent.v_float[PR.entvars.velocity2] += accelspeed * (wishvel[2] / wishspeed);
 };
 
-SV.WaterJump = function()
-{
+SV.WaterJump = () => {
 	var ent = SV.player;
 	if ((SV.server.time > ent.v_float[PR.entvars.teleport_time]) || (ent.v_float[PR.entvars.waterlevel] === 0.0))
 	{
@@ -1897,8 +1855,7 @@ SV.WaterJump = function()
 	ent.v_float[PR.entvars.velocity1] = ent.v_float[PR.entvars.movedir1];
 };
 
-SV.AirMove = function()
-{
+SV.AirMove = () => {
 	var ent = SV.player;
 	var cmd = Host.client.cmd;
 	var forward = [], right = [];
@@ -1929,8 +1886,7 @@ SV.AirMove = function()
 		SV.Accelerate(wishvel, true);
 };
 
-SV.ClientThink = function()
-{
+SV.ClientThink = () => {
 	var ent = SV.player;
 
 	if (ent.v_float[PR.entvars.movetype] === SV.movetype.none)
@@ -1962,8 +1918,7 @@ SV.ClientThink = function()
 		SV.AirMove();
 };
 
-SV.ReadClientMove = function()
-{
+SV.ReadClientMove = () => {
 	var client = Host.client;
 	client.ping_times[client.num_pings++ & 15] = SV.server.time - MSG.ReadFloat();
 	client.edict.v_float[PR.entvars.v_angle] = MSG.ReadAngle();
@@ -1980,12 +1935,11 @@ SV.ReadClientMove = function()
 		client.edict.v_float[PR.entvars.impulse] = i;
 };
 
-SV.ReadClientMessage = async function()
-{
+SV.ReadClientMessage = async () => {
 	var ret, cmd, s, i;
 	var cmds = [
 		'status',
-		'god', 
+		'god',
 		'notarget',
 		'fly',
 		'name',
@@ -2058,8 +2012,7 @@ SV.ReadClientMessage = async function()
 	} while (ret === 1);
 };
 
-SV.RunClients = async function()
-{
+SV.RunClients = async () => {
 	var i;
 	for (i = 0; i < SV.svs.maxclients; ++i)
 	{
@@ -2091,8 +2044,7 @@ SV.move = {
 	missile: 2
 };
 
-SV.InitBoxHull = function()
-{
+SV.InitBoxHull = () => {
 	SV.box_clipnodes = [];
 	SV.box_planes = [];
 	SV.box_hull = {
@@ -2122,8 +2074,7 @@ SV.InitBoxHull = function()
 	}
 };
 
-SV.HullForEntity = function(ent, mins, maxs, offset)
-{
+SV.HullForEntity = (ent, mins, maxs, offset) => {
 	if (ent.v_float[PR.entvars.solid] !== SV.solid.bsp)
 	{
 		SV.box_planes[0].dist = ent.v_float[PR.entvars.maxs] - mins[0];
@@ -2158,8 +2109,7 @@ SV.HullForEntity = function(ent, mins, maxs, offset)
 	return hull;
 };
 
-SV.CreateAreaNode = function(depth, mins, maxs)
-{
+SV.CreateAreaNode = (depth, mins, maxs) => {
 	var anode = {};
 	SV.areanodes[SV.areanodes.length++] = anode;
 
@@ -2185,8 +2135,7 @@ SV.CreateAreaNode = function(depth, mins, maxs)
 	return anode;
 };
 
-SV.UnlinkEdict = function(ent)
-{
+SV.UnlinkEdict = (ent) => {
 	if (ent.area.prev != null)
 		ent.area.prev.next = ent.area.next;
 	if (ent.area.next != null)
@@ -2194,8 +2143,7 @@ SV.UnlinkEdict = function(ent)
 	ent.area.prev = ent.area.next = null;
 };
 
-SV.TouchLinks = async function(ent, node)
-{
+SV.TouchLinks = async (ent, node) => {
 	var l, next, touch, old_self, old_other;
 	for (l = node.trigger_edicts.next; l !== node.trigger_edicts; l = next)
 	{
@@ -2206,7 +2154,7 @@ SV.TouchLinks = async function(ent, node)
 		if ((touch.v_int[PR.entvars.touch] === 0) || (touch.v_float[PR.entvars.solid] !== SV.solid.trigger))
 			continue;
 		if ((ent.v_float[PR.entvars.absmin] > touch.v_float[PR.entvars.absmax]) ||
-			(ent.v_float[PR.entvars.absmin1] > touch.v_float[PR.entvars.absmax1]) || 
+			(ent.v_float[PR.entvars.absmin1] > touch.v_float[PR.entvars.absmax1]) ||
 			(ent.v_float[PR.entvars.absmin2] > touch.v_float[PR.entvars.absmax2]) ||
 			(ent.v_float[PR.entvars.absmax] < touch.v_float[PR.entvars.absmin]) ||
 			(ent.v_float[PR.entvars.absmax1] < touch.v_float[PR.entvars.absmin1]) ||
@@ -2229,8 +2177,7 @@ SV.TouchLinks = async function(ent, node)
 		await SV.TouchLinks(ent, node.children[1]);
 };
 
-SV.FindTouchedLeafs = function(ent, node)
-{
+SV.FindTouchedLeafs = (ent, node) => {
 	if (node.contents === Mod.contents.solid)
 		return;
 
@@ -2250,8 +2197,7 @@ SV.FindTouchedLeafs = function(ent, node)
 		SV.FindTouchedLeafs(ent, node.children[1]);
 };
 
-SV.LinkEdict = async function(ent, touch_triggers)
-{
+SV.LinkEdict = async (ent, touch_triggers) => {
 	if ((ent === SV.server.edicts[0]) || (ent.free === true))
 		return;
 
@@ -2308,8 +2254,7 @@ SV.LinkEdict = async function(ent, touch_triggers)
 		await SV.TouchLinks(ent, SV.areanodes[0]);
 };
 
-SV.HullPointContents = function(hull, num, p)
-{
+SV.HullPointContents = (hull, num, p) => {
 	var d, node, plane;
 	for (; num >= 0; )
 	{
@@ -2329,22 +2274,19 @@ SV.HullPointContents = function(hull, num, p)
 	return num;
 };
 
-SV.PointContents = function(p)
-{
+SV.PointContents = (p) => {
 	var cont = SV.HullPointContents(SV.server.worldmodel.hulls[0], 0, p);
 	if ((cont <= Mod.contents.current_0) && (cont >= Mod.contents.current_down))
 		return Mod.contents.water;
 	return cont;
 };
 
-SV.TestEntityPosition = function(ent)
-{
+SV.TestEntityPosition = (ent) => {
 	var origin = ED.Vector(ent, PR.entvars.origin);
 	return SV.Move(origin, ED.Vector(ent, PR.entvars.mins), ED.Vector(ent, PR.entvars.maxs), origin, 0, ent).startsolid;
 };
 
-SV.RecursiveHullCheck = function(hull, num, p1f, p2f, p1, p2, trace)
-{
+SV.RecursiveHullCheck = (hull, num, p1f, p2f, p1, p2, trace) => {
 	if (num < 0)
 	{
 		if (num !== Mod.contents.solid)
@@ -2437,8 +2379,7 @@ SV.RecursiveHullCheck = function(hull, num, p1f, p2f, p1, p2, trace)
 	trace.endpos = [mid[0], mid[1], mid[2]];
 };
 
-SV.ClipMoveToEntity = function(ent, start, mins, maxs, end)
-{
+SV.ClipMoveToEntity = (ent, start, mins, maxs, end) => {
 	var trace = {
 		fraction: 1.0,
 		allsolid: true,
@@ -2461,8 +2402,7 @@ SV.ClipMoveToEntity = function(ent, start, mins, maxs, end)
 	return trace;
 };
 
-SV.ClipToLinks = function(node, clip)
-{
+SV.ClipToLinks = (node, clip) => {
 	var l, next, touch, solid, trace;
 	for (l = node.solid_edicts.next; l !== node.solid_edicts; l = l.next)
 	{
@@ -2515,8 +2455,7 @@ SV.ClipToLinks = function(node, clip)
 		SV.ClipToLinks(node.children[1], clip);
 };
 
-SV.Move = function(start, mins, maxs, end, type, passedict)
-{
+SV.Move = (start, mins, maxs, end, type, passedict) => {
 	var clip = {
 		trace: SV.ClipMoveToEntity(SV.server.edicts[0], start, mins, maxs, end),
 		start: start,

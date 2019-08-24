@@ -5,8 +5,7 @@ SCR.con_current = 0;
 SCR.centerstring = [];
 SCR.centertime_off = 0.0;
 
-SCR.CenterPrint = function(str)
-{
+SCR.CenterPrint = (str) => {
 	SCR.centerstring = [];
 	var i, start = 0, next;
 	for (i = 0; i < str.length; ++i)
@@ -23,10 +22,9 @@ SCR.CenterPrint = function(str)
 	SCR.centerstring[SCR.centerstring.length] = str.substring(start, i);
 	SCR.centertime_off = SCR.centertime.value;
 	SCR.centertime_start = CL.state.time;
-}
+};
 
-SCR.DrawCenterString = function()
-{
+SCR.DrawCenterString = () => {
 	SCR.centertime_off -= Host.frametime;
 	if (((SCR.centertime_off <= 0.0) && (CL.state.intermission === 0)) || (Key.dest.value !== Key.dest.game))
 		return;
@@ -65,8 +63,7 @@ SCR.DrawCenterString = function()
 	}
 };
 
-SCR.CalcRefdef = function()
-{
+SCR.CalcRefdef = () => {
 	SCR.recalc_refdef = false;
 
 	if (SCR.viewsize.value < 30)
@@ -153,20 +150,17 @@ SCR.CalcRefdef = function()
 	}
 };
 
-SCR.SizeUp_f = function()
-{
+SCR.SizeUp_f = () => {
 	Cvar.SetValue('viewsize', SCR.viewsize.value + 10);
 	SCR.recalc_refdef = true;
 };
 
-SCR.SizeDown_f = function()
-{
+SCR.SizeDown_f = () => {
 	Cvar.SetValue('viewsize', SCR.viewsize.value - 10);
 	SCR.recalc_refdef = true;
 };
 
-SCR.Init = async function()
-{
+SCR.Init = async () => {
 	SCR.fov = Cvar.RegisterVariable('fov', '90');
 	SCR.viewsize = Cvar.RegisterVariable('viewsize', '100', true);
 	SCR.conspeed = Cvar.RegisterVariable('scr_conspeed', '300');
@@ -183,8 +177,8 @@ SCR.Init = async function()
 };
 
 SCR.count = 0;
-SCR.DrawTurtle = function()
-{
+
+SCR.DrawTurtle = () => {
 	if (SCR.showturtle.value === 0)
 		return;
 	if (Host.frametime < 0.1)
@@ -196,20 +190,17 @@ SCR.DrawTurtle = function()
 		Draw.Pic(R.refdef.vrect.x, R.refdef.vrect.y, SCR.turtle);
 };
 
-SCR.DrawNet = function()
-{
+SCR.DrawNet = () => {
 	if (((Host.realtime - CL.state.last_received_message) >= 0.3) && (CL.cls.demoplayback !== true))
 		Draw.Pic(R.refdef.vrect.x, R.refdef.vrect.y, SCR.net);
 };
 
-SCR.DrawPause = function()
-{
+SCR.DrawPause = () => {
 	if ((SCR.showpause.value !== 0) && (CL.state.paused === true))
 		Draw.Pic((VID.width - SCR.pause.width) >> 1, (VID.height - 48 - SCR.pause.height) >> 1, SCR.pause);
 };
 
-SCR.SetUpToDrawConsole = function()
-{
+SCR.SetUpToDrawConsole = () => {
 	Con.forcedup = (CL.state.worldmodel == null) || (CL.cls.signon !== 4);
 
 	if (Con.forcedup === true)
@@ -238,8 +229,7 @@ SCR.SetUpToDrawConsole = function()
 	}
 };
 
-SCR.DrawConsole = function()
-{
+SCR.DrawConsole = () => {
 	if (SCR.con_current > 0)
 	{
 		Con.DrawConsole(SCR.con_current);
@@ -249,13 +239,11 @@ SCR.DrawConsole = function()
 		Con.DrawNotify();
 };
 
-SCR.ScreenShot_f = function()
-{
+SCR.ScreenShot_f = () => {
 	SCR.screenshot = true;
 };
 
-SCR.BeginLoadingPlaque = function()
-{
+SCR.BeginLoadingPlaque = () => {
 	S.StopAllSounds();
 	if ((CL.cls.state !== CL.active.connected) || (CL.cls.signon !== 4))
 		return;
@@ -265,14 +253,12 @@ SCR.BeginLoadingPlaque = function()
 	SCR.disabled_time = Host.realtime + 60.0;
 };
 
-SCR.EndLoadingPlaque = function()
-{
+SCR.EndLoadingPlaque = () => {
 	SCR.disabled_for_loading = false;
 	Con.ClearNotify();
 };
 
-SCR.UpdateScreen = function()
-{
+SCR.UpdateScreen = () => {
 	if (SCR.disabled_for_loading === true)
 	{
 		if (Host.realtime <= SCR.disabled_time)
