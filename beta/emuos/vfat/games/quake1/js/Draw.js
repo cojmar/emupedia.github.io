@@ -238,6 +238,28 @@ Draw.BeginDisc = function(filename) {
 	Draw.loadingMsg.style.top = ((VID.height - Draw.loading.height + 50) >> 1) + 'px';
 	Draw.loadingMsg.style.display = 'block';
 	Draw.loadingMsg.innerText = filename;
+
+	var elem = document.documentElement;
+	var width = (elem.clientWidth <= 320) ? 320 : elem.clientWidth;
+	var height = (elem.clientHeight <= 200) ? 200 : elem.clientHeight;
+	var pixelRatio;
+
+	if (window.devicePixelRatio >= 1.0) {
+		pixelRatio = window.devicePixelRatio;
+	} else {
+		pixelRatio = 1.0;
+	}
+
+	if ((VID.width !== width) || (VID.height !== height) || (SCR.devicePixelRatio !== pixelRatio) || (Host.framecount === 0)) {
+		VID.width = width;
+		VID.height = height;
+		VID.mainwindow.width = (width * pixelRatio) >> 0;
+		VID.mainwindow.height = (height * pixelRatio) >> 0;
+		VID.mainwindow.style.width = width + 'px';
+		VID.mainwindow.style.height = height + 'px';
+		SCR.devicePixelRatio = pixelRatio;
+		SCR.recalc_refdef = true;
+	}
 };
 
 // noinspection DuplicatedCode
