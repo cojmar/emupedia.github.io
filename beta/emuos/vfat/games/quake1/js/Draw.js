@@ -68,6 +68,7 @@ Draw.Init = function() {
 	Draw.loading = Draw.CachePic('loading');
 	Draw.loadingElem = document.getElementById('loading');
 	Draw.loadingElem.src = Draw.PicToDataURL(Draw.loading);
+	Draw.loadingMsg = document.getElementById('loading-message');
 
 	document.body.style.backgroundImage = 'url("' + Draw.PicToDataURL(Draw.PicFromWad('BACKTILE')) + '")';
 
@@ -222,7 +223,7 @@ Draw.FadeScreen = function() {
 };
 
 // noinspection DuplicatedCode
-Draw.BeginDisc = function() {
+Draw.BeginDisc = function(file) {
 	// Sys.DPrint('Draw.BeginDisc()');
 
 	if (Draw.loadingElem == null) {
@@ -232,6 +233,11 @@ Draw.BeginDisc = function() {
 	Draw.loadingElem.style.left = ((VID.width - Draw.loading.width) >> 1) + 'px';
 	Draw.loadingElem.style.top = ((VID.height - Draw.loading.height) >> 1) + 'px';
 	Draw.loadingElem.style.display = 'inline-block';
+
+	Draw.loadingMsg.style.left = ((VID.width - Draw.loading.width) >> 1) + 'px';
+	Draw.loadingMsg.style.top = ((VID.height - Draw.loading.height + 50) >> 1) + 'px';
+	Draw.loadingMsg.style.display = 'inline-block';
+	Draw.loadingMsg.innerText = file;
 };
 
 // noinspection DuplicatedCode
@@ -240,6 +246,10 @@ Draw.EndDisc = function() {
 
 	if (Draw.loadingElem != null) {
 		Draw.loadingElem.style.display = 'none';
+	}
+
+	if (Draw.loadingMsg != null) {
+		Draw.loadingMsg.style.display = 'none';
 	}
 };
 

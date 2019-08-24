@@ -328,7 +328,7 @@ COM.LoadFile = function(filename) {
 
 	var i, j, k, search, netpath, pak, file, data;
 
-	Draw.BeginDisc();
+	Draw.BeginDisc(filename);
 
 	// noinspection DuplicatedCode
 	for (i = COM.searchpaths.length - 1; i >= 0; --i) {

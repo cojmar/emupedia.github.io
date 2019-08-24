@@ -48,6 +48,7 @@ Draw.Init = async () => {
 	Draw.loading = await Draw.CachePic('loading');
 	Draw.loadingElem = document.getElementById('loading');
 	Draw.loadingElem.src = Draw.PicToDataURL(Draw.loading);
+	Draw.loadingMsg = document.getElementById('loading-message');
 
 	document.body.style.backgroundImage = 'url("' + Draw.PicToDataURL(Draw.PicFromWad('BACKTILE')) + '")';
 
@@ -162,17 +163,29 @@ Draw.FadeScreen = () => {
 	GL.StreamDrawColoredQuad(0, 0, VID.width, VID.height, 0, 0, 0, 204);
 };
 
-Draw.BeginDisc = () => {
-	if (Draw.loadingElem == null)
+Draw.BeginDisc = (file) => {
+	if (Draw.loadingElem == null) {
 		return;
+	}
+
 	Draw.loadingElem.style.left = ((VID.width - Draw.loading.width) >> 1) + 'px';
 	Draw.loadingElem.style.top = ((VID.height - Draw.loading.height) >> 1) + 'px';
 	Draw.loadingElem.style.display = 'inline-block';
+
+	Draw.loadingMsg.style.left = ((VID.width - Draw.loading.width) >> 1) + 'px';
+	Draw.loadingMsg.style.top = ((VID.height - Draw.loading.height + 50) >> 1) + 'px';
+	Draw.loadingMsg.style.display = 'inline-block';
+	Draw.loadingMsg.innerText = file;
 };
 
 Draw.EndDisc = () => {
-	if (Draw.loadingElem != null)
+	if (Draw.loadingElem != null) {
 		Draw.loadingElem.style.display = 'none';
+	}
+
+	if (Draw.loadingMsg != null) {
+		Draw.loadingMsg.style.display = 'none';
+	}
 };
 
 Draw.PicToDataURL = (pic) => {

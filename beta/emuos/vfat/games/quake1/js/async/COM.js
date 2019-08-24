@@ -250,7 +250,7 @@ COM.WriteTextFile = (filename, data) => {
 COM.LoadFile = async (filename) => {
 	filename = filename.toLowerCase();
 	var i, j, k, search, netpath, pak, file, data;
-	Draw.BeginDisc();
+	Draw.BeginDisc(filename);
 	for (i = COM.searchpaths.length - 1; i >= 0; --i)
 	{
 		search = COM.searchpaths[i];
