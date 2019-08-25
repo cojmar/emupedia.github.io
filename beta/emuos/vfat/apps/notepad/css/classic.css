@@ -154,7 +154,7 @@ button {
 .menu-item[disabled] {
 	text-shadow: 0.8px 0.8px 0px #fff;
 }
-.menu-item:focus, 
+.menu-item:focus,
 .menu-item.active {
 	background: #007;
 	color: #fff;
@@ -214,7 +214,7 @@ because :not() doesn't support compound selectors like :not(.webamp-container .w
 	background: linear-gradient(to right, #000080 0%, #1084d0 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000080', endColorstr='#1084d0', GradientType=1 ); /* IE6-9 */
 	/* TODO: gradient shouldn't actually extend to the window controls */
-	
+
 	color: white;
 	font-family: 'Segoe UI', sans-serif;
 	font-size: 12px;
@@ -323,7 +323,7 @@ button:hover:active:before {
 	background-repeat: no-repeat;
 }
 ::-webkit-scrollbar-button {
-	background-image: url("images/arrows.png");
+	background-image: url("../images/arrows.png");
 }
 ::-webkit-scrollbar-button:horizontal:decrement:disabled {
 	background-position: calc(-24px + 1px) 1px; /* left */
