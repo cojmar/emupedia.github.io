@@ -233,7 +233,7 @@
 					}, 100);
 				} else {
 					// noinspection JSUnresolvedFunction
-					dbx.filesGetTemporaryLink({path: '/' + file}).then(function(response) {
+					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						// noinspection JSUnresolvedFunction,JSUnresolvedVariable,AmdModulesDependencies
 						var emulator = new Emulator(document.getElementById('canvas'), null,
 							new DosBoxLoader(DosBoxLoader.emulatorJS(SYSTEM_FEATURE_WEBASSEMBLY && mode !== 'asm' ? 'js/dosbox-' + sync + 'sync-wasm.js' : (SYSTEM_FEATURE_ASMJS ? 'js/dosbox-' + sync + 'sync-asm.js' : alert('DOSBox cannot work because WebAssembly and/or ASM.JS is not supported in your browser!'))),
