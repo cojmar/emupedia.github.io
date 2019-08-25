@@ -196,7 +196,7 @@
 
 					for (var f in file) {
 						// noinspection JSUnfilteredForInLoop
-						dbx.filesGetTemporaryLink({path: '/' + file[f]}).then(function(response) {
+						dbx.filesGetTemporaryLink({path: '/dosbox/' + file[f]}).then(function(response) {
 							// noinspection JSUnfilteredForInLoop,JSReferencingMutableVariableFromClosure
 							files.push(response);
 						}).catch(function(error) {
@@ -269,7 +269,7 @@
 			$game_list.html('').html(render_game_list(games));
 			$game_dropdown.html('').html(render_game_dropdown(games));
 
-			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && SYSTEM_FEATURE_ASMJS && SYSTEM_FEATURE_WEBASSEMBLY) {
+			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && (SYSTEM_FEATURE_ASMJS || SYSTEM_FEATURE_WEBASSEMBLY)) {
 				var first = typeof $.url().param('game') === 'undefined';
 
 				if (!first) {
@@ -278,6 +278,7 @@
 					var index_selected = parseInt($.url().param('game'), 10);
 					var game_selected = $game_dropdown.find('option[value="'+ index_selected +'"]').prop('selected', true).attr('selected', true).data('game');
 
+					// noinspection DuplicatedCode
 					for (var game in games['games']) {
 						// noinspection JSUnfilteredForInLoop
 						if (games['games'][game]['id'] === game_selected) {
@@ -307,6 +308,7 @@
 					if (first) {
 						first = false;
 
+						// noinspection DuplicatedCode
 						for (var game in games['games']) {
 							// noinspection JSUnfilteredForInLoop
 							if (games['games'][game]['id'] === game_selected) {
