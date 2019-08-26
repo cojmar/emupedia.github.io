@@ -1,0 +1,205 @@
+html {
+	/* IE hack */
+	font-size: 100%;
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #f0f0f0;
+	color: #000;
+	font-size: 12px;
+	height: 100%;
+
+	font-family: Segoe UI, sans-serif;
+}
+
+form, ul, li, p, h1, h2, h3, h4, h5 {
+	margin: 0;
+	padding: 0;
+}
+
+img {
+	border: none;
+}
+
+p {
+	/*font-size: 18px;*/
+	margin: 0 0 18px 0;
+}
+
+table {
+	/* IE hack */
+	font-size: 100%;
+}
+
+input, select, textarea, th, td, label {
+	/*font-size: 18px;*/
+}
+
+/* region Basic */
+
+/*noinspection CssOverwrittenProperties*/
+ol.vtree {
+	display: block;
+	width: 80%;
+	border: 1px solid #abadb3;
+	padding: 2px;
+	margin: 10px;
+	height: 300px;
+	overflow: scroll;
+	overflow-x: auto;
+	overflow-y: scroll;
+	float: left;
+}
+
+ol.vtree li {
+	position: relative;
+	list-style: none;
+	overflow: hidden;
+}
+
+ol.vtree li input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	padding: 0;
+	opacity: 0;
+	z-index: 2;
+	cursor: pointer;
+}
+
+ol.vtree li input + ol > li {
+	display: none;
+	margin-left: -16px !important;
+}
+
+ol.vtree li input:checked + ol > li {
+	display: block;
+}
+
+/*noinspection CssOptimizeSimilarProperties*/
+ol.vtree li label {
+	display: block;
+	height: 16px;
+	background-image: url(../images/tree/folder-horizontal.png);
+	background-position: 16px 0;
+	background-repeat: no-repeat;
+	padding-left: 32px;
+	cursor: pointer;
+}
+
+ol.vtree li input:checked + ol:before {
+	display: block;
+	content: ' ';
+	width: 16px;
+	height: 100%;
+	/*background-image: url(../images/vtree/line.png);*/
+	/*background-repeat: repeat-y;*/
+	margin-left: -32px;
+	padding-left: 16px;
+	position: absolute;
+}
+
+/* endregion */
+
+/* region First Level */
+
+ol.vtree > li > label + input + ol {
+	background-image: url(../images/tree/expand-middle.png);
+	background-repeat: no-repeat;
+	margin: -16px 0 0 0;
+	padding: 0;
+	height: 16px;
+}
+
+ol.vtree > li > label + input:checked + ol {
+	background-image: url(../images/tree/collapse-middle.png);
+}
+
+ol.vtree > li:first-of-type > label + input + ol {
+	background-image: url(../images/tree/expand-top.png);
+}
+
+ol.vtree > li:first-of-type > label + input:checked + ol {
+	background-image: url(../images/tree/collapse-top.png);
+}
+
+ol.vtree > li:last-of-type > label + input + ol {
+	background-image: url(../images/tree/expand-bottom.png);
+}
+
+ol.vtree > li:last-of-type > label + input:checked + ol {
+	background-image: url(../images/tree/collapse-bottom.png);
+}
+
+/* endregion */
+
+/* region All Levels */
+
+ol.vtree > li input + ol {
+	background-image: url(../images/tree/expand-middle.png);
+	background-repeat: no-repeat;
+	margin: -16px 0 0 0;
+	padding: 0;
+	height: 16px;
+}
+
+ol.vtree > li input:checked + ol {
+	background-image: url(../images/tree/collapse-middle.png);
+	background-repeat: no-repeat;
+	padding: 16px 0 0 32px;
+	height: auto;
+}
+
+ol.vtree > li input + ol:last-child {
+	/*background-image: url(../images/vtree/expand-bottom2.png);*/
+}
+
+ol.vtree > li input:checked + ol:last-child {
+	/*background-image: url(../images/vtree/collapse-bottom2.png);*/
+}
+
+/* endregion */
+
+/* region Icons */
+
+ol.vtree li.file {
+	margin-left: -1px !important;
+}
+
+ol.vtree li.file a {
+	background: url(../images/tree/document.png) 0 0 no-repeat;
+	color: #000;
+	padding-left: 16px;
+	text-decoration: none;
+	display: block;
+}
+
+ol.vtree li.file a[href *= '.pdf'] {
+	background: url(../images/tree/document.png) 0 0 no-repeat;
+}
+
+ol.vtree li.file a[href *= '.html'] {
+	background: url(../images/tree/document.png) 0 0 no-repeat;
+}
+
+ol.vtree li.file a[href $= '.css'] {
+	background: url(../images/tree/document.png) 0 0 no-repeat;
+}
+
+ol.vtree li.file a[href $= '.js'] {
+	background: url(../images/tree/document.png) 0 0 no-repeat;
+}
+
+/* endregion */
+
+div.content {
+	width: 81%;
+	float: left;
+	margin: 10px;
+}
