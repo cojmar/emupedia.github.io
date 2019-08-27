@@ -5231,6 +5231,13 @@ var Browser = {
 			document.addEventListener("webkitpointerlockchange", pointerLockChange, false);
 			document.addEventListener("mspointerlockchange", pointerLockChange, false);
 			if (Module["elementPointerLock"]) {
+				document.addEventListener("click", function (ev) {
+					if (!Browser.pointerLock && Module["canvas"].requestPointerLock) {
+						Module["canvas"].requestPointerLock();
+						ev.preventDefault()
+					}
+				}, false)
+
 				canvas.addEventListener("click", function (ev) {
 					if (!Browser.pointerLock && Module["canvas"].requestPointerLock) {
 						Module["canvas"].requestPointerLock();
