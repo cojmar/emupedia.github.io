@@ -310,6 +310,37 @@
 		"license": "Freeware",
 		"status": "Playable"
 	} , {
+		"id": "homm1",
+		"name": "Heroes of Might and Magic I",
+		"executable": "./HEROES.EXE",
+		"sync": false,
+		"file": "homm1.zip",
+		"size": 9944558,
+		"hardware": {
+			"input": ["Keyboard", "Mouse"],
+			"sound": ["PC Speaker", "Gravis Ultrasound", "Microsoft Sound System", "Ensoniq Soundscape", "Wave Jammer", "ESS Audio Drive", "Pro Audio Spectrum", "Roland Rap/Tap 10", "Sound Blaster 16/AWE32", "Sound Blaster Pro", "Sound Blaster"],
+			"video": {
+				"GENERIC": ["Video 7", "Tseng Labs", "Tseng Labs Version 4", "Paradise", "Chip & Technologies", "Trident", "ATI Technologies", "Everex", "Ahead Version A", "Ahead Version B", "Oak Tehnologies", "Genoa", "NCR", "Compaq", "XGA", "VESA"],
+				"VGA": {
+					"resolutions": [
+						"640x480"
+					],
+					"colors": 256
+				}
+			},
+			"network": ["Direct Connect", "Modem"]
+		},
+		"language": "English",
+		"year": 1995,
+		"genre": "Turn-based strategy",
+		"developer": "New World Computing",
+		"publisher": "3DO Games",
+		"copyright": "Ubisoft Entertainment",
+		"url": "//gog.com/game/heroes_of_might_and_magic",
+		"version": "1.0",
+		"license": "Commercial",
+		"status": "Playable"
+	} , {
 		"id": "jetpack",
 		"name": "Jetpack",
 		"executable": "./JETPACK.EXE",
