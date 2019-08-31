@@ -6,7 +6,7 @@
 		"id": "abuse",
 		"group": "Abuse",
 		"name": "Abuse",
-		"notes": "Music not working",
+		"notes": "DOSBOX: Music not working",
 		"executable": "./ABUSE.EXE",
 		"sync": false,
 		"file": "abuse.zip",
@@ -226,7 +226,7 @@
 	} , {
 		"id": "diablo1sw",
 		"name": "Diablo I",
-		"notes": "Hangs after intro movie",
+		"notes": "DOSBOX: Hangs after intro movie",
 		"executable": "mem",
 		"args": ["-c", "imgmount c a:\\WIN95.IMG -size 512,63,16,101", "-c", "imgmount d b:\\DIABLO.IMG -size 512,63,16,132", "-c", "boot -l c"],
 		"files": ["win95.zip", "diablo1sw.zip"],
@@ -311,6 +311,7 @@
 		"status": "Playable"
 	} , {
 		"id": "homm1",
+		"group": "Heroes of Might and Magic",
 		"name": "Heroes of Might and Magic I",
 		"executable": "./HEROES.EXE",
 		"sync": false,
@@ -334,12 +335,56 @@
 		"year": 1995,
 		"genre": "Turn-based strategy",
 		"developer": "New World Computing",
-		"publisher": "3DO Games",
+		"publisher": "New World Computing",
 		"copyright": "Ubisoft Entertainment",
 		"url": "//gog.com/game/heroes_of_might_and_magic",
 		"version": "1.0",
 		"license": "Commercial",
-		"status": "Playable"
+		"status": "Playable",
+		"clones": [{
+			"id": "homm2",
+			"name": "Heroes of Might and Magic II: The Succession Wars",
+			"executable": "./HEROES2.EXE",
+			"sync": true,
+			"args": ["-c", "mount d emulator/c -t cdrom"],
+			"file": "homm2.zip",
+			"size": 203522890,
+			"year": 1996,
+			"publisher": "3DO Games",
+			"url": "//gog.com/game/heroes_of_might_and_magic_2_gold_edition",
+			"license": "Commercial",
+			"status": "Playable"
+		} , {
+			"id": "homm2x",
+			"name": "Heroes of Might and Magic II: The Price of Loyalty",
+			"notes": "TODO",
+			"executable": "./HEROES2.EXE",
+			"sync": false,
+			"args": ["-c", "imgmount d emulator/c/iso/homm2.cue -t iso -fs iso"],
+			"file": "homm2gold.zip",
+			"size": 316287153,
+			"year": 1997,
+			"publisher": "3DO Games",
+			"url": "//gog.com/game/heroes_of_might_and_magic_2_gold_edition",
+			"license": "Commercial",
+			"status": "Nothing",
+			"enabled": false
+		} , {
+			"id": "homm2gold",
+			"name": "Heroes of Might and Magic II Gold",
+			"notes": "DOSBOX: The image must be on a host or local drive JS: uncaught exception: SimulateInfiniteLoop",
+			"executable": "./HEROES2.EXE",
+			"sync": false,
+			"args": ["-c", "imgmount d emulator/c/iso/homm2.cue -t iso -fs iso"],
+			"file": "homm2gold.zip",
+			"size": 316287153,
+			"year": 1998,
+			"publisher": "3DO Games",
+			"url": "//gog.com/game/heroes_of_might_and_magic_2_gold_edition",
+			"license": "Commercial",
+			"status": "Nothing",
+			"enabled": false
+		}]
 	} , {
 		"id": "jetpack",
 		"name": "Jetpack",
@@ -612,13 +657,14 @@
 		"developer": "X LanD Computer Games",
 		"publisher": "Laboratorium Komputerowe Avalon, Epic MegaGames",
 		"copyright": "X LanD Computer Games",
-		"license": "Freeware, Creative Commons BY-SA 2.5",
+		"copyright_license": "Creative Commons BY-SA 2.5",
+		"license": "Freeware",
 		"status": "Playable"
 	} , {
 		"id": "quake1",
 		"group": "Quake 1",
 		"name": "Quake 1",
-		"notes": "RuntimeError: integer overflow",
+		"notes": "JS: RuntimeError: integer overflow",
 		"description": "Quake 1",
 		"executable": "./QUAKE.EXE -nocdaudio -stdvid",
 		"sync": false,
@@ -669,7 +715,7 @@
 		"clones": [{
 			"id": "quake1mp1",
 			"name": "Mission Pack 1: Scourge of Armagon",
-			"notes": "RuntimeError: integer overflow",
+			"notes": "JS: RuntimeError: integer overflow",
 			"executable": "./QUAKE.EXE -nocdaudio -stdvid -game hipnotic",
 			"sync": false,
 			"year": 1997,
@@ -681,7 +727,7 @@
 		} , {
 			"id": "quake1mp2",
 			"name": "Mission Pack 2: Dissolution of Eternity",
-			"notes": "RuntimeError: integer overflow",
+			"notes": "JS: RuntimeError: integer overflow",
 			"executable": "./QUAKE.EXE -nocdaudio -stdvid -game rogue",
 			"sync": false,
 			"year": 1997,
@@ -750,7 +796,7 @@
 		"status": "Playable"
 	} , {
 		"id": "war2",
-		"group": "Warcraft II",
+		"group": "Warcraft",
 		"name": "Warcraft II: Tides of Darkness",
 		"executable": "./WAR2.EXE",
 		"sync": true,
@@ -781,7 +827,7 @@
 		"clones": [{
 			"id": "war2x",
 			"name": "Warcraft II: Beyond the Dark Portal",
-			"notes": "uncaught exception: SimulateInfiniteLoop",
+			"notes": "JS: uncaught exception: SimulateInfiniteLoop",
 			"executable": "./WAR2.EXE",
 			"sync": true,
 			"args": ["-c", "mount d emulator/c -t cdrom"],
@@ -793,7 +839,8 @@
 			"copyright": "Activision Blizzard",
 			"version": "1.3",
 			"license": "Commercial",
-			"status": "Nothing"
+			"status": "Nothing",
+			"enabled": false
 		}]
 	} , {
 		"id": "wolf3d",
@@ -845,7 +892,7 @@
 		"group": "X-COM",
 		"name": "X-COM: UFO Defense",
 		"description": "UFO: Enemy Unknown",
-		"notes": "May hang on mission start",
+		"notes": "DOSBOX: May hang on mission start",
 		"executable": "./UFO.BAT",
 		"sync": true,
 		"mode": "asm",
@@ -875,7 +922,7 @@
 		"clones": [{
 			"id": "xcom2",
 			"name": "X-COM: Terror from the Deep",
-			"notes": "May hang on mission start",
+			"notes": "DOSBOX: May hang on mission start",
 			"executable": "./TERROR.COM",
 			"sync": true,
 			"mode": "asm",

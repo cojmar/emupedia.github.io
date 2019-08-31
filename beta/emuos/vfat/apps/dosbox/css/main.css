@@ -19,6 +19,10 @@ body {
 	height: 22px;
 }
 
+.game-dropdown {
+	max-width: 427px;
+}
+
 /*noinspection CssOverwrittenProperties*/
 .game-list {
 	display: none;
@@ -31,6 +35,7 @@ body {
 	color: #000;
 	font-size: 9px;
 	overflow-y: scroll;
+	z-index: 1;
 }
 
 .game-list table {
@@ -39,12 +44,11 @@ body {
 	border-collapse: collapse;
 }
 
-.game-list table th {
-	/*text-align: left;*/
+.game-list table th.left, .game-list table td.left {
+	text-align: left;
 }
 
 .game-list table, th, td {
-
 	border: 1px solid #f0f0f0;
 }
 

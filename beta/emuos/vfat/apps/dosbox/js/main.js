@@ -93,8 +93,17 @@
 
 						// noinspection JSUnfilteredForInLoop
 						for (var clone in games['games'][game]['clones']) {
-							// noinspection JSUnfilteredForInLoop
-							list += '<option value="' + i + '" data-game="' + (typeof games['games'][game]['clones'][clone]['id'] !== 'undefined' ? games['games'][game]['clones'][clone]['id'] : games['games'][game]['id']) + '">' + (typeof games['games'][game]['clones'][clone]['name'] !== 'undefined' ? games['games'][game]['clones'][clone]['name'] : games['games'][game]['name']) + ' (' + (typeof games['games'][game]['clones'][clone]['year'] !== 'undefined' ? games['games'][game]['clones'][clone]['year'] : games['games'][game]['year']) + ')' + (typeof games['games'][game]['clones'][clone]['retail'] !== 'undefined' ? (games['games'][game]['clones'][clone]['retail'] === true ? ' (' + 'Retail' + ')' : '') : '') + ' (' + format_bytes(parseInt((typeof games['games'][game]['clones'][clone]['size'] !== 'undefined' ? games['games'][game]['clones'][clone]['size'] : games['games'][game]['size']), 10)) + ')</option>';
+							// noinspection JSUnfilteredForInLoop,DuplicatedCode
+							if (typeof games['games'][game]['clones'][clone]['enabled'] !== 'undefined') {
+								// noinspection JSUnfilteredForInLoop
+								if (games['games'][game]['clones'][clone]['enabled'] === true) {
+									// noinspection JSUnfilteredForInLoop,DuplicatedCode
+									list += '<option value="' + i + '" data-game="' + (typeof games['games'][game]['clones'][clone]['id'] !== 'undefined' ? games['games'][game]['clones'][clone]['id'] : games['games'][game]['id']) + '">' + (typeof games['games'][game]['clones'][clone]['name'] !== 'undefined' ? games['games'][game]['clones'][clone]['name'] : games['games'][game]['name']) + ' (' + (typeof games['games'][game]['clones'][clone]['year'] !== 'undefined' ? games['games'][game]['clones'][clone]['year'] : games['games'][game]['year']) + ')' + (typeof games['games'][game]['clones'][clone]['retail'] !== 'undefined' ? (games['games'][game]['clones'][clone]['retail'] === true ? ' (' + 'Retail' + ')' : '') : '') + ' (' + format_bytes(parseInt((typeof games['games'][game]['clones'][clone]['size'] !== 'undefined' ? games['games'][game]['clones'][clone]['size'] : games['games'][game]['size']), 10)) + ')</option>';
+								}
+							} else {
+								// noinspection JSUnfilteredForInLoop,DuplicatedCode
+								list += '<option value="' + i + '" data-game="' + (typeof games['games'][game]['clones'][clone]['id'] !== 'undefined' ? games['games'][game]['clones'][clone]['id'] : games['games'][game]['id']) + '">' + (typeof games['games'][game]['clones'][clone]['name'] !== 'undefined' ? games['games'][game]['clones'][clone]['name'] : games['games'][game]['name']) + ' (' + (typeof games['games'][game]['clones'][clone]['year'] !== 'undefined' ? games['games'][game]['clones'][clone]['year'] : games['games'][game]['year']) + ')' + (typeof games['games'][game]['clones'][clone]['retail'] !== 'undefined' ? (games['games'][game]['clones'][clone]['retail'] === true ? ' (' + 'Retail' + ')' : '') : '') + ' (' + format_bytes(parseInt((typeof games['games'][game]['clones'][clone]['size'] !== 'undefined' ? games['games'][game]['clones'][clone]['size'] : games['games'][game]['size']), 10)) + ')</option>';
+							}
 
 							i++;
 						}
@@ -126,7 +135,7 @@
 								'<thead>' +
 									'<tr>' +
 										//'<th>ID</th>' +
-										'<th>Name</th>' +
+										'<th class="left">Name</th>' +
 										'<th>Version</th>' +
 										'<th>Year</th>' +
 										'<th>Genre</th>' +
@@ -140,9 +149,9 @@
 								'</thead>' +
 								'<tbody>';
 				for (var game in games['games']) {
-					// noinspection JSUnfilteredForInLoop
+					// noinspection JSUnfilteredForInLoop,DuplicatedCode
 					var list = 	//'<td>' + games['games'][game]['id'] + '</td>' +
-						'<td>' + games['games'][game]['name'] + '</td>' +
+						'<td class="left">' + games['games'][game]['name'] + '</td>' +
 						'<td>' + format_version(games['games'][game]['version']) + '</td>' +
 						'<td>' + games['games'][game]['year'] + '</td>' +
 						'<td>' + games['games'][game]['genre'] + '</td>' +
@@ -153,14 +162,29 @@
 						'<td>' + games['games'][game]['license'] + '</td>' +
 						'<td>' + games['games'][game]['status'] + '</td>';
 
+					html += '<tr>' + list + '</tr>';
+
 					// noinspection JSUnfilteredForInLoop
-					if (typeof games['games'][game]['enabled'] !== 'undefined') {
+					if (typeof games['games'][game]['clones'] !== 'undefined') {
+						list = '';
+
 						// noinspection JSUnfilteredForInLoop
-						if (games['games'][game]['enabled'] === true) {
+						for (var clone in games['games'][game]['clones']) {
+							// noinspection JSUnfilteredForInLoop,DuplicatedCode
+							list = 	//'<td>' + (typeof games['games'][game]['clones'][clone]['id'] !== 'undefined' ? games['games'][game]['clones'][clone]['id'] : games['games'][game]['id']) + '</td>' +
+								'<td class="left">' + (typeof games['games'][game]['clones'][clone]['name'] !== 'undefined' ? games['games'][game]['clones'][clone]['name'] : games['games'][game]['name']) + '</td>' +
+								'<td>' + format_version((typeof games['games'][game]['clones'][clone]['version'] !== 'undefined' ? games['games'][game]['clones'][clone]['version'] : games['games'][game]['version'])) + '</td>' +
+								'<td>' + (typeof games['games'][game]['clones'][clone]['year'] !== 'undefined' ? games['games'][game]['clones'][clone]['year'] : games['games'][game]['year']) + '</td>' +
+								'<td>' + games['games'][game]['genre'] + '</td>' +
+								'<td>' + format_bytes(parseInt((typeof games['games'][game]['clones'][clone]['size'] !== 'undefined' ? games['games'][game]['clones'][clone]['size'] : games['games'][game]['size']), 10)) + '</td>' +
+								// '<td>' + format_name((typeof games['games'][game]['clones'][clone]['developer'] !== 'undefined' ? games['games'][game]['clones'][clone]['developer'] : games['games'][game]['developer'])) + '</td>' +
+								// '<td>' + format_name((typeof games['games'][game]['clones'][clone]['publisher'] !== 'undefined' ? games['games'][game]['clones'][clone]['publisher'] : games['games'][game]['publisher'])) + '</td>' +
+								// '<td>' + format_name((typeof games['games'][game]['clones'][clone]['copyright'] !== 'undefined' ? games['games'][game]['clones'][clone]['copyright'] : games['games'][game]['copyright'])) + '</td>' +
+								'<td>' + (typeof games['games'][game]['clones'][clone]['license'] !== 'undefined' ? games['games'][game]['clones'][clone]['license'] : games['games'][game]['license']) + '</td>' +
+								'<td>' + (typeof games['games'][game]['clones'][clone]['status'] !== 'undefined' ? games['games'][game]['clones'][clone]['status'] : games['games'][game]['status']) + '</td>';
+
 							html += '<tr>' + list + '</tr>';
 						}
-					} else {
-						html += '<tr>' + list + '</tr>';
 					}
 				}
 
