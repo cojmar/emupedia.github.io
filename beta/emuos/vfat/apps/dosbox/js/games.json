@@ -344,7 +344,9 @@
 		"clones": [{
 			"id": "homm2",
 			"name": "Heroes of Might and Magic II: The Succession Wars",
+			"notes": "JS: RuntimeError: integer overflow",
 			"executable": "./HEROES2.EXE",
+			"mode": "asm",
 			"sync": true,
 			"args": ["-c", "mount d emulator/c -t cdrom"],
 			"file": "homm2.zip",
@@ -353,7 +355,7 @@
 			"publisher": "3DO Games",
 			"url": "//gog.com/game/heroes_of_might_and_magic_2_gold_edition",
 			"license": "Commercial",
-			"status": "Playable"
+			"status": "Ingame"
 		} , {
 			"id": "homm2x",
 			"name": "Heroes of Might and Magic II: The Price of Loyalty",
