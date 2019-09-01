@@ -750,8 +750,8 @@
 		"developer": "X LanD Computer Games",
 		"publisher": "Laboratorium Komputerowe Avalon, Epic MegaGames",
 		"copyright": "X LanD Computer Games",
-		"copyright_license": "Creative Commons BY-SA 2.5",
 		"license": "Freeware",
+		"license_notes": "Creative Commons BY-SA 2.5",
 		"status": "Playable"
 	} , {
 		"id": "quake1",
@@ -891,8 +891,11 @@
 		"id": "war2",
 		"group": "Warcraft",
 		"name": "Warcraft II: Tides of Darkness",
+		"notes": "JS: uncaught exception: SimulateInfiniteLoop",
 		"executable": "./WAR2.EXE",
+		"mode": "asm",
 		"sync": true,
+		"old": true,
 		"args": ["-c", "mount d emulator/c -t cdrom"],
 		"file": "war2.zip",
 		"size": 82019801,
@@ -916,13 +919,15 @@
 		"copyright": "Activision Blizzard",
 		"version": "1.0",
 		"license": "Commercial",
-		"status": "Playable",
+		"status": "Ingame",
 		"clones": [{
 			"id": "war2x",
 			"name": "Warcraft II: Beyond the Dark Portal",
 			"notes": "JS: uncaught exception: SimulateInfiniteLoop",
 			"executable": "./WAR2.EXE",
+			"mode": "asm",
 			"sync": true,
+			"old": true,
 			"args": ["-c", "mount d emulator/c -t cdrom"],
 			"file": "war2x.zip",
 			"size": 122526490,
@@ -932,8 +937,7 @@
 			"copyright": "Activision Blizzard",
 			"version": "1.3",
 			"license": "Commercial",
-			"status": "Nothing",
-			"enabled": false
+			"status": "Ingame"
 		}]
 	} , {
 		"id": "wolf3d",
