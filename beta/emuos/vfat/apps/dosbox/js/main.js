@@ -304,7 +304,7 @@
 
 					// noinspection DuplicatedCode
 					for (var game in games['games']) {
-						// noinspection JSUnfilteredForInLoop
+						// noinspection JSUnfilteredForInLoop,DuplicatedCode
 						if (games['games'][game]['id'] === game_selected) {
 							// noinspection JSUnfilteredForInLoop
 							start(typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file'], games['games'][game]['executable'], games['games'][game]['args'], games['games'][game]['mode'], games['games'][game]['sync']);
@@ -334,7 +334,7 @@
 
 						// noinspection DuplicatedCode
 						for (var game in games['games']) {
-							// noinspection JSUnfilteredForInLoop
+							// noinspection JSUnfilteredForInLoop,DuplicatedCode
 							if (games['games'][game]['id'] === game_selected) {
 								// noinspection JSUnfilteredForInLoop
 								start(typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file'], games['games'][game]['executable'], games['games'][game]['args'], games['games'][game]['mode'], games['games'][game]['sync']);

@@ -505,7 +505,7 @@
 		"size": 1569844,
 		"drm": ["Manual Lookup"],
 		"hardware": {
-			"input": ["Keyboard"],
+			"input": ["Keyboard", "Mouse"],
 			"video": {
 				"EGA": {
 					"resolutions": [
@@ -527,10 +527,12 @@
 		"status": "Playable",
 		"clones": [{
 			"id": "monkey1vga",
+			"executable": "./MONKEY.EXE",
+			"sync": false,
 			"file": "monkey1vga.zip",
 			"size": 3187135,
 			"hardware": {
-				"input": ["Keyboard"],
+				"input": ["Keyboard", "Mouse"],
 				"video": {
 					"VGA": {
 						"resolutions": [
@@ -547,10 +549,12 @@
 			"status": "Playable"
 		} , {
 			"id": "monkey1vgatalkie",
+			"executable": "./MONKEY.EXE",
+			"sync": false,
 			"file": "monkey1vgatalkie.zip",
 			"size": 124983889,
 			"hardware": {
-				"input": ["Keyboard"],
+				"input": ["Keyboard", "Mouse"],
 				"video": {
 					"VGA": {
 						"resolutions": [
