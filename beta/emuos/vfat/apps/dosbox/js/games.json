@@ -312,7 +312,7 @@
 	} , {
 		"id": "homm1",
 		"group": "Heroes of Might and Magic",
-		"name": "Heroes of Might and Magic I",
+		"name": "Heroes of Might and Magic I (Rip)",
 		"executable": "./HEROES.EXE",
 		"sync": false,
 		"file": "homm1.zip",
@@ -359,18 +359,34 @@
 		} , {
 			"id": "homm2x",
 			"name": "Heroes of Might and Magic II: The Price of Loyalty",
-			"notes": "TODO",
+			"notes": "JS: RuntimeError: integer overflow",
 			"executable": "./HEROES2.EXE",
-			"sync": false,
-			"args": ["-c", "imgmount d emulator/c/iso/homm2.cue -t iso -fs iso"],
-			"file": "homm2gold.zip",
-			"size": 316287153,
+			"mode": "asm",
+			"sync": true,
+			"args": ["-c", "mount d emulator/c -t cdrom"],
+			"file": "homm2x.zip",
+			"size": 199548791,
 			"year": 1997,
 			"publisher": "3DO Games",
 			"url": "//gog.com/game/heroes_of_might_and_magic_2_gold_edition",
 			"license": "Commercial",
 			"status": "Nothing",
 			"enabled": false
+		} , {
+			"id": "homm2xrip",
+			"name": "Heroes of Might and Magic II: The Price of Loyalty (Rip)",
+			"notes": "JS: RuntimeError: integer overflow",
+			"executable": "./HEROES2.EXE",
+			"mode": "asm",
+			"sync": true,
+			"args": ["-c", "mount d emulator/c -t cdrom"],
+			"file": "homm2xrip.zip",
+			"size": 44235314,
+			"year": 1997,
+			"publisher": "3DO Games",
+			"url": "//gog.com/game/heroes_of_might_and_magic_2_gold_edition",
+			"license": "Commercial",
+			"status": "Ingame"
 		} , {
 			"id": "homm2gold",
 			"name": "Heroes of Might and Magic II Gold",
@@ -503,7 +519,7 @@
 		"sync": false,
 		"file": "monkey1ega.zip",
 		"size": 1569844,
-		"drm": ["Manual Lookup"],
+		"drm": ["Dial-a-Pirate"],
 		"hardware": {
 			"input": ["Keyboard", "Mouse"],
 			"video": {
@@ -1040,7 +1056,6 @@
 		"copyright": "Microsoft",
 		"version": "4.00.950",
 		"license": "Commercial",
-		"status": "Working",
-		"clones": []
+		"status": "Working"
 	}]
 }
