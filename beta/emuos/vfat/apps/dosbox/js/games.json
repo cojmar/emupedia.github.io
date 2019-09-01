@@ -273,7 +273,7 @@
 		},
 		"language": "English",
 		"year": 1992,
-		"genre": "Strategy",
+		"genre": "Real-Time Strategy",
 		"developer": "Westwood Studios",
 		"publisher": "Virgin Games",
 		"copyright": "Virgin Interactive",
@@ -333,7 +333,7 @@
 		},
 		"language": "English",
 		"year": 1995,
-		"genre": "Turn-based strategy",
+		"genre": "Turn-Based Strategy",
 		"developer": "New World Computing",
 		"publisher": "New World Computing",
 		"copyright": "Ubisoft Entertainment",
@@ -492,6 +492,77 @@
 			"file": "mk3.zip",
 			"size": 19720043,
 			"year": 1995,
+			"license": "Commercial",
+			"status": "Playable"
+		}],
+	} , {
+		"id": "monkey1ega",
+		"group": "Monkey Island",
+		"name": "Monkey Island I: The Secret of Monkey Island",
+		"executable": "./MONKEY.EXE",
+		"sync": false,
+		"file": "monkey1ega.zip",
+		"size": 1569844,
+		"drm": ["Manual Lookup"],
+		"hardware": {
+			"input": ["Keyboard"],
+			"video": {
+				"EGA": {
+					"resolutions": [
+						"320x200"
+					],
+					"colors": 16
+				}
+			},
+			"sound": ["PC Speaker", "Sound Blaster"]
+		},
+		"language": "English",
+		"year": 1989,
+		"genre": "Adventure",
+		"developer": "Lucasfilm Games",
+		"publisher": "Lucasfilm Games",
+		"copyright": "Lucasfilm Games",
+		"version": "EGA",
+		"license": "Commercial",
+		"status": "Playable",
+		"clones": [{
+			"id": "monkey1vga",
+			"file": "monkey1vga.zip",
+			"size": 3187135,
+			"hardware": {
+				"input": ["Keyboard"],
+				"video": {
+					"VGA": {
+						"resolutions": [
+							"320x200"
+						],
+						"colors": 256
+					}
+				},
+				"sound": ["PC Speaker", "Sound Blaster"]
+			},
+			"year": 1990,
+			"version": "VGA",
+			"license": "Commercial",
+			"status": "Playable"
+		} , {
+			"id": "monkey1vgatalkie",
+			"file": "monkey1vgatalkie.zip",
+			"size": 124983889,
+			"hardware": {
+				"input": ["Keyboard"],
+				"video": {
+					"VGA": {
+						"resolutions": [
+							"320x200"
+						],
+						"colors": 256
+					}
+				},
+				"sound": ["PC Speaker", "Sound Blaster"]
+			},
+			"year": 1990,
+			"version": "CD",
 			"license": "Commercial",
 			"status": "Playable"
 		}]
@@ -819,7 +890,7 @@
 		},
 		"language": "English",
 		"year": 1995,
-		"genre": "Strategy",
+		"genre": "Real-Time Strategy",
 		"developer": "Blizzard Entertainment",
 		"publisher": "Davidson & Associates",
 		"copyright": "Activision Blizzard",
@@ -914,7 +985,7 @@
 		},
 		"language": "English",
 		"year": 1994,
-		"genre": "Strategy",
+		"genre": "Turn-Based Strategy",
 		"developer": "Mythos Games",
 		"publisher": "MicroProse, Hasbro Interactive",
 		"copyright": "Take-Two Interactive",
