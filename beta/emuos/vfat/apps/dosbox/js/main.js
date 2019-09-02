@@ -9,7 +9,7 @@
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
 			text: '../../../../js/libraries/requirejs-text-2.0.15',
-			purl: 'libraries/purl-2.3.1',
+			purl: '../../../../js/libraries/purl-2.3.1',
 			es6promise: '../../../../js/polyfills/es6-promise-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			browserfs: '../../../../js/libraries/browserfs-1.4.3.min',
@@ -39,7 +39,7 @@
 	require([
 		'jquery',
 		'purl',
-		'json!games.json',
+		'json!../../../../js/config/games.json',
 		'browserfs',
 		'dropbox',
 		'es6fetch',
