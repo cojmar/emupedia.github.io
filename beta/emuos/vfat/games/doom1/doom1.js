@@ -208,7 +208,7 @@ Module.expectedDataFileDownloads++;
   }
 
  }
- loadPackage({"files": [{"start": 0, "audio": 0, "end": 12408292, "filename": "/doom1.wad"}], "remote_package_size": 12408292, "package_uuid": "abdc4c08-b5ec-43d7-a035-7dada7df2435"});
+ loadPackage({"files": [{"start": 0, "audio": 0, "end": 11159840, "filename": "/doom1.wad"}], "remote_package_size": 11159840, "package_uuid": "abdc4c08-b5ec-43d7-a035-7dada7df2435"});
 
 })();
 
