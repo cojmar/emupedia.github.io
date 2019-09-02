@@ -35,8 +35,10 @@ function update_title(){
 	document.title = (file_name || default_file_name_for_title) + " - Notepad";
 
 	if (typeof frameElement !== 'undefined') {
-		if (typeof frameElement.$window !== 'undefined') {
-			frameElement.$window.title(document.title);
+		if (frameElement != null) {
+			if (typeof frameElement.$window !== 'undefined') {
+				frameElement.$window.title(document.title);
+			}
 		}
 	}
 }
@@ -68,16 +70,18 @@ function are_you_sure(callback){
 }
 
 if (typeof frameElement !== 'undefined') {
-	if (typeof frameElement.$window !== 'undefined') {
-		frameElement.$window.on("close", function(e){
-			if (saved) {
-				return;
-			}
-			e.preventDefault();
-			are_you_sure(function(){
-				frameElement.$window.close(true);
+	if (frameElement != null) {
+		if (typeof frameElement.$window !== 'undefined') {
+			frameElement.$window.on("close", function(e){
+				if (saved) {
+					return;
+				}
+				e.preventDefault();
+				are_you_sure(function(){
+					frameElement.$window.close(true);
+				});
 			});
-		});
+		}
 	}
 }
 
