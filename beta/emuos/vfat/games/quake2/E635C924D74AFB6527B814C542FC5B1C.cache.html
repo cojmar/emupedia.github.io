@@ -66612,10 +66612,13 @@ function HtmlMouse_0(platform, rootElement){
   this.rootElement = rootElement;
   addEventListener_0($doc, 'contextmenu', new HtmlMouse$1_0, false);
   captureEvent(rootElement, 'mousedown', new HtmlMouse$2_0(this, platform, rootElement));
+  captureEvent($doc, 'mousedown', new HtmlMouse$2_0(this, platform, rootElement));
   captureEvent_0('mouseup', new HtmlInput$1_0(new HtmlMouse$3_0(this, platform, rootElement)));
   captureEvent_0('mousemove', new HtmlInput$1_0(new HtmlMouse$4_0(this, platform, rootElement)));
   captureEvent(rootElement, 'mousemove', new HtmlMouse$5_0(this, platform, rootElement));
+  captureEvent($doc, 'mousemove', new HtmlMouse$5_0(this, platform, rootElement));
   captureEvent(rootElement, getMouseWheelEvent(), new HtmlMouse$6_0(this));
+  captureEvent($doc, getMouseWheelEvent(), new HtmlMouse$6_0(this));
 }
 
 function getMouseButton(evt){
@@ -66693,8 +66696,8 @@ _.handleEvent_3 = function handleEvent_8(ev, x_0, y_0){
   }
   if (this.this$0.inDragSequence == this.wantDragSequence()) {
     if ($isLocked()) {
-      dx = ev.webkitMovementX;
-      dy = ev.webkitMovementY;
+      dx = ev.webkitMovementX || ev.movementX;
+      dy = ev.webkitMovementY || ev.movementY;
     }
      else {
       dx = x_0 - this.lastX;
