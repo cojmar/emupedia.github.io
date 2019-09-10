@@ -33,10 +33,10 @@ function downloadAndUnpack() {
 	dbx.filesGetTemporaryLink({path: '/quake2/q2-314-demo-x86.exe'}).then(function (response) {
 		// noinspection JSUnresolvedVariable
       var url = response.link;
-		println("Downloading and inflating q2-314-demo-x86.exe");
 		// zip.createReader(new zip.HttpRangeReader(url), function (reader) {
 		zip.createReader(new zip.HttpReader(url), function (reader) {
-			println("Created ZIP reader, getting entries");
+			println("Downloading and inflating q2-314-demo-x86.exe (39MB)");
+			println("This will take a while, please wait...");
 			reader.getEntries(function (zipEntries) {
 				processZipEntries(zipEntries, 0);
 			});
