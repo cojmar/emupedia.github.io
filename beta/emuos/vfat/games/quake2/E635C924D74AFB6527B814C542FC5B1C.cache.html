@@ -66529,7 +66529,8 @@ _.handleEvent_2 = function handleEvent_3(nativeEvent){
   if (this.this$0.listener_0) {
     event_0 = new Keyboard$Event$Impl_0(new Events$Flags$Impl_0, now_1(), keyForCode($eventGetKeyCode(nativeEvent)));
     Event_1($translateKeyCode(event_0), true, Milliseconds());
-    event_0.flags.preventDefault_0 && $eventPreventDefault(nativeEvent);
+    //event_0.flags.preventDefault_0 && $eventPreventDefault(nativeEvent);
+    $eventPreventDefault(nativeEvent);
   }
 }
 ;
@@ -66542,7 +66543,8 @@ _.handleEvent_2 = function handleEvent_4(nativeEvent){
   var event_0;
   if (this.this$0.listener_0) {
     event_0 = new Keyboard$TypedEvent$Impl_0(new Events$Flags$Impl_0, now_1(), (nativeEvent.charCode || 0) & 65535);
-    event_0.flags.preventDefault_0 && $eventPreventDefault(nativeEvent);
+    //event_0.flags.preventDefault_0 && $eventPreventDefault(nativeEvent);
+    $eventPreventDefault(nativeEvent);
   }
 }
 ;
@@ -66556,7 +66558,8 @@ _.handleEvent_2 = function handleEvent_5(nativeEvent){
   if (this.this$0.listener_0) {
     event_0 = new Keyboard$Event$Impl_0(new Events$Flags$Impl_0, now_1(), keyForCode($eventGetKeyCode(nativeEvent)));
     Event_1($translateKeyCode(event_0), false, Milliseconds());
-    event_0.flags.preventDefault_0 && $eventPreventDefault(nativeEvent);
+    //event_0.flags.preventDefault_0 && $eventPreventDefault(nativeEvent);
+    $eventPreventDefault(nativeEvent);
   }
 }
 ;
