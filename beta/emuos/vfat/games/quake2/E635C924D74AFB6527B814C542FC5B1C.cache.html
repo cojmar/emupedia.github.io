@@ -5416,13 +5416,13 @@ function $Init(){
 function $mouseButton(event_0, down){
   switch (event_0.button_0) {
     case 0:
-      Event_1(200, down, Milliseconds());
+      Event_1(200, null, down, Milliseconds());
       break;
     case 2:
-      Event_1(201, down, Milliseconds());
+      Event_1(201, null, down, Milliseconds());
       break;
     case 1:
-      Event_1(202, down, Milliseconds());
+      Event_1(202, null, down, Milliseconds());
   }
 }
 
@@ -5574,13 +5574,13 @@ function $onMouseWheelScroll(event_0){
   var v;
   v = round_int(event_0.velocity);
   while (v < 0) {
-    Event_1(240, true, Milliseconds());
-    Event_1(240, false, Milliseconds());
+    Event_1(240, null, true, Milliseconds());
+    Event_1(240, null, false, Milliseconds());
     ++v;
   }
   while (v > 0) {
-    Event_1(239, true, Milliseconds());
-    Event_1(239, false, Milliseconds());
+    Event_1(239, null, true, Milliseconds());
+    Event_1(239, null, false, Milliseconds());
     --v;
   }
 }
@@ -13238,7 +13238,7 @@ function ClearStates(){
   var i;
   anykeydown = 0;
   for (i = 0; i < 256; i++) {
-    (($clinit_Globals() , keydown)[i] || key_repeats[i] != 0) && Event_1(i, false, 0);
+    (($clinit_Globals() , keydown)[i] || key_repeats[i] != 0) && Event_1(i, null, false, 0);
     keydown[i] = false;
     key_repeats[i] = 0;
   }
@@ -13278,10 +13278,149 @@ function CompleteCommand(){
   return;
 }
 
-function Console(key){
+function Console(key, key_str){
   switch (key) {
-    case 172:
-      key = 47;
+    case 0:
+      if (key_str === '\\') key = 92;
+      if (key_str === '|') key = 124;
+      break;
+    case 39:
+      if (key_str === '"') key = 34;
+      break;
+    case 44:
+      if (key_str === '<') key = 60;
+      break;
+    case 45:
+      if (key_str === '_') key = 95;
+      break;
+    case 46:
+      if (key_str === '>') key = 62;
+      break;
+    case 47:
+      if (key_str === '?') key = 63;
+      break;
+    case 48:
+      if (key_str === ')') key = 41;
+      break;
+    case 49:
+      if (key_str === '!') key = 33;
+      break;
+    case 50:
+      if (key_str === '@') key = 64;
+      break;
+    case 51:
+      if (key_str === '#') key = 35;
+      break;
+    case 52:
+      if (key_str === '$') key = 36;
+      break;
+    case 53:
+      if (key_str === '%') key = 37;
+      break;
+    case 54:
+      if (key_str === '^') key = 94;
+      break;
+    case 55:
+      if (key_str === '&') key = 38;
+      break;
+    case 56:
+      if (key_str === '*') key = 42;
+      break;
+    case 57:
+      if (key_str === '(') key = 40;
+      break;
+    case 59:
+      if (key_str === ':') key = 58;
+      break;
+    case 61:
+      if (key_str === '+') key = 43;
+      break;
+    case 73:
+      key = 92;
+      break;
+    case 91:
+      if (key_str === '{') key = 123;
+      break;
+    case 93:
+      if (key_str === '}') key = 125;
+      break;
+    case 97:
+      if (key_str === 'A') key = 65;
+      break;
+    case 98:
+      if (key_str === 'B') key = 66;
+      break;
+    case 99:
+      if (key_str === 'C') key = 67;
+      break;
+    case 100:
+      if (key_str === 'D') key = 68;
+      break;
+    case 101:
+      if (key_str === 'E') key = 69;
+      break;
+    case 102:
+      if (key_str === 'F') key = 70;
+      break;
+    case 103:
+      if (key_str === 'G') key = 71;
+      break;
+    case 104:
+      if (key_str === 'H') key = 72;
+      break;
+    case 105:
+      if (key_str === 'I') key = 73;
+      break;
+    case 106:
+      if (key_str === 'J') key = 74;
+      break;
+    case 107:
+      if (key_str === 'K') key = 75;
+      break;
+    case 108:
+      if (key_str === 'L') key = 76;
+      break;
+    case 109:
+      if (key_str === 'M') key = 77;
+      break;
+    case 110:
+      if (key_str === 'N') key = 78;
+      break;
+    case 111:
+      if (key_str === 'O') key = 79;
+      break;
+    case 112:
+      if (key_str === 'P') key = 80;
+      break;
+    case 113:
+      if (key_str === 'Q') key = 81;
+      break;
+    case 114:
+      if (key_str === 'R') key = 82;
+      break;
+    case 115:
+      if (key_str === 'S') key = 83;
+      break;
+    case 116:
+      if (key_str === 'T') key = 84;
+      break;
+    case 117:
+      if (key_str === 'U') key = 85;
+      break;
+    case 118:
+      if (key_str === 'V') key = 86;
+      break;
+    case 119:
+      if (key_str === 'W') key = 87;
+      break;
+    case 120:
+      if (key_str === 'X') key = 88;
+      break;
+    case 121:
+      if (key_str === 'Y') key = 89;
+      break;
+    case 122:
+      if (key_str === 'Z') key = 90;
       break;
     case 173:
       key = 45;
@@ -13321,6 +13460,10 @@ function Console(key){
       break;
     case 171:
       key = 46;
+      break;
+    case 172:
+      key = 47;
+      break;
   }
   if (key == 108) {
     if (($clinit_Globals() , keydown)[133]) {
@@ -13400,7 +13543,8 @@ function Console(key){
   }
 }
 
-function Event_1(key, down, time){
+// keyhandler
+function Event_1(key, key_str, down, time){
   $clinit_Key();
   var cmd, kb;
   if (key_waiting == -1) {
@@ -13487,7 +13631,7 @@ function Event_1(key, down, time){
       break;
     case 0:
     case 1:
-      Console(key);
+      Console(key, key_str);
       break;
     default:$clinit_Com();
       Error_0(0, 'Bad cls.key_dest', null);
@@ -13505,6 +13649,7 @@ function Init(){
   key_linepos = 1;
   for (i1 = 32; i1 < 128; i1++)
     consolekeys[i1] = true;
+  consolekeys[0] = true;
   consolekeys[13] = true;
   consolekeys[169] = true;
   consolekeys[9] = true;
@@ -55894,8 +56039,8 @@ function Commands(){
     return;
   ($clinit_Globals() , re_0).getKeyboardHandler();
   for (i = 0; i < 3; i++) {
-    (mouse_buttonstate & 1 << i) != 0 && (mouse_oldbuttonstate & 1 << i) == 0 && Event_1(200 + i, true, Milliseconds());
-    (mouse_buttonstate & 1 << i) == 0 && (mouse_oldbuttonstate & 1 << i) != 0 && Event_1(200 + i, false, Milliseconds());
+    (mouse_buttonstate & 1 << i) != 0 && (mouse_oldbuttonstate & 1 << i) == 0 && Event_1(200 + i, null, true, Milliseconds());
+    (mouse_buttonstate & 1 << i) == 0 && (mouse_oldbuttonstate & 1 << i) != 0 && Event_1(200 + i, null, false, Milliseconds());
   }
   mouse_oldbuttonstate = mouse_buttonstate;
 }
@@ -66524,11 +66669,12 @@ function HtmlKeyboard$1_0(this$0){
 }
 
 defineSeed(1666, 1, {}, HtmlKeyboard$1_0);
+// keydown
 _.handleEvent_2 = function handleEvent_3(nativeEvent){
   var event_0;
   if (this.this$0.listener_0) {
     event_0 = new Keyboard$Event$Impl_0(new Events$Flags$Impl_0, now_1(), keyForCode($eventGetKeyCode(nativeEvent)));
-    Event_1($translateKeyCode(event_0), true, Milliseconds());
+    Event_1($translateKeyCode(event_0), nativeEvent.key, true, Milliseconds());
     //event_0.flags.preventDefault_0 && $eventPreventDefault(nativeEvent);
     $eventPreventDefault(nativeEvent);
   }
@@ -66539,6 +66685,7 @@ function HtmlKeyboard$2_0(this$0){
 }
 
 defineSeed(1667, 1, {}, HtmlKeyboard$2_0);
+// keypress
 _.handleEvent_2 = function handleEvent_4(nativeEvent){
   var event_0;
   if (this.this$0.listener_0) {
@@ -66553,11 +66700,12 @@ function HtmlKeyboard$3_0(this$0){
 }
 
 defineSeed(1668, 1, {}, HtmlKeyboard$3_0);
+// keyup
 _.handleEvent_2 = function handleEvent_5(nativeEvent){
   var event_0;
   if (this.this$0.listener_0) {
     event_0 = new Keyboard$Event$Impl_0(new Events$Flags$Impl_0, now_1(), keyForCode($eventGetKeyCode(nativeEvent)));
-    Event_1($translateKeyCode(event_0), false, Milliseconds());
+    Event_1($translateKeyCode(event_0), nativeEvent.key, false, Milliseconds());
     //event_0.flags.preventDefault_0 && $eventPreventDefault(nativeEvent);
     $eventPreventDefault(nativeEvent);
   }
