@@ -396,34 +396,34 @@ function $createSound(this$static, url_0){
 function $createSoundImpl(this$static, url_0){
   var c, c$array, c$index, c$max, sound;
   sound = null;
-  for (c$array = this$static.preferredSoundTypes , c$index = 0 , c$max = c$array.length; c$index < c$max; ++c$index) {
+
+  /*for (c$array = this$static.preferredSoundTypes , c$index = 0 , c$max = c$array.length; c$index < c$max; ++c$index) {
     c = c$array[c$index];
     switch (c.ordinal) {
-      case 1:
+      case 0:
         sound = $createSoundImplHtml5(url_0);
         break;
-      case 0:
-        sound = $createSoundImplFlash(this$static, url_0);
+      case 1:
+        sound = $createSoundImplWebAudio(url_0);
         break;
       case 2:
-        sound = $createSoundImplWebAudio(url_0);
+        sound = $createSoundImplFlash(this$static, url_0);
         break;
-      case 3:
-        sound = $createSoundImplWebAudio(url_0);
     }
     if (sound) {
       return sound;
     }
+  }*/
+
+  sound = $createSoundImplHtml5(url_0);
+  if (sound) {
+    return sound;
   }
   sound = $createSoundImplWebAudio(url_0);
   if (sound) {
     return sound;
   }
   sound = $createSoundImplFlash(this$static, url_0);
-  if (sound) {
-    return sound;
-  }
-  sound = $createSoundImplHtml5(url_0);
   if (sound) {
     return sound;
   }
@@ -48353,7 +48353,7 @@ _.Init = function Init_5(vid_xpos, vid_ypos){
   setColorPalette(($clinit_QuakeImage() , PALETTE_ABGR));
   init_2();
   addCommand('imagelist', new GlRenderer$1_0);
-  addCommand('screenshot', new GlRenderer$2_0);
+  //addCommand('screenshot', new GlRenderer$2_0);
   addCommand('modellist', new GlRenderer$3_0);
   addCommand('gl_strings', new GlRenderer$4_0);
   $clinit_GlState();

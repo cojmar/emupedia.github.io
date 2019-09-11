@@ -65,10 +65,10 @@ function processZipEntries(zipEntries, startIndex) {
 	println("Unpacking: " + (startIndex + 1) + "/" + zipEntries.length + ": " + fileName + " ...    ");
 
 	createQuakeFile(fileName, function (fileEntry) {
-		console.log(fileEntry);
+		//console.log(fileEntry);
 		fileEntry.createWriter(function(fileWriter) {
 			zipEntry.getData(new zip.BlobWriter("text/plain"), function(data) {
-				console.log(data);
+				//console.log(data);
 				fileWriter.write(data);
 				backspace(4, "Done");
 				processZipEntries(zipEntries, startIndex + 1);
@@ -99,7 +99,7 @@ function createFileImpl(root, parts, index, callback) {
 				},
 				function (e) {
 					error("error obtaining directory " + parts[index] + ": " + e);
-					window.console.log(e);
+					console.log(e);
 				});
 		} catch (e) {
 			console.log(e);
