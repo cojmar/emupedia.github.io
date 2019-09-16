@@ -50,10 +50,18 @@
 								e.next = 15;
 								break
 							}
-							return e.next = 9, B.a.request({
-								url: "spawn.mpq", responseType: "arraybuffer", onDownloadProgress: function (e) {
-									t.onProgress && t.onProgress({text: "Downloading...", loaded: e.loaded, total: e.total || P})
-								}, headers: {"Cache-Control": "max-age=31536000"}
+
+							return e.next = 9, new Promise(function(resolve, reject) {
+								var dbx = new Dropbox.Dropbox({accessToken: 'Rw1XBhHt3aAAAAAAAAADLlH_3RQLTgbyiwKwBQlcRIHkzxzKbhFyX4oTPGvSqgqt', fetch: fetch});
+								dbx.filesGetTemporaryLink({path: '/diablo1/SPAWN.MPQ'}).then(function (response) {
+									resolve(B.a.request({
+										url: response.link, responseType: "arraybuffer", onDownloadProgress: function (e) {
+											t.onProgress && t.onProgress({text: "Downloading...", loaded: e.loaded, total: e.total || P})
+										}, headers: {"Cache-Control": "max-age=31536000"}
+									}));
+								}).catch(function (error) {
+									reject(error);
+								});
 							});
 						case 9:
 							if ((o = e.sent).data.byteLength === P) {
