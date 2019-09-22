@@ -113,6 +113,7 @@ div.clear {
 	font-weight: bold;
 }
 
+/*noinspection CssInvalidFunction*/
 #d_tl_back {
 	position: absolute;
 	left: 32px;
@@ -128,9 +129,10 @@ div.clear {
 	-webkit-border-radius: 4px;
 	background: #444;
 	background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000), color-stop(0.5, #444), color-stop(1, #000));
-	/*background: -moz-linear-gradient(center bottom, #000 0%, #444 50%, #000 100%);*/
+	background: -moz-linear-gradient(center bottom, #000 0%, #444 50%, #000 100%);
 }
 
+/*noinspection CssInvalidFunction*/
 #d_tl_thumb {
 	position: absolute;
 	left: 21px;
@@ -149,13 +151,14 @@ div.clear {
 	cursor: row-resize;
 	background: #444;
 	background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #444), color-stop(1, #000));
-	/*background: -moz-linear-gradient(center bottom, #444 0%, #000 100%);*/
+	background: -moz-linear-gradient(center bottom, #444 0%, #000 100%);
 }
 
+/*noinspection CssInvalidFunction*/
 #d_tl_thumb:hover {
 	background: #888;
 	background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #444), color-stop(1, #888));
-	/*background: -moz-linear-gradient(center bottom, #444 0%, #888 100%);*/
+	background: -moz-linear-gradient(center bottom, #444 0%, #888 100%);
 }
 
 #d_tl_thumb:active {
@@ -216,10 +219,11 @@ div.tl_label {
 div.label {
 	font-weight: bold;
 	color: #444;
-	text-shadow: #777 -1px -1px 1px;
+	/*text-shadow: #777 -1px -1px 1px;*/
 	margin: 1px 0 3px 0;
 }
 
+/*noinspection CssInvalidFunction*/
 .button {
 	display: inline-block;
 	width: auto;
@@ -237,7 +241,7 @@ div.label {
 	text-align: center;
 	background: #444;
 	background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #444), color-stop(1, #000));
-	/*background: -moz-linear-gradient(center bottom, #444 0%, #000 100%);*/
+	background: -moz-linear-gradient(center bottom, #444 0%, #000 100%);
 	-webkit-user-select: none;
 }
 
@@ -259,16 +263,18 @@ div.label {
 	-webkit-border-bottom-right-radius: 8px;
 }
 
+/*noinspection CssInvalidFunction*/
 .button:hover, .button.hover {
 	color: #aaa;
 	background: #000;
 	background: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(0, 0, 0)), color-stop(1, rgb(0, 0, 0)));
-	/*background: -moz-linear-gradient(center bottom, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 100%);*/
+	background: -moz-linear-gradient(center bottom, rgb(0, 0, 0) 0%, rgb(0, 0, 0) 100%);
 	/* box-shadow: rgba(255,255,255,0.8) 0px 0px 3px;
 	-webkit-box-shadow: rgba(255,255,255,0.8) 0px 0px 3px;
 	-moz-box-shadow: rgba(255,255,255,0.8) 0px 0px 3px; */
 }
 
+/*noinspection CssInvalidFunction*/
 .button.selected {
 	border-left: 1px solid #444;
 	border-top: 1px solid #444;
@@ -276,7 +282,7 @@ div.label {
 	border-bottom: 1px solid #666;
 	background: #444;
 	background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #000), color-stop(1, #666));
-	/*background: -moz-linear-gradient(center bottom, #000 0%, #666 100%);*/
+	background: -moz-linear-gradient(center bottom, #000 0%, #666 100%);
 	color: #fff;
 	cursor: default;
 }
@@ -293,4 +299,3 @@ div.label {
 .button.thin {
 	padding: 2px 6px 2px 6px;
 }
-
