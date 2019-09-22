@@ -30,6 +30,23 @@ function $(thingy) {
 	return obj;
 }
 
+function parseQueryString(queryString) {
+	// parse query string into object
+	var pair = null;
+	var queryObject = new Object();
+	queryString = queryString.replace(/^.*\?(.+)$/,'$1');
+	
+	while ((pair = queryString.match(/(\w+)=([^\&]*)\&?/)) && pair[0].length) {
+		queryString = queryString.substring( pair[0].length );
+		pair[2] = unescape(pair[2]);
+		if (/^\-?\d+$/.test(pair[2])) pair[2] = parseInt(pair[2], 10);
+		else if (/^\-?\d+\.\d+$/.test(pair[2])) pair[2] = parseFloat(pair[2]);
+		queryObject[pair[1]] = pair[2];
+	}
+	
+	return queryObject;
+}
+
 function GetTickCount() {
 	// milliseconds since page load
 	return Math.floor( (new Date()).getTime() - CanvasCycle.globalTimeStart );

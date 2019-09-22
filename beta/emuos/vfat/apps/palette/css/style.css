@@ -89,7 +89,6 @@ div.clear {
 }
 
 #d_timeline {
-	display: none;
 	z-index: 1;
 	position: relative;
 	overflow: hidden;

@@ -78,7 +78,10 @@ var FrameCount = {
 		// advance one frame
 		var _now = this._now_epoch();
 		var _int_now = parseInt(_now, 10);
+		var result = false;
+		
 		if (_int_now != this.lastSecond) {
+			result = true;
 			this.totalFrames += this.frameCount;
 			if (!this.startTime) this.startTime = _int_now;
 			if (_int_now > this.startTime) this.average = this.totalFrames / (_int_now - this.startTime);
@@ -91,6 +94,8 @@ var FrameCount = {
 			if (this.visible) this.update();
 		}
 		this.frameCount++;
+		
+		return result;
 	}
 	
 };

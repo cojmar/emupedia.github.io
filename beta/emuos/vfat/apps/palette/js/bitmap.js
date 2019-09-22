@@ -35,6 +35,7 @@ Class.create( 'Bitmap', {
 				}
 			}
 		}
+		this.optColors = optColors;
 		
 		// create array of pixel offsets which are animated
 		var optPixels = this.optPixels = [];
@@ -52,6 +53,24 @@ Class.create( 'Bitmap', {
 		} // y loop
 	},
 	
+	clear: function(imageData) {
+		// clear all pixels to white
+		var data = imageData.data;
+		var i = 0;
+		var x, y;
+		var xmax = this.width, ymax = this.height;
+		
+		for (y = 0; y < ymax; y++) {
+			for (x = 0; x < xmax; x++) {
+				data[i + 0] = 255; // red
+			    data[i + 1] = 255; // green
+		        data[i + 2] = 255; // blue
+		        data[i + 3] = 255; // alpha
+				i += 4;
+			}
+		}
+	},
+	
 	render: function(imageData, optimize) {
 		// render pixels into canvas imageData object
 		var colors = this.palette.getRawTransformedColors();
@@ -67,10 +86,15 @@ Class.create( 'Bitmap', {
 				j = optPixels[idx];
 				clr = colors[ pixels[j] ];
 				i = j * 4;
+				
 				data[i + 0] = clr[0]; // red
 			    data[i + 1] = clr[1]; // green
 		        data[i + 2] = clr[2]; // blue
-		        data[i + 3] = 255; // alpha
+				// data[i] = (clr & 0xff0000) >> 16;
+				// data[i+1] = (clr & 0x00ff00) >> 8;
+				// data[i+2] = (clr & 0x0000ff);
+				
+		        // data[i + 3] = 255; // alpha
 			}
 		}
 		else {
@@ -83,10 +107,16 @@ Class.create( 'Bitmap', {
 			for (y = 0; y < ymax; y++) {
 				for (x = 0; x < xmax; x++) {
 					clr = colors[ pixels[j] ];
+					
 					data[i + 0] = clr[0]; // red
 				    data[i + 1] = clr[1]; // green
 			        data[i + 2] = clr[2]; // blue
-			        data[i + 3] = 255; // alpha
+					// data[i] = (clr & 0xff0000) >> 16;
+					// data[i+1] = (clr & 0x00ff00) >> 8;
+					// data[i+2] = (clr & 0x0000ff);
+					
+			        // data[i + 3] = 255; // alpha
+					
 					i += 4;
 					j++;
 				}

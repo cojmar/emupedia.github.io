@@ -76,6 +76,17 @@ Class.create( 'Palette', {
 		this.numCycles = this.cycles.length;
 	},
 	
+	importColors: function(source) {
+		// import colors into our base color list
+		var dest = this.baseColors;
+		for (var idx = 0, len = source.length; idx < len; idx++) {
+			if (!dest[idx]) dest[idx] = new Color();
+			dest[idx].red = source[idx].red;
+			dest[idx].green = source[idx].green;
+			dest[idx].blue = source[idx].blue;
+		}
+	},
+	
 	copyColors: function(source, dest) {
 		// copy one array of colors to another
 		for (var idx = 0, len = source.length; idx < len; idx++) {
@@ -220,11 +231,12 @@ Class.create( 'Palette', {
 	},
 	
 	getRawTransformedColors: function() {
-		// return transformed colors as array of arrays
+		// return transformed colors as array of 32-bit ints
 		var clrs = [];
 		for (var idx = 0, len = this.colors.length; idx < len; idx++) {
 			var color = this.colors[idx];
 			clrs[idx] = [color.red, color.green, color.blue];
+			// clrs[idx] = (color.blue) + (color.green << 8) + (color.red << 16);
 		}
 		return clrs;
 	}

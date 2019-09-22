@@ -6,6 +6,460 @@ var scenes = [
 		maxVolume: 0.25
 	},
 	{
+		monthIdx: 7,
+		month: 'AugustClear',
+		scpt: 'augclrscpt',
+		name: 'CORAL',
+		title: 'August - Aquarius - Clear',
+		sound: 'CORAL',
+		maxVolume: 0.25,
+		remap: {
+			0: [0,0,0]
+		}
+	},
+	{
+		name: 'V01',
+		title: 'Island Fires - Dusk',
+		sound: 'V29',
+		maxVolumd: 0.25
+	},
+	{
+		name: 'V02',
+		title: 'Mountain Fortress - Dusk',
+		sound: 'V02',
+		maxVolume: 1.0
+	},
+	{
+		name: 'V03',
+		title: 'Swamp Cathedral - Day',
+		sound: 'V03'
+	},
+	{
+		name: 'V04',
+		title: 'Highland Ruins - Rain',
+		sound: 'V04'
+	},
+	{
+		name: 'V05AM',
+		title: 'Haunted Castle Ruins - Morning',
+		sound: 'V03'
+	},
+	{
+		name: 'V05PM',
+		title: 'Haunted Castle Ruins - Evening',
+		sound: 'V03'
+	},
+	{
+		name: 'V05HAUNT',
+		title: 'Haunted Castle Ruins - Night',
+		sound: 'V05HAUNT'
+	},
+	{
+		name: 'V05RAIN',
+		title: 'Haunted Castle Ruins - Rain',
+		sound: 'V05RAIN'
+	},
+	{
+		monthIdx: 9,
+		month: 'EarlyOctoberClear',
+		scpt: 'octbegclrscpt',
+		name: 'V05AM',
+		title: 'Early October - Haunted Ruins - Clear',
+		sound: 'V13',
+		remap: {
+			254: [0,0,0],
+			0: [11,11,11]
+		}
+	},
+	{
+		month: 'LateOctoberClear',
+		scpt: 'octendclrscpt',
+		name: 'V05AM',
+		title: 'Late October - Haunted Ruins - Clear',
+		sound: 'V13',
+		remap: {
+			254: [0,0,0],
+			0: [11,11,11]
+		}
+	},
+	{
+		month: 'LateOctober',
+		scpt: 'octrainscpt',
+		name: 'V05RAIN',
+		title: 'Late October - Haunted Ruins - Rain',
+		sound: 'V05RAIN',
+		remap: {
+			254: [0,0,0],
+			0: [11,11,11]
+		}
+	},
+	{
+		name: 'V07',
+		title: 'Rough Seas - Day',
+		sound: 'V07',
+		maxVolume: 0.25
+	},
+	{
+		name: 'V08AM',
+		title: 'Jungle Waterfall - Morning',
+		sound: 'V08',
+		maxVolume: 0.25
+	},
+	{
+		name: 'V08',
+		title: 'Jungle Waterfall - Afternoon',
+		sound: 'V08',
+		maxVolume: 0.25
+	},
+	{
+		name: 'V08RAIN',
+		title: 'Jungle Waterfall - Rain',
+		sound: 'V08RAIN'
+	},
+	{
+		name: 'V08PM',
+		title: 'Jungle Waterfall - Night',
+		sound: 'V08',
+		maxVolume: 0.25
+	},
+	{
+		monthIdx: 4,
+		month: 'MayClear',
+		scpt: 'MAYCLRSCPT',
+		name: 'V08',
+		title: 'May - Jungle Waterfall - Clear',
+		sound: 'V08',
+		maxVolume: 0.25
+	},
+	{
+		month: 'MayCloudy',
+		scpt: 'MAYCLDYSCPT',
+		name: 'V08',
+		title: 'May - Jungle Waterfall - Cloudy',
+		sound: 'V08',
+		maxVolume: 0.25
+	},
+	{
+		month: 'May',
+		scpt: 'MAYRAINSCPT',
+		name: 'V08RAIN',
+		title: 'May - Jungle Waterfall - Rain',
+		sound: 'V08RAIN'
+	},
+	{
+		name: 'V09',
+		title: 'Forest Edge - Day',
+		sound: 'V09',
+		maxVolume: 1.0
+	},
+	{
+		name: 'V10',
+		title: 'Deep Swamp - Day',
+		sound: 'V10'
+	},
+	{
+		name: 'V11AM',
+		title: 'Approaching Storm - Dawn',
+		// sound: 'V02',
+		sound: 'V14',
+		maxVolume: 1.0
+	},
+	{
+		name: 'V12',
+		title: 'Stone Henge - Day',
+		sound: 'V13'
+	},
+	{
+		monthIdx: 11,
+		month: 'DecemberClear',
+		scpt: 'DECCLRSCPT',
+		name: 'V12BASIC',
+		title: 'December - Winter Manor - Clear',
+		sound: 'V13'
+	},
+	{
+		name: 'V13',
+		title: 'Pond Ripples - Dawn',
+		sound: 'V13'
+	},
+	{
+		name: 'V14',
+		title: 'Mountain Storm - Day',
+		sound: 'V14',
+		maxVolume: 1.0
+	},
+	{
+		name: 'V15',
+		title: 'Harbor Town - Night',
+		sound: 'V15'
+	},
+	{
+		name: 'V16',
+		title: 'Mirror Pond - Morning',
+		sound: 'V16'
+	},
+	{
+		name: 'V16RAIN',
+		title: 'Mirror Pond - Rain',
+		sound: 'V16RAIN'
+	},
+	{
+		name: 'V16PM',
+		title: 'Mirror Pond - Afternoon',
+		sound: 'V16'
+	},
+	{
+		monthIdx: 10,
+		month: 'NovemberClear',
+		scpt: 'novclrscpt',
+		name: 'V16',
+		title: 'November - Mirror Pond - Clear',
+		sound: 'V16'
+	},
+	{
+		month: 'November',
+		scpt: 'novrainscpt',
+		name: 'V16RAIN',
+		title: 'November - Mirror Pond - Rain',
+		sound: 'V16RAIN'
+	},
+	{
+		name: 'V17',
+		title: 'Ice Wind - Day',
+		sound: 'V17',
+		maxVolume: 0.25
+	},
+	{
+		name: 'V18',
+		title: 'Alpine Ruin - Dawn',
+		sound: 'V17',
+		maxVolume: 0.25
+	},
+	{
+		name: 'V19',
+		title: 'Mountain Stream - Morning',
+		sound: 'V19'
+	},
+	{
+		name: 'V19PM',
+		title: 'Mountain Stream - Afternoon',
+		sound: 'V19'
+	},
+	{
+		name: 'V19AURA',
+		title: 'Mountain Stream - Night',
+		sound: 'V19'
+	},
+	{
+		monthIdx: 1,
+		month: 'FebruaryClear',
+		scpt: 'febclrscpt',
+		name: 'V19',
+		title: 'February - Mountain Stream - Clear',
+		sound: 'V19'
+	},
+	{
+		month: 'FebruaryCloudy',
+		scpt: 'febcldyscpt',
+		name: 'V19',
+		title: 'February - Mountain Stream - Cloudy',
+		sound: 'V19'
+	},
+	{
+		name: 'V20',
+		title: 'Crystal Caves - Day',
+		sound: 'V20',
+		maxVolume: 0.25
+	},
+	{
+		monthIdx: 5,
+		month: 'JuneClear',
+		scpt: 'jundayscpt',
+		name: 'V20JOE',
+		title: 'June - Crystal Caves - Clear',
+		sound: 'V20'
+	},
+	{
+		name: 'V21',
+		title: 'Elvin City - Day',
+		sound: 'V03'
+	},
+	{
+		name: 'V22',
+		title: 'Dark Castle - Night',
+		sound: 'V05HAUNT'
+	},
+	{
+		name: 'V23',
+		title: 'Desert Twilight - Dawn',
+		sound: 'V25HEAT'
+	},
+	{
+		name: 'V24',
+		title: 'Red Canyon - Day',
+		sound: 'V25HEAT'
+	},
+	{
+		name: 'V25',
+		title: 'Desert Heat Wave - Morning',
+		sound: 'V25HEAT'
+	},
+	{
+		name: 'V25HEAT',
+		title: 'Desert Heat Wave - Afternoon',
+		sound: 'V25HEAT'
+	},
+	{
+		name: 'V25PM',
+		title: 'Desert Heat Wave - Dawn'
+	},
+	{
+		monthIdx: 6,
+		month: 'JulyClear',
+		scpt: 'julyclearscpt',
+		name: 'V25',
+		title: 'July - Desert - Clear',
+		sound: 'V25HEAT'
+	},
+	{
+		month: 'JulyCloudy',
+		scpt: 'julycloudyscpt',
+		name: 'V25',
+		title: 'July - Desert - Cloudy',
+		sound: 'V25HEAT'
+	},
+	{
+		name: 'V26',
+		title: 'Winter Forest - Day',
+		sound: 'V13'
+	},
+	{
+		name: 'V26SNOW',
+		title: 'Winter Forest - Snow',
+		sound: 'V05RAIN',
+		maxVolume: 0.25
+	},
+	{
+		name: 'V26PM',
+		title: 'Winter Forest - Evening',
+		sound: 'V13'
+	},
+	{
+		name: 'V26NIGHT',
+		title: 'Winter Forest - Night',
+		sound: 'V05HAUNT'
+	},
+	{
+		month: 'JanuaryClear',
+		scpt: 'janclrscpt',
+		name: 'V26',
+		title: 'January - Winter Forest - Clear',
+		sound: 'V13'
+	},
+	{
+		monthIdx: 0,
+		month: 'January',
+		scpt: 'jansnowscpt',
+		name: 'V26SNOW',
+		title: 'January - Winter Forest - Snow',
+		sound: 'V05RAIN',
+		maxVolume: 0.25
+	},
+	{
+		name: 'V27',
+		title: 'Magic Marsh Cave - Night',
+		sound: 'V25HEAT'
+	},
+	{
+		name: 'V28',
+		title: 'Water City Gates - Fog',
+		sound: 'V28'
+	},
+	{
+		name: 'V29',
+		title: 'Seascape - Day',
+		sound: 'V29'
+	},
+	{
+		name: 'V29FOG',
+		title: 'Seascape - Fog',
+		sound: 'V29'
+	},
+	{
+		name: 'V29PM',
+		title: 'Seascape - Sunset',
+		sound: 'V29'
+	},
+	{
+		monthIdx: 8,
+		month: 'SeptemberClear',
+		scpt: 'SEPTCLRCUMSCPT',
+		name: 'V29',
+		title: 'September - Seascape - Clear',
+		sound: 'V29',
+		remap: {
+			252: [11,11,11]
+		}
+	},
+	{
+		month: 'SeptemberCloudy',
+		scpt: 'SEPTCLDYSCPT',
+		name: 'V29',
+		title: 'September - Seascape - Cloudy',
+		sound: 'V29',
+		remap: {
+			252: [11,11,11]
+		}
+	},
+	{
+		name: 'V30',
+		title: 'Deep Forest - Day',
+		sound: 'V30',
+		maxVolume: 0.25
+	},
+	{
+		name: 'V30RAIN',
+		title: 'Deep Forest - Rain',
+		sound: 'V30RAIN'
+	},
+	{
+		monthIdx: 3,
+		month: 'AprilClear',
+		scpt: 'aprclrscpt',
+		name: 'V30',
+		title: 'April - Deep Forest - Clear',
+		sound: 'V30',
+		maxVolume: 0.25
+	},
+	{
+		month: 'April',
+		scpt: 'aprrainscpt',
+		name: 'V30RAIN',
+		title: 'April - Deep Forest - Rain',
+		sound: 'V30RAIN'
+	},
+	{
+		monthIdx: 2,
+		month: 'MarchClear',
+		scpt: 'MARCLRSCPT',
+		name: 'VW3BASIC',
+		title: 'March - Monolith Plains - Clear'
+	},
+	{
+		name: 'TESTRAMP',
+		title: 'Test Image'
+	}
+];
+
+/*
+var scenes = [
+	{
+		name: 'CORAL',
+		title: 'Aquarius - Day',
+		sound: 'CORAL',
+		maxVolume: 0.25
+	},
+	{
 		name: 'V01',
 		title: 'Island Fires - Dusk',
 		sound: 'V29',
@@ -259,12 +713,13 @@ var scenes = [
 		title: 'Test Image'
 	}
 ];
+*/
 
 /*
 var scenes = [
 	{
 		monthIdx: 7,
-		month: '08August',
+		month: 'AugustClear',
 		scpt: 'augclrscpt',
 		name: 'CORAL',
 		title: 'August - Aquarius - Clear',
@@ -276,7 +731,7 @@ var scenes = [
 	},
 	{
 		monthIdx: 9,
-		month: '10October',
+		month: 'EarlyOctoberClear',
 		scpt: 'octbegclrscpt',
 		name: 'V05AM',
 		title: 'Early October - Haunted Ruins - Clear',
@@ -287,7 +742,7 @@ var scenes = [
 		}
 	},
 	{
-		month: '10October',
+		month: 'LateOctoberClear',
 		scpt: 'octendclrscpt',
 		name: 'V05AM',
 		title: 'Late October - Haunted Ruins - Clear',
@@ -298,7 +753,7 @@ var scenes = [
 		}
 	},
 	{
-		month: '10October',
+		month: 'LateOctober',
 		scpt: 'octrainscpt',
 		name: 'V05RAIN',
 		title: 'Late October - Haunted Ruins - Rain',
@@ -310,7 +765,7 @@ var scenes = [
 	},
 	{
 		monthIdx: 4,
-		month: '05May',
+		month: 'MayClear',
 		scpt: 'MAYCLRSCPT',
 		name: 'V08',
 		title: 'May - Jungle Waterfall - Clear',
@@ -318,7 +773,7 @@ var scenes = [
 		maxVolume: 0.25
 	},
 	{
-		month: '05May',
+		month: 'MayCloudy',
 		scpt: 'MAYCLDYSCPT',
 		name: 'V08',
 		title: 'May - Jungle Waterfall - Cloudy',
@@ -326,7 +781,7 @@ var scenes = [
 		maxVolume: 0.25
 	},
 	{
-		month: '05May',
+		month: 'May',
 		scpt: 'MAYRAINSCPT',
 		name: 'V08RAIN',
 		title: 'May - Jungle Waterfall - Rain',
@@ -334,7 +789,7 @@ var scenes = [
 	},
 	{
 		monthIdx: 11,
-		month: '12December',
+		month: 'DecemberClear',
 		scpt: 'DECCLRSCPT',
 		name: 'V12BASIC',
 		title: 'December - Winter Manor - Clear',
@@ -342,14 +797,14 @@ var scenes = [
 	},
 	{
 		monthIdx: 10,
-		month: '11November',
+		month: 'NovemberClear',
 		scpt: 'novclrscpt',
 		name: 'V16',
 		title: 'November - Mirror Pond - Clear',
 		sound: 'V16'
 	},
 	{
-		month: '11November',
+		month: 'November',
 		scpt: 'novrainscpt',
 		name: 'V16RAIN',
 		title: 'November - Mirror Pond - Rain',
@@ -357,14 +812,14 @@ var scenes = [
 	},
 	{
 		monthIdx: 1,
-		month: '02February',
+		month: 'FebruaryClear',
 		scpt: 'febclrscpt',
 		name: 'V19',
 		title: 'February - Mountain Stream - Clear',
 		sound: 'V19'
 	},
 	{
-		month: '02February',
+		month: 'FebruaryCloudy',
 		scpt: 'febcldyscpt',
 		name: 'V19',
 		title: 'February - Mountain Stream - Cloudy',
@@ -372,7 +827,7 @@ var scenes = [
 	},
 	{
 		monthIdx: 5,
-		month: '06June',
+		month: 'JuneClear',
 		scpt: 'jundayscpt',
 		name: 'V20JOE',
 		title: 'June - Crystal Caves - Clear',
@@ -380,21 +835,21 @@ var scenes = [
 	},
 	{
 		monthIdx: 6,
-		month: '07July',
+		month: 'JulyClear',
 		scpt: 'julyclearscpt',
 		name: 'V25',
 		title: 'July - Desert - Clear',
 		sound: 'V25HEAT'
 	},
 	{
-		month: '07July',
+		month: 'JulyCloudy',
 		scpt: 'julycloudyscpt',
 		name: 'V25',
 		title: 'July - Desert - Cloudy',
 		sound: 'V25HEAT'
 	},
 	{
-		month: '01January',
+		month: 'JanuaryClear',
 		scpt: 'janclrscpt',
 		name: 'V26',
 		title: 'January - Winter Forest - Clear',
@@ -402,7 +857,7 @@ var scenes = [
 	},
 	{
 		monthIdx: 0,
-		month: '01January',
+		month: 'January',
 		scpt: 'jansnowscpt',
 		name: 'V26SNOW',
 		title: 'January - Winter Forest - Snow',
@@ -411,7 +866,7 @@ var scenes = [
 	},
 	{
 		monthIdx: 8,
-		month: '09September',
+		month: 'SeptemberClear',
 		scpt: 'SEPTCLRCUMSCPT',
 		name: 'V29',
 		title: 'September - Seascape - Clear',
@@ -421,7 +876,7 @@ var scenes = [
 		}
 	},
 	{
-		month: '09September',
+		month: 'SeptemberCloudy',
 		scpt: 'SEPTCLDYSCPT',
 		name: 'V29',
 		title: 'September - Seascape - Cloudy',
@@ -432,7 +887,7 @@ var scenes = [
 	},
 	{
 		monthIdx: 3,
-		month: '04April',
+		month: 'AprilClear',
 		scpt: 'aprclrscpt',
 		name: 'V30',
 		title: 'April - Deep Forest - Clear',
@@ -440,7 +895,7 @@ var scenes = [
 		maxVolume: 0.25
 	},
 	{
-		month: '04April',
+		month: 'April',
 		scpt: 'aprrainscpt',
 		name: 'V30RAIN',
 		title: 'April - Deep Forest - Rain',
@@ -448,7 +903,7 @@ var scenes = [
 	},
 	{
 		monthIdx: 2,
-		month: '03March',
+		month: 'MarchClear',
 		scpt: 'MARCLRSCPT',
 		name: 'VW3BASIC',
 		title: 'March - Monolith Plains - Clear'
