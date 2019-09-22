@@ -344,7 +344,6 @@
 					app.current_item_data[1] = app.current_item_data[1].split('~T4~').join('\t\t\t');
 					app.current_item_data[1] = app.current_item_data[1].split('~T5~').join('\t\t\t\t');
 
-
 					app.no_preview = true;
 					// noinspection JSUnresolvedFunction
 					app.editor.setValue(app.current_item_data[1]);
@@ -358,7 +357,7 @@
 						$('#menu').append('<div class="menu-item" data-item="' + n + '">' + app.menu_items[n].name + '</div>');
 					}
 
-					$('.menu-item').addClass('active').on('click', function() {
+					$('.menu-item').addClass('active').off('click').on('click', function() {
 						$('.menu-item').removeClass('active');
 						$(this).addClass('active');
 						app.show_active_menu_item();

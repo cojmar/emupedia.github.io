@@ -27,8 +27,12 @@ define(['jquery'], function ($) {
 			return ret;
 		},
 		set_preview: function (data, config) {
-			if (!obj.preview_selector.html) return false;
+			if (!obj.preview_selector.html) {
+				return false;
+			}
+
 			obj.preview_selector.html('<iframe id="preview_frame" />');
+
 			var iframe = document.getElementById('preview_frame');
 			iframe = iframe.contentWindow || (iframe.contentDocument.document || iframe.contentDocument);
 			iframe.document.open();
@@ -46,5 +50,6 @@ define(['jquery'], function ($) {
 			}
 		}
 	};
+
 	return obj.init();
 });

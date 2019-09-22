@@ -17,15 +17,24 @@ define(['vs/editor/editor.main'], function(monaco) {
 			return selector;
 		},
 		monaco_layout: function() {
-			if (!obj.editor) return false;
+			if (!obj.editor) {
+				return false;
+			}
+
 			obj.editor.layout();
 		},
 		timeout_editor_changed: false,
 		on_editor_change: function() {
-			if (!obj.editor) return false;
+			if (!obj.editor) {
+				return false;
+			}
+
 			clearTimeout(obj.timeout_editor_changed);
+
 			obj.timeout_editor_changed = setTimeout(function () {
-				if (typeof obj.editor.on_change === 'function') obj.editor.on_change();
+				if (typeof obj.editor.on_change === 'function') {
+					obj.editor.on_change();
+				}
 			}, 100);
 		},
 		init_monaco: function() {
@@ -39,11 +48,17 @@ define(['vs/editor/editor.main'], function(monaco) {
 					scrollBeyondLastColumn: true,
 					scrollBeyondLastLine: true
 				});
+
 				obj.editor.onDidChangeModelContent(obj.on_editor_change);
+
+				// noinspection JSPrimitiveTypeWrapperUsage
 				obj.editor.do_action = function (action) {
 					var actions = obj.editor.getActions();
+
 					for (var editor_action_index in actions) {
+						// noinspection JSUnfilteredForInLoop
 						var editor_action = actions[editor_action_index];
+
 						if (editor_action.label === action) {
 							editor_action.run();
 							break;
