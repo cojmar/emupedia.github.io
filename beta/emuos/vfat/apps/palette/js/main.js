@@ -150,7 +150,7 @@ var CanvasCycle = {
 		this.showLoading();
 
 		//var url = 'image.php?file='+name+'&callback=CanvasCycle.processImage';
-		var url = 'lbm/'+name+'.lbm.js';
+		var url = 'lbm/'+name.toLowerCase()+'.lbm.js';
 		var scr = document.createElement('SCRIPT');
 		scr.type = 'text/javascript';
 		scr.src = url;
