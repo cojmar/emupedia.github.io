@@ -1,22 +1,34 @@
-define(function (require) {
-	var monaco = require('vs/editor/editor.main');
-	//var $ = require('jquery');
+define(['vs/editor/editor.main'], function(monaco) {
+	// noinspection DuplicatedCode
 	var obj = {
 		editor: false,
-		dom_object: require('./dom_object'),
-		monaco_layout: function () {
+		dom_object: function (dom_id) {
+			var selector = $('#' + dom_id);
+
+			if (!selector.length > 0) {
+				$('body').append('<div id="' + dom_id + '"></div>');
+				selector = $('#' + dom_id);
+			}
+
+			if (!selector.length > 0) {
+				return false;
+			}
+
+			return selector;
+		},
+		monaco_layout: function() {
 			if (!obj.editor) return false;
 			obj.editor.layout();
 		},
 		timeout_editor_changed: false,
-		on_editor_change: function () {
+		on_editor_change: function() {
 			if (!obj.editor) return false;
 			clearTimeout(obj.timeout_editor_changed);
 			obj.timeout_editor_changed = setTimeout(function () {
 				if (typeof obj.editor.on_change === 'function') obj.editor.on_change();
 			}, 100);
 		},
-		init_monaco: function () {
+		init_monaco: function() {
 			if (obj.editor_selector = obj.dom_object('editor')) {
 				obj.editor_selector = obj.editor_selector.get(0);
 
@@ -39,15 +51,18 @@ define(function (require) {
 					}
 				}
 			}
-			$(window).on('resize', function () {
+
+			$(window).off('resize').on('resize', function () {
 				obj.monaco_layout();
 			});
-			obj.monaco_layout();
+			$(window).trigger('resize');
+
 			return obj.editor;
 		},
-		init: function () {
+		init: function() {
 			return obj.init_monaco();
 		}
 	};
+
 	return obj.init();
 });

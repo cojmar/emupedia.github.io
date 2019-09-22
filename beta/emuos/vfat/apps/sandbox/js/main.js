@@ -227,6 +227,8 @@
 	requirejs.config({
 		waitSeconds: 300,
 		paths: {
+			editor: 'editor',
+			preview: 'preview',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
 			jqueryresizable: '../../../../js/libraries/jquery-resizable-0.32.0.min',
 			vs: '../../monaco-editor/vs'
@@ -238,7 +240,7 @@
 		}
 	});
 
-	requirejs(['jquery', 'jqueryresizable', 'vs/editor/editor.main', 'preview'], function($, resizble, editor, preview) {
+	requirejs(['jquery', 'jqueryresizable', 'editor', 'preview'], function($, resizble, editor, preview) {
 		$(function() {
 			var app = {
 				editor: editor,
@@ -270,12 +272,15 @@
 						}
 					}
 
-					var menu_url = 'github!' + app.config.repo;
+					var menu_url = 'github!get-content!' + app.config.repo;
 
-					if (app.config.repo) require([menu_url], function (data) {
-						app.menu_items = data;
-						app.init_menu();
-					});
+					if (app.config.repo) {
+						require([menu_url], function (data) {
+							app.menu_items = data;
+							console.log(app.menu_items);
+							app.init_menu();
+						});
+					}
 
 					return app;
 				},
