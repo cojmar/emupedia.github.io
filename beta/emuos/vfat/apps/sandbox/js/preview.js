@@ -31,7 +31,8 @@ define(['jquery'], function ($) {
 				return false;
 			}
 
-			obj.preview_selector.html('<iframe id="preview_frame" />');
+			// noinspection HtmlDeprecatedAttribute
+			obj.preview_selector.html('<iframe id="preview_frame" frameborder="0" allowFullscreen="true" allowTransparency="true" sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation-by-user-activation" />');
 
 			var iframe = document.getElementById('preview_frame');
 			iframe = iframe.contentWindow || (iframe.contentDocument.document || iframe.contentDocument);
