@@ -29,11 +29,13 @@ var scenes = [
 	},
 	{
 		name: 'V05AM',
-		title: 'Haunted Castle Ruins - Morning'
+		title: 'Haunted Castle Ruins - Morning',
+		sound: 'V03'
 	},
 	{
 		name: 'V05PM',
-		title: 'Haunted Castle Ruins - Evening'
+		title: 'Haunted Castle Ruins - Evening',
+		sound: 'V03'
 	},
 	{
 		name: 'V05HAUNT',
@@ -48,7 +50,8 @@ var scenes = [
 	{
 		name: 'V07',
 		title: 'Rough Seas - Day',
-		sound: 'V07'
+		sound: 'V07',
+		maxVolume: 0.25
 	},
 	{
 		name: 'V08AM',
@@ -86,13 +89,15 @@ var scenes = [
 	},
 	{
 		name: 'V11AM',
-		title: 'Approaching Storm - Day',
-		sound: 'V02',
+		title: 'Approaching Storm - Dawn',
+		// sound: 'V02',
+		sound: 'V14',
 		maxVolume: 1.0
 	},
 	{
 		name: 'V12',
-		title: 'Stone Henge'
+		title: 'Stone Henge - Day',
+		sound: 'V13'
 	},
 	{
 		name: 'V13',
@@ -133,16 +138,13 @@ var scenes = [
 	},
 	{
 		name: 'V18',
-		title: 'Alpine Ruin'
+		title: 'Alpine Ruin - Dawn',
+		sound: 'V17',
+		maxVolume: 0.25
 	},
 	{
 		name: 'V19',
 		title: 'Mountain Stream - Morning',
-		sound: 'V19'
-	},
-	{
-		name: 'V19AURA',
-		title: 'Mountain Stream - Night',
 		sound: 'V19'
 	},
 	{
@@ -151,43 +153,53 @@ var scenes = [
 		sound: 'V19'
 	},
 	{
+		name: 'V19AURA',
+		title: 'Mountain Stream - Night',
+		sound: 'V19'
+	},
+	{
 		name: 'V20',
 		title: 'Crystal Caves - Day',
-		sound: 'V20'
+		sound: 'V20',
+		maxVolume: 0.25
 	},
 	{
 		name: 'V21',
-		title: 'Elvin City'
+		title: 'Elvin City - Day',
+		sound: 'V03'
 	},
 	{
 		name: 'V22',
-		title: 'Dark Castle'
+		title: 'Dark Castle - Night',
+		sound: 'V05HAUNT'
 	},
 	{
 		name: 'V23',
-		title: 'Desert Twilight'
+		title: 'Desert Twilight - Dawn',
+		sound: 'V25HEAT'
 	},
 	{
 		name: 'V24',
-		title: 'Red Canyon'
+		title: 'Red Canyon - Day',
+		sound: 'V25HEAT'
 	},
 	{
 		name: 'V25',
-		title: 'Desert Heat Wave',
+		title: 'Desert Heat Wave - Morning',
 		sound: 'V25HEAT'
 	},
 	{
 		name: 'V25HEAT',
-		title: 'Desert Heat Wave - Day',
+		title: 'Desert Heat Wave - Afternoon',
 		sound: 'V25HEAT'
 	},
 	{
 		name: 'V25PM',
-		title: 'Desert Heat Wave - Night'
+		title: 'Desert Heat Wave - Dawn'
 	},
 	{
 		name: 'V26',
-		title: 'Winter Forest - Clear',
+		title: 'Winter Forest - Day',
 		sound: 'V13'
 	},
 	{
@@ -198,11 +210,13 @@ var scenes = [
 	},
 	{
 		name: 'V26PM',
-		title: 'Winter Forest - Evening'
+		title: 'Winter Forest - Evening',
+		sound: 'V13'
 	},
 	{
 		name: 'V26NIGHT',
-		title: 'Winter Forest - Night'
+		title: 'Winter Forest - Night',
+		sound: 'V05HAUNT'
 	},
 	{
 		name: 'V27',
