@@ -10,7 +10,7 @@ var scenes = [
 		month: 'AugustClear',
 		scpt: 'augclrscpt',
 		name: 'CORAL',
-		title: 'August - Aquarius - Clear',
+		title: 'Aquarius - August - Clear',
 		sound: 'CORAL',
 		maxVolume: 0.25,
 		remap: {
@@ -64,7 +64,7 @@ var scenes = [
 		month: 'EarlyOctoberClear',
 		scpt: 'octbegclrscpt',
 		name: 'V05AM',
-		title: 'Early October - Haunted Ruins - Clear',
+		title: 'Haunted Ruins - Early October - Clear',
 		sound: 'V13',
 		remap: {
 			254: [0,0,0],
@@ -75,7 +75,7 @@ var scenes = [
 		month: 'LateOctoberClear',
 		scpt: 'octendclrscpt',
 		name: 'V05AM',
-		title: 'Late October - Haunted Ruins - Clear',
+		title: 'Haunted Ruins - Late October - Clear',
 		sound: 'V13',
 		remap: {
 			254: [0,0,0],
@@ -86,7 +86,7 @@ var scenes = [
 		month: 'LateOctober',
 		scpt: 'octrainscpt',
 		name: 'V05RAIN',
-		title: 'Late October - Haunted Ruins - Rain',
+		title: 'Haunted Ruins - Late October - Rain',
 		sound: 'V05RAIN',
 		remap: {
 			254: [0,0,0],
@@ -127,7 +127,7 @@ var scenes = [
 		month: 'MayClear',
 		scpt: 'MAYCLRSCPT',
 		name: 'V08',
-		title: 'May - Jungle Waterfall - Clear',
+		title: 'Jungle Waterfall - May - Clear',
 		sound: 'V08',
 		maxVolume: 0.25
 	},
@@ -135,7 +135,7 @@ var scenes = [
 		month: 'MayCloudy',
 		scpt: 'MAYCLDYSCPT',
 		name: 'V08',
-		title: 'May - Jungle Waterfall - Cloudy',
+		title: 'Jungle Waterfall - May - Cloudy',
 		sound: 'V08',
 		maxVolume: 0.25
 	},
@@ -143,7 +143,7 @@ var scenes = [
 		month: 'May',
 		scpt: 'MAYRAINSCPT',
 		name: 'V08RAIN',
-		title: 'May - Jungle Waterfall - Rain',
+		title: 'Jungle Waterfall - May - Rain',
 		sound: 'V08RAIN'
 	},
 	{
@@ -174,7 +174,7 @@ var scenes = [
 		month: 'DecemberClear',
 		scpt: 'DECCLRSCPT',
 		name: 'V12BASIC',
-		title: 'December - Winter Manor - Clear',
+		title: 'Winter Manor - December - Clear',
 		sound: 'V13'
 	},
 	{
@@ -213,14 +213,14 @@ var scenes = [
 		month: 'NovemberClear',
 		scpt: 'novclrscpt',
 		name: 'V16',
-		title: 'November - Mirror Pond - Clear',
+		title: 'Mirror Pond - November - Clear',
 		sound: 'V16'
 	},
 	{
 		month: 'November',
 		scpt: 'novrainscpt',
 		name: 'V16RAIN',
-		title: 'November - Mirror Pond - Rain',
+		title: 'Mirror Pond - November - Rain',
 		sound: 'V16RAIN'
 	},
 	{
@@ -255,14 +255,14 @@ var scenes = [
 		month: 'FebruaryClear',
 		scpt: 'febclrscpt',
 		name: 'V19',
-		title: 'February - Mountain Stream - Clear',
+		title: 'Mountain Stream - February - Clear',
 		sound: 'V19'
 	},
 	{
 		month: 'FebruaryCloudy',
 		scpt: 'febcldyscpt',
 		name: 'V19',
-		title: 'February - Mountain Stream - Cloudy',
+		title: 'Mountain Stream - February - Cloudy',
 		sound: 'V19'
 	},
 	{
@@ -276,7 +276,7 @@ var scenes = [
 		month: 'JuneClear',
 		scpt: 'jundayscpt',
 		name: 'V20JOE',
-		title: 'June - Crystal Caves - Clear',
+		title: 'Crystal Caves - June - Clear',
 		sound: 'V20'
 	},
 	{
@@ -318,14 +318,14 @@ var scenes = [
 		month: 'JulyClear',
 		scpt: 'julyclearscpt',
 		name: 'V25',
-		title: 'July - Desert - Clear',
+		title: 'Desert - July - Clear',
 		sound: 'V25HEAT'
 	},
 	{
 		month: 'JulyCloudy',
 		scpt: 'julycloudyscpt',
 		name: 'V25',
-		title: 'July - Desert - Cloudy',
+		title: 'Desert - July - Cloudy',
 		sound: 'V25HEAT'
 	},
 	{
@@ -353,7 +353,7 @@ var scenes = [
 		month: 'JanuaryClear',
 		scpt: 'janclrscpt',
 		name: 'V26',
-		title: 'January - Winter Forest - Clear',
+		title: 'Winter Forest - January - Clear',
 		sound: 'V13'
 	},
 	{
@@ -361,7 +361,7 @@ var scenes = [
 		month: 'January',
 		scpt: 'jansnowscpt',
 		name: 'V26SNOW',
-		title: 'January - Winter Forest - Snow',
+		title: 'Winter Forest - January - Snow',
 		sound: 'V05RAIN',
 		maxVolume: 0.25
 	},
@@ -395,7 +395,7 @@ var scenes = [
 		month: 'SeptemberClear',
 		scpt: 'SEPTCLRCUMSCPT',
 		name: 'V29',
-		title: 'September - Seascape - Clear',
+		title: 'Seascape - September - Clear',
 		sound: 'V29',
 		remap: {
 			252: [11,11,11]
@@ -405,7 +405,7 @@ var scenes = [
 		month: 'SeptemberCloudy',
 		scpt: 'SEPTCLDYSCPT',
 		name: 'V29',
-		title: 'September - Seascape - Cloudy',
+		title: 'Seascape - September - Cloudy',
 		sound: 'V29',
 		remap: {
 			252: [11,11,11]
@@ -427,7 +427,7 @@ var scenes = [
 		month: 'AprilClear',
 		scpt: 'aprclrscpt',
 		name: 'V30',
-		title: 'April - Deep Forest - Clear',
+		title: 'Deep Forest - April - Clear',
 		sound: 'V30',
 		maxVolume: 0.25
 	},
@@ -435,7 +435,7 @@ var scenes = [
 		month: 'April',
 		scpt: 'aprrainscpt',
 		name: 'V30RAIN',
-		title: 'April - Deep Forest - Rain',
+		title: 'Deep Forest - April - Rain',
 		sound: 'V30RAIN'
 	},
 	{
@@ -443,7 +443,7 @@ var scenes = [
 		month: 'MarchClear',
 		scpt: 'MARCLRSCPT',
 		name: 'VW3BASIC',
-		title: 'March - Monolith Plains - Clear'
+		title: 'Monolith Plains - March - Clear'
 	},
 	{
 		name: 'TESTRAMP',
