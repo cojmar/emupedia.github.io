@@ -29,7 +29,7 @@ function downloadAndUnpack() {
 		return;
 	}
 
-	var dbx = new Dropbox.Dropbox({accessToken: 'Rw1XBhHt3aAAAAAAAAADLlH_3RQLTgbyiwKwBQlcRIHkzxzKbhFyX4oTPGvSqgqt', fetch: fetch});
+	var dbx = new Dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch});
 	dbx.filesGetTemporaryLink({path: '/quake2/q2-314-demo-x86.exe'}).then(function (response) {
 		// noinspection JSUnresolvedVariable
       var url = response.link;

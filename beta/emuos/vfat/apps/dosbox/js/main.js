@@ -293,7 +293,7 @@
 			global.BrowserFS = browserfs;
 
 			// noinspection JSUnresolvedFunction
-			var dbx = new dropbox.Dropbox({accessToken: 'Rw1XBhHt3aAAAAAAAAADLlH_3RQLTgbyiwKwBQlcRIHkzxzKbhFyX4oTPGvSqgqt', fetch: fetch.fetch});
+			var dbx = new dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch.fetch});
 
 			var $game_dropdown = $('.game-dropdown');
 			var $game_list = $('.game-list');

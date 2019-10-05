@@ -105,7 +105,7 @@ Module.expectedDataFileDownloads++;
       var fetched = Module['getPreloadedPackage'] ? Module['getPreloadedPackage'](REMOTE_PACKAGE_NAME, REMOTE_PACKAGE_SIZE) : null;
 
       if (!fetched) {
-          var dbx = new Dropbox.Dropbox({accessToken: 'Rw1XBhHt3aAAAAAAAAADLlH_3RQLTgbyiwKwBQlcRIHkzxzKbhFyX4oTPGvSqgqt', fetch: fetch});
+          var dbx = new Dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch});
 
           dbx.filesGetTemporaryLink({path: '/doom1/' + REMOTE_PACKAGE_NAME}).then(function (response) {
             // noinspection JSCheckFunctionSignatures,JSReferencingMutableVariableFromClosure,JSUnfilteredForInLoop

@@ -6,7 +6,7 @@
 		<title>idTech 4 WebAssembly port - Doom 3 Demo</title>
 		<style>
 			body {
-				font-family: arial;
+				font-family: arial, sans-serif;
 				margin: 0;
 				background-color: black;
 			}
@@ -20,7 +20,7 @@
 			}
 
 			div.emscripten {
-				margin-top: 5px;
+				/*margin-top: 5px;*/
 				text-align: center;
 				color: white;
 			}
@@ -44,9 +44,7 @@
 			.spinner {
 				height: 30px;
 				width: 30px;
-				margin: 0;
-				margin-top: 0px;
-				margin-left: 20px;
+				margin: 0 0 0 20px;
 				display: inline-block;
 				vertical-align: top;
 
@@ -55,10 +53,10 @@
 				-o-animation: rotation .8s linear infinite;
 				animation: rotation 0.8s linear infinite;
 
-				border-left: 0px solid rgb(235, 235, 235);
-				border-right: 0px solid rgb(235, 235, 235);
-				border-bottom: 0px solid rgb(235, 235, 235);
-				border-top: 0px solid rgb(120, 120, 120);
+				border-left: 0 solid rgb(235, 235, 235);
+				border-right: 0 solid rgb(235, 235, 235);
+				border-bottom: 0 solid rgb(235, 235, 235);
+				border-top: 0 solid rgb(120, 120, 120);
 
 				border-radius: 100%;
 				background-color: rgb(189, 215, 46);
@@ -101,7 +99,8 @@
 			}
 
 			#status {
-				display: inline-block;
+				/*display: inline-block;*/
+				display: none;
 				vertical-align: top;
 				margin-top: 10px;
 				margin-left: 20px;
@@ -170,6 +169,7 @@
 			<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
 		</div>
 
+		<script type="text/javascript" src="../../../js/defines.js"></script>
 		<script type="text/javascript" src="../../../js/polyfills/es6-promise-auto-4.2.8.min.js"></script>
 		<script type="text/javascript" src="../../../js/polyfills/es6-fetch-3.0.0.js"></script>
 		<script type="text/javascript" src="../../../js/libraries/dropbox-4.0.30.min.js"></script>

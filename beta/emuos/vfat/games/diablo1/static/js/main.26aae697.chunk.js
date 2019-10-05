@@ -52,7 +52,7 @@
 							}
 
 							return e.next = 9, new Promise(function(resolve, reject) {
-								var dbx = new Dropbox.Dropbox({accessToken: 'Rw1XBhHt3aAAAAAAAAADLlH_3RQLTgbyiwKwBQlcRIHkzxzKbhFyX4oTPGvSqgqt', fetch: fetch});
+								var dbx = new Dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch});
 								dbx.filesGetTemporaryLink({path: '/diablo1/SPAWN.MPQ'}).then(function (response) {
 									resolve(B.a.request({
 										url: response.link, responseType: "arraybuffer", onDownloadProgress: function (e) {

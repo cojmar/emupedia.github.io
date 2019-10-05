@@ -309,7 +309,7 @@ Module.expectedDataFileDownloads++;
 				console.error(error);
 				console.error('falling back to default preload behavior');
 
-				var dbx = new Dropbox.Dropbox({accessToken: 'Rw1XBhHt3aAAAAAAAAADLlH_3RQLTgbyiwKwBQlcRIHkzxzKbhFyX4oTPGvSqgqt', fetch: fetch});
+				var dbx = new Dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch});
 
 				dbx.filesGetTemporaryLink({path: '/doom3/' + REMOTE_PACKAGE_NAME}).then(function (response) {
 					// noinspection JSCheckFunctionSignatures,JSReferencingMutableVariableFromClosure,JSUnfilteredForInLoop
@@ -332,7 +332,7 @@ Module.expectedDataFileDownloads++;
 							} else {
 								console.info('loading ' + PACKAGE_NAME + ' from remote');
 
-								var dbx = new Dropbox.Dropbox({accessToken: 'Rw1XBhHt3aAAAAAAAAADLlH_3RQLTgbyiwKwBQlcRIHkzxzKbhFyX4oTPGvSqgqt', fetch: fetch});
+								var dbx = new Dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch});
 
 								dbx.filesGetTemporaryLink({path: '/doom3/' + REMOTE_PACKAGE_NAME}).then(function (response) {
 									// noinspection JSCheckFunctionSignatures,JSReferencingMutableVariableFromClosure,JSUnfilteredForInLoop

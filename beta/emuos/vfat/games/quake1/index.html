@@ -27,16 +27,17 @@
 			<div id="loading-message"></div>
 		</div>
 
-		<script type="text/javascript" src="js/polyfills/es6-promise-4.2.5.min.js"></script>
-		<script type="text/javascript" src="js/polyfills/es6-fetch-3.0.0.js"></script>
-		<script type="text/javascript" src="js/libraries/dropbox-sdk-4.0.12.min.js"></script>
+		<script type="text/javascript" src="../../../js/defines.js"></script>
+		<script type="text/javascript" src="../../../js/polyfills/es6-promise-4.2.8.min.js"></script>
+		<script type="text/javascript" src="../../../js/polyfills/es6-fetch-3.0.0.js"></script>
+		<script type="text/javascript" src="../../../js/libraries/dropbox-4.0.30.min.js"></script>
 
 		<script>
 			var PAK = [];
 
 			ES6Promise.polyfill();
 
-			var dbx = new Dropbox.Dropbox({accessToken: 'Rw1XBhHt3aAAAAAAAAADLlH_3RQLTgbyiwKwBQlcRIHkzxzKbhFyX4oTPGvSqgqt', fetch: WHATWGFetch.fetch});
+			var dbx = new Dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: WHATWGFetch.fetch});
 
 			dbx.filesGetTemporaryLink({path: '/quake1/id1/pak0.zip'}).then(function(response) {
 				// noinspection JSUnfilteredForInLoop,JSReferencingMutableVariableFromClosure
