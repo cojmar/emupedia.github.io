@@ -32,7 +32,7 @@
 		<script type="text/javascript" src="../../../js/polyfills/es6-fetch-3.0.0.js"></script>
 		<script type="text/javascript" src="../../../js/libraries/dropbox-4.0.30.min.js"></script>
 
-		<script>
+		<script type="text/javascript">
 			var PAK = [];
 
 			ES6Promise.polyfill();
@@ -123,7 +123,6 @@
 				vLightDot = dot(aNormal, uLightVec);
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshAlias">
 			precision mediump float;
 			uniform float uGamma;
@@ -142,7 +141,6 @@
 				gl_FragColor.b = pow(gl_FragColor.b, uGamma);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshBrush">
 			uniform vec3 uOrigin;
 			uniform mat3 uAngles;
@@ -163,7 +161,6 @@
 				vLightStyle = aLightStyle;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshBrush">
 			precision mediump float;
 			uniform float uGamma;
@@ -189,7 +186,6 @@
 				gl_FragColor.b = pow(gl_FragColor.b, uGamma);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshCharacter">
 			uniform vec2 uCharacter;
 			uniform vec2 uDest;
@@ -203,7 +199,6 @@
 				vTexCoord = (aPosition + uCharacter) * 0.0625;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshCharacter">
 			precision mediump float;
 			uniform sampler2D tTexture;
@@ -214,7 +209,6 @@
 				gl_FragColor = texture2D(tTexture, vTexCoord);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshDlight">
 			uniform vec3 uOrigin;
 			uniform vec3 uViewOrigin;
@@ -231,7 +225,6 @@
 				vAlpha = aPosition.y * -0.2;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshDlight">
 			precision mediump float;
 			uniform float uGamma;
@@ -242,7 +235,6 @@
 				gl_FragColor = vec4(pow(1.0, uGamma), pow(0.5, uGamma), 0.0, vAlpha);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshFill">
 			uniform mat4 uOrtho;
 			attribute vec2 aPosition;
@@ -255,7 +247,6 @@
 				vColor = aColor;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshFill">
 			precision mediump float;
 			varying vec4 vColor;
@@ -265,7 +256,6 @@
 				gl_FragColor = vColor;
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshParticle">
 			uniform vec3 uViewOrigin;
 			uniform mat3 uViewAngles;
@@ -287,7 +277,6 @@
 				vColor = aColor;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshParticle">
 			precision mediump float;
 			uniform float uGamma;
@@ -302,7 +291,6 @@
 				gl_FragColor.b = pow(gl_FragColor.b, uGamma);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshPic">
 			uniform mat4 uOrtho;
 			attribute vec2 aPosition;
@@ -315,7 +303,6 @@
 				vTexCoord = aTexCoord;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshPic">
 			precision mediump float;
 			uniform sampler2D tTexture;
@@ -326,7 +313,6 @@
 				gl_FragColor = texture2D(tTexture, vTexCoord);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshPicTranslate">
 			uniform mat4 uOrtho;
 			attribute vec2 aPosition;
@@ -339,7 +325,6 @@
 				vTexCoord = aTexCoord;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshPicTranslate">
 			precision mediump float;
 			uniform vec3 uTop;
@@ -355,7 +340,6 @@
 				gl_FragColor = vec4(mix(mix(texture.rgb, uTop * trans.x, trans.y), uBottom * trans.z, trans.w), texture.a);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshPlayer">
 			uniform vec3 uOrigin;
 			uniform mat3 uAngles;
@@ -377,7 +361,6 @@
 				vLightDot = dot(aNormal, uLightVec);
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshPlayer">
 			precision mediump float;
 			uniform float uGamma;
@@ -402,7 +385,6 @@
 				gl_FragColor.b = pow(gl_FragColor.b, uGamma);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshSky">
 			uniform mat3 uViewAngles;
 			uniform mat4 uPerspective;
@@ -417,7 +399,6 @@
 				vTexCoord = aPosition.xy * uScale.xy * 1.5;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshSky">
 			precision mediump float;
 			uniform float uGamma;
@@ -435,7 +416,6 @@
 				gl_FragColor.b = pow(gl_FragColor.b, uGamma);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshSkyChain">
 			uniform vec3 uViewOrigin;
 			uniform mat3 uViewAngles;
@@ -448,7 +428,6 @@
 				gl_Position = uPerspective * vec4(position.xz, -position.y, 1.0);
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshSkyChain">
 			precision mediump float;
 
@@ -456,7 +435,6 @@
 			{
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshSprite">
 			uniform vec4 uRect;
 			uniform vec3 uViewOrigin;
@@ -473,7 +451,6 @@
 				vTexCoord = aTexCoord;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshSprite">
 			precision mediump float;
 			uniform float uGamma;
@@ -488,7 +465,6 @@
 				gl_FragColor.b = pow(gl_FragColor.b, uGamma);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshTurbulent">
 			uniform vec3 uOrigin;
 			uniform mat3 uAngles;
@@ -506,7 +482,6 @@
 				vTexCoord = aTexCoord;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshTurbulent">
 			precision mediump float;
 			uniform float uGamma;
@@ -522,7 +497,6 @@
 				gl_FragColor.b = pow(gl_FragColor.b, uGamma);
 			}
 		</script>
-
 		<script type="x-shader/x-vertex" id="vshWarp">
 			uniform mat4 uOrtho;
 			attribute vec2 aPosition;
@@ -535,7 +509,6 @@
 				vTexCoord = aTexCoord;
 			}
 		</script>
-
 		<script type="x-shader/x-fragment" id="fshWarp">
 			precision mediump float;
 			uniform float uTime;
