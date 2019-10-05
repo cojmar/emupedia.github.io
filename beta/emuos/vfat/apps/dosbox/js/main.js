@@ -2,7 +2,7 @@
 (function(global) {
 	'use strict';
 
-	// noinspection JSFileReferences
+	// noinspection JSFileReferences,JSUnresolvedFunction
 	require.config({
 		waitSeconds: 300,
 		paths: {
@@ -301,6 +301,7 @@
 			$game_list.html('').html(render_game_list(games));
 			$game_dropdown.html('').html(render_game_dropdown(games));
 
+			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && (SYSTEM_FEATURE_ASMJS || SYSTEM_FEATURE_WEBASSEMBLY)) {
 				var first = typeof $.url().param('game') === 'undefined';
 
