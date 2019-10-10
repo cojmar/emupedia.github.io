@@ -142,6 +142,7 @@
 										'<th>License</th>' +
 										'<th>Status</th>' +
 										'<th>Wiki</th>' +
+										'<th>YT</th>' +
 									'</tr>' +
 								'</thead>' +
 								'<tbody>';
@@ -158,7 +159,8 @@
 						// '<td>' + format_name(games['games'][game]['copyright']) + '</td>' +
 						'<td>' + games['games'][game]['license'] + '</td>' +
 						'<td>' + games['games'][game]['status'] + '</td>' +
-						'<td>' + (typeof games['games'][game]['wikipedia'] !== 'undefined' ? '<a href="' + games['games'][game]['wikipedia'] + '" target="_blank">Link</a>' : '-') + '</td>';
+						'<td>' + (typeof games['games'][game]['wikipedia'] !== 'undefined' ? '<a href="' + games['games'][game]['wikipedia'] + '" target="_blank">Link</a>' : '-') + '</td>' +
+						'<td>' + (typeof games['games'][game]['youtube'] !== 'undefined' ? '<a href="' + games['games'][game]['youtube'] + '" target="_blank">View</a>' : '-') + '</td>';
 
 					html += '<tr>' + list + '</tr>';
 
@@ -180,7 +182,8 @@
 								// '<td>' + format_name((typeof games['games'][game]['clones'][clone]['copyright'] !== 'undefined' ? games['games'][game]['clones'][clone]['copyright'] : games['games'][game]['copyright'])) + '</td>' +
 								'<td>' + (typeof games['games'][game]['clones'][clone]['license'] !== 'undefined' ? games['games'][game]['clones'][clone]['license'] : games['games'][game]['license']) + '</td>' +
 								'<td>' + (typeof games['games'][game]['clones'][clone]['status'] !== 'undefined' ? games['games'][game]['clones'][clone]['status'] : games['games'][game]['status']) + '</td>' +
-								'<td>' + (typeof games['games'][game]['clones'][clone]['wikipedia'] !== 'undefined' ? '<a href="' + games['games'][game]['clones'][clone]['wikipedia'] + '" target="_blank">Link</a>' : (typeof games['games'][game]['wikipedia'] !== 'undefined' ? '<a href="' + games['games'][game]['wikipedia'] + '" target="_blank">Link</a>' : '-')) + '</td>';
+								'<td>' + (typeof games['games'][game]['clones'][clone]['wikipedia'] !== 'undefined' ? '<a href="' + games['games'][game]['clones'][clone]['wikipedia'] + '" target="_blank">Link</a>' : (typeof games['games'][game]['wikipedia'] !== 'undefined' ? '<a href="' + games['games'][game]['wikipedia'] + '" target="_blank">Link</a>' : '-')) + '</td>' +
+								'<td>' + (typeof games['games'][game]['clones'][clone]['youtube'] !== 'undefined' ? '<a href="' + games['games'][game]['clones'][clone]['youtube'] + '" target="_blank">View</a>' : (typeof games['games'][game]['youtube'] !== 'undefined' ? '<a href="' + games['games'][game]['youtube'] + '" target="_blank">View</a>' : '-')) + '</td>';
 
 							html += '<tr>' + list + '</tr>';
 						}
