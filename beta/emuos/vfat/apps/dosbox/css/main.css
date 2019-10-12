@@ -20,7 +20,7 @@ body {
 }
 
 .game-dropdown {
-	max-width: 415px;
+	width: 415px;
 }
 
 /*noinspection CssOverwrittenProperties*/
