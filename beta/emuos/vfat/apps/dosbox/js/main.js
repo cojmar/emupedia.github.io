@@ -14,13 +14,9 @@
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			browserfs: '../../../../js/libraries/browserfs-1.4.3.min',
-			dropbox: '../../../../js/libraries/dropbox-4.0.30.min',
-			system: '../../../../js/system'
+			dropbox: '../../../../js/libraries/dropbox-4.0.30.min'
 		},
 		shim: {
-			jquery: {
-				deps: ['system']
-			},
 			purl: {
 				deps: ['jquery']
 			},
