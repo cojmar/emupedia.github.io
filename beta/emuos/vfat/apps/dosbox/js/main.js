@@ -370,6 +370,7 @@
 			var $options_dropdown	= $('.options-dropdown');
 			var $list_table			= $('.list-table');
 
+			// noinspection DuplicatedCode
 			if ($body.hasClass('v2')) {
 				$list_dropdown.html('').html(render_list_dropdown_v2(gamesv2));
 				$options_dropdown.html('').html(render_options_dropdown(gamesv2['software']['type'][0]['games'][0]['executables']));
@@ -513,16 +514,14 @@
 				$document.on('change', '.version-dropdown', function() {
 					$body.removeClass('v1 v2').addClass($version_dropdown.val());
 
-					switch ($version_dropdown.val()) {
-						case 'v1':
-							$list_dropdown.html('').html(render_list_dropdown(games));
-							$list_table.html('').html(render_list_table(games));
-							break;
-						case 'v2':
-							$list_dropdown.html('').html(render_list_dropdown_v2(gamesv2));
-							$options_dropdown.html('').html(render_options_dropdown(gamesv2['software']['type'][0]['games'][0]['executables']));
-							$list_table.html('').html(render_list_table(games));
-							break;
+					// noinspection DuplicatedCode
+					if ($body.hasClass('v2')) {
+						$list_dropdown.html('').html(render_list_dropdown_v2(gamesv2));
+						$options_dropdown.html('').html(render_options_dropdown(gamesv2['software']['type'][0]['games'][0]['executables']));
+						$list_table.html('').html(render_list_table(games));
+					} else {
+						$list_dropdown.html('').html(render_list_dropdown(games));
+						$list_table.html('').html(render_list_table(games));
 					}
 				});
 			} else {
