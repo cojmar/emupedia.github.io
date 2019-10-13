@@ -3,46 +3,112 @@
 	'use strict';
 
 	// noinspection JSFileReferences,JSUnresolvedFunction
-	require.config({
+	requirejs.config({
 		waitSeconds: 300,
 		paths: {
-			jquery: '../../../../js/libraries/jquery-3.4.1.min',
-			json: '../../../../js/libraries/requirejs-json-1.0.3',
-			loader: '../../../../js/libraries/emularity',
-			text: '../../../../js/libraries/requirejs-text-2.0.15',
-			purl: '../../../../js/libraries/purl-2.3.1',
+			bootstrap: '../../../../js/libraries/bootstrap-4.3.1.min',
+			browserfs: '../../../../js/libraries/browserfs-1.4.3.min',
+			'datatables.net': '../../../../js/libraries/datatables-1.10.20.min',
+			'datatables.net-bs4': '../../../../js/libraries/datatables-bootstrap4-1.10.20.min',
+			'datatables.net-editor': '../../../../js/libraries/datatables-editor-1.6.7.min',
+			'datatables.net-buttons': '../../../../js/libraries/datatables-buttons-1.6.0.min',
+			'datatables.net-buttons-colvis': '../../../../js/libraries/datatables-buttons-colvis-1.6.0.min',
+			'datatables.net-buttons-html5': '../../../../js/libraries/datatables-buttons-html5-1.6.0.min',
+			'datatables.net-buttons-print': '../../../../js/libraries/datatables-buttons-print-1.6.0.min',
+			'datatables.net-buttons-bs4': '../../../../js/libraries/datatables-buttons-bootstrap4-1.6.0.min',
+			'datatables.net-colreorder': '../../../../js/libraries/datatables-colreorder-1.5.2.min',
+			'datatables.net-colreorder-bs4': '../../../../js/libraries/datatables-colreorder-bootstrap4-1.5.2.min',
+			'datatables.net-fixedcolumns': '../../../../js/libraries/datatables-fixedcolumns-3.3.0.min',
+			'datatables.net-fixedcolumns-bs4': '../../../../js/libraries/datatables-fixedcolumns-bootstrap4-3.3.0.min',
+			'datatables.net-fixedheader': '../../../../js/libraries/datatables-fixedheader-3.1.6.min',
+			'datatables.net-fixedheader-bs4': '../../../../js/libraries/datatables-fixedheader-bootstrap4-3.1.6.min',
+			'datatables.net-responsive': '../../../../js/libraries/datatables-responsive-2.2.3.min',
+			'datatables.net-responsive-bs4': '../../../../js/libraries/datatables-responsive-bootstrap4-2.2.3.min',
+			'datatables.net-select': '../../../../js/libraries/datatables-select-1.3.1.min',
+			'datatables.net-select-bs4': '../../../../js/libraries/datatables-select-bootstrap4-1.3.1.min',
+			dropbox: '../../../../js/libraries/dropbox-4.0.30.min',
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
-			browserfs: '../../../../js/libraries/browserfs-1.4.3.min',
-			dropbox: '../../../../js/libraries/dropbox-4.0.30.min'
+			jquery: '../../../../js/libraries/jquery-3.4.1.min',
+			json: '../../../../js/libraries/requirejs-json-1.0.3',
+			jszip: '../../../../js/libraries/jszip-3.2.2.min',
+			loader: '../../../../js/libraries/emularity',
+			moment: '../../../../js/libraries/moment-2.24.0.min',
+			'moment-timezone': '../../../../js/libraries/moment-timezone-0.5.26.min',
+			pdfmake: '../../../../js/libraries/pdfmake-0.1.60.min',
+			'pdfmake-fonts': '../../../../js/libraries/pdfmake-fonts-0.1.60',
+			purl: '../../../../js/libraries/purl-2.3.1',
+			text: '../../../../js/libraries/requirejs-text-2.0.15',
+			popper: '../../../../js/libraries/popper-1.15.0.min',
+			select2: '../../../../js/libraries/select2-4.0.10.min'
 		},
 		shim: {
+			bootstrap: {
+				deps: ['jquery', 'popper']
+			},
+			browserfs: {
+				exports: 'BrowserFS',
+				deps: ['es6promise'],
+				init: function(es6promise) {
+					window.Promise = es6promise;
+				}
+			},
+			'datatables.net-bs4': {
+				deps: ['datatables.net-editor']
+			},
+			'datatables.net-buttons-bs4': {
+				deps: ['datatables.net-buttons-colvis', 'datatables.net-buttons-html5', 'datatables.net-buttons-print']
+			},
+			'datatables.net-buttons-html5': {
+				deps: ['pdfmake-fonts']
+			},
+			es6promise: {
+				exports: 'Promise'
+			},
 			purl: {
 				deps: ['jquery']
 			},
+			'pdfmake-fonts': {
+				exports: 'pdfMake',
+				deps: ['jszip', 'pdfmake', 'moment-timezone'],
+				init: function(JSZip, pdfMake, moment) {
+					window.JSZip = JSZip;
+					window.moment = moment;
+				}
+			},
 			loader: {
-				deps: ['browserfs']
+				deps: ['browserfs'],
+				init: function(browserfs) {
+					window.BrowserFS = browserfs;
+				}
 			},
-			browserfs: {
-				deps: ['es6promise']
-			},
-			es6promise: {
-				deps: ['jquery']
+			'moment-timezone': {
+				exports: 'moment',
+				deps: ['moment']
 			}
 		}
 	});
 
 	// noinspection JSCheckFunctionSignatures,JSUnusedLocalSymbols
-	require([
+	requirejs([
 		'jquery',
-		'purl',
 		'json!../../../../js/config/games.json',
 		'json!../../../../js/config/gamesv2.json',
+		'purl',
 		'browserfs',
 		'dropbox',
 		'es6fetch',
-		'loader'
-	], function($, purl, games, gamesv2, browserfs, dropbox, fetch, loader) {
+		'loader',
+		'bootstrap',
+		'datatables.net',
+		'datatables.net-bs4',
+		'datatables.net-buttons-bs4',
+		'datatables.net-colreorder-bs4',
+		'datatables.net-fixedcolumns-bs4',
+		'datatables.net-fixedheader-bs4',
+		'datatables.net-responsive-bs4',
+		'datatables.net-select-bs4'
+	], function($, games, gamesv2, purl, browserfs, dropbox, fetch, loader, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4) {
 		$(function() {
 			// noinspection JSUnusedLocalSymbols
 			function format_name(name) {
@@ -154,8 +220,6 @@
 
 			// noinspection DuplicatedCode
 			function render_options_dropdown(options) {
-				console.log(options);
-
 				var html = '';
 
 				var i = 0;
@@ -266,6 +330,28 @@
 				}
 			}
 
+			function init() {
+				// noinspection DuplicatedCode
+				if ($body.hasClass('v2')) {
+					$list_dropdown.html('').html(render_list_dropdown_v2(gamesv2));
+					$options_dropdown.html('').html(render_options_dropdown(gamesv2['software']['type'][0]['games'][0]['executables']));
+					$list_table.html('').html(render_list_table(games));
+
+					var $table = $list_table.find('table');
+
+					if ($.fn.dataTable.isDataTable($table)) {
+						$table.DataTable().destroy();
+					} else {
+						$table.DataTable({
+
+						});
+					}
+				} else {
+					$list_dropdown.html('').html(render_list_dropdown(games));
+					$list_table.html('').html(render_list_table(games));
+				}
+			}
+
 			function start(file, executable, args, mode, sync, old) {
 				if (typeof sync !== 'undefined') {
 					if (sync === true) {
@@ -356,8 +442,6 @@
 				}
 			}
 
-			global.BrowserFS = browserfs;
-
 			// noinspection JSUnresolvedFunction
 			var dbx = new dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch.fetch});
 
@@ -369,16 +453,6 @@
 			var $list_dropdown		= $('.list-dropdown');
 			var $options_dropdown	= $('.options-dropdown');
 			var $list_table			= $('.list-table');
-
-			// noinspection DuplicatedCode
-			if ($body.hasClass('v2')) {
-				$list_dropdown.html('').html(render_list_dropdown_v2(gamesv2));
-				$options_dropdown.html('').html(render_options_dropdown(gamesv2['software']['type'][0]['games'][0]['executables']));
-				$list_table.html('').html(render_list_table(games));
-			} else {
-				$list_dropdown.html('').html(render_list_dropdown(games));
-				$list_table.html('').html(render_list_table(games));
-			}
 
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && (SYSTEM_FEATURE_ASMJS || SYSTEM_FEATURE_WEBASSEMBLY)) {
@@ -417,41 +491,47 @@
 					}
 				}
 
+				init();
+
 				// noinspection DuplicatedCode
 				$document.on('click', '.list-table table tr', function() {
-					var $el = $(this);
-					var index_selected = parseInt($el.data('index'), 10);
-					var game_selected = $el.data('game');
+					if ($body.hasClass('v2')) {
 
-					// noinspection DuplicatedCode
-					if (first) {
-						first = false;
+					} else {
+						var $el = $(this);
+						var index_selected = parseInt($el.data('index'), 10);
+						var game_selected = $el.data('game');
 
 						// noinspection DuplicatedCode
-						for (var game in games['games']) {
-							// noinspection JSUnfilteredForInLoop,DuplicatedCode
-							if (games['games'][game]['id'] === game_selected) {
-								$list_table.hide();
+						if (first) {
+							first = false;
+
+							// noinspection DuplicatedCode
+							for (var game in games['games']) {
 								// noinspection JSUnfilteredForInLoop,DuplicatedCode
-								start(typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file'], games['games'][game]['executable'], games['games'][game]['args'], games['games'][game]['mode'], games['games'][game]['sync'], games['games'][game]['old']);
-								break;
-							} else {
-								// noinspection JSUnfilteredForInLoop,DuplicatedCode
-								if (typeof games['games'][game]['clones'] !== 'undefined') {
-									// noinspection JSUnfilteredForInLoop,JSUnusedLocalSymbols,DuplicatedCode
-									for (var clone in games['games'][game]['clones']) {
-										// noinspection JSUnfilteredForInLoop,DuplicatedCode
-										if (games['games'][game]['clones'][clone]['id'] === game_selected) {
-											$list_table.hide();
+								if (games['games'][game]['id'] === game_selected) {
+									$list_table.hide();
+									// noinspection JSUnfilteredForInLoop,DuplicatedCode
+									start(typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file'], games['games'][game]['executable'], games['games'][game]['args'], games['games'][game]['mode'], games['games'][game]['sync'], games['games'][game]['old']);
+									break;
+								} else {
+									// noinspection JSUnfilteredForInLoop,DuplicatedCode
+									if (typeof games['games'][game]['clones'] !== 'undefined') {
+										// noinspection JSUnfilteredForInLoop,JSUnusedLocalSymbols,DuplicatedCode
+										for (var clone in games['games'][game]['clones']) {
 											// noinspection JSUnfilteredForInLoop,DuplicatedCode
-											start((typeof games['games'][game]['clones'][clone]['files'] !== 'undefined' ? games['games'][game]['clones'][clone]['files'] : (typeof games['games'][game]['clones'][clone]['file'] !== 'undefined' ? games['games'][game]['clones'][clone]['file'] : (typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file']))), (typeof games['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games['games'][game]['clones'][clone]['executable'] : games['games'][game]['executable']), (typeof games['games'][game]['clones'][clone]['args'] !== 'undefined' ? games['games'][game]['clones'][clone]['args'] : games['games'][game]['args']), games['games'][game]['clones'][clone]['mode'], (typeof games['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games['games'][game]['clones'][clone]['sync'] : games['games'][game]['sync']), (typeof games['games'][game]['clones'][clone]['old'] !== 'undefined' ? games['games'][game]['clones'][clone]['old'] : games['games'][game]['old']));
+											if (games['games'][game]['clones'][clone]['id'] === game_selected) {
+												$list_table.hide();
+												// noinspection JSUnfilteredForInLoop,DuplicatedCode
+												start((typeof games['games'][game]['clones'][clone]['files'] !== 'undefined' ? games['games'][game]['clones'][clone]['files'] : (typeof games['games'][game]['clones'][clone]['file'] !== 'undefined' ? games['games'][game]['clones'][clone]['file'] : (typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file']))), (typeof games['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games['games'][game]['clones'][clone]['executable'] : games['games'][game]['executable']), (typeof games['games'][game]['clones'][clone]['args'] !== 'undefined' ? games['games'][game]['clones'][clone]['args'] : games['games'][game]['args']), games['games'][game]['clones'][clone]['mode'], (typeof games['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games['games'][game]['clones'][clone]['sync'] : games['games'][game]['sync']), (typeof games['games'][game]['clones'][clone]['old'] !== 'undefined' ? games['games'][game]['clones'][clone]['old'] : games['games'][game]['old']));
+											}
 										}
 									}
 								}
 							}
+						} else {
+							location.href = location.protocol + '//' + location.host + location.pathname + '?game=' + index_selected;
 						}
-					} else {
-						location.href = location.protocol + '//' + location.host + location.pathname + '?game=' + index_selected;
 					}
 				});
 
@@ -513,16 +593,7 @@
 
 				$document.on('change', '.version-dropdown', function() {
 					$body.removeClass('v1 v2').addClass($version_dropdown.val());
-
-					// noinspection DuplicatedCode
-					if ($body.hasClass('v2')) {
-						$list_dropdown.html('').html(render_list_dropdown_v2(gamesv2));
-						$options_dropdown.html('').html(render_options_dropdown(gamesv2['software']['type'][0]['games'][0]['executables']));
-						$list_table.html('').html(render_list_table(games));
-					} else {
-						$list_dropdown.html('').html(render_list_dropdown(games));
-						$list_table.html('').html(render_list_table(games));
-					}
+					init();
 				});
 			} else {
 				alert('DOSBox cannot work because your browser is not supported!')

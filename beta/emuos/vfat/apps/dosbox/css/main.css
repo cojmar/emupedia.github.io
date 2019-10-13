@@ -58,14 +58,11 @@ body {
 
 .v1 .list-table table, th, td {
 	border: 1px solid #f0f0f0;
+	text-align: center;
 }
 
 .v1 .list-table tbody tr:hover {
 	background-color: #cde8ff;
-}
-
-.v1 div {
-	text-align: center;
 }
 
 /*noinspection CssOverwrittenProperties*/
@@ -131,14 +128,11 @@ body {
 
 .v2 .list-table table, th, td {
 	border: 1px solid #f0f0f0;
+	text-align: center;
 }
 
 .v2 .list-table tbody tr:hover {
 	background-color: #cde8ff;
-}
-
-.v2 div {
-	text-align: center;
 }
 
 /*noinspection CssOverwrittenProperties*/
