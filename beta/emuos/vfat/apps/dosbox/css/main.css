@@ -27,7 +27,7 @@ body {
 	width: 365px;
 }
 
-.v1 .args-dropdown {
+.v1 .options-dropdown {
 	display: none;
 }
 
@@ -96,15 +96,15 @@ body {
 }
 
 .v2 .list-dropdown {
-	width: 222px;
+	width: 202px;
 }
 
-.v2 .args-dropdown {
+.v2 .options-dropdown {
 	display: inline-block;
-	width: 140px;
+	width: 160px;
 }
 
-/*noinspection CssOverwrittenProperties*/
+/*noinspection CssOverwrittenProperties,DuplicatedCode*/
 .v2 .list-table {
 	display: none;
 	position: absolute;
