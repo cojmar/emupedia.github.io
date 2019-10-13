@@ -331,6 +331,111 @@
 			}
 
 			function init() {
+				if ($.fn.tooltip) {
+					$body.find('[data-toggle="tooltip"], [data-toggle="dropdown"]').tooltip();
+				}
+
+				if ($.fn.select2) {
+					$.fn.select2.defaults.set('theme', 'bootstrap4');
+				}
+
+				if ($.fn.dataTable) {
+					$.extend(true, $.fn.dataTable.defaults, {
+						dom: "<'row filters'<'col-md-3'l><'col-md-6 toolbar text-center'B><'col-md-3'f>>" +
+							"<'row'<'col-sm-12'tr>>" +
+							"<'row panel-footer'<'col-sm-6'i><'col-sm-6'p>>",
+						paging: true,
+						responsive: false,
+						stateSave: true,
+						altEditor: false,
+						select: {
+							style: 'multi'
+						},
+						order: [[1, 'asc']],
+						colReorder: {
+							fixedColumnsLeft: 1
+						},
+						lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'all']],
+						displayLength: 10,
+						language: {
+							infoPostFix: '',
+							search: '',
+							searchPlaceholder: 'Quick search…',
+							paginate: {
+								first: '<<',
+								last: '>>',
+								next: '>',
+								previous: '<'
+							}
+						}
+					});
+
+					$.extend(true, $.fn.dataTable.Buttons.defaults, {
+						dom: {
+							container: {
+								tag: 'div',
+								className: 'dt-buttons btn-group'
+							},
+							button: {
+								tag: 'button data-toggle="tooltip" data-trigger="hover" data-placement="top" data-boundary="window"',
+								className: 'btn btn-sm btn-light'
+							},
+							collection: {
+								tag: 'div',
+								className: 'dt-button-collection dropdown-menu',
+								button: {
+									tag: 'a',
+									className: 'dt-button dropdown-item',
+									active: 'active',
+									disabled: 'disabled'
+								}
+							}
+						}
+					});
+
+					$.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml) {
+						var esc = function (t) {
+							return t
+								.replace(/&/g, '&amp;')
+								.replace(/</g, '&lt;')
+								.replace(/>/g, '&gt;')
+								.replace(/"/g, '&quot;');
+						};
+
+						// noinspection JSUnusedLocalSymbols
+						return function (d, type, row) {
+							// Order, search and type get the original data
+							if (type !== 'display') {
+								return d;
+							}
+
+							if (typeof d !== 'number' && typeof d !== 'string') {
+								return d;
+							}
+
+							d = d.toString(); // cast numbers
+
+							if (d.length <= cutoff) {
+								return d;
+							}
+
+							var shortened = d.substr(0, cutoff - 1);
+
+							// Find the last white space character in the string
+							if (wordbreak) {
+								shortened = shortened.replace(/\s([^\s]*)$/, '');
+							}
+
+							// Protect against uncontrolled HTML input
+							if (escapeHtml) {
+								shortened = esc(shortened);
+							}
+
+							return '<span class="ellipsis" title="' + esc(d) + '">' + shortened + '&#8230;</span>';
+						};
+					};
+				}
+
 				// noinspection DuplicatedCode
 				if ($body.hasClass('v2')) {
 					$list_dropdown.html('').html(render_list_dropdown_v2(gamesv2));
