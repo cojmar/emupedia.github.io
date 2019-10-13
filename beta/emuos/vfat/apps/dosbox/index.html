@@ -8,16 +8,20 @@
 
 		<link type="text/css" rel="stylesheet" href="css/main.css" />
 	</head>
-	<body>
+	<body class="v1">
 		<span class="controls">
-			<input class="list" type="button" value="Game List" tabindex="-1">
+			<input class="list" type="button" value="Game List">
 			<!--suppress HtmlFormInputWithoutLabel -->
-			<select class="game-dropdown" tabindex="-1"><option>Loading please wait...</option></select>
-			<input class="load" type="button" value="Load" tabindex="-1">
-			<input class="fullscreen" type="button" value="Fullscreen" tabindex="-1" onclick="Module.requestFullscreen(true, false)">
+			<select class="version-dropdown"><option value="v1">v1.0</option><option value="v2">v2.0</option></select>
+			<!--suppress HtmlFormInputWithoutLabel -->
+			<select class="list-dropdown"><option>Loading please wait...</option></select>
+			<!--suppress HtmlFormInputWithoutLabel -->
+			<select class="args-dropdown"><option></option></select>
+			<input class="load" type="button" value="Load">
+			<input class="fullscreen" type="button" value="Fullscreen" onclick="Module.requestFullscreen(true, false)">
 		</span>
-		<canvas id="canvas" tabindex="1"></canvas>
-		<div class="game-list"></div>
+		<canvas id="canvas"></canvas>
+		<div class="list-table"></div>
 		<script type="text/javascript" src="../../../js/polyfills.js"></script>
 		<script type="text/javascript" src="../../../js/platform.js"></script>
 		<script type="text/javascript" src="../../../js/system.js"></script>
