@@ -7,10 +7,12 @@
 	var $window							= null;
 	var $document						= null;
 	var $version_dropdown				= null;
-	var $list_dropdown					= null;
+	var $list_dropdown_v1				= null;
+	var $list_dropdown_v2				= null;
 	var $options_dropdown				= null;
 	var $list_table						= null;
 	var $preview						= null;
+	var $start							= null;
 
 	var dbx								= null;
 	var perfect_scrollbar				= null;
@@ -350,9 +352,15 @@
 			}
 
 			function init() {
+				$preview.hide();
+
+				if ($.fn.tooltip) {
+					$body.find('[data-toggle="tooltip"], [data-toggle="dropdown"]').tooltip();
+				}
+
 				// noinspection DuplicatedCode
 				if ($body.hasClass('v2')) {
-					$list_dropdown.html('').html(render_list_dropdown_v2(games_v2));
+					$list_dropdown_v2.html('').html(render_list_dropdown_v2(games_v2));
 					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]['executables']));
 
 					$preview.css({
@@ -361,10 +369,6 @@
 					}).show();
 
 					$list_table.html('').html(render_list_table(games_v1));
-
-					if ($.fn.tooltip) {
-						$body.find('[data-toggle="tooltip"], [data-toggle="dropdown"]').tooltip();
-					}
 
 					var $table = $list_table.find('table');
 
@@ -472,9 +476,9 @@
 					if ($.fn.select2) {
 						$.fn.select2.defaults.set('theme', 'bootstrap4');
 
-						if ($list_dropdown.data('select2')) {
+						if ($list_dropdown_v2.data('select2')) {
 							$version_dropdown.select2('destroy');
-							$list_dropdown.select2('destroy');
+							$list_dropdown_v2.select2('destroy');
 							$options_dropdown.select2('destroy');
 						} else {
 							$version_dropdown.select2({
@@ -500,7 +504,7 @@
 								}
 							});
 
-							$list_dropdown.select2({
+							$list_dropdown_v2.select2({
 								width: 'element'
 							}).on('select2:open', function() {
 								$window.trigger('resize');
@@ -560,13 +564,13 @@
 
 					$body.find('button').addClass('btn btn-light');
 				} else {
-					$list_dropdown.html('').html(render_list_dropdown(games_v1));
+					$list_dropdown_v1.html('').html(render_list_dropdown(games_v1));
 					$list_table.html('').html(render_list_table(games_v1));
 
 					if ($.fn.select2) {
-						if ($list_dropdown.data('select2')) {
+						if ($list_dropdown_v2.data('select2')) {
 							$version_dropdown.select2('destroy');
-							$list_dropdown.select2('destroy');
+							$list_dropdown_v2.select2('destroy');
 							$options_dropdown.select2('destroy');
 						}
 					}
@@ -673,23 +677,27 @@
 			$html				= $('html');
 			$body				= $('body');
 			$version_dropdown	= $('.version-dropdown');
-			$list_dropdown		= $('.list-dropdown');
+			$list_dropdown_v1	= $('.list-dropdown-v1');
+			$list_dropdown_v2	= $('.list-dropdown-v2');
 			$options_dropdown	= $('.options-dropdown');
 			$list_table			= $('.list-table');
 			$preview			= $('.preview');
+			$start				= $('.start');
 
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && (SYSTEM_FEATURE_ASMJS || SYSTEM_FEATURE_WEBASSEMBLY)) {
 				var first = typeof $.url().param('game') === 'undefined';
 
+				init();
+
 				if (!first) {
 					if ($body.hasClass('v2')) {
 
 					} else {
-						$list_dropdown.find('option').prop('selected', false).removeAttr('selected');
+						$list_dropdown_v1.find('option').prop('selected', false).removeAttr('selected');
 
 						var index_selected = parseInt($.url().param('game'), 10);
-						var game_selected = $list_dropdown.find('option[value="'+ index_selected +'"]').prop('selected', true).attr('selected', true).data('game-id');
+						var game_selected = $list_dropdown_v1.find('option[value="'+ index_selected +'"]').prop('selected', true).attr('selected', true).data('game-id');
 
 						// noinspection DuplicatedCode
 						for (var game in games_v1['games']) {
@@ -697,6 +705,7 @@
 							if (games_v1['games'][game]['id'] === game_selected) {
 								$list_table.hide();
 								$preview.hide();
+								$start.hide();
 								// noinspection JSUnfilteredForInLoop,DuplicatedCode
 								start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 								break;
@@ -709,6 +718,7 @@
 										if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
 											$list_table.hide();
 											$preview.hide();
+											$start.hide();
 											// noinspection JSUnfilteredForInLoop,DuplicatedCode
 											start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 										}
@@ -718,8 +728,6 @@
 						}
 					}
 				}
-
-				init();
 
 				// noinspection DuplicatedCode
 				$document.off('click', '.list-table table tr').on('click', '.list-table table tr', function() {
@@ -762,14 +770,17 @@
 						}
 					}
 				});
-
+				$document.off('click', '.start').on('click', '.start', function () {
+					$('.tooltip, .popover').remove();
+					$('.load').trigger('click');
+				});
 				// noinspection DuplicatedCode
 				$document.off('click', '.load').on('click', '.load', function() {
 					if ($body.hasClass('v2')) {
 
 					} else {
-						var index_selected = parseInt($list_dropdown.val(), 10);
-						var game_selected = $list_dropdown.find('option[value="' + index_selected + '"]').data('game-id');
+						var index_selected = parseInt($list_dropdown_v1.val(), 10);
+						var game_selected = $list_dropdown_v1.find('option[value="' + index_selected + '"]').data('game-id');
 
 						// noinspection DuplicatedCode
 						if (first) {
@@ -781,6 +792,7 @@
 								if (games_v1['games'][game]['id'] === game_selected) {
 									$list_table.hide();
 									$preview.hide();
+									$start.hide();
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
 									start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 									break;
@@ -793,6 +805,7 @@
 											if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
 												$list_table.hide();
 												$preview.hide();
+												$start.hide();
 												// noinspection JSUnfilteredForInLoop,DuplicatedCode
 												start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 											}
@@ -805,17 +818,15 @@
 						}
 					}
 				});
-
 				$document.off('click', '.list').on('click', '.list', function() {
 					$list_table.toggle();
 				});
-
-				$document.off('change', '.list-dropdown').on('change', '.list-dropdown', function() {
-					var index_selected = parseInt($list_dropdown.val(), 10);
+				$document.off('change', '.list-dropdown-v1, .list-dropdown-v2').on('change', '.list-dropdown-v1, .list-dropdown-v2', function() {
+					var index_selected = parseInt($list_dropdown_v2.val(), 10);
 
 					if ($body.hasClass('v2')) {
-						var genre_index_selected = parseInt($list_dropdown.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
-						var game_index_selected = parseInt($list_dropdown.find('option[value="' + index_selected + '"]').data('game-index'), 10);
+						var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
+						var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
 
 						$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables']));
 
@@ -825,14 +836,13 @@
 						}).show();
 					}
 				});
-
 				$document.off('change', '.options-dropdown').on('change', '.options-dropdown', function() {
-					var index_selected = parseInt($list_dropdown.val(), 10);
+					var index_selected = parseInt($list_dropdown_v2.val(), 10);
 					var option_selected = parseInt($options_dropdown.val(), 10);
 
 					if ($body.hasClass('v2')) {
-						var genre_index_selected = parseInt($list_dropdown.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
-						var game_index_selected = parseInt($list_dropdown.find('option[value="' + index_selected + '"]').data('game-index'), 10);
+						var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
+						var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
 
 						$preview.css({
 							'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['screenshots'][0] + ')',
@@ -840,18 +850,15 @@
 						}).show();
 					}
 				});
-
 				$document.off('change', '.version-dropdown').on('change', '.version-dropdown', function() {
 					$body.removeClass('v1 v2').addClass($version_dropdown.val());
 					init();
 				});
-
 				$window.off('resize').on('resize', function() {
 					$body.find('.select2-container--bootstrap4 .select2-results > .select2-results__options').css({
 						'max-height': $window.height() - 57
 					});
 				});
-
 				$window.trigger('resize');
 			} else {
 				alert('DOSBox cannot work because your browser is not supported!')
