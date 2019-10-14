@@ -43,6 +43,7 @@
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
+			jsonpath: '../../../../js/libraries/jsonpath-1.0.2.min',
 			jszip: '../../../../js/libraries/jszip-3.2.2.min',
 			loader: '../../../../js/libraries/emularity',
 			moment: '../../../../js/libraries/moment-2.24.0.min',
@@ -112,6 +113,7 @@
 		'browserfs',
 		'dropbox',
 		'es6fetch',
+		'jsonpath',
 		'loader',
 		'bootstrap',
 		'datatables.net',
@@ -124,7 +126,7 @@
 		'datatables.net-select-bs4',
 		'perfect-scrollbar',
 		'select2'
-	], function($, games_v1, games_v2, games_v3, purl, browserfs, dropbox, fetch, loader, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4, PerfectScrollbar, select2) {
+	], function($, games_v1, games_v2, games_v3, purl, browserfs, dropbox, fetch, jp, loader, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4, PerfectScrollbar, select2) {
 		$(function() {
 			// noinspection JSUnusedLocalSymbols
 			function format_name(name) {
@@ -376,7 +378,8 @@
 							$options_dropdown.select2('destroy');
 						} else {
 							$version_dropdown.select2({
-								width: 'element'
+								width: 'element',
+								minimumResultsForSearch: -1
 							}).on('select2:open', function() {
 								if (typeof PerfectScrollbar !== 'undefined') {
 									perfect_scrollbar = new PerfectScrollbar('.select2-results__options', {});
@@ -400,6 +403,8 @@
 							$list_dropdown.select2({
 								width: 'element'
 							}).on('select2:open', function() {
+								$window.trigger('resize');
+
 								if (typeof PerfectScrollbar !== 'undefined') {
 									perfect_scrollbar = new PerfectScrollbar('.select2-results__options', {});
 
@@ -429,7 +434,8 @@
 							});
 
 							$options_dropdown.select2({
-								width: 'element'
+								width: 'element',
+								minimumResultsForSearch: -1
 							}).on('select2:open', function() {
 								if (typeof PerfectScrollbar !== 'undefined') {
 									perfect_scrollbar = new PerfectScrollbar('.select2-results__options', {});
@@ -708,7 +714,7 @@
 				init();
 
 				// noinspection DuplicatedCode
-				$document.on('click', '.list-table table tr', function() {
+				$document.off('click', '.list-table table tr').on('click', '.list-table table tr', function() {
 					if ($body.hasClass('v2')) {
 
 					} else {
@@ -750,7 +756,7 @@
 				});
 
 				// noinspection DuplicatedCode
-				$document.on('click', '.load', function() {
+				$document.off('click', '.load').on('click', '.load', function() {
 					if ($body.hasClass('v2')) {
 
 					} else {
@@ -790,11 +796,11 @@
 					}
 				});
 
-				$document.on('click', '.list', function() {
+				$document.off('click', '.list').on('click', '.list', function() {
 					$list_table.toggle();
 				});
 
-				$document.on('change', '.list-dropdown', function() {
+				$document.off('change', '.list-dropdown').on('change', '.list-dropdown', function() {
 					var index_selected = parseInt($list_dropdown.val(), 10);
 
 					if ($body.hasClass('v2')) {
@@ -805,10 +811,18 @@
 					}
 				});
 
-				$document.on('change', '.version-dropdown', function() {
+				$document.off('change', '.version-dropdown').on('change', '.version-dropdown', function() {
 					$body.removeClass('v1 v2').addClass($version_dropdown.val());
 					init();
 				});
+
+				$window.off('resize').on('resize', function() {
+					$body.find('.select2-container--bootstrap4 .select2-results > .select2-results__options').css({
+						'max-height': $window.height() - 57
+					});
+				});
+
+				$window.trigger('resize');
 			} else {
 				alert('DOSBox cannot work because your browser is not supported!')
 			}

@@ -107,11 +107,12 @@ canvas {
 .v2 .controls {
 	height: 22px;
 	overflow: hidden;
+	border-bottom: 1px solid #000;
 }
 
 .v2 button {
 	font-size: 12px;
-	height: 20px;
+	height: 22px;
 	padding: 0 .375rem;
 }
 
@@ -178,11 +179,11 @@ canvas {
 }
 
 .v2 .select2-container--bootstrap4 .select2-selection--single {
-	height: 20px;
+	height: 22px;
 	padding-top: 0;
 	padding-bottom: 0;
 	font-size: 12px;
-	line-height: 20px;
+	line-height: 22px;
 }
 
 .v2 .select2-container--bootstrap4 .select2-dropdown {
@@ -207,9 +208,11 @@ canvas {
 	padding: 0 .375rem 0 .750rem;
 }
 
+/*noinspection CssOverwrittenProperties*/
 .v2 .select2-container--bootstrap4 .select2-results > .select2-results__options {
 	position: relative;
 	overflow: hidden;
+	max-height: 365px;
 }
 
 .v2 .select2-container--bootstrap4 .select2-results__option {
