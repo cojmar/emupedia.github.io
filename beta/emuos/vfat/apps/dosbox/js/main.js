@@ -681,7 +681,7 @@
 						$list_dropdown.find('option').prop('selected', false).removeAttr('selected');
 
 						var index_selected = parseInt($.url().param('game'), 10);
-						var game_selected = $list_dropdown.find('option[value="'+ index_selected +'"]').prop('selected', true).attr('selected', true).data('game');
+						var game_selected = $list_dropdown.find('option[value="'+ index_selected +'"]').prop('selected', true).attr('selected', true).data('game-id');
 
 						// noinspection DuplicatedCode
 						for (var game in games_v1['games']) {
@@ -716,7 +716,7 @@
 					} else {
 						var $el = $(this);
 						var index_selected = parseInt($el.data('index'), 10);
-						var game_selected = $el.data('game');
+						var game_selected = $el.data('game-id');
 
 						// noinspection DuplicatedCode
 						if (first) {
