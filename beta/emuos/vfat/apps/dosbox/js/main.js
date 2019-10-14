@@ -826,6 +826,21 @@
 					}
 				});
 
+				$document.off('change', '.options-dropdown').on('change', '.options-dropdown', function() {
+					var index_selected = parseInt($list_dropdown.val(), 10);
+					var option_selected = parseInt($options_dropdown.val(), 10);
+
+					if ($body.hasClass('v2')) {
+						var genre_index_selected = parseInt($list_dropdown.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
+						var game_index_selected = parseInt($list_dropdown.find('option[value="' + index_selected + '"]').data('game-index'), 10);
+
+						$preview.css({
+							'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['screenshots'][0] + ')',
+							'background-size': 'contain'
+						}).show();
+					}
+				});
+
 				$document.off('change', '.version-dropdown').on('change', '.version-dropdown', function() {
 					$body.removeClass('v1 v2').addClass($version_dropdown.val());
 					init();
