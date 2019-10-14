@@ -209,6 +209,7 @@ canvas {
 
 .v2 .select2-container--bootstrap4 .select2-results > .select2-results__options {
 	position: relative;
+	overflow: hidden;
 }
 
 .v2 .select2-container--bootstrap4 .select2-results__option {

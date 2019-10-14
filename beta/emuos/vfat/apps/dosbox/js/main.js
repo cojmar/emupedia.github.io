@@ -398,8 +398,7 @@
 							});
 
 							$list_dropdown.select2({
-								width: 'element',
-								dropdownAutoWidth: true
+								width: 'element'
 							}).on('select2:open', function() {
 								if (typeof PerfectScrollbar !== 'undefined') {
 									perfect_scrollbar = new PerfectScrollbar('.select2-results__options', {});
@@ -430,8 +429,7 @@
 							});
 
 							$options_dropdown.select2({
-								width: 'element',
-								dropdownAutoWidth: true
+								width: 'element'
 							}).on('select2:open', function() {
 								if (typeof PerfectScrollbar !== 'undefined') {
 									perfect_scrollbar = new PerfectScrollbar('.select2-results__options', {});
