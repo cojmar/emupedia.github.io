@@ -10,6 +10,7 @@
 	var $list_dropdown					= null;
 	var $options_dropdown				= null;
 	var $list_table						= null;
+	var $preview						= null;
 
 	var dbx								= null;
 	var perfect_scrollbar				= null;
@@ -353,6 +354,12 @@
 				if ($body.hasClass('v2')) {
 					$list_dropdown.html('').html(render_list_dropdown_v2(games_v2));
 					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]['executables']));
+
+					$preview.css({
+						'background-image': 'url(' + games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0] + ')',
+						'background-size': 'contain'
+					}).show();
+
 					$list_table.html('').html(render_list_table(games_v1));
 
 					if ($.fn.tooltip) {
@@ -669,6 +676,7 @@
 			$list_dropdown		= $('.list-dropdown');
 			$options_dropdown	= $('.options-dropdown');
 			$list_table			= $('.list-table');
+			$preview			= $('.preview');
 
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && (SYSTEM_FEATURE_ASMJS || SYSTEM_FEATURE_WEBASSEMBLY)) {
@@ -687,6 +695,8 @@
 						for (var game in games_v1['games']) {
 							// noinspection JSUnfilteredForInLoop,DuplicatedCode
 							if (games_v1['games'][game]['id'] === game_selected) {
+								$list_table.hide();
+								$preview.hide();
 								// noinspection JSUnfilteredForInLoop,DuplicatedCode
 								start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 								break;
@@ -697,6 +707,8 @@
 									for (var clone in games_v1['games'][game]['clones']) {
 										// noinspection JSUnfilteredForInLoop,DuplicatedCode
 										if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
+											$list_table.hide();
+											$preview.hide();
 											// noinspection JSUnfilteredForInLoop,DuplicatedCode
 											start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 										}
@@ -768,6 +780,7 @@
 								// noinspection JSUnfilteredForInLoop,DuplicatedCode
 								if (games_v1['games'][game]['id'] === game_selected) {
 									$list_table.hide();
+									$preview.hide();
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
 									start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 									break;
@@ -779,6 +792,7 @@
 											// noinspection JSUnfilteredForInLoop,DuplicatedCode
 											if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
 												$list_table.hide();
+												$preview.hide();
 												// noinspection JSUnfilteredForInLoop,DuplicatedCode
 												start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 											}
@@ -804,6 +818,11 @@
 						var game_index_selected = parseInt($list_dropdown.find('option[value="' + index_selected + '"]').data('game-index'), 10);
 
 						$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables']));
+
+						$preview.css({
+							'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][0]['screenshots'][0] + ')',
+							'background-size': 'contain'
+						}).show();
 					}
 				});
 
