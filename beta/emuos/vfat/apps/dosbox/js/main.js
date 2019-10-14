@@ -2,6 +2,18 @@
 (function(global) {
 	'use strict';
 
+	var $html							= null;
+	var $body							= null;
+	var $window							= null;
+	var $document						= null;
+	var $version_dropdown				= null;
+	var $list_dropdown					= null;
+	var $options_dropdown				= null;
+	var $list_table						= null;
+
+	var dbx								= null;
+	var perfect_scrollbar				= null;
+
 	// noinspection JSFileReferences,JSUnresolvedFunction
 	requirejs.config({
 		waitSeconds: 300,
@@ -37,10 +49,11 @@
 			'moment-timezone': '../../../../js/libraries/moment-timezone-0.5.26.min',
 			pdfmake: '../../../../js/libraries/pdfmake-0.1.60.min',
 			'pdfmake-fonts': '../../../../js/libraries/pdfmake-fonts-0.1.60',
-			purl: '../../../../js/libraries/purl-2.3.1',
-			text: '../../../../js/libraries/requirejs-text-2.0.15',
+			'perfect-scrollbar': '../../../../js/libraries/perfect-scrollbar-1.4.0.min',
 			popper: '../../../../js/libraries/popper-1.15.0.min',
-			select2: '../../../../js/libraries/select2-4.0.10.min'
+			purl: '../../../../js/libraries/purl-2.3.1',
+			select2: '../../../../js/libraries/select2-4.0.10.min',
+			text: '../../../../js/libraries/requirejs-text-2.0.15'
 		},
 		shim: {
 			bootstrap: {
@@ -107,8 +120,10 @@
 		'datatables.net-fixedcolumns-bs4',
 		'datatables.net-fixedheader-bs4',
 		'datatables.net-responsive-bs4',
-		'datatables.net-select-bs4'
-	], function($, games, gamesv2, purl, browserfs, dropbox, fetch, loader, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4) {
+		'datatables.net-select-bs4',
+		'perfect-scrollbar',
+		'select2'
+	], function($, games, gamesv2, purl, browserfs, dropbox, fetch, loader, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4, PerfectScrollbar, select2) {
 		$(function() {
 			// noinspection JSUnusedLocalSymbols
 			function format_name(name) {
@@ -331,129 +346,224 @@
 			}
 
 			function init() {
-				if ($.fn.tooltip) {
-					$body.find('[data-toggle="tooltip"], [data-toggle="dropdown"]').tooltip();
-				}
-
-				if ($.fn.select2) {
-					$.fn.select2.defaults.set('theme', 'bootstrap4');
-				}
-
-				if ($.fn.dataTable) {
-					$.extend(true, $.fn.dataTable.defaults, {
-						dom: "<'row filters'<'col-md-3'l><'col-md-6 toolbar text-center'B><'col-md-3'f>>" +
-							"<'row'<'col-sm-12'tr>>" +
-							"<'row panel-footer'<'col-sm-6'i><'col-sm-6'p>>",
-						paging: true,
-						responsive: false,
-						stateSave: true,
-						altEditor: false,
-						select: {
-							style: 'multi'
-						},
-						order: [[1, 'asc']],
-						colReorder: {
-							fixedColumnsLeft: 1
-						},
-						lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'all']],
-						displayLength: 10,
-						language: {
-							infoPostFix: '',
-							search: '',
-							searchPlaceholder: 'Quick search…',
-							paginate: {
-								first: '<<',
-								last: '>>',
-								next: '>',
-								previous: '<'
-							}
-						}
-					});
-
-					$.extend(true, $.fn.dataTable.Buttons.defaults, {
-						dom: {
-							container: {
-								tag: 'div',
-								className: 'dt-buttons btn-group'
-							},
-							button: {
-								tag: 'button data-toggle="tooltip" data-trigger="hover" data-placement="top" data-boundary="window"',
-								className: 'btn btn-sm btn-light'
-							},
-							collection: {
-								tag: 'div',
-								className: 'dt-button-collection dropdown-menu',
-								button: {
-									tag: 'a',
-									className: 'dt-button dropdown-item',
-									active: 'active',
-									disabled: 'disabled'
-								}
-							}
-						}
-					});
-
-					$.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml) {
-						var esc = function (t) {
-							return t
-								.replace(/&/g, '&amp;')
-								.replace(/</g, '&lt;')
-								.replace(/>/g, '&gt;')
-								.replace(/"/g, '&quot;');
-						};
-
-						// noinspection JSUnusedLocalSymbols
-						return function (d, type, row) {
-							// Order, search and type get the original data
-							if (type !== 'display') {
-								return d;
-							}
-
-							if (typeof d !== 'number' && typeof d !== 'string') {
-								return d;
-							}
-
-							d = d.toString(); // cast numbers
-
-							if (d.length <= cutoff) {
-								return d;
-							}
-
-							var shortened = d.substr(0, cutoff - 1);
-
-							// Find the last white space character in the string
-							if (wordbreak) {
-								shortened = shortened.replace(/\s([^\s]*)$/, '');
-							}
-
-							// Protect against uncontrolled HTML input
-							if (escapeHtml) {
-								shortened = esc(shortened);
-							}
-
-							return '<span class="ellipsis" title="' + esc(d) + '">' + shortened + '&#8230;</span>';
-						};
-					};
-				}
-
 				// noinspection DuplicatedCode
 				if ($body.hasClass('v2')) {
 					$list_dropdown.html('').html(render_list_dropdown_v2(gamesv2));
 					$options_dropdown.html('').html(render_options_dropdown(gamesv2['software']['type'][0]['games'][0]['executables']));
 					$list_table.html('').html(render_list_table(games));
 
+					if ($.fn.tooltip) {
+						$body.find('[data-toggle="tooltip"], [data-toggle="dropdown"]').tooltip();
+					}
+
 					var $table = $list_table.find('table');
 
-					if ($.fn.dataTable.isDataTable($table)) {
-						$table.DataTable().destroy();
-					} else {
-						$table.DataTable({
-
-						});
+					if ($.fn.dataTable) {
+						if ($.fn.dataTable.isDataTable($table)) {
+							$table.DataTable().destroy();
+						} else {
+							$table.DataTable();
+						}
 					}
+
+					if ($.fn.select2) {
+						$.fn.select2.defaults.set('theme', 'bootstrap4');
+
+						if ($list_dropdown.data('select2')) {
+							$version_dropdown.select2('destroy');
+							$list_dropdown.select2('destroy');
+							$options_dropdown.select2('destroy');
+						} else {
+							$version_dropdown.select2({
+								width: 'element'
+							}).on('select2:open', function() {
+								if (typeof PerfectScrollbar !== 'undefined') {
+									perfect_scrollbar = new PerfectScrollbar('.select2-results__options', {});
+
+									setTimeout(function() {
+										if (perfect_scrollbar) {
+											if (typeof perfect_scrollbar.update === 'function') {
+												perfect_scrollbar.update();
+											}
+										}
+									}, 10);
+								}
+							}).on('select2:close', function() {
+								if (perfect_scrollbar) {
+									if (typeof perfect_scrollbar.destroy === 'function') {
+										perfect_scrollbar.destroy();
+									}
+								}
+							});
+
+							$list_dropdown.select2({
+								width: 'element',
+								dropdownAutoWidth: true
+							}).on('select2:open', function() {
+								if (typeof PerfectScrollbar !== 'undefined') {
+									perfect_scrollbar = new PerfectScrollbar('.select2-results__options', {});
+
+									setTimeout(function() {
+										if (perfect_scrollbar) {
+											if (typeof perfect_scrollbar.update === 'function') {
+												perfect_scrollbar.update();
+											}
+										}
+									}, 10);
+								}
+							}).on('select2:close', function() {
+								if (perfect_scrollbar) {
+									if (typeof perfect_scrollbar.destroy === 'function') {
+										perfect_scrollbar.destroy();
+									}
+								}
+							}).on('select2:select', function (e) {
+								if (typeof e.params !== 'undefined') {
+									if (typeof e.params.data !== 'undefined') {
+										if (typeof e.params.data.element !== 'undefined') {
+											// noinspection JSUnresolvedFunction
+											//Router.navigate('/' + Router.getRoute() + '/' + parseInt($(e.params.data.element).val(), 10));
+										}
+									}
+								}
+							});
+
+							$options_dropdown.select2({
+								width: 'element',
+								dropdownAutoWidth: true
+							}).on('select2:open', function() {
+								if (typeof PerfectScrollbar !== 'undefined') {
+									perfect_scrollbar = new PerfectScrollbar('.select2-results__options', {});
+
+									setTimeout(function() {
+										if (perfect_scrollbar) {
+											if (typeof perfect_scrollbar.update === 'function') {
+												perfect_scrollbar.update();
+											}
+										}
+									}, 10);
+								}
+							}).on('select2:close', function() {
+								if (perfect_scrollbar) {
+									if (typeof perfect_scrollbar.destroy === 'function') {
+										perfect_scrollbar.destroy();
+									}
+								}
+							});
+						}
+					}
+
+					if ($.fn.dataTable) {
+						$.extend(true, $.fn.dataTable.defaults, {
+							dom: "<'row filters'<'col-md-3'l><'col-md-6 toolbar text-center'B><'col-md-3'f>>" +
+								"<'row'<'col-sm-12'tr>>" +
+								"<'row panel-footer'<'col-sm-6'i><'col-sm-6'p>>",
+							paging: true,
+							responsive: false,
+							stateSave: true,
+							altEditor: false,
+							select: {
+								style: 'multi'
+							},
+							order: [[1, 'asc']],
+							colReorder: {
+								fixedColumnsLeft: 1
+							},
+							lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'all']],
+							displayLength: 10,
+							language: {
+								infoPostFix: '',
+								search: '',
+								searchPlaceholder: 'Quick search…',
+								paginate: {
+									first: '<<',
+									last: '>>',
+									next: '>',
+									previous: '<'
+								}
+							}
+						});
+
+						$.extend(true, $.fn.dataTable.Buttons.defaults, {
+							dom: {
+								container: {
+									tag: 'div',
+									className: 'dt-buttons btn-group'
+								},
+								button: {
+									tag: 'button data-toggle="tooltip" data-trigger="hover" data-placement="top" data-boundary="window"',
+									className: 'btn btn-sm btn-light'
+								},
+								collection: {
+									tag: 'div',
+									className: 'dt-button-collection dropdown-menu',
+									button: {
+										tag: 'a',
+										className: 'dt-button dropdown-item',
+										active: 'active',
+										disabled: 'disabled'
+									}
+								}
+							}
+						});
+
+						$.fn.dataTable.render.ellipsis = function (cutoff, wordbreak, escapeHtml) {
+							var esc = function (t) {
+								return t
+									.replace(/&/g, '&amp;')
+									.replace(/</g, '&lt;')
+									.replace(/>/g, '&gt;')
+									.replace(/"/g, '&quot;');
+							};
+
+							// noinspection JSUnusedLocalSymbols
+							return function (d, type, row) {
+								// Order, search and type get the original data
+								if (type !== 'display') {
+									return d;
+								}
+
+								if (typeof d !== 'number' && typeof d !== 'string') {
+									return d;
+								}
+
+								d = d.toString(); // cast numbers
+
+								if (d.length <= cutoff) {
+									return d;
+								}
+
+								var shortened = d.substr(0, cutoff - 1);
+
+								// Find the last white space character in the string
+								if (wordbreak) {
+									shortened = shortened.replace(/\s([^\s]*)$/, '');
+								}
+
+								// Protect against uncontrolled HTML input
+								if (escapeHtml) {
+									shortened = esc(shortened);
+								}
+
+								return '<span class="ellipsis" title="' + esc(d) + '">' + shortened + '&#8230;</span>';
+							};
+						};
+					}
+
+					$body.find('button').addClass('btn btn-light');
 				} else {
 					$list_dropdown.html('').html(render_list_dropdown(games));
 					$list_table.html('').html(render_list_table(games));
+
+					if ($.fn.select2) {
+						if ($list_dropdown.data('select2')) {
+							$version_dropdown.select2('destroy');
+							$list_dropdown.select2('destroy');
+							$options_dropdown.select2('destroy');
+						}
+					}
+
+					$body.find('button').removeClass('btn btn-light');
 				}
 			}
 
@@ -548,16 +658,16 @@
 			}
 
 			// noinspection JSUnresolvedFunction
-			var dbx = new dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch.fetch});
+			dbx = new dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch.fetch});
 
-			var $document			= $(document);
-			var $window				= $(window);
-			var $html				= $('html');
-			var $body				= $('body');
-			var $version_dropdown	= $('.version-dropdown');
-			var $list_dropdown		= $('.list-dropdown');
-			var $options_dropdown	= $('.options-dropdown');
-			var $list_table			= $('.list-table');
+			$document			= $(document);
+			$window				= $(window);
+			$html				= $('html');
+			$body				= $('body');
+			$version_dropdown	= $('.version-dropdown');
+			$list_dropdown		= $('.list-dropdown');
+			$options_dropdown	= $('.options-dropdown');
+			$list_table			= $('.list-table');
 
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && (SYSTEM_FEATURE_ASMJS || SYSTEM_FEATURE_WEBASSEMBLY)) {
