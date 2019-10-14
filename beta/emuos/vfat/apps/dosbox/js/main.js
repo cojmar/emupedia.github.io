@@ -105,8 +105,9 @@
 	// noinspection JSCheckFunctionSignatures,JSUnusedLocalSymbols
 	requirejs([
 		'jquery',
-		'json!../../../../js/config/games.json',
-		'json!../../../../js/config/gamesv2.json',
+		'json!../../../../js/config/games-v1.json',
+		'json!../../../../js/config/games-v2.json',
+		'json!../../../../js/config/games-v3.json',
 		'purl',
 		'browserfs',
 		'dropbox',
@@ -123,7 +124,7 @@
 		'datatables.net-select-bs4',
 		'perfect-scrollbar',
 		'select2'
-	], function($, games, gamesv2, purl, browserfs, dropbox, fetch, loader, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4, PerfectScrollbar, select2) {
+	], function($, games_v1, games_v2, games_v3, purl, browserfs, dropbox, fetch, loader, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4, PerfectScrollbar, select2) {
 		$(function() {
 			// noinspection JSUnusedLocalSymbols
 			function format_name(name) {
@@ -348,9 +349,9 @@
 			function init() {
 				// noinspection DuplicatedCode
 				if ($body.hasClass('v2')) {
-					$list_dropdown.html('').html(render_list_dropdown_v2(gamesv2));
-					$options_dropdown.html('').html(render_options_dropdown(gamesv2['software']['type'][0]['games'][0]['executables']));
-					$list_table.html('').html(render_list_table(games));
+					$list_dropdown.html('').html(render_list_dropdown_v2(games_v2));
+					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]['executables']));
+					$list_table.html('').html(render_list_table(games_v1));
 
 					if ($.fn.tooltip) {
 						$body.find('[data-toggle="tooltip"], [data-toggle="dropdown"]').tooltip();
@@ -552,8 +553,8 @@
 
 					$body.find('button').addClass('btn btn-light');
 				} else {
-					$list_dropdown.html('').html(render_list_dropdown(games));
-					$list_table.html('').html(render_list_table(games));
+					$list_dropdown.html('').html(render_list_dropdown(games_v1));
+					$list_table.html('').html(render_list_table(games_v1));
 
 					if ($.fn.select2) {
 						if ($list_dropdown.data('select2')) {
@@ -683,21 +684,21 @@
 						var game_selected = $list_dropdown.find('option[value="'+ index_selected +'"]').prop('selected', true).attr('selected', true).data('game');
 
 						// noinspection DuplicatedCode
-						for (var game in games['games']) {
+						for (var game in games_v1['games']) {
 							// noinspection JSUnfilteredForInLoop,DuplicatedCode
-							if (games['games'][game]['id'] === game_selected) {
+							if (games_v1['games'][game]['id'] === game_selected) {
 								// noinspection JSUnfilteredForInLoop,DuplicatedCode
-								start(typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file'], games['games'][game]['executable'], games['games'][game]['args'], games['games'][game]['mode'], games['games'][game]['sync'], games['games'][game]['old']);
+								start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 								break;
 							} else {
 								// noinspection JSUnfilteredForInLoop
-								if (typeof games['games'][game]['clones'] !== 'undefined') {
+								if (typeof games_v1['games'][game]['clones'] !== 'undefined') {
 									// noinspection JSUnfilteredForInLoop,JSUnusedLocalSymbols
-									for (var clone in games['games'][game]['clones']) {
+									for (var clone in games_v1['games'][game]['clones']) {
 										// noinspection JSUnfilteredForInLoop,DuplicatedCode
-										if (games['games'][game]['clones'][clone]['id'] === game_selected) {
+										if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
 											// noinspection JSUnfilteredForInLoop,DuplicatedCode
-											start((typeof games['games'][game]['clones'][clone]['files'] !== 'undefined' ? games['games'][game]['clones'][clone]['files'] : (typeof games['games'][game]['clones'][clone]['file'] !== 'undefined' ? games['games'][game]['clones'][clone]['file'] : (typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file']))), (typeof games['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games['games'][game]['clones'][clone]['executable'] : games['games'][game]['executable']), (typeof games['games'][game]['clones'][clone]['args'] !== 'undefined' ? games['games'][game]['clones'][clone]['args'] : games['games'][game]['args']), games['games'][game]['clones'][clone]['mode'], (typeof games['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games['games'][game]['clones'][clone]['sync'] : games['games'][game]['sync']), (typeof games['games'][game]['clones'][clone]['old'] !== 'undefined' ? games['games'][game]['clones'][clone]['old'] : games['games'][game]['old']));
+											start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 										}
 									}
 								}
@@ -722,23 +723,23 @@
 							first = false;
 
 							// noinspection DuplicatedCode
-							for (var game in games['games']) {
+							for (var game in games_v1['games']) {
 								// noinspection JSUnfilteredForInLoop,DuplicatedCode
-								if (games['games'][game]['id'] === game_selected) {
+								if (games_v1['games'][game]['id'] === game_selected) {
 									$list_table.hide();
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
-									start(typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file'], games['games'][game]['executable'], games['games'][game]['args'], games['games'][game]['mode'], games['games'][game]['sync'], games['games'][game]['old']);
+									start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 									break;
 								} else {
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
-									if (typeof games['games'][game]['clones'] !== 'undefined') {
+									if (typeof games_v1['games'][game]['clones'] !== 'undefined') {
 										// noinspection JSUnfilteredForInLoop,JSUnusedLocalSymbols,DuplicatedCode
-										for (var clone in games['games'][game]['clones']) {
+										for (var clone in games_v1['games'][game]['clones']) {
 											// noinspection JSUnfilteredForInLoop,DuplicatedCode
-											if (games['games'][game]['clones'][clone]['id'] === game_selected) {
+											if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
 												$list_table.hide();
 												// noinspection JSUnfilteredForInLoop,DuplicatedCode
-												start((typeof games['games'][game]['clones'][clone]['files'] !== 'undefined' ? games['games'][game]['clones'][clone]['files'] : (typeof games['games'][game]['clones'][clone]['file'] !== 'undefined' ? games['games'][game]['clones'][clone]['file'] : (typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file']))), (typeof games['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games['games'][game]['clones'][clone]['executable'] : games['games'][game]['executable']), (typeof games['games'][game]['clones'][clone]['args'] !== 'undefined' ? games['games'][game]['clones'][clone]['args'] : games['games'][game]['args']), games['games'][game]['clones'][clone]['mode'], (typeof games['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games['games'][game]['clones'][clone]['sync'] : games['games'][game]['sync']), (typeof games['games'][game]['clones'][clone]['old'] !== 'undefined' ? games['games'][game]['clones'][clone]['old'] : games['games'][game]['old']));
+												start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 											}
 										}
 									}
@@ -763,23 +764,23 @@
 							first = false;
 
 							// noinspection DuplicatedCode
-							for (var game in games['games']) {
+							for (var game in games_v1['games']) {
 								// noinspection JSUnfilteredForInLoop,DuplicatedCode
-								if (games['games'][game]['id'] === game_selected) {
+								if (games_v1['games'][game]['id'] === game_selected) {
 									$list_table.hide();
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
-									start(typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file'], games['games'][game]['executable'], games['games'][game]['args'], games['games'][game]['mode'], games['games'][game]['sync'], games['games'][game]['old']);
+									start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 									break;
 								} else {
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
-									if (typeof games['games'][game]['clones'] !== 'undefined') {
+									if (typeof games_v1['games'][game]['clones'] !== 'undefined') {
 										// noinspection JSUnfilteredForInLoop,JSUnusedLocalSymbols,DuplicatedCode
-										for (var clone in games['games'][game]['clones']) {
+										for (var clone in games_v1['games'][game]['clones']) {
 											// noinspection JSUnfilteredForInLoop,DuplicatedCode
-											if (games['games'][game]['clones'][clone]['id'] === game_selected) {
+											if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
 												$list_table.hide();
 												// noinspection JSUnfilteredForInLoop,DuplicatedCode
-												start((typeof games['games'][game]['clones'][clone]['files'] !== 'undefined' ? games['games'][game]['clones'][clone]['files'] : (typeof games['games'][game]['clones'][clone]['file'] !== 'undefined' ? games['games'][game]['clones'][clone]['file'] : (typeof games['games'][game]['files'] !== 'undefined' ? games['games'][game]['files'] : games['games'][game]['file']))), (typeof games['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games['games'][game]['clones'][clone]['executable'] : games['games'][game]['executable']), (typeof games['games'][game]['clones'][clone]['args'] !== 'undefined' ? games['games'][game]['clones'][clone]['args'] : games['games'][game]['args']), games['games'][game]['clones'][clone]['mode'], (typeof games['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games['games'][game]['clones'][clone]['sync'] : games['games'][game]['sync']), (typeof games['games'][game]['clones'][clone]['old'] !== 'undefined' ? games['games'][game]['clones'][clone]['old'] : games['games'][game]['old']));
+												start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 											}
 										}
 									}
@@ -802,7 +803,7 @@
 						var genre_index_selected = parseInt($list_dropdown.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 						var game_index_selected = parseInt($list_dropdown.find('option[value="' + index_selected + '"]').data('game-index'), 10);
 
-						$options_dropdown.html('').html(render_options_dropdown(gamesv2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables']));
+						$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables']));
 					}
 				});
 
