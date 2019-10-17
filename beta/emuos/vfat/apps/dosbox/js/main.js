@@ -16,6 +16,7 @@
 
 	var dbx								= null;
 	var perfect_scrollbar				= null;
+	var started							= false;
 
 	// noinspection JSFileReferences,JSUnresolvedFunction
 	requirejs.config({
@@ -363,7 +364,7 @@
 					$list_dropdown_v2.html('').html(render_list_dropdown_v2(games_v2));
 					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]['executables']));
 
-					if (games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0]) {
+					if (!started && games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0]) {
 						$preview.css({
 							'background-image': 'url(' + games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0] + ')',
 							'background-size': 'contain'
@@ -569,7 +570,7 @@
 					$list_dropdown_v1.html('').html(render_list_dropdown_v1(games_v1));
 					$list_table.html('').html(render_list_table(games_v1));
 
-					if (games_v1['games'][0]['screenshots'][0]) {
+					if (!started && games_v1['games'][0]['screenshots'][0]) {
 						$preview.css({
 							'background-image': 'url(' + games_v1['games'][0]['screenshots'][0] + ')',
 							'background-size': 'contain'
@@ -648,6 +649,7 @@
 									DosBoxLoader.extraArgs(args),
 									DosBoxLoader.startExe(executable)));
 							emulator.start({waitAfterDownloading: false});
+							started = true;
 						}
 					}, 100);
 				} else {
@@ -672,6 +674,7 @@
 								DosBoxLoader.extraArgs(args),
 								DosBoxLoader.startExe(executable)));
 						emulator.start({waitAfterDownloading: false});
+						started = true;
 					}).catch(function(error) {
 						console.log(error);
 					});
@@ -835,68 +838,70 @@
 					var index_selected;
 					var screenshot;
 
-					if ($body.hasClass('v2')) {
-						index_selected = parseInt($list_dropdown_v2.val(), 10);
-						var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
-						var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
+					if (!started) {
+						if ($body.hasClass('v2')) {
+							index_selected = parseInt($list_dropdown_v2.val(), 10);
+							var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
+							var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
 
-						$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables']));
+							$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables']));
 
-						$preview.css({
-							'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][0]['screenshots'][0] + ')',
-							'background-size': 'contain'
-						}).show();
-					} else {
-						index_selected = parseInt($list_dropdown_v1.val(), 10);
-						var game_selected = $list_dropdown_v1.find('option[value="'+ index_selected +'"]').data('game-id');
+							$preview.css({
+								'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][0]['screenshots'][0] + ')',
+								'background-size': 'contain'
+							}).show();
+						} else {
+							index_selected = parseInt($list_dropdown_v1.val(), 10);
+							var game_selected = $list_dropdown_v1.find('option[value="'+ index_selected +'"]').data('game-id');
 
-						// noinspection DuplicatedCode
-						for (var game in games_v1['games']) {
-							// noinspection JSUnfilteredForInLoop,DuplicatedCode
-							if (games_v1['games'][game]['id'] === game_selected) {
-								// noinspection JSUnfilteredForInLoop
-								if (typeof games_v1['games'][game]['screenshots'] === 'object') {
+							// noinspection DuplicatedCode
+							for (var game in games_v1['games']) {
+								// noinspection JSUnfilteredForInLoop,DuplicatedCode
+								if (games_v1['games'][game]['id'] === game_selected) {
 									// noinspection JSUnfilteredForInLoop
-									screenshot = (typeof games_v1['games'][game]['screenshots'] === 'object' ? (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '') : '');
-
-									if (screenshot !== '') {
+									if (typeof games_v1['games'][game]['screenshots'] === 'object') {
 										// noinspection JSUnfilteredForInLoop
-										$preview.css({
-											'background-image': 'url(' + (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '') + ')',
-											'background-size': 'contain'
-										}).show();
+										screenshot = (typeof games_v1['games'][game]['screenshots'] === 'object' ? (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '') : '');
+
+										if (screenshot !== '') {
+											// noinspection JSUnfilteredForInLoop
+											$preview.css({
+												'background-image': 'url(' + (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '') + ')',
+												'background-size': 'contain'
+											}).show();
+										} else {
+											$preview.hide();
+										}
 									} else {
 										$preview.hide();
 									}
+									break;
 								} else {
-									$preview.hide();
-								}
-								break;
-							} else {
-								// noinspection JSUnfilteredForInLoop
-								if (typeof games_v1['games'][game]['clones'] !== 'undefined') {
-									// noinspection JSUnfilteredForInLoop,JSUnusedLocalSymbols
-									for (var clone in games_v1['games'][game]['clones']) {
-										// noinspection JSUnfilteredForInLoop,DuplicatedCode
-										if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
-											// noinspection JSUnfilteredForInLoop
-											if (typeof games_v1['games'][game]['clones'][clone]['screenshots'] === 'object' || typeof games_v1['games'][game]['screenshots'] === 'object') {
+									// noinspection JSUnfilteredForInLoop
+									if (typeof games_v1['games'][game]['clones'] !== 'undefined') {
+										// noinspection JSUnfilteredForInLoop,JSUnusedLocalSymbols
+										for (var clone in games_v1['games'][game]['clones']) {
+											// noinspection JSUnfilteredForInLoop,DuplicatedCode
+											if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
 												// noinspection JSUnfilteredForInLoop
-												screenshot = (typeof games_v1['games'][game]['clones'][clone]['screenshots'] === 'object' ? (typeof games_v1['games'][game]['clones'][clone]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['screenshots'][0] : (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '')) : (typeof games_v1['games'][game]['screenshots'] === 'object' ? (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '') : ''));
-
-												if (screenshot !== '') {
+												if (typeof games_v1['games'][game]['clones'][clone]['screenshots'] === 'object' || typeof games_v1['games'][game]['screenshots'] === 'object') {
 													// noinspection JSUnfilteredForInLoop
-													$preview.css({
-														'background-image': 'url(' + screenshot + ')',
-														'background-size': 'contain'
-													}).show();
+													screenshot = (typeof games_v1['games'][game]['clones'][clone]['screenshots'] === 'object' ? (typeof games_v1['games'][game]['clones'][clone]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['screenshots'][0] : (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '')) : (typeof games_v1['games'][game]['screenshots'] === 'object' ? (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '') : ''));
+
+													if (screenshot !== '') {
+														// noinspection JSUnfilteredForInLoop
+														$preview.css({
+															'background-image': 'url(' + screenshot + ')',
+															'background-size': 'contain'
+														}).show();
+													} else {
+														$preview.hide();
+													}
 												} else {
 													$preview.hide();
 												}
-											} else {
-												$preview.hide();
+												break;
 											}
-											break;
 										}
 									}
 								}
