@@ -760,6 +760,8 @@
 								// noinspection JSUnfilteredForInLoop,DuplicatedCode
 								if (games_v1['games'][game]['id'] === game_selected) {
 									$list_table.hide();
+									$preview.hide();
+									$start.hide();
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
 									start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 									break;
@@ -771,8 +773,11 @@
 											// noinspection JSUnfilteredForInLoop,DuplicatedCode
 											if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
 												$list_table.hide();
+												$preview.hide();
+												$start.hide();
 												// noinspection JSUnfilteredForInLoop,DuplicatedCode
 												start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
+												break;
 											}
 										}
 									}
