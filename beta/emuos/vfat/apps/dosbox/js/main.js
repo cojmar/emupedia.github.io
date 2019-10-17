@@ -363,10 +363,12 @@
 					$list_dropdown_v2.html('').html(render_list_dropdown_v2(games_v2));
 					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]['executables']));
 
-					$preview.css({
-						'background-image': 'url(' + games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0] + ')',
-						'background-size': 'contain'
-					}).show();
+					if (games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0]) {
+						$preview.css({
+							'background-image': 'url(' + games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0] + ')',
+							'background-size': 'contain'
+						}).show();
+					}
 
 					$list_table.html('').html(render_list_table(games_v1));
 
@@ -566,6 +568,13 @@
 				} else {
 					$list_dropdown_v1.html('').html(render_list_dropdown_v1(games_v1));
 					$list_table.html('').html(render_list_table(games_v1));
+
+					if (games_v1['games'][0]['screenshots'][0]) {
+						$preview.css({
+							'background-image': 'url(' + games_v1['games'][0]['screenshots'][0] + ')',
+							'background-size': 'contain'
+						}).show();
+					}
 
 					if ($.fn.select2) {
 						if ($list_dropdown_v2.data('select2')) {
