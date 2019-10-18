@@ -16,7 +16,7 @@
 
 	var dbx								= null;
 	var perfect_scrollbar				= null;
-	var preview_timeout					= null;
+	var lightslider						= null;
 	var started							= false;
 
 	// noinspection JSFileReferences,JSUnresolvedFunction
@@ -188,6 +188,16 @@
 					i = i === 1 && bytes >= 1000000 ? 2 : i;
 
 				return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+			}
+
+			function solve_aspect_ratio(width, height, numerator, denominator) {
+				if (width !== undefined) {
+					return Math.round(width / (numerator / denominator));
+				} else if (height !== undefined) {
+					return Math.round(height * (numerator / denominator));
+				} else {
+					return undefined;
+				}
 			}
 
 			// noinspection DuplicatedCode
@@ -380,9 +390,20 @@
 			function render_preview(screenshots) {
 				var html = '<ul class="lightslider">';
 
+				var width = solve_aspect_ratio(undefined, $preview.height(), 8, 5);
+				var height = solve_aspect_ratio($preview.width(), undefined, 8, 5);
+
+				if (width > $preview.width()) {
+					width = $preview.width();
+				}
+
+				if (height > $preview.height()) {
+					height = $preview.height();
+				}
+
 				for (var image in screenshots) {
 					// noinspection JSUnfilteredForInLoop
-					html += '<li><img width="100%" height="100%" alt="" draggable="false" ondragstart="return false;" src="' + screenshots[image] + '"</li>';
+					html += '<li><img width="' + width + '" height="' + height + '" alt="" draggable="false" ondragstart="return false;" src="' + screenshots[image] + '" /></li>';
 				}
 
 				html += '</ul';
@@ -645,7 +666,7 @@
 				}
 
 				if ($.fn.lightSlider) {
-					$body.find('.lightslider').lightSlider({
+					lightslider = $body.find('.lightslider').lightSlider({
 						item: 1,
 						gallery: true,
 						loop: true,
@@ -1172,7 +1193,7 @@
 						}
 
 						if ($.fn.lightSlider) {
-							$body.find('.lightslider').lightSlider({
+							lightslider = $body.find('.lightslider').lightSlider({
 								item: 1,
 								gallery: true,
 								loop: true,
@@ -1203,7 +1224,7 @@
 						}
 
 						if ($.fn.lightSlider) {
-							$body.find('.lightslider').lightSlider({
+							lightslider = $body.find('.lightslider').lightSlider({
 								item: 1,
 								gallery: true,
 								loop: true,
@@ -1224,17 +1245,16 @@
 						'max-height': $window.height() - 57
 					});
 
-					if (preview_timeout === null) {
-						preview_timeout = setTimeout(function() {
-							clearTimeout(preview_timeout);
-							preview_timeout = null;
+					if ($body.hasClass('v1')) {
+						$list_dropdown_v1.trigger('change');
+					} else {
+						$list_dropdown_v2.trigger('change');
+					}
 
-							if ($body.hasClass('v1')) {
-								$list_dropdown_v1.trigger('change');
-							} else {
-								$list_dropdown_v2.trigger('change');
-							}
-						}, 100);
+					if (typeof lightslider !== 'undefined') {
+						if (typeof lightslider.refresh === 'function') {
+							lightslider.refresh();
+						}
 					}
 				});
 				$window.trigger('resize');

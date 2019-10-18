@@ -136,12 +136,20 @@ canvas {
 	image-rendering: -o-crisp-edges;
 	image-rendering: crisp-edges;
 	image-rendering: pixelated;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
 }
 
 .v1 .preview ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+}
+
+.v1 .preview ul li {
+	text-align: center;
 }
 
 /*noinspection DuplicatedCode*/
@@ -274,12 +282,20 @@ canvas {
 	image-rendering: -o-crisp-edges;
 	image-rendering: crisp-edges;
 	image-rendering: pixelated;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
 }
 
 .v2 .preview ul {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+}
+
+.v2 .preview ul li {
+	text-align: center;
 }
 
 /*noinspection DuplicatedCode*/
