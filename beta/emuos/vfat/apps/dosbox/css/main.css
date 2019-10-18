@@ -147,7 +147,7 @@ canvas {
 /*noinspection DuplicatedCode*/
 .v1 a.start {
 	position: absolute;
-	top: calc(50% - 75px);
+	top: calc(50% - 64px);
 	left: calc(50% - 75px);
 	display: block;
 	width: 150px;
@@ -285,7 +285,7 @@ canvas {
 /*noinspection DuplicatedCode*/
 .v2 a.start {
 	position: absolute;
-	top: calc(50% - 75px);
+	top: calc(50% - 64px);
 	left: calc(50% - 75px);
 	display: block;
 	width: 150px;
