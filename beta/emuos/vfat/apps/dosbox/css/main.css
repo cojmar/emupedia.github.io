@@ -15,6 +15,21 @@ body {
 	overflow: hidden;
 }
 
+/*noinspection CssInvalidPropertyValue,CssOverwrittenProperties*/
+img {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -o-crisp-edges;
+	image-rendering: crisp-edges;
+	image-rendering: pixelated;
+}
+
 button {
 	font-size: 12px;
 	height: 22px;
@@ -123,6 +138,12 @@ canvas {
 	image-rendering: pixelated;
 }
 
+.v1 .preview ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
 /*noinspection DuplicatedCode*/
 .v1 a.start {
 	position: absolute;
@@ -135,6 +156,7 @@ canvas {
 	opacity: 0.6;
 	filter: alpha(opacity=60);
 	z-index: 2;
+	outline: none;
 }
 
 /*noinspection DuplicatedCode*/
@@ -254,6 +276,12 @@ canvas {
 	image-rendering: pixelated;
 }
 
+.v2 .preview ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
 /*noinspection DuplicatedCode*/
 .v2 a.start {
 	position: absolute;
@@ -266,6 +294,7 @@ canvas {
 	opacity: 0.6;
 	filter: alpha(opacity=60);
 	z-index: 2;
+	outline: none;
 }
 
 /*noinspection DuplicatedCode*/

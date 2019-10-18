@@ -16,6 +16,7 @@
 
 	var dbx								= null;
 	var perfect_scrollbar				= null;
+	var preview_timeout					= null;
 	var started							= false;
 
 	// noinspection JSFileReferences,JSUnresolvedFunction
@@ -58,6 +59,7 @@
 			'lightgallery-thumbnail': '../../../../js/libraries/lightgallery-thumbnail-1.6.12.min',
 			'lightgallery-video': '../../../../js/libraries/lightgallery-video-1.6.12.min',
 			'lightgallery-zoom': '../../../../js/libraries/lightgallery-zoom-1.6.12.min',
+			'lightslider': '../../../../js/libraries/lightslider-1.1.6.min',
 			loader: '../../../../js/libraries/emularity',
 			moment: '../../../../js/libraries/moment-2.24.0.min',
 			'moment-timezone': '../../../../js/libraries/moment-timezone-0.5.27.min',
@@ -71,7 +73,7 @@
 		},
 		shim: {
 			bootstrap: {
-				deps: ['jquery', 'popper', 'lightgallery-autoplay', 'lightgallery-thumbnail', 'lightgallery-zoom']
+				deps: ['jquery', 'popper', 'lightslider', 'lightgallery-autoplay', 'lightgallery-thumbnail', 'lightgallery-zoom']
 			},
 			browserfs: {
 				exports: 'BrowserFS',
@@ -375,6 +377,19 @@
 				return html;
 			}
 
+			function render_preview(screenshots) {
+				var html = '<ul class="lightslider">';
+
+				for (var image in screenshots) {
+					// noinspection JSUnfilteredForInLoop
+					html += '<li><img width="100%" height="100%" alt="" draggable="false" ondragstart="return false;" src="' + screenshots[image] + '"</li>';
+				}
+
+				html += '</ul';
+
+				return html;
+			}
+
 			function get_file_order(index, file, files) {
 				for (var f in files) {
 					// noinspection JSUnfilteredForInLoop
@@ -388,184 +403,20 @@
 			function init() {
 				$preview.hide();
 
-				if ($.fn.tooltip) {
-					$body.find('[data-toggle="tooltip"], [data-toggle="dropdown"]').tooltip();
-				}
-
-				if ($.fn.lightGallery) {
-					$body.find('.lightgallery').lightGallery({
-						autoplay: true,
-						selector: '.lightgallery-image'
-					});
-
-					$body.find('.lightgallery').each(function(i, el) {
-						var $el = $(el);
-
-						$el.data('lightGallery').slide = function(index, fromTouch, fromThumb, direction) {
-							var _prevIndex = this.$outer.find('.lg-current').index();
-							var _this = this;
-
-							this.$outer.find('.lg-image').attr('ondragstart', 'return false;');
-
-							// Prevent if multiple call
-							// Required for hsh plugin
-							if (_this.lGalleryOn && (_prevIndex === index)) {
-								return;
-							}
-
-							var _length = this.$slide.length;
-							var _time = _this.lGalleryOn ? this.s.speed : 0;
-
-							if (!_this.lgBusy) {
-
-								if (this.s.download) {
-									var _src;
-									var _download;
-									if (_this.s.dynamic) {
-										_src = _this.s.dynamicEl[index].src;
-										// noinspection JSUnresolvedVariable
-										_download = _this.s.dynamicEl[index].downloadUrl;
-									} else {
-										_src = _this.$items.eq(index).attr('href') || _this.$items.eq(index).attr('data-src');
-										_download = _this.$items.eq(index).attr('data-download-url');
-									}
-
-									if (_src) {
-										$('#lg-download').attr('href', _src).attr('download', _download);
-										_this.$outer.removeClass('lg-hide-download');
-									} else {
-										_this.$outer.addClass('lg-hide-download');
-									}
-								}
-
-								this.$el.trigger('onBeforeSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
-
-								_this.lgBusy = true;
-
-								clearTimeout(_this.hideBartimeout);
-
-								// Add title if this.s.appendSubHtmlTo === lg-sub-html
-								if (this.s.appendSubHtmlTo === '.lg-sub-html') {
-
-									// wait for slide animation to complete
-									setTimeout(function() {
-										_this.addHtml(index);
-									}, _time);
-								}
-
-								this.arrowDisable(index);
-
-								if (!direction) {
-									if (index < _prevIndex) {
-										direction = 'prev';
-									} else if (index > _prevIndex) {
-										direction = 'next';
-									}
-								}
-
-								if (!fromTouch) {
-
-									// remove all transitions
-									_this.$outer.addClass('lg-no-trans');
-
-									this.$slide.removeClass('lg-prev-slide lg-next-slide');
-
-									if (direction === 'prev') {
-
-										//prevslide
-										this.$slide.eq(index).addClass('lg-prev-slide');
-										this.$slide.eq(_prevIndex).addClass('lg-next-slide');
-									} else {
-
-										// next slide
-										this.$slide.eq(index).addClass('lg-next-slide');
-										this.$slide.eq(_prevIndex).addClass('lg-prev-slide');
-									}
-
-									// give 50 ms for browser to add/remove class
-									setTimeout(function() {
-										_this.$slide.removeClass('lg-current');
-
-										//_this.$slide.eq(_prevIndex).removeClass('lg-current');
-										_this.$slide.eq(index).addClass('lg-current');
-
-										// reset all transitions
-										_this.$outer.removeClass('lg-no-trans');
-									}, 50);
-								} else {
-
-									this.$slide.removeClass('lg-prev-slide lg-current lg-next-slide');
-									var touchPrev;
-									var touchNext;
-									if (_length > 2) {
-										touchPrev = index - 1;
-										touchNext = index + 1;
-
-										if ((index === 0) && (_prevIndex === _length - 1)) {
-
-											// next slide
-											touchNext = 0;
-											touchPrev = _length - 1;
-										} else if ((index === _length - 1) && (_prevIndex === 0)) {
-
-											// prev slide
-											touchNext = 0;
-											touchPrev = _length - 1;
-										}
-
-									} else {
-										touchPrev = 0;
-										touchNext = 1;
-									}
-
-									if (direction === 'prev') {
-										_this.$slide.eq(touchNext).addClass('lg-next-slide');
-									} else {
-										_this.$slide.eq(touchPrev).addClass('lg-prev-slide');
-									}
-
-									_this.$slide.eq(index).addClass('lg-current');
-								}
-
-								if (_this.lGalleryOn) {
-									setTimeout(function() {
-										_this.loadContent(index, true, 0);
-									}, this.s.speed + 50);
-
-									setTimeout(function() {
-										_this.lgBusy = false;
-										_this.$el.trigger('onAfterSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
-									}, this.s.speed);
-
-								} else {
-									_this.loadContent(index, true, _this.s.backdropDuration);
-
-									_this.lgBusy = false;
-									_this.$el.trigger('onAfterSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
-								}
-
-								_this.lGalleryOn = true;
-
-								if (this.s.counter) {
-									$('#lg-counter-current').text(index + 1);
-								}
-
-							}
-							_this.index = index;
-						};
-					});
-				}
-
 				// noinspection DuplicatedCode
 				if ($body.hasClass('v2')) {
 					$list_dropdown_v2.html('').html(render_list_dropdown_v2(games_v2));
 					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]['executables']));
 
 					if (!started && games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0]) {
-						$preview.css({
-							'background-image': 'url(' + games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0] + ')',
-							'background-size': 'contain'
-						}).show();
+						if ($.fn.lightSlider) {
+							$preview.html('').html(render_preview(games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'])).show();
+						} else {
+							$preview.css({
+								'background-image': 'url(' + games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0] + ')',
+								'background-size': 'contain'
+							}).show();
+						}
 					}
 
 					$list_table.html('').html(render_list_table(games_v1));
@@ -768,10 +619,14 @@
 					$list_table.html('').html(render_list_table(games_v1));
 
 					if (!started && games_v1['games'][0]['screenshots'][0]) {
-						$preview.css({
-							'background-image': 'url(' + games_v1['games'][0]['screenshots'][0] + ')',
-							'background-size': 'contain'
-						}).show();
+						if ($.fn.lightSlider) {
+							$preview.html('').html(render_preview(games_v1['games'][0]['screenshots'])).show();
+						} else {
+							$preview.css({
+								'background-image': 'url(' + games_v1['games'][0]['screenshots'][0] + ')',
+								'background-size': 'contain'
+							}).show();
+						}
 					}
 
 					if ($.fn.select2) {
@@ -783,6 +638,186 @@
 					}
 
 					$body.find('button').removeClass('btn btn-light');
+				}
+
+				if ($.fn.tooltip) {
+					$body.find('[data-toggle="tooltip"], [data-toggle="dropdown"]').tooltip();
+				}
+
+				if ($.fn.lightSlider) {
+					$body.find('.lightslider').lightSlider({
+						item: 1,
+						gallery: true,
+						loop: true,
+						pager: false,
+						auto: true,
+						speed: 500,
+						slideMargin: 0
+					});
+				}
+
+				if ($.fn.lightGallery) {
+					$body.find('.lightgallery').lightGallery({
+						autoplay: true,
+						selector: '.lightgallery-image'
+					});
+
+					$body.find('.lightgallery').each(function (i, el) {
+						var $el = $(el);
+
+						$el.data('lightGallery').slide = function (index, fromTouch, fromThumb, direction) {
+							var _prevIndex = this.$outer.find('.lg-current').index();
+							var _this = this;
+
+							this.$outer.find('.lg-image').attr('ondragstart', 'return false;');
+
+							// Prevent if multiple call
+							// Required for hsh plugin
+							if (_this.lGalleryOn && (_prevIndex === index)) {
+								return;
+							}
+
+							var _length = this.$slide.length;
+							var _time = _this.lGalleryOn ? this.s.speed : 0;
+
+							if (!_this.lgBusy) {
+
+								if (this.s.download) {
+									var _src;
+									var _download;
+									if (_this.s.dynamic) {
+										_src = _this.s.dynamicEl[index].src;
+										// noinspection JSUnresolvedVariable
+										_download = _this.s.dynamicEl[index].downloadUrl;
+									} else {
+										_src = _this.$items.eq(index).attr('href') || _this.$items.eq(index).attr('data-src');
+										_download = _this.$items.eq(index).attr('data-download-url');
+									}
+
+									if (_src) {
+										$('#lg-download').attr('href', _src).attr('download', _download);
+										_this.$outer.removeClass('lg-hide-download');
+									} else {
+										_this.$outer.addClass('lg-hide-download');
+									}
+								}
+
+								this.$el.trigger('onBeforeSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
+
+								_this.lgBusy = true;
+
+								clearTimeout(_this.hideBartimeout);
+
+								// Add title if this.s.appendSubHtmlTo === lg-sub-html
+								if (this.s.appendSubHtmlTo === '.lg-sub-html') {
+
+									// wait for slide animation to complete
+									setTimeout(function () {
+										_this.addHtml(index);
+									}, _time);
+								}
+
+								this.arrowDisable(index);
+
+								if (!direction) {
+									if (index < _prevIndex) {
+										direction = 'prev';
+									} else if (index > _prevIndex) {
+										direction = 'next';
+									}
+								}
+
+								if (!fromTouch) {
+
+									// remove all transitions
+									_this.$outer.addClass('lg-no-trans');
+
+									this.$slide.removeClass('lg-prev-slide lg-next-slide');
+
+									if (direction === 'prev') {
+
+										//prevslide
+										this.$slide.eq(index).addClass('lg-prev-slide');
+										this.$slide.eq(_prevIndex).addClass('lg-next-slide');
+									} else {
+
+										// next slide
+										this.$slide.eq(index).addClass('lg-next-slide');
+										this.$slide.eq(_prevIndex).addClass('lg-prev-slide');
+									}
+
+									// give 50 ms for browser to add/remove class
+									setTimeout(function () {
+										_this.$slide.removeClass('lg-current');
+
+										//_this.$slide.eq(_prevIndex).removeClass('lg-current');
+										_this.$slide.eq(index).addClass('lg-current');
+
+										// reset all transitions
+										_this.$outer.removeClass('lg-no-trans');
+									}, 50);
+								} else {
+
+									this.$slide.removeClass('lg-prev-slide lg-current lg-next-slide');
+									var touchPrev;
+									var touchNext;
+									if (_length > 2) {
+										touchPrev = index - 1;
+										touchNext = index + 1;
+
+										if ((index === 0) && (_prevIndex === _length - 1)) {
+
+											// next slide
+											touchNext = 0;
+											touchPrev = _length - 1;
+										} else if ((index === _length - 1) && (_prevIndex === 0)) {
+
+											// prev slide
+											touchNext = 0;
+											touchPrev = _length - 1;
+										}
+
+									} else {
+										touchPrev = 0;
+										touchNext = 1;
+									}
+
+									if (direction === 'prev') {
+										_this.$slide.eq(touchNext).addClass('lg-next-slide');
+									} else {
+										_this.$slide.eq(touchPrev).addClass('lg-prev-slide');
+									}
+
+									_this.$slide.eq(index).addClass('lg-current');
+								}
+
+								if (_this.lGalleryOn) {
+									setTimeout(function () {
+										_this.loadContent(index, true, 0);
+									}, this.s.speed + 50);
+
+									setTimeout(function () {
+										_this.lgBusy = false;
+										_this.$el.trigger('onAfterSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
+									}, this.s.speed);
+
+								} else {
+									_this.loadContent(index, true, _this.s.backdropDuration);
+
+									_this.lgBusy = false;
+									_this.$el.trigger('onAfterSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
+								}
+
+								_this.lGalleryOn = true;
+
+								if (this.s.counter) {
+									$('#lg-counter-current').text(index + 1);
+								}
+
+							}
+							_this.index = index;
+						};
+					});
 				}
 			}
 
@@ -1048,10 +1083,15 @@
 
 							$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables']));
 
-							$preview.css({
-								'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][0]['screenshots'][0] + ')',
-								'background-size': 'contain'
-							}).show();
+							// noinspection DuplicatedCode
+							if ($.fn.lightSlider) {
+								$preview.html('').html(render_preview(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][0]['screenshots'])).show();
+							} else {
+								$preview.css({
+									'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][0]['screenshots'][0] + ')',
+									'background-size': 'contain'
+								}).show();
+							}
 						} else {
 							index_selected = parseInt($list_dropdown_v1.val(), 10);
 							var game_selected = $list_dropdown_v1.find('option[value="'+ index_selected +'"]').data('game-id');
@@ -1066,11 +1106,16 @@
 										screenshot = (typeof games_v1['games'][game]['screenshots'] === 'object' ? (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '') : '');
 
 										if (screenshot !== '') {
-											// noinspection JSUnfilteredForInLoop
-											$preview.css({
-												'background-image': 'url(' + (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '') + ')',
-												'background-size': 'contain'
-											}).show();
+											if ($.fn.lightSlider) {
+												// noinspection JSUnfilteredForInLoop
+												$preview.html('').html(render_preview(games_v1['games'][game]['screenshots'])).show();
+											} else {
+												// noinspection JSUnfilteredForInLoop
+												$preview.css({
+													'background-image': 'url(' + (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '') + ')',
+													'background-size': 'contain'
+												}).show();
+											}
 										} else {
 											$preview.hide();
 										}
@@ -1091,11 +1136,27 @@
 													screenshot = (typeof games_v1['games'][game]['clones'][clone]['screenshots'] === 'object' ? (typeof games_v1['games'][game]['clones'][clone]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['screenshots'][0] : (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '')) : (typeof games_v1['games'][game]['screenshots'] === 'object' ? (typeof games_v1['games'][game]['screenshots'][0] !== 'undefined' ? games_v1['games'][game]['screenshots'][0] : '') : ''));
 
 													if (screenshot !== '') {
-														// noinspection JSUnfilteredForInLoop
-														$preview.css({
-															'background-image': 'url(' + screenshot + ')',
-															'background-size': 'contain'
-														}).show();
+														if ($.fn.lightSlider) {
+															// noinspection JSUnfilteredForInLoop
+															if (typeof games_v1['games'][game]['clones'][clone]['screenshots'] === 'object') {
+																// noinspection JSUnfilteredForInLoop
+																$preview.html('').html(render_preview(games_v1['games'][game]['clones'][clone]['screenshots'])).show();
+															} else {
+																// noinspection JSUnfilteredForInLoop
+																if (typeof games_v1['games'][game]['screenshots'] === 'object') {
+																	// noinspection JSUnfilteredForInLoop
+																	$preview.html('').html(render_preview(games_v1['games'][game]['screenshots'])).show();
+																} else {
+																	$preview.hide();
+																}
+															}
+														} else {
+															// noinspection JSUnfilteredForInLoop
+															$preview.css({
+																'background-image': 'url(' + screenshot + ')',
+																'background-size': 'contain'
+															}).show();
+														}
 													} else {
 														$preview.hide();
 													}
@@ -1109,6 +1170,18 @@
 								}
 							}
 						}
+
+						if ($.fn.lightSlider) {
+							$body.find('.lightslider').lightSlider({
+								item: 1,
+								gallery: true,
+								loop: true,
+								pager: false,
+								auto: true,
+								speed: 500,
+								slideMargin: 0
+							});
+						}
 					}
 				});
 				$document.off('change', '.options-dropdown').on('change', '.options-dropdown', function() {
@@ -1119,10 +1192,27 @@
 						var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 						var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
 
-						$preview.css({
-							'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['screenshots'][0] + ')',
-							'background-size': 'contain'
-						}).show();
+						// noinspection DuplicatedCode
+						if ($.fn.lightSlider) {
+							$preview.html('').html(render_preview(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['screenshots'])).show();
+						} else {
+							$preview.css({
+								'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['screenshots'][0] + ')',
+								'background-size': 'contain'
+							}).show();
+						}
+
+						if ($.fn.lightSlider) {
+							$body.find('.lightslider').lightSlider({
+								item: 1,
+								gallery: true,
+								loop: true,
+								pager: false,
+								auto: true,
+								speed: 500,
+								slideMargin: 0
+							});
+						}
 					}
 				});
 				$document.off('change', '.version-dropdown').on('change', '.version-dropdown', function() {
@@ -1133,6 +1223,19 @@
 					$body.find('.select2-container--bootstrap4 .select2-results > .select2-results__options').css({
 						'max-height': $window.height() - 57
 					});
+
+					if (preview_timeout === null) {
+						preview_timeout = setTimeout(function() {
+							clearTimeout(preview_timeout);
+							preview_timeout = null;
+
+							if ($body.hasClass('v1')) {
+								$list_dropdown_v1.trigger('change');
+							} else {
+								$list_dropdown_v2.trigger('change');
+							}
+						}, 100);
+					}
 				});
 				$window.trigger('resize');
 			} else {
