@@ -49,6 +49,15 @@
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
 			jsonpath: '../../../../js/libraries/jsonpath-1.0.2.min',
 			jszip: '../../../../js/libraries/jszip-3.2.2.min',
+			'lightgallery': '../../../../js/libraries/lightgallery-1.6.12.min',
+			'lightgallery-autoplay': '../../../../js/libraries/lightgallery-autoplay-1.6.12.min',
+			'lightgallery-fullscreen': '../../../../js/libraries/lightgallery-fullscreen-1.6.12.min',
+			'lightgallery-hash': '../../../../js/libraries/lightgallery-hash-1.6.12.min',
+			'lightgallery-pager': '../../../../js/libraries/lightgallery-pager-1.6.12.min',
+			'lightgallery-share': '../../../../js/libraries/lightgallery-share-1.6.12.min',
+			'lightgallery-thumbnail': '../../../../js/libraries/lightgallery-thumbnail-1.6.12.min',
+			'lightgallery-video': '../../../../js/libraries/lightgallery-video-1.6.12.min',
+			'lightgallery-zoom': '../../../../js/libraries/lightgallery-zoom-1.6.12.min',
 			loader: '../../../../js/libraries/emularity',
 			moment: '../../../../js/libraries/moment-2.24.0.min',
 			'moment-timezone': '../../../../js/libraries/moment-timezone-0.5.27.min',
@@ -62,7 +71,7 @@
 		},
 		shim: {
 			bootstrap: {
-				deps: ['jquery', 'popper']
+				deps: ['jquery', 'popper', 'lightgallery-autoplay', 'lightgallery-thumbnail', 'lightgallery-zoom']
 			},
 			browserfs: {
 				exports: 'BrowserFS',
@@ -82,6 +91,30 @@
 			},
 			es6promise: {
 				exports: 'Promise'
+			},
+			'lightgallery-autoplay': {
+				deps: ['lightgallery']
+			},
+			'lightgallery-fullscreen': {
+				deps: ['lightgallery']
+			},
+			'lightgallery-pager': {
+				deps: ['lightgallery']
+			},
+			'lightgallery-hash': {
+				deps: ['lightgallery']
+			},
+			'lightgallery-share': {
+				deps: ['lightgallery']
+			},
+			'lightgallery-thumbnail': {
+				deps: ['lightgallery']
+			},
+			'lightgallery-video': {
+				deps: ['lightgallery']
+			},
+			'lightgallery-zoom': {
+				deps: ['lightgallery']
 			},
 			purl: {
 				deps: ['jquery']
@@ -357,6 +390,170 @@
 
 				if ($.fn.tooltip) {
 					$body.find('[data-toggle="tooltip"], [data-toggle="dropdown"]').tooltip();
+				}
+
+				if ($.fn.lightGallery) {
+					$body.find('.lightgallery').lightGallery({
+						autoplay: true,
+						selector: '.lightgallery-image'
+					});
+
+					$body.find('.lightgallery').each(function(i, el) {
+						var $el = $(el);
+
+						$el.data('lightGallery').slide = function(index, fromTouch, fromThumb, direction) {
+							var _prevIndex = this.$outer.find('.lg-current').index();
+							var _this = this;
+
+							this.$outer.find('.lg-image').attr('ondragstart', 'return false;');
+
+							// Prevent if multiple call
+							// Required for hsh plugin
+							if (_this.lGalleryOn && (_prevIndex === index)) {
+								return;
+							}
+
+							var _length = this.$slide.length;
+							var _time = _this.lGalleryOn ? this.s.speed : 0;
+
+							if (!_this.lgBusy) {
+
+								if (this.s.download) {
+									var _src;
+									var _download;
+									if (_this.s.dynamic) {
+										_src = _this.s.dynamicEl[index].src;
+										// noinspection JSUnresolvedVariable
+										_download = _this.s.dynamicEl[index].downloadUrl;
+									} else {
+										_src = _this.$items.eq(index).attr('href') || _this.$items.eq(index).attr('data-src');
+										_download = _this.$items.eq(index).attr('data-download-url');
+									}
+
+									if (_src) {
+										$('#lg-download').attr('href', _src).attr('download', _download);
+										_this.$outer.removeClass('lg-hide-download');
+									} else {
+										_this.$outer.addClass('lg-hide-download');
+									}
+								}
+
+								this.$el.trigger('onBeforeSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
+
+								_this.lgBusy = true;
+
+								clearTimeout(_this.hideBartimeout);
+
+								// Add title if this.s.appendSubHtmlTo === lg-sub-html
+								if (this.s.appendSubHtmlTo === '.lg-sub-html') {
+
+									// wait for slide animation to complete
+									setTimeout(function() {
+										_this.addHtml(index);
+									}, _time);
+								}
+
+								this.arrowDisable(index);
+
+								if (!direction) {
+									if (index < _prevIndex) {
+										direction = 'prev';
+									} else if (index > _prevIndex) {
+										direction = 'next';
+									}
+								}
+
+								if (!fromTouch) {
+
+									// remove all transitions
+									_this.$outer.addClass('lg-no-trans');
+
+									this.$slide.removeClass('lg-prev-slide lg-next-slide');
+
+									if (direction === 'prev') {
+
+										//prevslide
+										this.$slide.eq(index).addClass('lg-prev-slide');
+										this.$slide.eq(_prevIndex).addClass('lg-next-slide');
+									} else {
+
+										// next slide
+										this.$slide.eq(index).addClass('lg-next-slide');
+										this.$slide.eq(_prevIndex).addClass('lg-prev-slide');
+									}
+
+									// give 50 ms for browser to add/remove class
+									setTimeout(function() {
+										_this.$slide.removeClass('lg-current');
+
+										//_this.$slide.eq(_prevIndex).removeClass('lg-current');
+										_this.$slide.eq(index).addClass('lg-current');
+
+										// reset all transitions
+										_this.$outer.removeClass('lg-no-trans');
+									}, 50);
+								} else {
+
+									this.$slide.removeClass('lg-prev-slide lg-current lg-next-slide');
+									var touchPrev;
+									var touchNext;
+									if (_length > 2) {
+										touchPrev = index - 1;
+										touchNext = index + 1;
+
+										if ((index === 0) && (_prevIndex === _length - 1)) {
+
+											// next slide
+											touchNext = 0;
+											touchPrev = _length - 1;
+										} else if ((index === _length - 1) && (_prevIndex === 0)) {
+
+											// prev slide
+											touchNext = 0;
+											touchPrev = _length - 1;
+										}
+
+									} else {
+										touchPrev = 0;
+										touchNext = 1;
+									}
+
+									if (direction === 'prev') {
+										_this.$slide.eq(touchNext).addClass('lg-next-slide');
+									} else {
+										_this.$slide.eq(touchPrev).addClass('lg-prev-slide');
+									}
+
+									_this.$slide.eq(index).addClass('lg-current');
+								}
+
+								if (_this.lGalleryOn) {
+									setTimeout(function() {
+										_this.loadContent(index, true, 0);
+									}, this.s.speed + 50);
+
+									setTimeout(function() {
+										_this.lgBusy = false;
+										_this.$el.trigger('onAfterSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
+									}, this.s.speed);
+
+								} else {
+									_this.loadContent(index, true, _this.s.backdropDuration);
+
+									_this.lgBusy = false;
+									_this.$el.trigger('onAfterSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
+								}
+
+								_this.lGalleryOn = true;
+
+								if (this.s.counter) {
+									$('#lg-counter-current').text(index + 1);
+								}
+
+							}
+							_this.index = index;
+						};
+					});
 				}
 
 				// noinspection DuplicatedCode
