@@ -902,7 +902,10 @@
 									DosBoxLoader.extraArgs(args),
 									DosBoxLoader.startExe(executable)));
 							emulator.start({waitAfterDownloading: false});
-							started = true;
+							$list_table.hide();
+							$preview.hide();
+							$start.hide();
+							//started = true;
 						}
 					}, 100);
 				} else {
@@ -927,7 +930,10 @@
 								DosBoxLoader.extraArgs(args),
 								DosBoxLoader.startExe(executable)));
 						emulator.start({waitAfterDownloading: false});
-						started = true;
+						$list_table.hide();
+						$preview.hide();
+						$start.hide();
+						//started = true;
 					}).catch(function(error) {
 						console.log(error);
 					});
@@ -1097,6 +1103,8 @@
 					var screenshot;
 
 					if (!started) {
+						$start.show();
+
 						if ($body.hasClass('v2')) {
 							index_selected = parseInt($list_dropdown_v2.val(), 10);
 							var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
