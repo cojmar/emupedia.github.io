@@ -49,7 +49,7 @@
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
-			jsdos: '../../../../js/libraries/js-dos-6.22.33.min',
+			jsdos: '../../../../js/libraries/js-dos-6.22.34.min',
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
 			jsonpath: '../../../../js/libraries/jsonpath-1.0.2.min',
 			jszip: '../../../../js/libraries/jszip-3.2.2.min',
@@ -402,6 +402,7 @@
 				return html;
 			}
 
+			// noinspection DuplicatedCode
 			function render_preview(screenshots) {
 				var html = '<ul class="lightslider">';
 
@@ -960,11 +961,14 @@
 			function start_v2(file, args) {
 				// noinspection JSUnresolvedFunction
 				Dos($canvas.get(0), {
-					wdosboxUrl: 'js/wdosbox.js'
+					wdosboxUrl: 'js/wdosbox.js',
+					autolock: true
 				}).ready(function(fs, main) {
+					fs.createFile('dosbox.conf', '\n\r[sdl]\n\rautolock=true\n\r');
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						fs.extract(response.link).then(function() {
 							main(args).then(function(ci) {
+								console.log(ci.dos);
 								$list_table.hide();
 								$preview.hide();
 								$start.hide();
@@ -1031,7 +1035,7 @@
 										var args = games_v2['software']['type'][genre]['games'][g]['executables'][e]['args'] || [];
 										// noinspection JSUnfilteredForInLoop
 										var executable = games_v2['software']['type'][genre]['games'][g]['executables'][e]['executable'] || '';
-										args.push('-c', executable.replace('./', ''));
+										args.push('-conf', 'dosbox.conf', '-c', executable.replace('./', ''));
 										start_v2(file, args);
 										break;
 									}
@@ -1137,7 +1141,7 @@
 						var args = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['args'] || [];
 						var executable = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['executable'] || '';
 
-						args.push('-c', executable.replace('./', ''));
+						args.push('-conf', 'dosbox.conf', '-c', executable.replace('./', ''));
 
 						if (first) {
 							first = false;
