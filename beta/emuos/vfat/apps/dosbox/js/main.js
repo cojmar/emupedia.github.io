@@ -968,14 +968,12 @@
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						fs.extract(response.link).then(function() {
 							main(args).then(function(ci) {
-								console.log(ci.dos);
 								$list_table.hide();
 								$preview.hide();
 								$start.hide();
 								started = true;
 								window.Module = ci.dos;
 								window.ci = ci;
-								// ci.createKeyboardLayout();
 							});
 						});
 					});
