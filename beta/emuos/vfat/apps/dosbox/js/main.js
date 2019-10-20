@@ -911,7 +911,8 @@
 
 										return filename;
 									}),
-									DosBoxLoader.nativeResolution(640, 400),
+									DosBoxLoader.nativeResolution(320, 200),
+									DosBoxLoader.scale(2),
 									DosBoxLoader.mountZip('a', DosBoxLoader.fetchFile('OS File', get_file_order(0, file, files))),
 									DosBoxLoader.mountZip('b', DosBoxLoader.fetchFile('Game File', get_file_order(1, file, files))),
 									DosBoxLoader.extraArgs(args),
@@ -940,7 +941,8 @@
 
 									return filename;
 								}),
-								DosBoxLoader.nativeResolution(640, 400),
+								DosBoxLoader.nativeResolution(320, 200),
+								DosBoxLoader.scale(2),
 								DosBoxLoader.mountZip('c', DosBoxLoader.fetchFile('Game File', response.link)),
 								DosBoxLoader.extraArgs(args),
 								DosBoxLoader.startExe(executable)));
@@ -958,8 +960,7 @@
 			function start_v2(file, args) {
 				// noinspection JSUnresolvedFunction
 				Dos($canvas.get(0), {
-					wdosboxUrl: 'js/wdosbox.js',
-					cycles: 'max'
+					wdosboxUrl: 'js/wdosbox.js'
 				}).ready(function(fs, main) {
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						fs.extract(response.link).then(function() {
