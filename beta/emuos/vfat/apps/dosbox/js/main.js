@@ -1001,9 +1001,12 @@
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && (SYSTEM_FEATURE_ASMJS || SYSTEM_FEATURE_WEBASSEMBLY)) {
 				var index_selected;
+
 				first = typeof $.url().param('game') !== 'undefined' ? $.url().param('game') : (typeof $.url().param('gamev2') !== 'undefined' ? $.url().param('gamev2') : false);
 
 				if (typeof $.url().param('gamev2') !== 'undefined') {
+					$version_dropdown.find('option').prop('selected', false).removeAttr('selected');
+					$version_dropdown.find('option[value="v2"]').prop('selected', true).attr('selected', true);
 					$body.removeClass('v1 v2').addClass('v2');
 				}
 
@@ -1022,6 +1025,8 @@
 						$list_dropdown_v2.find('option').prop('selected', false).removeAttr('selected');
 						$options_dropdown.find('option').prop('selected', false).removeAttr('selected');
 
+						index_selected = 0;
+
 						for (var genre in games_v2['software']['type']) {
 							// noinspection JSUnfilteredForInLoop
 							for (var g in games_v2['software']['type'][genre]['games']) {
@@ -1029,6 +1034,11 @@
 								for (var e in games_v2['software']['type'][genre]['games'][g]['executables']) {
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
 									if (games_v2['software']['type'][genre]['games'][g]['executables'][e]['id'] === first) {
+										$list_dropdown_v2.find('option[value="' + index_selected + '"]').prop('selected', true).attr('selected', true).trigger('change');
+										var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
+										var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
+										$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables']));
+										$options_dropdown.find('option[value="' + e + '"]').prop('selected', true).attr('selected', true).trigger('change');
 										// noinspection JSUnfilteredForInLoop
 										var file = games_v2['software']['type'][genre]['games'][g]['executables'][e]['file'] || '';
 										// noinspection JSUnfilteredForInLoop
@@ -1040,6 +1050,7 @@
 										break;
 									}
 								}
+								index_selected++;
 							}
 						}
 					} else {
@@ -1209,6 +1220,7 @@
 					if (!started) {
 						$start.show();
 
+						// noinspection DuplicatedCode
 						if ($body.hasClass('v2')) {
 							index_selected = parseInt($list_dropdown_v2.val(), 10);
 							var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
