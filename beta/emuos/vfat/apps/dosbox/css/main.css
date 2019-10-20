@@ -180,6 +180,11 @@ canvas {
 	height: 100%;
 }
 
+.v1 .dosbox-container {
+	width: 100%;
+	height: 100%;
+}
+
 .v1 .fullscreen {
 	float: right;
 }
@@ -322,6 +327,11 @@ canvas {
 
 /*noinspection DuplicatedCode*/
 .v2 a.start img {
+	width: 100%;
+	height: 100%;
+}
+
+.v2 .dosbox-container {
 	width: 100%;
 	height: 100%;
 }
