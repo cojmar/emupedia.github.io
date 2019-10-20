@@ -6,6 +6,7 @@
 	var $body							= null;
 	var $window							= null;
 	var $document						= null;
+	var $canvas							= null;
 	var $version_dropdown				= null;
 	var $list_dropdown_v1				= null;
 	var $list_dropdown_v2				= null;
@@ -17,6 +18,7 @@
 	var dbx								= null;
 	var perfect_scrollbar				= null;
 	var lightslider						= null;
+	var first							= true;
 	var started							= false;
 
 	// noinspection JSFileReferences,JSUnresolvedFunction
@@ -47,6 +49,7 @@
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
+			jsdos: '../../../../js/libraries/js-dos-6.22.33.min',
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
 			jsonpath: '../../../../js/libraries/jsonpath-1.0.2.min',
 			jszip: '../../../../js/libraries/jszip-3.2.2.min',
@@ -69,11 +72,12 @@
 			popper: '../../../../js/libraries/popper-1.16.0.min',
 			purl: '../../../../js/libraries/purl-2.3.1',
 			select2: '../../../../js/libraries/select2-4.0.11.min',
-			text: '../../../../js/libraries/requirejs-text-2.0.15'
+			text: '../../../../js/libraries/requirejs-text-2.0.15',
+			wdosbox: 'wdosbox'
 		},
 		shim: {
 			bootstrap: {
-				deps: ['jquery', 'popper', 'lightslider', 'lightgallery-autoplay', 'lightgallery-thumbnail', 'lightgallery-zoom']
+				deps: ['jquery', 'popper', 'lightslider']
 			},
 			browserfs: {
 				exports: 'BrowserFS',
@@ -93,6 +97,13 @@
 			},
 			es6promise: {
 				exports: 'Promise'
+			},
+			jsdos: {
+				exports: 'Dos',
+				deps: ['wdosbox'],
+				init: function(wdosbox) {
+					window.WDOSBOX = wdosbox;
+				}
 			},
 			'lightgallery-autoplay': {
 				deps: ['lightgallery']
@@ -138,6 +149,9 @@
 			'moment-timezone': {
 				exports: 'moment',
 				deps: ['moment']
+			},
+			wdosbox: {
+				exports: 'WDOSBOX'
 			}
 		}
 	});
@@ -150,6 +164,7 @@
 		'json!../../../../js/config/games-v3.json',
 		'purl',
 		'browserfs',
+		'jsdos',
 		'dropbox',
 		'es6fetch',
 		'jsonpath',
@@ -165,7 +180,7 @@
 		'datatables.net-select-bs4',
 		'perfect-scrollbar',
 		'select2'
-	], function($, games_v1, games_v2, games_v3, purl, browserfs, dropbox, fetch, jp, loader, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4, PerfectScrollbar, select2) {
+	], function($, games_v1, games_v2, games_v3, purl, browserfs, Dos, dropbox, fetch, jp, loader, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4, PerfectScrollbar, select2) {
 		$(function() {
 			// noinspection JSUnusedLocalSymbols
 			function format_name(name) {
@@ -842,7 +857,7 @@
 				}
 			}
 
-			function start(file, executable, args, mode, sync, old) {
+			function start_v1(file, executable, args, mode, sync, old) {
 				if (typeof sync !== 'undefined') {
 					if (sync === true) {
 						sync = '';
@@ -883,7 +898,7 @@
 							clearInterval(int);
 							int = null;
 							// noinspection JSUnresolvedFunction,JSUnresolvedVariable,AmdModulesDependencies
-							var emulator = new Emulator(document.getElementById('canvas'), null,
+							var emulator = new Emulator($canvas.get(0), null,
 								new DosBoxLoader(DosBoxLoader.emulatorJS(SYSTEM_FEATURE_WEBASSEMBLY && mode !== 'asm' ? 'js/dosbox-' + sync + 'sync-wasm.js' : (SYSTEM_FEATURE_ASMJS ? 'js/dosbox-' + sync + 'sync' + old + '-asm.js' : alert('DOSBox cannot work because WebAssembly and/or ASM.JS is not supported in your browser!'))),
 									DosBoxLoader.locateAdditionalEmulatorJS(function(filename) {
 										if (filename === 'dosbox.html.mem') {
@@ -905,14 +920,14 @@
 							$list_table.hide();
 							$preview.hide();
 							$start.hide();
-							//started = true;
+							started = true;
 						}
 					}, 100);
 				} else {
 					// noinspection JSUnresolvedFunction
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						// noinspection JSUnresolvedFunction,JSUnresolvedVariable,AmdModulesDependencies
-						var emulator = new Emulator(document.getElementById('canvas'), null,
+						var emulator = new Emulator($canvas.get(0), null,
 							new DosBoxLoader(DosBoxLoader.emulatorJS(SYSTEM_FEATURE_WEBASSEMBLY && mode !== 'asm' ? 'js/dosbox-' + sync + 'sync-wasm.js' : (SYSTEM_FEATURE_ASMJS ? 'js/dosbox-' + sync + 'sync' + old + '-asm.js' : alert('DOSBox cannot work because WebAssembly and/or ASM.JS is not supported in your browser!'))),
 								DosBoxLoader.locateAdditionalEmulatorJS(function(filename) {
 									if (filename === 'dosbox.html.mem') {
@@ -933,11 +948,33 @@
 						$list_table.hide();
 						$preview.hide();
 						$start.hide();
-						//started = true;
+						started = true;
 					}).catch(function(error) {
 						console.log(error);
 					});
 				}
+			}
+
+			function start_v2(file, args) {
+				// noinspection JSUnresolvedFunction
+				Dos($canvas.get(0), {
+					wdosboxUrl: 'js/wdosbox.js',
+					cycles: 'max'
+				}).ready(function(fs, main) {
+					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
+						fs.extract(response.link).then(function() {
+							main(args).then(function(ci) {
+								$list_table.hide();
+								$preview.hide();
+								$start.hide();
+								started = true;
+								window.Module = ci.dos;
+								window.ci = ci;
+								// ci.createKeyboardLayout();
+							});
+						});
+					});
+				});
 			}
 
 			// noinspection JSUnresolvedFunction
@@ -947,6 +984,7 @@
 			$window				= $(window);
 			$html				= $('html');
 			$body				= $('body');
+			$canvas				= $('#canvas');
 			$version_dropdown	= $('.version-dropdown');
 			$list_dropdown_v1	= $('.list-dropdown-v1');
 			$list_dropdown_v2	= $('.list-dropdown-v2');
@@ -957,28 +995,60 @@
 
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && (SYSTEM_FEATURE_ASMJS || SYSTEM_FEATURE_WEBASSEMBLY)) {
-				var first = typeof $.url().param('game') === 'undefined';
+				var index_selected;
+				first = typeof $.url().param('game') !== 'undefined' ? $.url().param('game') : (typeof $.url().param('gamev2') !== 'undefined' ? $.url().param('gamev2') : false);
+
+				if (typeof $.url().param('gamev2') !== 'undefined') {
+					$body.removeClass('v1 v2').addClass('v2');
+				}
+
+				if (typeof $.url().param('game') !== 'undefined') {
+					$body.removeClass('v1 v2').addClass('v1');
+				}
 
 				init();
 
-				if (!first) {
-					if ($body.hasClass('v2')) {
+				if (first) {
+					$list_table.hide();
+					$preview.hide();
+					$start.hide();
 
+					if ($body.hasClass('v2')) {
+						$list_dropdown_v2.find('option').prop('selected', false).removeAttr('selected');
+						$options_dropdown.find('option').prop('selected', false).removeAttr('selected');
+
+						for (var genre in games_v2['software']['type']) {
+							// noinspection JSUnfilteredForInLoop
+							for (var g in games_v2['software']['type'][genre]['games']) {
+								// noinspection JSUnfilteredForInLoop
+								for (var e in games_v2['software']['type'][genre]['games'][g]['executables']) {
+									// noinspection JSUnfilteredForInLoop,DuplicatedCode
+									if (games_v2['software']['type'][genre]['games'][g]['executables'][e]['id'] === first) {
+										// noinspection JSUnfilteredForInLoop
+										var file = games_v2['software']['type'][genre]['games'][g]['executables'][e]['file'] || '';
+										// noinspection JSUnfilteredForInLoop
+										var args = games_v2['software']['type'][genre]['games'][g]['executables'][e]['args'] || [];
+										// noinspection JSUnfilteredForInLoop
+										var executable = games_v2['software']['type'][genre]['games'][g]['executables'][e]['executable'] || '';
+										args.push('-c', executable.replace('./', ''));
+										start_v2(file, args);
+										break;
+									}
+								}
+							}
+						}
 					} else {
 						$list_dropdown_v1.find('option').prop('selected', false).removeAttr('selected');
 
-						var index_selected = parseInt($.url().param('game'), 10);
+						index_selected = parseInt($.url().param('game'), 10);
 						var game_selected = $list_dropdown_v1.find('option[value="'+ index_selected +'"]').prop('selected', true).attr('selected', true).data('game-id');
 
 						// noinspection DuplicatedCode
 						for (var game in games_v1['games']) {
 							// noinspection JSUnfilteredForInLoop,DuplicatedCode
 							if (games_v1['games'][game]['id'] === game_selected) {
-								$list_table.hide();
-								$preview.hide();
-								$start.hide();
 								// noinspection JSUnfilteredForInLoop,DuplicatedCode
-								start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
+								start_v1(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 								break;
 							} else {
 								// noinspection JSUnfilteredForInLoop
@@ -987,11 +1057,8 @@
 									for (var clone in games_v1['games'][game]['clones']) {
 										// noinspection JSUnfilteredForInLoop,DuplicatedCode
 										if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
-											$list_table.hide();
-											$preview.hide();
-											$start.hide();
 											// noinspection JSUnfilteredForInLoop,DuplicatedCode
-											start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
+											start_v1((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 											break;
 										}
 									}
@@ -999,6 +1066,10 @@
 							}
 						}
 					}
+
+					first = false;
+				} else {
+					$window.trigger('resize');
 				}
 
 				// noinspection DuplicatedCode
@@ -1022,7 +1093,7 @@
 									$preview.hide();
 									$start.hide();
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
-									start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
+									start_v1(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 									break;
 								} else {
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
@@ -1035,7 +1106,7 @@
 												$preview.hide();
 												$start.hide();
 												// noinspection JSUnfilteredForInLoop,DuplicatedCode
-												start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
+												start_v1((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 												break;
 											}
 										}
@@ -1053,10 +1124,33 @@
 				});
 				// noinspection DuplicatedCode
 				$document.off('click', '.load').on('click', '.load', function() {
-					if ($body.hasClass('v2')) {
+					var index_selected;
 
+					// noinspection DuplicatedCode
+					if ($body.hasClass('v2')) {
+						index_selected = parseInt($list_dropdown_v2.val(), 10);
+						var option_selected = parseInt($options_dropdown.val(), 10);
+						var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
+						var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
+
+						var id = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['id'] || '';
+						var file = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['file'] || '';
+						var args = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['args'] || [];
+						var executable = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['executable'] || '';
+
+						args.push('-c', executable.replace('./', ''));
+
+						if (first) {
+							first = false;
+							$list_table.hide();
+							$preview.hide();
+							$start.hide();
+							start_v2(file, args);
+						} else {
+							location.href = location.protocol + '//' + location.host + location.pathname + '?gamev2=' + id;
+						}
 					} else {
-						var index_selected = parseInt($list_dropdown_v1.val(), 10);
+						index_selected = parseInt($list_dropdown_v1.val(), 10);
 						var game_selected = $list_dropdown_v1.find('option[value="' + index_selected + '"]').data('game-id');
 
 						// noinspection DuplicatedCode
@@ -1071,7 +1165,7 @@
 									$preview.hide();
 									$start.hide();
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
-									start(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
+									start_v1(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 									break;
 								} else {
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
@@ -1084,7 +1178,7 @@
 												$preview.hide();
 												$start.hide();
 												// noinspection JSUnfilteredForInLoop,DuplicatedCode
-												start((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
+												start_v1((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 											}
 										}
 									}
@@ -1101,6 +1195,7 @@
 				$document.off('change', '.list-dropdown-v1, .list-dropdown-v2').on('change', '.list-dropdown-v1, .list-dropdown-v2', function() {
 					var index_selected;
 					var screenshot;
+					started = false;
 
 					if (!started) {
 						$start.show();
@@ -1253,10 +1348,10 @@
 						'max-height': $window.height() - 57
 					});
 
-					if ($body.hasClass('v1')) {
-						$list_dropdown_v1.trigger('change');
-					} else {
+					if ($body.hasClass('v2')) {
 						$list_dropdown_v2.trigger('change');
+					} else {
+						$list_dropdown_v1.trigger('change');
 					}
 
 					if (typeof lightslider !== 'undefined') {
@@ -1265,7 +1360,6 @@
 						}
 					}
 				});
-				$window.trigger('resize');
 			} else {
 				alert('DOSBox cannot work because your browser is not supported!')
 			}
