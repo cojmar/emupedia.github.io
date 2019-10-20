@@ -1382,7 +1382,7 @@
 					$preview.find('img').width(width);
 					$preview.find('img').height(height);
 
-					if (typeof lightslider !== 'undefined') {
+					if (lightslider) {
 						if (typeof lightslider.refresh === 'function') {
 							lightslider.refresh();
 						}
