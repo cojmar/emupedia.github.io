@@ -129,6 +129,9 @@
 			'lightgallery-zoom': {
 				deps: ['lightgallery']
 			},
+			lightslider: {
+				deps: ['jquery']
+			},
 			purl: {
 				deps: ['jquery']
 			},
