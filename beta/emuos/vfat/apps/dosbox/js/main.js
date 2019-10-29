@@ -1039,7 +1039,7 @@
 										var args = games_v2['software']['type'][genre]['games'][g]['executables'][e]['args'] || [];
 										// noinspection JSUnfilteredForInLoop
 										var executable = games_v2['software']['type'][genre]['games'][g]['executables'][e]['executable'] || '';
-										args.push('-conf', 'dosbox.conf', '-c', executable.replace('./', ''));
+										args.push('-c', executable.replace('./', ''));
 										start_v2(file, args);
 										break;
 									}
@@ -1146,7 +1146,7 @@
 						var args = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['args'] || [];
 						var executable = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['executable'] || '';
 
-						args.push('-conf', 'dosbox.conf', '-c', executable.replace('./', ''));
+						args.push('-c', executable.replace('./', ''));
 
 						if (first) {
 							first = false;
