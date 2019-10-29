@@ -961,7 +961,6 @@
 					wdosboxUrl: 'js/wdosbox.js',
 					autolock: true
 				}).ready(function(fs, main) {
-					fs.createFile('dosbox.conf', '\n\r[sdl]\n\rautolock=true\n\r');
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						fs.extract(response.link).then(function() {
 							$list_table.hide();
