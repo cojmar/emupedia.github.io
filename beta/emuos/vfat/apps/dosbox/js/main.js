@@ -49,7 +49,7 @@
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
-			jsdos: '../../../../js/libraries/js-dos-6.22.36.min',
+			jsdos: '../../../../js/libraries/js-dos-6.22.37.min',
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
 			jsonpath: '../../../../js/libraries/jsonpath-1.0.2.min',
 			jszip: '../../../../js/libraries/jszip-3.2.2.min',
@@ -100,10 +100,7 @@
 			},
 			jsdos: {
 				exports: 'Dos',
-				deps: ['wdosbox'],
-				init: function(wdosbox) {
-					window.WDOSBOX = wdosbox;
-				}
+				deps: ['wdosbox']
 			},
 			'lightgallery-autoplay': {
 				deps: ['lightgallery']
@@ -152,9 +149,6 @@
 			'moment-timezone': {
 				exports: 'moment',
 				deps: ['moment']
-			},
-			wdosbox: {
-				exports: 'WDOSBOX'
 			}
 		}
 	});
@@ -970,12 +964,12 @@
 					fs.createFile('dosbox.conf', '\n\r[sdl]\n\rautolock=true\n\r');
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						fs.extract(response.link).then(function() {
+							$list_table.hide();
+							$preview.hide();
+							$start.hide();
+							started = true;
+
 							main(args).then(function(ci) {
-								$list_table.hide();
-								$preview.hide();
-								$start.hide();
-								started = true;
-								window.Module = ci.dos;
 								window.ci = ci;
 							});
 						});
@@ -1208,9 +1202,17 @@
 					$list_table.toggle();
 				});
 				$document.off('click', '.fullscreen').on('click', '.fullscreen', function() {
-					if (Module) {
-						Module.requestFullscreen(true, false);
-						started = true;
+					if ($body.hasClass('v2')) {
+						// noinspection JSUnresolvedVariable
+						if (window.ci) {
+							// noinspection JSUnresolvedVariable
+							window.ci.fullscreen();
+						}
+					} else {
+						if (Module) {
+							Module.requestFullscreen(true, false);
+							started = true;
+						}
 					}
 				});
 				$document.off('change', '.list-dropdown-v1, .list-dropdown-v2').on('change', '.list-dropdown-v1, .list-dropdown-v2', function() {
