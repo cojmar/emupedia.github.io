@@ -954,12 +954,6 @@
 			}
 
 			function start_v2(file, args, sync, cycles) {
-				console.log('sync');
-				console.log(sync ? 'js/wdosbox.js' : 'js/wdosbox-nosync.js');
-
-				console.log('cycles');
-				console.log(cycles ? cycles : 'auto');
-
 				// noinspection JSUnresolvedFunction
 				Dos($canvas.get(0), {
 					cycles: cycles ? cycles : 'auto',
