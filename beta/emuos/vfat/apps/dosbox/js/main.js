@@ -49,7 +49,7 @@
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
-			jsdos: '../../../../js/libraries/js-dos-6.22.38.min',
+			jsdos: '../../../../js/libraries/js-dos-6.22.41.min',
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
 			jsonpath: '../../../../js/libraries/jsonpath-1.0.2.min',
 			jszip: '../../../../js/libraries/jszip-3.2.2.min',
@@ -953,11 +953,11 @@
 				}
 			}
 
-			function start_v2(file, args, sync, cycles) {
+			function start_v2(file, args, mode, sync, cycles) {
 				// noinspection JSUnresolvedFunction
 				Dos($canvas.get(0), {
 					cycles: cycles ? cycles : 'auto',
-					wdosboxUrl: sync ? 'js/wdosbox.js' : 'js/wdosbox-nosync.js',
+					wdosboxUrl: mode === 'asm' ? (sync ? 'js/dosbox.js' : 'js/dosbox-nosync.js') : (sync ? 'js/wdosbox.js' : 'js/wdosbox-nosync.js'),
 					autolock: true
 				}).ready(function(fs, main) {
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
@@ -1037,13 +1037,15 @@
 										// noinspection JSUnfilteredForInLoop
 										var args = games_v2['software']['type'][genre]['games'][g]['executables'][e]['args'] || [];
 										// noinspection JSUnfilteredForInLoop
+										var mode = games_v2['software']['type'][genre]['games'][g]['executables'][e]['mode'];
+										// noinspection JSUnfilteredForInLoop
 										var sync = games_v2['software']['type'][genre]['games'][g]['executables'][e]['sync'];
 										// noinspection JSUnfilteredForInLoop
 										var cycles = games_v2['software']['type'][genre]['games'][g]['executables'][e]['cycles'];
 										// noinspection JSUnfilteredForInLoop
 										var executable = games_v2['software']['type'][genre]['games'][g]['executables'][e]['executable'] || '';
 										args.push('-c', executable.replace('./', ''));
-										start_v2(file, args, sync, cycles);
+										start_v2(file, args, mode, sync, cycles);
 										break;
 									}
 								}
@@ -1148,6 +1150,7 @@
 						var file = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['file'] || '';
 						var args = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['args'] || [];
 						var executable = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['executable'] || '';
+						var mode = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['mode'];
 						var sync = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['sync'];
 						var cycles = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['cycles'];
 
@@ -1158,7 +1161,7 @@
 							$list_table.hide();
 							$preview.hide();
 							$start.hide();
-							start_v2(file, args, sync, cycles);
+							start_v2(file, args, mode, sync, cycles);
 						} else {
 							location.href = location.protocol + '//' + location.host + location.pathname + '?gamev2=' + id;
 						}
