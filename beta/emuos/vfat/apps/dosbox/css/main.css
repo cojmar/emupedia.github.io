@@ -12,6 +12,7 @@ body {
 	color: #000;
 	font-family: 'MS Sans Serif', 'Arial', sans-serif;
 	font-size: 12px;
+	text-align: center;
 	overflow: hidden;
 }
 
@@ -56,6 +57,7 @@ canvas {
 
 .v1 .controls {
 	height: 22px;
+	text-align: left;
 	overflow: hidden;
 }
 
@@ -195,6 +197,7 @@ canvas {
 
 .v2 .controls {
 	height: 22px;
+	text-align: left;
 	overflow: hidden;
 	border-bottom: 1px solid #000;
 }
@@ -331,8 +334,14 @@ canvas {
 	height: 100%;
 }
 
+/*noinspection CssOverwrittenProperties*/
 .v2 .dosbox-container {
 	width: 100%;
+	height: 100%;
+	height: calc(100% - 22px);
+}
+
+.v2 canvas {
 	height: 100%;
 }
 

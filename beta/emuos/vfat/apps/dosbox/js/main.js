@@ -1554,8 +1554,11 @@
 						height = $preview.height();
 					}
 
-					$preview.find('img').width(width);
-					$preview.find('img').height(height);
+					if ($body.hasClass('v2')) {
+						$body.find('.dosbox-container').width(width).height(height);
+					}
+
+					$preview.find('img').width(width).height(height);
 
 					if (lightslider) {
 						if (typeof lightslider.refresh === 'function') {
