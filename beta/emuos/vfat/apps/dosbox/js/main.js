@@ -200,6 +200,168 @@
 				return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 			}
 
+			// noinspection JSUnusedLocalSymbols
+			function v1_to_v2(v1) {
+				var v2 = {
+					"format": {
+						"version": "2.0"
+					},
+					"software": {
+						"type": [{
+							"id": "action",
+							"name": "Action",
+							"games": []
+						} , {
+							"id": "adventure",
+							"name": "Adventure",
+							"games": []
+						} , {
+							"id": "arcade",
+							"name": "Arcade",
+							"games": []
+						} , {
+							"id": "artillery",
+							"name": "Artillery",
+							"games": []
+						} , {
+							"id": "apaddle",
+							"name": "Arcade Paddle",
+							"games": []
+						} , {
+							"id": "aplatformer",
+							"name": "Arcade Platformer",
+							"games": []
+						} , {
+							"id": "ashooter",
+							"name": "Arcade Shooter",
+							"games": []
+						} , {
+							"id": "sports",
+							"name": "Arcade Sports",
+							"games": []
+						} , {
+							"id": "board",
+							"name": "Board Game",
+							"games": []
+						} , {
+							"id": "economic",
+							"name": "Economic Simulator",
+							"games": []
+						} , {
+							"id": "fighting",
+							"name": "Fighting Game",
+							"games": []
+						} , {
+							"id": "fps",
+							"name": "First Person Shooter (FPS)",
+							"games": []
+						} , {
+							"id": "platformer",
+							"name": "Platformer",
+							"games": []
+						} , {
+							"id": "puzzle",
+							"name": "Puzzle",
+							"games": []
+						} , {
+							"id": "pplatformer",
+							"name": "Puzzle Platformer",
+							"games": []
+						} , {
+							"id": "racing",
+							"name": "Racing",
+							"games": []
+						} , {
+							"id": "rts",
+							"name": "Real-Time Strategy (RTS)",
+							"games": []
+						} , {
+							"id": "rpg",
+							"name": "Role-Playing Game (RPG)",
+							"games": []
+						} , {
+							"id": "snake",
+							"name": "Snake",
+							"games": []
+						} , {
+							"id": "tbs",
+							"name": "Turn-Based Strategy (TBS)",
+							"games": []
+						} , {
+							"id": "os",
+							"name": "Operating System (OS)",
+							"games": []
+						} , {
+							"id": "software",
+							"name": "Software",
+							"games": []
+						}]
+					}
+				};
+
+				var v2_category_template = function(id, name, hardware, language, year, developer, publisher, copyright, links, screenshots, versions) {
+					return {
+						"id": id,
+						"name": name,
+						"hardware": hardware,
+						"language": language,
+						"year": year,
+						"developer": developer,
+						"publisher": publisher,
+						"copyright": copyright,
+						"links": links,
+						"screenshots": screenshots,
+						"versions": versions
+					}
+				};
+
+				var v2_software_template = function(id, name, file, size, executable, mode, sync, license, status, links, screenshots) {
+					return {
+						"id": id,
+						"name": name,
+						"file": file,
+						"size": size,
+						"executable": executable,
+						"mode": mode,
+						"sync": sync,
+						"cycles": undefined,
+						"license": license,
+						"status": status,
+						"links": links,
+						"screenshots": screenshots
+					}
+				};
+
+				for (var game in v1.games) {
+					for (var categ in v2.software.type) {
+						// noinspection JSUnfilteredForInLoop
+						var g = v1.games[game];
+						// noinspection JSUnfilteredForInLoop
+						var c = v2.software.type[categ];
+
+						// noinspection DuplicatedCode
+						if (g.genre === c.name) {
+							var vers = [];
+
+							vers.push(v2_software_template(g.id, g.name, g.file, g.size, g.executable, g.mode, g.sync, g.license, g.status, g.links, g.screenshots));
+
+							for (var clone in g.clones) {
+								// noinspection JSUnfilteredForInLoop
+								var cl = g.clones[clone];
+
+								vers.push(v2_software_template(cl.id, cl.name, cl.file, cl.size, cl.executable, cl.mode, cl.sync, cl.license, cl.status, cl.links, cl.screenshots));
+							}
+
+							//console.log(v2_category_template(g.id, g.group, g.hardware, g.language, g.year, g.developer, g.publisher, g.copyright, g.links, g.screenshots, vers));
+
+							c.games.push(v2_category_template(g.id, g.group, g.hardware, g.language, g.year, g.developer, g.publisher, g.copyright, g.links, g.screenshots, vers));
+						}
+					}
+				}
+
+				return v2;
+			}
+
 			function solve_aspect_ratio(width, height, numerator, denominator) {
 				if (width !== undefined) {
 					return Math.round(width / (numerator / denominator));
@@ -438,14 +600,15 @@
 				// noinspection DuplicatedCode
 				if ($body.hasClass('v2')) {
 					$list_dropdown_v2.html('').html(render_list_dropdown_v2(games_v2));
-					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]['executables']));
+					// $list_dropdown_v2.html('').html(render_list_dropdown_v2(v1_to_v2(games_v1)));
+					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]['versions']));
 
-					if (!started && games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0]) {
+					if (!started && games_v2['software']['type'][0]['games'][0]['versions'][0]['screenshots'][0]) {
 						if ($.fn.lightSlider) {
-							$preview.html('').html(render_preview(games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'])).show();
+							$preview.html('').html(render_preview(games_v2['software']['type'][0]['games'][0]['versions'][0]['screenshots'])).show();
 						} else {
 							$preview.css({
-								'background-image': 'url(' + games_v2['software']['type'][0]['games'][0]['executables'][0]['screenshots'][0] + ')',
+								'background-image': 'url(' + games_v2['software']['type'][0]['games'][0]['versions'][0]['screenshots'][0] + ')',
 								'background-size': 'contain'
 							}).show();
 						}
@@ -1024,26 +1187,26 @@
 							// noinspection JSUnfilteredForInLoop
 							for (var g in games_v2['software']['type'][genre]['games']) {
 								// noinspection JSUnfilteredForInLoop
-								for (var e in games_v2['software']['type'][genre]['games'][g]['executables']) {
+								for (var e in games_v2['software']['type'][genre]['games'][g]['versions']) {
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
-									if (games_v2['software']['type'][genre]['games'][g]['executables'][e]['id'] === first) {
+									if (games_v2['software']['type'][genre]['games'][g]['versions'][e]['id'] === first) {
 										$list_dropdown_v2.find('option[value="' + index_selected + '"]').prop('selected', true).attr('selected', true).trigger('change');
 										var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 										var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
-										$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables']));
+										$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions']));
 										$options_dropdown.find('option[value="' + e + '"]').prop('selected', true).attr('selected', true).trigger('change');
 										// noinspection JSUnfilteredForInLoop
-										var file = games_v2['software']['type'][genre]['games'][g]['executables'][e]['file'] || '';
+										var file = games_v2['software']['type'][genre]['games'][g]['versions'][e]['file'] || '';
 										// noinspection JSUnfilteredForInLoop
-										var args = games_v2['software']['type'][genre]['games'][g]['executables'][e]['args'] || [];
+										var args = games_v2['software']['type'][genre]['games'][g]['versions'][e]['args'] || [];
 										// noinspection JSUnfilteredForInLoop
-										var mode = games_v2['software']['type'][genre]['games'][g]['executables'][e]['mode'];
+										var mode = games_v2['software']['type'][genre]['games'][g]['versions'][e]['mode'];
 										// noinspection JSUnfilteredForInLoop
-										var sync = games_v2['software']['type'][genre]['games'][g]['executables'][e]['sync'];
+										var sync = games_v2['software']['type'][genre]['games'][g]['versions'][e]['sync'];
 										// noinspection JSUnfilteredForInLoop
-										var cycles = games_v2['software']['type'][genre]['games'][g]['executables'][e]['cycles'];
+										var cycles = games_v2['software']['type'][genre]['games'][g]['versions'][e]['cycles'];
 										// noinspection JSUnfilteredForInLoop
-										var executable = games_v2['software']['type'][genre]['games'][g]['executables'][e]['executable'] || '';
+										var executable = games_v2['software']['type'][genre]['games'][g]['versions'][e]['executable'] || '';
 										args.push('-c', executable.replace('./', ''));
 										start_v2(file, args, mode, sync, cycles);
 										break;
@@ -1146,13 +1309,13 @@
 						var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 						var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
 
-						var id = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['id'] || '';
-						var file = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['file'] || '';
-						var args = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['args'] || [];
-						var executable = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['executable'] || '';
-						var mode = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['mode'];
-						var sync = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['sync'];
-						var cycles = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['cycles'];
+						var id = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['id'] || '';
+						var file = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['file'] || '';
+						var args = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['args'] || [];
+						var executable = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['executable'] || '';
+						var mode = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['mode'];
+						var sync = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['sync'];
+						var cycles = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['cycles'];
 
 						args.push('-c', executable.replace('./', ''));
 
@@ -1236,14 +1399,14 @@
 							var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 							var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
 
-							$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables']));
+							$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions']));
 
 							// noinspection DuplicatedCode
 							if ($.fn.lightSlider) {
-								$preview.html('').html(render_preview(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][0]['screenshots'])).show();
+								$preview.html('').html(render_preview(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][0]['screenshots'])).show();
 							} else {
 								$preview.css({
-									'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][0]['screenshots'][0] + ')',
+									'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][0]['screenshots'][0] + ')',
 									'background-size': 'contain'
 								}).show();
 							}
@@ -1349,10 +1512,10 @@
 
 						// noinspection DuplicatedCode
 						if ($.fn.lightSlider) {
-							$preview.html('').html(render_preview(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['screenshots'])).show();
+							$preview.html('').html(render_preview(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['screenshots'])).show();
 						} else {
 							$preview.css({
-								'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['executables'][option_selected]['screenshots'][0] + ')',
+								'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['screenshots'][0] + ')',
 								'background-size': 'contain'
 							}).show();
 						}
