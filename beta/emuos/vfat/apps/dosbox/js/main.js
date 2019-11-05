@@ -1057,7 +1057,15 @@
 							clearInterval(int);
 							int = null;
 							// noinspection JSUnresolvedFunction,JSUnresolvedVariable,AmdModulesDependencies
-							var emulator = new Emulator($canvas.get(0), null,
+							var emulator = new Emulator($canvas.get(0), function() {
+									$list_table.hide();
+									$preview.hide();
+									$start.hide();
+									started = true;
+									setTimeout(function() {
+										$window.trigger('resize');
+									}, 2500);
+								},
 								new DosBoxLoader(DosBoxLoader.emulatorJS(SYSTEM_FEATURE_WEBASSEMBLY && mode !== 'asm' ? 'js/dosbox-' + sync + 'sync-wasm.js' : (SYSTEM_FEATURE_ASMJS ? 'js/dosbox-' + sync + 'sync' + old + '-asm.js' : alert('DOSBox cannot work because WebAssembly and/or ASM.JS is not supported in your browser!'))),
 									DosBoxLoader.locateAdditionalEmulatorJS(function(filename) {
 										if (filename === 'dosbox.html.mem') {
@@ -1070,24 +1078,26 @@
 
 										return filename;
 									}),
-									DosBoxLoader.nativeResolution(320, 200),
-									DosBoxLoader.scale(2),
 									DosBoxLoader.mountZip('a', DosBoxLoader.fetchFile('OS File', get_file_order(0, file, files))),
 									DosBoxLoader.mountZip('b', DosBoxLoader.fetchFile('Game File', get_file_order(1, file, files))),
 									DosBoxLoader.extraArgs(args),
 									DosBoxLoader.startExe(executable)));
 							emulator.start({waitAfterDownloading: false});
-							$list_table.hide();
-							$preview.hide();
-							$start.hide();
-							started = true;
 						}
 					}, 100);
 				} else {
 					// noinspection JSUnresolvedFunction
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						// noinspection JSUnresolvedFunction,JSUnresolvedVariable,AmdModulesDependencies
-						var emulator = new Emulator($canvas.get(0), null,
+						var emulator = new Emulator($canvas.get(0), function() {
+								$list_table.hide();
+								$preview.hide();
+								$start.hide();
+								started = true;
+								setTimeout(function() {
+									$window.trigger('resize');
+								}, 2500);
+							},
 							new DosBoxLoader(DosBoxLoader.emulatorJS(SYSTEM_FEATURE_WEBASSEMBLY && mode !== 'asm' ? 'js/dosbox-' + sync + 'sync-wasm.js' : (SYSTEM_FEATURE_ASMJS ? 'js/dosbox-' + sync + 'sync' + old + '-asm.js' : alert('DOSBox cannot work because WebAssembly and/or ASM.JS is not supported in your browser!'))),
 								DosBoxLoader.locateAdditionalEmulatorJS(function(filename) {
 									if (filename === 'dosbox.html.mem') {
@@ -1100,16 +1110,11 @@
 
 									return filename;
 								}),
-								DosBoxLoader.nativeResolution(320, 200),
-								DosBoxLoader.scale(2),
 								DosBoxLoader.mountZip('c', DosBoxLoader.fetchFile('Game File', response.link)),
 								DosBoxLoader.extraArgs(args),
 								DosBoxLoader.startExe(executable)));
 						emulator.start({waitAfterDownloading: false});
-						$list_table.hide();
-						$preview.hide();
-						$start.hide();
-						started = true;
+
 					}).catch(function(error) {
 						console.log(error);
 					});
@@ -1120,7 +1125,7 @@
 				// noinspection JSUnresolvedFunction
 				Dos($canvas.get(0), {
 					cycles: cycles ? cycles : 'auto',
-					wdosboxUrl: mode === 'asm' ? (sync ? 'js/dosbox.js' : 'js/dosbox-nosync.js') : (sync ? 'js/wdosbox.js' : 'js/wdosbox-nosync.js'),
+					wdosboxUrl: mode === 'asm' || isIE ? (sync ? 'js/dosbox.js' : 'js/dosbox-nosync.js') : (sync ? 'js/wdosbox.js' : 'js/wdosbox-nosync.js'),
 					autolock: true
 				}).ready(function(fs, main) {
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
@@ -1556,6 +1561,8 @@
 
 					if ($body.hasClass('v2')) {
 						$body.find('.dosbox-container').width(width).height(height);
+					} else {
+						$canvas.width(width).height(height);
 					}
 
 					$preview.find('img').width(width).height(height);
