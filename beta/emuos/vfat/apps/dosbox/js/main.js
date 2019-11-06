@@ -154,9 +154,9 @@
 	// noinspection JSCheckFunctionSignatures,JSUnusedLocalSymbols
 	requirejs([
 		'jquery',
-		'json!../../../../js/config/games-v1.json',
-		'json!../../../../js/config/games-v2.json',
-		'json!../../../../js/config/games-v3.json',
+		'json!config/games-v1.json',
+		'json!config/games-v2.json',
+		'json!config/games-v3.json',
 		'purl',
 		'browserfs',
 		'jsdos',
