@@ -34,9 +34,7 @@
 					"links": {
 						"wikipedia": "https://en.wikipedia.org/wiki/Tapper_(video_game)"
 					},
-					"screenshots": [
-						"https://www.mobygames.com/images/shots/l/267517-tapper-pc-booter-screenshot-title-screen-cga-with-rgb-monitor.png", "https://www.mobygames.com/images/shots/l/267519-tapper-pc-booter-screenshot-the-customers-have-arrived-cga.png"
-					],
+					"screenshots": ["https://www.mobygames.com/images/shots/l/267517-tapper-pc-booter-screenshot-title-screen-cga-with-rgb-monitor.png", "https://www.mobygames.com/images/shots/l/267519-tapper-pc-booter-screenshot-the-customers-have-arrived-cga.png"],
 					"versions": [{
 						"id": "tapper",
 						"name": "CGA PC Booter Version",
@@ -82,9 +80,7 @@
 						"gog": "https://www.gog.com/game/loom",
 						"wikipedia": "https://en.wikipedia.org/wiki/Loom_(video_game)"
 					},
-					"screenshots": [
-						"https://www.mobygames.com/images/shots/l/3420-loom-dos-screenshot-title-screen-vga-cdrom.gif", "https://www.mobygames.com/images/shots/l/669-loom-dos-screenshot-attacked-by-a-swan.gif"
-					],
+					"screenshots": ["https://www.mobygames.com/images/shots/l/3420-loom-dos-screenshot-title-screen-vga-cdrom.gif", "https://www.mobygames.com/images/shots/l/669-loom-dos-screenshot-attacked-by-a-swan.gif"],
 					"versions": [{
 						"id": "loomega",
 						"name": "Retail version",
@@ -93,9 +89,7 @@
 						"executable": ".\\LOOM.EXE",
 						"license": "Commercial",
 						"status": "Playable",
-						"screenshots": [
-							"https://www.mobygames.com/images/shots/l/3420-loom-dos-screenshot-title-screen-vga-cdrom.gif", "https://www.mobygames.com/images/shots/l/669-loom-dos-screenshot-attacked-by-a-swan.gif"
-						]
+						"screenshots": ["https://www.mobygames.com/images/shots/l/3420-loom-dos-screenshot-title-screen-vga-cdrom.gif", "https://www.mobygames.com/images/shots/l/669-loom-dos-screenshot-attacked-by-a-swan.gif"]
 					} , {
 						"id": "loomdemo",
 						"name": "Demo version",
@@ -104,9 +98,7 @@
 						"executable": ".\\LOOMDEMO.EXE",
 						"license": "Shareware",
 						"status": "Playable",
-						"screenshots": [
-							"https://www.mobygames.com/images/shots/l/664-loom-dos-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/669-loom-dos-screenshot-attacked-by-a-swan.gif"
-						]
+						"screenshots": ["https://www.mobygames.com/images/shots/l/664-loom-dos-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/669-loom-dos-screenshot-attacked-by-a-swan.gif"]
 					}]
 				} , {
 					"id": "monkey1",
@@ -136,9 +128,7 @@
 						"gog": "https://www.gog.com/game/the_secret_of_monkey_island_special_edition",
 						"wikipedia": "https://en.wikipedia.org/wiki/The_Secret_of_Monkey_Island"
 					},
-					"screenshots": [
-						"https://www.mobygames.com/images/shots/l/3162-the-secret-of-monkey-island-dos-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/62795-the-secret-of-monkey-island-dos-screenshot-game-start-at-the.png"
-					],
+					"screenshots": ["https://www.mobygames.com/images/shots/l/3162-the-secret-of-monkey-island-dos-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/62795-the-secret-of-monkey-island-dos-screenshot-game-start-at-the.png"],
 					"versions": [{
 						"id": "monkey1vgatalkie",
 						"name": "CD Version",
@@ -151,9 +141,7 @@
 							"gog": "https://www.gog.com/game/the_secret_of_monkey_island_special_edition",
 							"wikipedia": "https://en.wikipedia.org/wiki/The_Secret_of_Monkey_Island"
 						},
-						"screenshots": [
-							"https://www.mobygames.com/images/shots/l/3162-the-secret-of-monkey-island-dos-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/62795-the-secret-of-monkey-island-dos-screenshot-game-start-at-the.png"
-						]
+						"screenshots": ["https://www.mobygames.com/images/shots/l/3162-the-secret-of-monkey-island-dos-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/62795-the-secret-of-monkey-island-dos-screenshot-game-start-at-the.png"]
 					} , {
 						"id": "monkey1vga",
 						"name": "VGA Version",
@@ -226,9 +214,7 @@
 				"links": {
 					"wikipedia": "https://en.wikipedia.org/wiki/Action_Fighter"
 				},
-				"screenshots": [
-					"https://www.mobygames.com/images/shots/l/56705-action-fighter-dos-screenshot-title-screen-ega.gif", "https://www.mobygames.com/images/shots/l/56707-action-fighter-dos-screenshot-beginning-a-game-ega.gif"
-				],
+				"screenshots": ["https://www.mobygames.com/images/shots/l/56705-action-fighter-dos-screenshot-title-screen-ega.gif", "https://www.mobygames.com/images/shots/l/56707-action-fighter-dos-screenshot-beginning-a-game-ega.gif"],
 				"versions": [{
 					"id": "afighter",
 					"name": "Action Fighter",
@@ -241,9 +227,7 @@
 					"links": {
 						"wikipedia": "https://en.wikipedia.org/wiki/Action_Fighter"
 					},
-					"screenshots": [
-						"https://www.mobygames.com/images/shots/l/56705-action-fighter-dos-screenshot-title-screen-ega.gif", "https://www.mobygames.com/images/shots/l/56707-action-fighter-dos-screenshot-beginning-a-game-ega.gif"
-					]
+					"screenshots": ["https://www.mobygames.com/images/shots/l/56705-action-fighter-dos-screenshot-title-screen-ega.gif", "https://www.mobygames.com/images/shots/l/56707-action-fighter-dos-screenshot-beginning-a-game-ega.gif"]
 				}]
 			} , {
 				"id": "pacman",
@@ -273,9 +257,7 @@
 				"links": {
 					"wikipedia": "https://en.wikipedia.org/wiki/Pac-Man"
 				},
-				"screenshots": [
-					"https://www.mobygames.com/images/shots/l/479-pac-man-pc-booter-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/538670-pac-man-pc-booter-screenshot-ready.png"
-				],
+				"screenshots": ["https://www.mobygames.com/images/shots/l/479-pac-man-pc-booter-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/538670-pac-man-pc-booter-screenshot-ready.png"],
 				"versions": [{
 					"id": "pacman",
 					"name": "Pac-Man (PC Booter)",
@@ -288,9 +270,7 @@
 					"links": {
 						"wikipedia": "https://en.wikipedia.org/wiki/Pac-Man"
 					},
-					"screenshots": [
-						"https://www.mobygames.com/images/shots/l/479-pac-man-pc-booter-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/538670-pac-man-pc-booter-screenshot-ready.png"
-					]
+					"screenshots": ["https://www.mobygames.com/images/shots/l/479-pac-man-pc-booter-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/538670-pac-man-pc-booter-screenshot-ready.png"]
 				} , {
 					"id": "mspacman",
 					"name": "Ms. Pac-Man (PC Booter)",
@@ -303,9 +283,7 @@
 					"links": {
 						"wikipedia": "https://en.wikipedia.org/wiki/Ms._Pac-Man"
 					},
-					"screenshots": [
-						"https://www.mobygames.com/images/shots/l/2868-ms-pac-man-pc-booter-screenshot-title-screen-cga-with-rgb-monitor.gif", "https://www.mobygames.com/images/shots/l/2869-ms-pac-man-pc-booter-screenshot-gameplay-cga-with-rgb-monitor.gif"
-					]
+					"screenshots": ["https://www.mobygames.com/images/shots/l/2868-ms-pac-man-pc-booter-screenshot-title-screen-cga-with-rgb-monitor.gif", "https://www.mobygames.com/images/shots/l/2869-ms-pac-man-pc-booter-screenshot-gameplay-cga-with-rgb-monitor.gif"]
 				} , {
 					"id": "pacpc",
 					"name": "Pac PC II (Pac-Man Clone)",
@@ -2226,9 +2204,9 @@
 					"file": "sbdashb.zip",
 					"size": 221399,
 					"executable": "mem",
-					"sync": true,
+					"args": ["-c", "machine=tandy", "-c", "tandy=on", "-c", "joysticktype=none", "-c", "c:", "-c", "boot BOULDER.IMG"],
 					"cycles": 200,
-					"args": ["-c", "machine=tandy", "-c", "tandy=on", "-c", "joysticktype=none", "-c", "c:", "-c", "boot BOULDER.IMG"]
+					"sync": true
 				} , {
 					"id": "bdashck",
 					"name": "Boulder Dash IV: Construction Kit (CGA)",
@@ -3214,7 +3192,7 @@
 			"name": "Turn-Based Strategy (TBS)",
 			"games": [{
 				"id": "homm1",
-				"name": "Heroes of Might and Magic",
+				"name": "Heroes of Might and Magic I",
 				"hardware": {
 					"input": [
 						"Keyboard", "Mouse"
@@ -3252,27 +3230,60 @@
 				],
 				"versions": [{
 					"id": "homm1",
-					"name": "Heroes of Might and Magic I: A Strategic Quest (Rip)",
+					"name": "A Strategic Quest (Rip)",
 					"file": "homm1.zip",
 					"size": 9944558,
 					"executable": ".\\HEROES.EXE",
 					"license": "Commercial",
-					"status": "Playable",
-					"links": {
-						"gog": "https://gog.com/game/heroes_of_might_and_magic",
-						"wikipedia": "https://en.wikipedia.org/wiki/Heroes_of_Might_and_Magic:_A_Strategic_Quest"
+					"status": "Playable"
+				}]
+			} , {
+				"id": "homm2",
+				"name": "Heroes of Might and Magic II",
+				"hardware": {
+					"input": [
+						"Keyboard", "Mouse"
+					],
+					"sound": [
+						"PC Speaker", "Gravis Ultrasound", "Microsoft Sound System", "Ensoniq Soundscape", "Wave Jammer", "ESS Audio Drive", "Pro Audio Spectrum", "Roland Rap/Tap 10", "Sound Blaster 16/AWE32", "Sound Blaster Pro", "Sound Blaster"
+					],
+					"video": {
+						"GENERIC": [
+							"Video 7", "Tseng Labs", "Tseng Labs Version 4", "Paradise", "Chip & Technologies", "Trident", "ATI Technologies", "Everex", "Ahead Version A", "Ahead Version B", "Oak Tehnologies", "Genoa", "NCR", "Compaq", "XGA", "VESA"
+						],
+						"VGA": {
+							"name": "Video Graphics Array",
+							"resolutions": [
+								"640x480"
+							],
+							"colors": 256
+						}
 					},
-					"screenshots": [
-						"https://www.mobygames.com/images/shots/l/20498-heroes-of-might-and-magic-dos-screenshot-main-menu.gif", "https://www.mobygames.com/images/shots/l/20519-heroes-of-might-and-magic-dos-screenshot-combat-on-ship.gif"
+					"network": [
+						"Direct Connect", "Modem"
 					]
-				} , {
+				},
+				"language": "English",
+				"year": 1996,
+				"developer": "New World Computing",
+				"publisher": "3DO Games",
+				"copyright": "Ubisoft Entertainment",
+				"links": {
+					"gog": "https://gog.com/game/heroes_of_might_and_magic_2_gold_edition",
+					"wikipedia": "https://en.wikipedia.org/wiki/Heroes_of_Might_and_Magic_II",
+					"youtube": "https://www.youtube.com/watch?v=G-wRuVyYJEg"
+				},
+				"screenshots": [
+					"https://www.mobygames.com/images/shots/l/145015-heroes-of-might-and-magic-ii-the-price-of-loyalty-windows.jpg", "https://www.mobygames.com/images/shots/l/145020-heroes-of-might-and-magic-ii-the-price-of-loyalty-windows.jpg"
+				],
+				"versions": [{
 					"id": "homm2",
-					"name": "Heroes of Might and Magic II: The Succession Wars (CD) (Retail)",
+					"name": "The Succession Wars (CD) (Retail)",
 					"file": "homm2.zip",
 					"size": 203522890,
 					"executable": ".\\HEROES2.EXE",
-					"sync": true,
 					"args": ["-c", "mount d . -t cdrom"],
+					"sync": true,
 					"license": "Commercial",
 					"status": "Slow",
 					"links": {
@@ -3285,12 +3296,12 @@
 					]
 				} , {
 					"id": "homm2x",
-					"name": "Heroes of Might and Magic II: The Price of Loyalty (CD) (Expansion)",
+					"name": "The Price of Loyalty (CD) (Expansion)",
 					"file": "homm2x.zip",
 					"size": 199548791,
 					"executable": ".\\HEROES2.EXE",
-					"sync": true,
 					"args": ["-c", "mount d . -t cdrom"],
+					"sync": true,
 					"license": "Commercial",
 					"status": "Nothing",
 					"links": {
@@ -3303,7 +3314,7 @@
 					]
 				} , {
 					"id": "homm2xrip",
-					"name": "Heroes of Might and Magic II: The Price of Loyalty (Rip) (Expansion)",
+					"name": "The Price of Loyalty (Rip) (Expansion)",
 					"file": "homm2xrip.zip",
 					"size": 44235314,
 					"executable": ".\\HEROES2.EXE",
@@ -3319,12 +3330,12 @@
 					]
 				} , {
 					"id": "homm2gold",
-					"name": "Heroes of Might and Magic II Gold (CD) (Retail)",
+					"name": "Gold (CD) (Retail)",
 					"file": "homm2gold.zip",
 					"size": 316287153,
 					"executable": ".\\HEROES2.EXE",
-					"sync": true,
 					"args": ["-c", "imgmount d .\\ISO\\HOMM2.BIN -t iso -fs iso"],
+					"sync": true,
 					"license": "Commercial",
 					"status": "Nothing",
 					"links": {
@@ -3335,7 +3346,7 @@
 				}]
 			} , {
 				"id": "xcom1",
-				"name": "X-COM",
+				"name": "X-COM 1",
 				"hardware": {
 					"input": [
 						"Keyboard", "Mouse", "Gamepad/Joystick"
@@ -3368,54 +3379,319 @@
 				],
 				"versions": [{
 					"id": "xcom1",
-					"name": "X-COM: UFO Defense (VGA) (Retail)",
+					"name": "UFO Defense (Retail)",
 					"file": "xcom112.zip",
-					"size": 3274320,
-					"executable": ".\\UFO.BAT",
+					"size": 3277430,
+					"executable": ".\\UFO.COM",
 					"cycles": 15000,
-					"sync": true,
 					"license": "Commercial",
-					"status": "Crashes",
-					"links": {
-						"gog": "https://www.gog.com/game/xcom_ufo_defense",
-						"wikipedia": "https://en.wikipedia.org/wiki/UFO:_Enemy_Unknown",
-						"youtube": "https://www.youtube.com/watch?v=cmmoB21PDSU"
-					},
-					"screenshots": [
-						"https://www.mobygames.com/images/shots/l/2540-x-com-ufo-defense-dos-screenshot-opening-titles.gif", "https://www.mobygames.com/images/shots/l/2548-x-com-ufo-defense-dos-screenshot-environments-are-nicely-detailed.gif"
-					]
+					"status": "Playable"
 				} , {
 					"id": "xcom1demo",
-					"name": "X-COM: UFO Defense (Demo)",
+					"name": "UFO Defense (Demo)",
 					"file": "xcom1demo.zip",
-					"size": 1097024,
-					"executable": ".\\XCOM.BAT",
+					"size": 1097954,
+					"executable": ".\\XCOM.COM",
 					"cycles": 15000,
 					"license": "Shareware",
 					"status": "Playable"
-				} , {
+				}]
+			} , {
+				"id": "xcom2",
+				"name": "X-COM 2",
+				"hardware": {
+					"input": [
+						"Keyboard", "Mouse", "Gamepad/Joystick"
+					],
+					"video": {
+						"VGA": {
+							"name": "Video Graphics Array",
+							"resolutions": [
+								"320x200"
+							],
+							"colors": 256
+						}
+					},
+					"sound": [
+						"PC Speaker", "Sound Source", "Adlib", "Sound Blaster"
+					]
+				},
+				"language": "English",
+				"year": 1995 ,
+				"developer": "MicroProse",
+				"publisher": "MicroProse",
+				"copyright": "Take-Two Interactive",
+				"links": {
+					"gog": "https://www.gog.com/game/xcom_terror_from_the_deep",
+					"wikipedia": "https://en.wikipedia.org/wiki/X-COM:_Terror_from_the_Deep"
+				},
+				"screenshots": [
+					"https://www.mobygames.com/images/shots/l/2724-x-com-terror-from-the-deep-dos-screenshot-game-logo.gif", "https://www.mobygames.com/images/shots/l/2733-x-com-terror-from-the-deep-dos-screenshot-islands-are-one-of.gif"
+				],
+				"versions": [{
 					"id": "xcom2",
-					"name": "X-COM: Terror from the Deep (VGA) (Retail)",
+					"name": "Terror from the Deep (Retail)",
 					"file": "xcom2.zip",
 					"size": 4586858,
 					"executable": ".\\TERROR.COM",
 					"cycles": 15000,
 					"license": "Commercial",
-					"status": "Crashes",
-					"links": {
-						"gog": "https://www.gog.com/game/xcom_terror_from_the_deep",
-						"wikipedia": "https://en.wikipedia.org/wiki/X-COM:_Terror_from_the_Deep"
-					},
-					"screenshots": [
-						"https://www.mobygames.com/images/shots/l/2724-x-com-terror-from-the-deep-dos-screenshot-game-logo.gif", "https://www.mobygames.com/images/shots/l/2733-x-com-terror-from-the-deep-dos-screenshot-islands-are-one-of.gif"
-					]
+					"status": "Playable"
 				}]
 			}]
 		} , {
 			"id": "os",
 			"name": "Operating System (OS)",
 			"games": [{
-				"id": "win95",
+				"id": "pcdos",
+				"name": "PC-DOS",
+				"hardware": {
+					"input": [
+						"Keyboard", "Mouse"
+					],
+					"video": {
+						"VGA": {
+							"name": "Video Graphics Array",
+							"resolutions": [
+								"320x200"
+							],
+							"colors": 256
+						}
+					},
+					"sound": [
+						"PC Speaker", "Sound Blaster"
+					]
+				},
+				"language": "English",
+				"year": 1981,
+				"retail": true,
+				"developer": "IBM Corp.; Microsoft Corp.",
+				"publisher": "IBM Corp.",
+				"copyright": "IBM Corp.",
+				"license": "Commercial",
+				"links": {
+					"wikipedia": "https://en.wikipedia.org/wiki/IBM_PC_DOS"
+				},
+				"screenshots": ["images/screenshots/pcdos110.png"],
+				"versions": [{
+					"id": "pcdos100b",
+					"name": "PC-DOS 1.00 (Beta)",
+					"file": "pcdos100b.zip",
+					"size": 106889,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "CLS"],
+					"sync": true,
+					"year": 1981,
+					"retail": false,
+					"status": "Working"
+				} , {
+					"id": "pcdos100",
+					"name": "PC-DOS 1.00 (Retail)",
+					"file": "pcdos100.zip",
+					"size": 86407,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "C:", "-c", "CLS"],
+					"sync": true,
+					"year": 1981,
+					"retail": true,
+					"status": "Working"
+				} , {
+					"id": "pcdos110",
+					"name": "PC-DOS 1.10 (Retail)",
+					"file": "pcdos110.zip",
+					"size": 91920,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "C:", "-c", "CLS"],
+					"sync": true,
+					"year": 1982,
+					"retail": true,
+					"status": "Working"
+				} , {
+					"id": "pcdos200",
+					"name": "PC-DOS 2.00 (Retail)",
+					"file": "pcdos200.zip",
+					"size": 149325,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 2 0", "-c", "CLS"],
+					"sync": true,
+					"year": 1983,
+					"retail": true,
+					"status": "Error"
+				} , {
+					"id": "pcdos210",
+					"name": "PC-DOS 2.10 (Retail)",
+					"file": "pcdos210.zip",
+					"size": 156385,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 2 10", "-c", "CLS"],
+					"sync": true,
+					"year": 1983,
+					"retail": true,
+					"status": "Error"
+				} , {
+					"id": "pcdos300",
+					"name": "PC-DOS 3.00 (Retail)",
+					"file": "pcdos300.zip",
+					"size": 242024,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 3 0", "-c", "CLS"],
+					"sync": true,
+					"year": 1984,
+					"retail": true,
+					"status": "Error"
+				} , {
+					"id": "pcdos300gr",
+					"name": "PC-DOS 3.00 (German) (Retail)",
+					"file": "pcdos300gr.zip",
+					"size": 242732,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 3 0", "-c", "CLS"],
+					"sync": true,
+					"year": 1984,
+					"retail": true,
+					"language": "German",
+					"status": "Error"
+				} , {
+					"id": "pcdos310b",
+					"name": "PC-DOS 3.10 (Beta)",
+					"file": "pcdos310b.zip",
+					"size": 270223,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 10", "-c", "CLS"],
+					"sync": true,
+					"year": 1985,
+					"retail": false,
+					"status": "Working"
+				} , {
+					"id": "pcdos310",
+					"name": "PC-DOS 3.10 (Retail)",
+					"file": "pcdos310.zip",
+					"size": 270995,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 10", "-c", "CLS"],
+					"sync": true,
+					"year": 1985,
+					"retail": true,
+					"status": "Working"
+				} , {
+					"id": "pcdos320",
+					"name": "PC-DOS 3.20 (Retail)",
+					"file": "pcdos320.zip",
+					"size": 295817,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 20", "-c", "CLS"],
+					"sync": true,
+					"year": 1986,
+					"retail": true,
+					"status": "Working"
+				} , {
+					"id": "pcdos330",
+					"name": "PC-DOS 3.30 (Retail)",
+					"file": "pcdos330.zip",
+					"size": 291675,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 30", "-c", "CLS"],
+					"sync": true,
+					"year": 1986,
+					"retail": true,
+					"status": "Working"
+				} , {
+					"id": "pcdos330gr",
+					"name": "PC-DOS 3.30 (German) (Retail)",
+					"file": "pcdos330gr.zip",
+					"size": 294236,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 30", "-c", "CLS"],
+					"sync": true,
+					"year": 1986,
+					"retail": true,
+					"language": "German",
+					"status": "Working"
+				} , {
+					"id": "pcdos330nl",
+					"name": "PC-DOS 3.30 (Dutch) (Retail)",
+					"file": "pcdos330nl.zip",
+					"size": 293480,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 30", "-c", "CLS"],
+					"sync": true,
+					"year": 1986,
+					"retail": true,
+					"language": "Dutch",
+					"status": "Working"
+				} , {
+					"id": "pcdos400",
+					"name": "PC-DOS 4.00 (Retail)",
+					"file": "pcdos400.zip",
+					"size": 667245,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
+					"sync": true,
+					"year": 1988,
+					"retail": true,
+					"status": "Working"
+				} , {
+					"id": "pcdos401",
+					"name": "PC-DOS 4.01 (Retail)",
+					"file": "pcdos401.zip",
+					"size": 667169,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
+					"sync": true,
+					"year": 1988,
+					"retail": true,
+					"status": "Working"
+				} , {
+					"id": "pcdos401fr",
+					"name": "PC-DOS 4.01 (French) (Retail)",
+					"file": "pcdos401fr.zip",
+					"size": 806800,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
+					"sync": true,
+					"year": 1988,
+					"retail": true,
+					"language": "French",
+					"status": "Working"
+				} , {
+					"id": "pcdos401it",
+					"name": "PC-DOS 4.01 (Italian) (Retail)",
+					"file": "pcdos401it.zip",
+					"size": 673452,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
+					"sync": true,
+					"year": 1988,
+					"retail": true,
+					"language": "Italian",
+					"status": "Working"
+				} , {
+					"id": "pcdos401sp",
+					"name": "PC-DOS 4.01 (Spanish) (Retail)",
+					"file": "pcdos401sp.zip",
+					"size": 673714,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
+					"sync": true,
+					"year": 1988,
+					"retail": true,
+					"language": "Spanish",
+					"status": "Working"
+				} , {
+					"id": "pcdos500",
+					"name": "PC-DOS 5.00 (Retail)",
+					"file": "pcdos500.zip",
+					"size": 1244355,
+					"executable": ".\\COMMAND.COM",
+					"args": ["-c", "@ECHO OFF", "-c", "VER SET 5 0", "-c", "CLS"],
+					"sync": true,
+					"year": 1991,
+					"retail": true,
+					"status": "Working",
+					"screenshots": ["images/screenshots/pcdos110.png", "images/screenshots/pcdos500.png"]
+				}]
+			} , {
+				"id": "win32",
 				"name": "Windows",
 				"hardware": {
 					"input": [
@@ -3436,9 +3712,9 @@
 				},
 				"language": "English",
 				"year": 1995,
-				"developer": "Microsoft",
-				"publisher": "Microsoft",
-				"copyright": "Microsoft",
+				"developer": "Microsoft Corp.",
+				"publisher": "Microsoft Corp.",
+				"copyright": "Microsoft Corp.",
 				"links": {
 					"wikipedia": "https://en.wikipedia.org/wiki/Windows_95"
 				},
@@ -3489,13 +3765,13 @@
 				"language": "English",
 				"year": 1990,
 				"versions": [{
-						"id": "catalog",
-						"name": "Catalog",
-						"file": "catalog.zip",
-						"size": 4168729,
-						"executable": ".\\CATALOG\\CATALOG.EXE",
-						"status": "Nothing"
-					}]
+					"id": "catalog",
+					"name": "Catalog",
+					"file": "catalog.zip",
+					"size": 4168729,
+					"executable": ".\\CATALOG\\CATALOG.EXE",
+					"status": "Nothing"
+				}]
 			} , {
 				"id": "qbasic",
 				"hardware": {

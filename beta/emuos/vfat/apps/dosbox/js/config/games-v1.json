@@ -3302,10 +3302,10 @@
 		"name": "X-COM: UFO Defense (VGA) (Retail)",
 		"altnames": ["UFO: Enemy Unknown"],
 		"notes": "DOSBOX: May hang on mission start",
-		"executable": "./UFO.BAT",
+		"executable": "./UFO.COM",
 		"mode": "asm",
 		"file": "xcom112.zip",
-		"size": 3274320,
+		"size": 3277430,
 		"hardware": {
 			"input": ["Keyboard", "Mouse", "Gamepad/Joystick"],
 			"video": {
@@ -3338,9 +3338,9 @@
 		"clones": [{
 			"id": "xcom1demo",
 			"name": "X-COM: UFO Defense (Demo)",
-			"executable": "./XCOM.BAT",
+			"executable": "./XCOM.COM",
 			"file": "xcom1demo.zip",
-			"size": 1097024,
+			"size": 1097954,
 			"license": "Shareware",
 			"status": "Playable"
 		} , {

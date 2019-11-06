@@ -1218,15 +1218,16 @@
 							index_selected = parseInt($list_dropdown_v2.val(), 10);
 							var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 							var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
-
 							$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions']));
+							var screenshots = typeof games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][0]['screenshots'] !== 'undefined' ? games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][0]['screenshots'] : (typeof games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['screenshots'] !== 'undefined' ? games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['screenshots'] : []);
+							screenshot = typeof screenshots[0] !== 'undefined' ? screenshots[0] : '';
 
 							// noinspection DuplicatedCode
 							if ($.fn.lightSlider) {
-								$preview.html('').html(render_preview(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][0]['screenshots'])).show();
+								$preview.html('').html(render_preview(screenshots)).show();
 							} else {
 								$preview.css({
-									'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][0]['screenshots'][0] + ')',
+									'background-image': 'url(' + screenshot + ')',
 									'background-size': 'contain'
 								}).show();
 							}
@@ -1326,16 +1327,21 @@
 					var index_selected = parseInt($list_dropdown_v2.val(), 10);
 					var option_selected = parseInt($options_dropdown.val(), 10);
 
+					// noinspection DuplicatedCode
 					if ($body.hasClass('v2')) {
+						$start.show();
+
 						var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 						var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
+						var screenshots = typeof games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['screenshots'] !== 'undefined' ? games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['screenshots'] : (typeof games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['screenshots'] !== 'undefined' ? games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['screenshots'] : []);
+						var screenshot = typeof screenshots[0] !== 'undefined' ? screenshots[0] : '';
 
 						// noinspection DuplicatedCode
 						if ($.fn.lightSlider) {
-							$preview.html('').html(render_preview(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['screenshots'])).show();
+							$preview.html('').html(render_preview(screenshots)).show();
 						} else {
 							$preview.css({
-								'background-image': 'url(' + games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['screenshots'][0] + ')',
+								'background-image': 'url(' + screenshot + ')',
 								'background-size': 'contain'
 							}).show();
 						}

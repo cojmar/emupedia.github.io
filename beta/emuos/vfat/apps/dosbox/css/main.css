@@ -348,6 +348,7 @@ canvas {
 .v2 .select2-container--bootstrap4 {
 	display: inline-block;
 	vertical-align: top;
+	text-align: left;
 }
 
 .v2 .select2-container--bootstrap4 .select2-selection--single {
