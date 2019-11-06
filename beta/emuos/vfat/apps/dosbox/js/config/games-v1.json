@@ -480,8 +480,7 @@
 		"year": 1990,
 		"genre": "Software",
 		"status": "Nothing",
-		"clones": [],
-		"enabled": false
+		"clones": []
 	} , {
 		"id": "cncenrip",
 		"group": "Command & Conquer",
@@ -839,8 +838,7 @@
 			"wikipedia": "https://en.wikipedia.org/wiki/Diablo_(video_game)"
 		},
 		"screenshots": ["https://www.mobygames.com/images/shots/l/196625-diablo-windows-screenshot-title-screen.jpg", "https://www.mobygames.com/images/shots/l/7741-diablo-windows-screenshot-fighting-some-skeletons.jpg"],
-		"clones": [],
-		"enabled": false
+		"clones": []
 	} , {
 		"id": "aladdin",
 		"group": "Disney",
@@ -1224,8 +1222,7 @@
 				"wikipedia": "https://en.wikipedia.org/wiki/Heroes_of_Might_and_Magic_II#Expansion",
 				"youtube": "https://www.youtube.com/watch?v=G-wRuVyYJEg"
 			},
-			"screenshots": ["https://www.mobygames.com/images/shots/l/145015-heroes-of-might-and-magic-ii-the-price-of-loyalty-windows.jpg", "https://www.mobygames.com/images/shots/l/145020-heroes-of-might-and-magic-ii-the-price-of-loyalty-windows.jpg"],
-			"enabled": false
+			"screenshots": ["https://www.mobygames.com/images/shots/l/145015-heroes-of-might-and-magic-ii-the-price-of-loyalty-windows.jpg", "https://www.mobygames.com/images/shots/l/145020-heroes-of-might-and-magic-ii-the-price-of-loyalty-windows.jpg"]
 		} , {
 			"id": "homm2xrip",
 			"name": "Heroes of Might and Magic II: The Price of Loyalty (Rip) (Expansion)",
@@ -1262,8 +1259,7 @@
 				"gog": "https://gog.com/game/heroes_of_might_and_magic_2_gold_edition",
 				"wikipedia": "https://en.wikipedia.org/wiki/Heroes_of_Might_and_Magic_II",
 				"youtube": "https://www.youtube.com/watch?v=G-wRuVyYJEg"
-			},
-			"enabled": false
+			}
 		}]
 	} , {
 		"id": "jazzcd",
@@ -2473,8 +2469,7 @@
 				"url": "http://digger.org/styx/index.htm",
 				"wikipedia": "https://en.wikipedia.org/wiki/Styx_(Windmill_game)"
 			},
-			"screenshots": ["https://www.mobygames.com/images/shots/l/271584-styx-dos-screenshot-title-screen.png", "https://www.mobygames.com/images/shots/l/271586-styx-dos-screenshot-fill-the-playing-field-by-cutting-out.png"],
-			"enabled": false
+			"screenshots": ["https://www.mobygames.com/images/shots/l/271584-styx-dos-screenshot-title-screen.png", "https://www.mobygames.com/images/shots/l/271586-styx-dos-screenshot-fill-the-playing-field-by-cutting-out.png"]
 		} , {
 			"id": "styxre",
 			"name": "Styx Remastered (CGA) (Qix Clone)",
