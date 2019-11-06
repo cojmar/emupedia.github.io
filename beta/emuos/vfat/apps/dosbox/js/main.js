@@ -603,12 +603,15 @@
 					// $list_dropdown_v2.html('').html(render_list_dropdown_v2(v1_to_v2(games_v1)));
 					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]['versions']));
 
-					if (!started && games_v2['software']['type'][0]['games'][0]['versions'][0]['screenshots'][0]) {
+					var screenshots = typeof games_v2['software']['type'][0]['games'][0]['versions'][0]['screenshots'] !== 'undefined' ? games_v2['software']['type'][0]['games'][0]['versions'][0]['screenshots'] : (typeof games_v2['software']['type'][0]['games'][0]['screenshots'] !== 'undefined' ? games_v2['software']['type'][0]['games'][0]['screenshots'] : []);
+					var screenshot = typeof screenshots[0] !== 'undefined' ? screenshots[0] : '';
+
+					if (!started && screenshot) {
 						if ($.fn.lightSlider) {
-							$preview.html('').html(render_preview(games_v2['software']['type'][0]['games'][0]['versions'][0]['screenshots'])).show();
+							$preview.html('').html(render_preview(screenshots)).show();
 						} else {
 							$preview.css({
-								'background-image': 'url(' + games_v2['software']['type'][0]['games'][0]['versions'][0]['screenshots'][0] + ')',
+								'background-image': 'url(' + screenshot + ')',
 								'background-size': 'contain'
 							}).show();
 						}
@@ -848,170 +851,6 @@
 						auto: true,
 						speed: 500,
 						slideMargin: 0
-					});
-				}
-
-				if ($.fn.lightGallery) {
-					$body.find('.lightgallery').lightGallery({
-						autoplay: true,
-						selector: '.lightgallery-image'
-					});
-
-					$body.find('.lightgallery').each(function (i, el) {
-						var $el = $(el);
-
-						$el.data('lightGallery').slide = function (index, fromTouch, fromThumb, direction) {
-							var _prevIndex = this.$outer.find('.lg-current').index();
-							var _this = this;
-
-							this.$outer.find('.lg-image').attr('ondragstart', 'return false;');
-
-							// Prevent if multiple call
-							// Required for hsh plugin
-							if (_this.lGalleryOn && (_prevIndex === index)) {
-								return;
-							}
-
-							var _length = this.$slide.length;
-							var _time = _this.lGalleryOn ? this.s.speed : 0;
-
-							if (!_this.lgBusy) {
-
-								if (this.s.download) {
-									var _src;
-									var _download;
-									if (_this.s.dynamic) {
-										_src = _this.s.dynamicEl[index].src;
-										// noinspection JSUnresolvedVariable
-										_download = _this.s.dynamicEl[index].downloadUrl;
-									} else {
-										_src = _this.$items.eq(index).attr('href') || _this.$items.eq(index).attr('data-src');
-										_download = _this.$items.eq(index).attr('data-download-url');
-									}
-
-									if (_src) {
-										$('#lg-download').attr('href', _src).attr('download', _download);
-										_this.$outer.removeClass('lg-hide-download');
-									} else {
-										_this.$outer.addClass('lg-hide-download');
-									}
-								}
-
-								this.$el.trigger('onBeforeSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
-
-								_this.lgBusy = true;
-
-								clearTimeout(_this.hideBartimeout);
-
-								// Add title if this.s.appendSubHtmlTo === lg-sub-html
-								if (this.s.appendSubHtmlTo === '.lg-sub-html') {
-
-									// wait for slide animation to complete
-									setTimeout(function () {
-										_this.addHtml(index);
-									}, _time);
-								}
-
-								this.arrowDisable(index);
-
-								if (!direction) {
-									if (index < _prevIndex) {
-										direction = 'prev';
-									} else if (index > _prevIndex) {
-										direction = 'next';
-									}
-								}
-
-								if (!fromTouch) {
-
-									// remove all transitions
-									_this.$outer.addClass('lg-no-trans');
-
-									this.$slide.removeClass('lg-prev-slide lg-next-slide');
-
-									if (direction === 'prev') {
-
-										//prevslide
-										this.$slide.eq(index).addClass('lg-prev-slide');
-										this.$slide.eq(_prevIndex).addClass('lg-next-slide');
-									} else {
-
-										// next slide
-										this.$slide.eq(index).addClass('lg-next-slide');
-										this.$slide.eq(_prevIndex).addClass('lg-prev-slide');
-									}
-
-									// give 50 ms for browser to add/remove class
-									setTimeout(function () {
-										_this.$slide.removeClass('lg-current');
-
-										//_this.$slide.eq(_prevIndex).removeClass('lg-current');
-										_this.$slide.eq(index).addClass('lg-current');
-
-										// reset all transitions
-										_this.$outer.removeClass('lg-no-trans');
-									}, 50);
-								} else {
-
-									this.$slide.removeClass('lg-prev-slide lg-current lg-next-slide');
-									var touchPrev;
-									var touchNext;
-									if (_length > 2) {
-										touchPrev = index - 1;
-										touchNext = index + 1;
-
-										if ((index === 0) && (_prevIndex === _length - 1)) {
-
-											// next slide
-											touchNext = 0;
-											touchPrev = _length - 1;
-										} else if ((index === _length - 1) && (_prevIndex === 0)) {
-
-											// prev slide
-											touchNext = 0;
-											touchPrev = _length - 1;
-										}
-
-									} else {
-										touchPrev = 0;
-										touchNext = 1;
-									}
-
-									if (direction === 'prev') {
-										_this.$slide.eq(touchNext).addClass('lg-next-slide');
-									} else {
-										_this.$slide.eq(touchPrev).addClass('lg-prev-slide');
-									}
-
-									_this.$slide.eq(index).addClass('lg-current');
-								}
-
-								if (_this.lGalleryOn) {
-									setTimeout(function () {
-										_this.loadContent(index, true, 0);
-									}, this.s.speed + 50);
-
-									setTimeout(function () {
-										_this.lgBusy = false;
-										_this.$el.trigger('onAfterSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
-									}, this.s.speed);
-
-								} else {
-									_this.loadContent(index, true, _this.s.backdropDuration);
-
-									_this.lgBusy = false;
-									_this.$el.trigger('onAfterSlide.lg', [_prevIndex, index, fromTouch, fromThumb]);
-								}
-
-								_this.lGalleryOn = true;
-
-								if (this.s.counter) {
-									$('#lg-counter-current').text(index + 1);
-								}
-
-							}
-							_this.index = index;
-						};
 					});
 				}
 			}
