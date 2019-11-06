@@ -63,7 +63,7 @@
 			'lightgallery-video': '../../../../js/libraries/lightgallery-video-1.6.12.min',
 			'lightgallery-zoom': '../../../../js/libraries/lightgallery-zoom-1.6.12.min',
 			'lightslider': '../../../../js/libraries/lightslider-1.1.6.min',
-			loader: '../../../../js/libraries/emularity',
+			emularity: '../../../../js/libraries/emularity',
 			moment: '../../../../js/libraries/moment-2.24.0.min',
 			'moment-timezone': '../../../../js/libraries/moment-timezone-0.5.27.min',
 			pdfmake: '../../../../js/libraries/pdfmake-0.1.62.min',
@@ -100,30 +100,6 @@
 			jsdos: {
 				exports: 'Dos'
 			},
-			'lightgallery-autoplay': {
-				deps: ['lightgallery']
-			},
-			'lightgallery-fullscreen': {
-				deps: ['lightgallery']
-			},
-			'lightgallery-pager': {
-				deps: ['lightgallery']
-			},
-			'lightgallery-hash': {
-				deps: ['lightgallery']
-			},
-			'lightgallery-share': {
-				deps: ['lightgallery']
-			},
-			'lightgallery-thumbnail': {
-				deps: ['lightgallery']
-			},
-			'lightgallery-video': {
-				deps: ['lightgallery']
-			},
-			'lightgallery-zoom': {
-				deps: ['lightgallery']
-			},
 			lightslider: {
 				deps: ['jquery']
 			},
@@ -138,7 +114,7 @@
 					window.moment = moment;
 				}
 			},
-			loader: {
+			emularity: {
 				deps: ['browserfs'],
 				init: function(browserfs) {
 					window.BrowserFS = browserfs;
@@ -163,7 +139,7 @@
 		'dropbox',
 		'es6fetch',
 		'jsonpath',
-		'loader',
+		'emularity',
 		'bootstrap',
 		'datatables.net',
 		'datatables.net-bs4',
@@ -175,7 +151,7 @@
 		'datatables.net-select-bs4',
 		'perfect-scrollbar',
 		'select2'
-	], function($, games_v1, games_v2, games_v3, purl, browserfs, Dos, dropbox, fetch, jp, loader, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4, PerfectScrollbar, select2) {
+	], function($, games_v1, games_v2, games_v3, purl, browserfs, Dos, dropbox, fetch, jp, emularity, bootstrap, dt, datatablesbs4, datatablesbuttonsbs4, datatablescolreorderbs4, datatablesfixedcolumnsbs4, datatablesfixedheaderbs4, datatablesresponsivebs4, datatablesselectbs4, PerfectScrollbar, select2) {
 		$(function() {
 			// noinspection JSUnusedLocalSymbols
 			function format_name(name) {
