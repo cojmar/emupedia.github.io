@@ -3271,7 +3271,8 @@
 					"file": "homm2.zip",
 					"size": 203522890,
 					"executable": ".\\HEROES2.EXE",
-					"args": ["-c", "mount d c:\\ -t cdrom"],
+					"sync": true,
+					"args": ["-c", "mount d . -t cdrom"],
 					"license": "Commercial",
 					"status": "Slow",
 					"links": {
@@ -3288,7 +3289,8 @@
 					"file": "homm2x.zip",
 					"size": 199548791,
 					"executable": ".\\HEROES2.EXE",
-					"args": ["-c", "mount d c:\\ -t cdrom"],
+					"sync": true,
+					"args": ["-c", "mount d . -t cdrom"],
 					"license": "Commercial",
 					"status": "Nothing",
 					"links": {
@@ -3321,7 +3323,8 @@
 					"file": "homm2gold.zip",
 					"size": 316287153,
 					"executable": ".\\HEROES2.EXE",
-					"args": ["-c", "imgmount d c:\\ISO\\HOMM2.CUE -t iso -fs iso"],
+					"sync": true,
+					"args": ["-c", "imgmount d .\\ISO\\HOMM2.BIN -t iso -fs iso"],
 					"license": "Commercial",
 					"status": "Nothing",
 					"links": {
