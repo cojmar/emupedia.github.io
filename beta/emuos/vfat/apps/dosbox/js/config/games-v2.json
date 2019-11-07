@@ -557,10 +557,6 @@
 				}]
 			}]
 		} , {
-			"id": "artillery",
-			"name": "Artillery",
-			"games": []
-		} , {
 			"id": "apaddle",
 			"name": "Arcade Paddle",
 			"games": [{
@@ -3184,10 +3180,6 @@
 				}]
 			}]
 		} , {
-			"id": "snake",
-			"name": "Snake",
-			"games": []
-		} , {
 			"id": "tbs",
 			"name": "Turn-Based Strategy (TBS)",
 			"games": [{
@@ -3463,8 +3455,9 @@
 					]
 				},
 				"language": "English",
+				"languages": ["English", "Dutch", "French", "German", "Italian", "Spanish"],
+				"sync": true,
 				"year": 1981,
-				"retail": true,
 				"developer": "IBM Corp.; Microsoft Corp.",
 				"publisher": "IBM Corp.",
 				"copyright": "IBM Corp.",
@@ -3474,29 +3467,8 @@
 				},
 				"screenshots": ["images/screenshots/pcdos110.png"],
 				"versions": [{
-					"id": "pcdos100b",
-					"name": "PC-DOS 1.00 (Beta)",
-					"file": "pcdos100b.zip",
-					"size": 106889,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-					"sync": true,
-					"year": 1981,
-					"retail": false,
-					"status": "Working"
-				} , {
-					"id": "pcdos100",
-					"name": "PC-DOS 1.00 (Retail)",
-					"file": "pcdos100.zip",
-					"size": 86407,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "C:", "-c", "CLS"],
-					"sync": true,
-					"year": 1981,
-					"retail": true,
-					"status": "Working"
-				} , {
 					"id": "pcdos110",
+					"group": "PC-DOS 1.X",
 					"name": "PC-DOS 1.10 (Retail)",
 					"file": "pcdos110.zip",
 					"size": 91920,
@@ -3505,20 +3477,33 @@
 					"sync": true,
 					"year": 1982,
 					"retail": true,
-					"status": "Working"
-				} , {
-					"id": "pcdos200",
-					"name": "PC-DOS 2.00 (Retail)",
-					"file": "pcdos200.zip",
-					"size": 149325,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 2 0", "-c", "CLS"],
-					"sync": true,
-					"year": 1983,
-					"retail": true,
-					"status": "Error"
+					"status": "Working",
+					"versions": [{
+						"id": "pcdos100",
+						"name": "PC-DOS 1.00 (Retail)",
+						"file": "pcdos100.zip",
+						"size": 86407,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "C:", "-c", "CLS"],
+						"sync": true,
+						"year": 1981,
+						"retail": true,
+						"status": "Working"
+					} , {
+						"id": "pcdos100b",
+						"name": "PC-DOS 1.00 (Beta)",
+						"file": "pcdos100b.zip",
+						"size": 106889,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "CLS"],
+						"sync": true,
+						"year": 1981,
+						"retail": false,
+						"status": "Working"
+					}]
 				} , {
 					"id": "pcdos210",
+					"group": "PC-DOS 2.X",
 					"name": "PC-DOS 2.10 (Retail)",
 					"file": "pcdos210.zip",
 					"size": 156385,
@@ -3527,65 +3512,22 @@
 					"sync": true,
 					"year": 1983,
 					"retail": true,
-					"status": "Error"
-				} , {
-					"id": "pcdos300",
-					"name": "PC-DOS 3.00 (Retail)",
-					"file": "pcdos300.zip",
-					"size": 242024,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 3 0", "-c", "CLS"],
-					"sync": true,
-					"year": 1984,
-					"retail": true,
-					"status": "Error"
-				} , {
-					"id": "pcdos300gr",
-					"name": "PC-DOS 3.00 (German) (Retail)",
-					"file": "pcdos300gr.zip",
-					"size": 242732,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 3 0", "-c", "CLS"],
-					"sync": true,
-					"year": 1984,
-					"retail": true,
-					"language": "German",
-					"status": "Error"
-				} , {
-					"id": "pcdos310b",
-					"name": "PC-DOS 3.10 (Beta)",
-					"file": "pcdos310b.zip",
-					"size": 270223,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 10", "-c", "CLS"],
-					"sync": true,
-					"year": 1985,
-					"retail": false,
-					"status": "Working"
-				} , {
-					"id": "pcdos310",
-					"name": "PC-DOS 3.10 (Retail)",
-					"file": "pcdos310.zip",
-					"size": 270995,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 10", "-c", "CLS"],
-					"sync": true,
-					"year": 1985,
-					"retail": true,
-					"status": "Working"
-				} , {
-					"id": "pcdos320",
-					"name": "PC-DOS 3.20 (Retail)",
-					"file": "pcdos320.zip",
-					"size": 295817,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 20", "-c", "CLS"],
-					"sync": true,
-					"year": 1986,
-					"retail": true,
-					"status": "Working"
+					"status": "Error",
+					"versions": [{
+						"id": "pcdos200",
+						"name": "PC-DOS 2.00 (Retail)",
+						"file": "pcdos200.zip",
+						"size": 149325,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 2 0", "-c", "CLS"],
+						"sync": true,
+						"year": 1983,
+						"retail": true,
+						"status": "Error"
+					}]
 				} , {
 					"id": "pcdos330",
+					"group": "PC-DOS 3.X",
 					"name": "PC-DOS 3.30 (Retail)",
 					"file": "pcdos330.zip",
 					"size": 291675,
@@ -3594,44 +3536,91 @@
 					"sync": true,
 					"year": 1986,
 					"retail": true,
-					"status": "Working"
-				} , {
-					"id": "pcdos330gr",
-					"name": "PC-DOS 3.30 (German) (Retail)",
-					"file": "pcdos330gr.zip",
-					"size": 294236,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 30", "-c", "CLS"],
-					"sync": true,
-					"year": 1986,
-					"retail": true,
-					"language": "German",
-					"status": "Working"
-				} , {
-					"id": "pcdos330nl",
-					"name": "PC-DOS 3.30 (Dutch) (Retail)",
-					"file": "pcdos330nl.zip",
-					"size": 293480,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 30", "-c", "CLS"],
-					"sync": true,
-					"year": 1986,
-					"retail": true,
-					"language": "Dutch",
-					"status": "Working"
-				} , {
-					"id": "pcdos400",
-					"name": "PC-DOS 4.00 (Retail)",
-					"file": "pcdos400.zip",
-					"size": 667245,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
-					"sync": true,
-					"year": 1988,
-					"retail": true,
-					"status": "Working"
+					"status": "Working",
+					"versions": [{
+						"id": "pcdos330gr",
+						"name": "PC-DOS 3.30 (German) (Retail)",
+						"file": "pcdos330gr.zip",
+						"size": 294236,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 30", "-c", "CLS"],
+						"sync": true,
+						"year": 1986,
+						"retail": true,
+						"language": "German",
+						"status": "Working"
+					} , {
+						"id": "pcdos330nl",
+						"name": "PC-DOS 3.30 (Dutch) (Retail)",
+						"file": "pcdos330nl.zip",
+						"size": 293480,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 30", "-c", "CLS"],
+						"sync": true,
+						"year": 1986,
+						"retail": true,
+						"language": "Dutch",
+						"status": "Working"
+					} , {
+						"id": "pcdos320",
+						"name": "PC-DOS 3.20 (Retail)",
+						"file": "pcdos320.zip",
+						"size": 295817,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 20", "-c", "CLS"],
+						"sync": true,
+						"year": 1986,
+						"retail": true,
+						"status": "Working"
+					} , {
+						"id": "pcdos310",
+						"name": "PC-DOS 3.10 (Retail)",
+						"file": "pcdos310.zip",
+						"size": 270995,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 10", "-c", "CLS"],
+						"sync": true,
+						"year": 1985,
+						"retail": true,
+						"status": "Working"
+					} , {
+						"id": "pcdos310b",
+						"name": "PC-DOS 3.10 (Beta)",
+						"file": "pcdos310b.zip",
+						"size": 270223,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 10", "-c", "CLS"],
+						"sync": true,
+						"year": 1985,
+						"retail": false,
+						"status": "Working"
+					} , {
+						"id": "pcdos300",
+						"name": "PC-DOS 3.00 (Retail)",
+						"file": "pcdos300.zip",
+						"size": 242024,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 3 0", "-c", "CLS"],
+						"sync": true,
+						"year": 1984,
+						"retail": true,
+						"status": "Error"
+					} , {
+						"id": "pcdos300gr",
+						"name": "PC-DOS 3.00 (German) (Retail)",
+						"file": "pcdos300gr.zip",
+						"size": 242732,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 3 0", "-c", "CLS"],
+						"sync": true,
+						"year": 1984,
+						"retail": true,
+						"language": "German",
+						"status": "Error"
+					}]
 				} , {
 					"id": "pcdos401",
+					"group": "PC-DOS 4.X",
 					"name": "PC-DOS 4.01 (Retail)",
 					"file": "pcdos401.zip",
 					"size": 667169,
@@ -3640,45 +3629,58 @@
 					"sync": true,
 					"year": 1988,
 					"retail": true,
-					"status": "Working"
-				} , {
-					"id": "pcdos401fr",
-					"name": "PC-DOS 4.01 (French) (Retail)",
-					"file": "pcdos401fr.zip",
-					"size": 806800,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
-					"sync": true,
-					"year": 1988,
-					"retail": true,
-					"language": "French",
-					"status": "Working"
-				} , {
-					"id": "pcdos401it",
-					"name": "PC-DOS 4.01 (Italian) (Retail)",
-					"file": "pcdos401it.zip",
-					"size": 673452,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
-					"sync": true,
-					"year": 1988,
-					"retail": true,
-					"language": "Italian",
-					"status": "Working"
-				} , {
-					"id": "pcdos401sp",
-					"name": "PC-DOS 4.01 (Spanish) (Retail)",
-					"file": "pcdos401sp.zip",
-					"size": 673714,
-					"executable": ".\\COMMAND.COM",
-					"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
-					"sync": true,
-					"year": 1988,
-					"retail": true,
-					"language": "Spanish",
-					"status": "Working"
+					"status": "Working",
+					"versions": [{
+						"id": "pcdos401fr",
+						"name": "PC-DOS 4.01 (French) (Retail)",
+						"file": "pcdos401fr.zip",
+						"size": 806800,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
+						"sync": true,
+						"year": 1988,
+						"retail": true,
+						"language": "French",
+						"status": "Working"
+					} , {
+						"id": "pcdos401it",
+						"name": "PC-DOS 4.01 (Italian) (Retail)",
+						"file": "pcdos401it.zip",
+						"size": 673452,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
+						"sync": true,
+						"year": 1988,
+						"retail": true,
+						"language": "Italian",
+						"status": "Working"
+					} , {
+						"id": "pcdos401sp",
+						"name": "PC-DOS 4.01 (Spanish) (Retail)",
+						"file": "pcdos401sp.zip",
+						"size": 673714,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
+						"sync": true,
+						"year": 1988,
+						"retail": true,
+						"language": "Spanish",
+						"status": "Working"
+					} , {
+						"id": "pcdos400",
+						"name": "PC-DOS 4.00 (Retail)",
+						"file": "pcdos400.zip",
+						"size": 667245,
+						"executable": ".\\COMMAND.COM",
+						"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
+						"sync": true,
+						"year": 1988,
+						"retail": true,
+						"status": "Working"
+					}]
 				} , {
 					"id": "pcdos500",
+					"group": "PC-DOS 5.X",
 					"name": "PC-DOS 5.00 (Retail)",
 					"file": "pcdos500.zip",
 					"size": 1244355,
@@ -3688,7 +3690,8 @@
 					"year": 1991,
 					"retail": true,
 					"status": "Working",
-					"screenshots": ["images/screenshots/pcdos110.png", "images/screenshots/pcdos500.png"]
+					"screenshots": ["images/screenshots/pcdos110.png", "images/screenshots/pcdos500.png"],
+					"versions": []
 				}]
 			} , {
 				"id": "win32",
@@ -3711,7 +3714,7 @@
 					]
 				},
 				"language": "English",
-				"year": 1995,
+				"year": 1985,
 				"developer": "Microsoft Corp.",
 				"publisher": "Microsoft Corp.",
 				"copyright": "Microsoft Corp.",
@@ -3723,12 +3726,14 @@
 				],
 				"versions": [{
 					"id": "win95",
+					"group": "Windows 95",
 					"name": "Windows 95 (Retail)",
 					"file": "win95.zip",
 					"size": 16960727,
 					"executable": "boot WIN95.IMG",
 					"sync": true,
 					"args": ["-c", "imgmount a c:\\WIN95.IMG -size 512,63,16,101"],
+					"year": 1995,
 					"license": "Commercial",
 					"status": "Working",
 					"links": {
@@ -3736,44 +3741,16 @@
 					},
 					"screenshots": [
 						"images/screenshots/win95.png"
-					]
+					],
+					"versions": []
 				}]
 			}]
 		} , {
 			"id": "software",
 			"name": "Software",
 			"games": [{
-				"id": "catalog",
-				"name": "Catalog",
-				"hardware": {
-					"input": [
-						"Keyboard"
-					],
-					"video": {
-						"EGA": {
-							"name": "Enhanced Graphics Adapter",
-							"resolutions": [
-								"320x200"
-							],
-							"colors": 16
-						}
-					},
-					"sound": [
-						"PC Speaker"
-					]
-				},
-				"language": "English",
-				"year": 1990,
-				"versions": [{
-					"id": "catalog",
-					"name": "Catalog",
-					"file": "catalog.zip",
-					"size": 4168729,
-					"executable": ".\\CATALOG\\CATALOG.EXE",
-					"status": "Nothing"
-				}]
-			} , {
 				"id": "qbasic",
+				"name": "QBasic",
 				"hardware": {
 					"input": [
 						"Keyboard", "Mouse"
@@ -3808,6 +3785,8 @@
 					"file": "qbasic.zip",
 					"size": 211243,
 					"executable": ".\\QBASIC.EXE",
+					"year": 1990,
+					"retail": true,
 					"license": "Commercial",
 					"status": "Working",
 					"links": {
@@ -3819,6 +3798,11 @@
 				} , {
 					"id": "nibbles",
 					"name": "QBasic: Nibbles",
+					"file": "qbasic.zip",
+					"size": 211243,
+					"executable": ".\\QBASIC.EXE /RUN NIBBLES.BAS",
+					"year": 1990,
+					"retail": true,
 					"license": "Freeware",
 					"status": "Playable",
 					"links": {
@@ -3828,9 +3812,13 @@
 						"https://www.mobygames.com/images/shots/l/90433-ms-dos-5-included-games-dos-screenshot-nibbles-title-screen.png", "https://www.mobygames.com/images/shots/l/90436-ms-dos-5-included-games-dos-screenshot-nibbles-chase-down-the.png"
 					]
 				} , {
-					"id": "gorilla",
+					"id": "gorillas",
 					"name": "QBasic: Gorillas",
-					"executable": ".\\",
+					"file": "qbasic.zip",
+					"size": 211243,
+					"executable": ".\\QBASIC.EXE /RUN GORILLA.BAS",
+					"year": 1990,
+					"retail": true,
 					"license": "Freeware",
 					"status": "Playable",
 					"links": {

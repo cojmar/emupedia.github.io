@@ -420,7 +420,7 @@
 					// noinspection JSUnfilteredForInLoop
 					for (var game in games['software']['type'][genre]['games']) {
 						// noinspection JSUnfilteredForInLoop
-						list += '<option value="' + i + '" data-genre-index="' + genre + '" data-genre-id="' + games['software']['type'][genre]['id'] + '" data-game-index="' + game + '" data-game-id="' + games['software']['type'][genre]['games'][game]['id'] + '">' + games['software']['type'][genre]['games'][game]['name'] + ' (' + games['software']['type'][genre]['games'][game]['year'] + ')</option>';
+						list += '<option value="' + i + '" data-genre-index="' + genre + '" data-genre-id="' + games['software']['type'][genre]['id'] + '" data-game-index="' + game + '" data-game-id="' + games['software']['type'][genre]['games'][game]['id'] + '">' + games['software']['type'][genre]['games'][game]['name'] + (typeof games['software']['type'][genre]['games'][game]['year'] !== 'undefined' ? ' (' + games['software']['type'][genre]['games'][game]['year'] + ')' : '') + '</option>';
 
 						i++;
 					}
@@ -434,17 +434,59 @@
 			}
 
 			// noinspection DuplicatedCode
-			function render_options_dropdown(options) {
+			function render_options_dropdown(games) {
+				var versions = typeof games['versions'] !== 'undefined' ? games['versions'] : [];
+
 				var html = '';
 
 				var i = 0;
 
-				// noinspection JSUnfilteredForInLoop
-				for (var game in options) {
-					// noinspection JSUnfilteredForInLoop
-					html += '<option value="' + i + '">' + options[game]['name'] + ' (' + format_bytes(parseInt(options[game]['size'], 10)) + ')</option>';
+				for (var game in versions) {
+					var list = '';
 
-					i++;
+					// noinspection JSUnfilteredForInLoop
+					if (typeof versions[game]['versions'] !== 'undefined') {
+						// noinspection JSUnfilteredForInLoop
+						list += '<optgroup label="' + (typeof versions[game]['group'] !== 'undefined' ? versions[game]['group'] : versions[game]['name']) + (typeof versions[game]['year'] !== 'undefined' ? ' (' + versions[game]['year'] + ')' : '') +'">';
+						// noinspection JSUnfilteredForInLoop
+						list += '<option value="' + i + '" data-game-id="' + versions[game]['id'] + '">' + versions[game]['name'] + ' (' + format_bytes(parseInt(versions[game]['size'], 10)) + ')</option>';
+
+						i++;
+
+						// noinspection JSUnfilteredForInLoop
+						for (var version in versions[game]['versions']) {
+							// noinspection JSUnfilteredForInLoop,DuplicatedCode
+							if (typeof versions[game]['versions'][version]['enabled'] !== 'undefined') {
+								// noinspection JSUnfilteredForInLoop
+								if (versions[game]['versions'][version]['enabled'] === true) {
+									// noinspection JSUnfilteredForInLoop,DuplicatedCode
+									list += '<option value="' + i + '" data-game-id="' + versions[game]['versions'][version]['id'] + '">' + versions[game]['versions'][version]['name'] + ' (' + format_bytes(parseInt(versions[game]['versions'][version]['size'], 10)) + ')</option>';
+								}
+							} else {
+								// noinspection JSUnfilteredForInLoop,DuplicatedCode
+								list += '<option value="' + i + '" data-game-id="' + versions[game]['versions'][version]['id'] + '">' + versions[game]['versions'][version]['name'] + ' (' + format_bytes(parseInt(versions[game]['versions'][version]['size'], 10)) + ')</option>';
+							}
+
+							i++;
+						}
+
+						list += '</optgroup>';
+					} else {
+						// noinspection JSUnfilteredForInLoop
+						list += '<option value="' + i + '" data-game-id="' + versions[game]['id'] + '">' + versions[game]['name'] + ' (' + format_bytes(parseInt(versions[game]['size'], 10)) + ')</option>';
+
+						i++;
+					}
+
+					// noinspection JSUnfilteredForInLoop
+					if (typeof versions[game]['enabled'] !== 'undefined') {
+						// noinspection JSUnfilteredForInLoop
+						if (versions[game]['enabled'] === true) {
+							html += list;
+						}
+					} else {
+						html += list;
+					}
 				}
 
 				return html;
@@ -555,7 +597,7 @@
 					html += '<li><img width="' + width + '" height="' + height + '" alt="" draggable="false" ondragstart="return false;" src="' + screenshots[image] + '" /></li>';
 				}
 
-				html += '</ul';
+				html += '</ul>';
 
 				return html;
 			}
@@ -577,7 +619,7 @@
 				if ($body.hasClass('v2')) {
 					$list_dropdown_v2.html('').html(render_list_dropdown_v2(games_v2));
 					// $list_dropdown_v2.html('').html(render_list_dropdown_v2(v1_to_v2(games_v1)));
-					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]['versions']));
+					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]));
 
 					var screenshots = typeof games_v2['software']['type'][0]['games'][0]['versions'][0]['screenshots'] !== 'undefined' ? games_v2['software']['type'][0]['games'][0]['versions'][0]['screenshots'] : (typeof games_v2['software']['type'][0]['games'][0]['screenshots'] !== 'undefined' ? games_v2['software']['type'][0]['games'][0]['screenshots'] : []);
 					var screenshot = typeof screenshots[0] !== 'undefined' ? screenshots[0] : '';
@@ -763,8 +805,7 @@
 							});
 
 							$options_dropdown.select2({
-								width: 'element',
-								minimumResultsForSearch: -1
+								width: 'element'
 							}).on('select2:open', function() {
 								if (typeof PerfectScrollbar !== 'undefined') {
 									perfect_scrollbar = new PerfectScrollbar('.select2-results__options', {});
@@ -1013,7 +1054,7 @@
 										$list_dropdown_v2.find('option[value="' + index_selected + '"]').prop('selected', true).attr('selected', true).trigger('change');
 										var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 										var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
-										$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions']));
+										$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]));
 										$options_dropdown.find('option[value="' + e + '"]').prop('selected', true).attr('selected', true).trigger('change');
 										// noinspection JSUnfilteredForInLoop
 										var file = games_v2['software']['type'][genre]['games'][g]['versions'][e]['file'] || '';
@@ -1218,7 +1259,7 @@
 							index_selected = parseInt($list_dropdown_v2.val(), 10);
 							var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 							var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
-							$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions']));
+							$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]));
 							var screenshots = typeof games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][0]['screenshots'] !== 'undefined' ? games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][0]['screenshots'] : (typeof games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['screenshots'] !== 'undefined' ? games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['screenshots'] : []);
 							screenshot = typeof screenshots[0] !== 'undefined' ? screenshots[0] : '';
 
@@ -1324,29 +1365,64 @@
 					}
 				});
 				$document.off('change', '.options-dropdown').on('change', '.options-dropdown', function() {
-					var index_selected = parseInt($list_dropdown_v2.val(), 10);
-					var option_selected = parseInt($options_dropdown.val(), 10);
-
 					// noinspection DuplicatedCode
 					if ($body.hasClass('v2')) {
 						$start.show();
 
+						var index_selected = parseInt($list_dropdown_v2.val(), 10);
+						var option_selected = parseInt($options_dropdown.val(), 10);
 						var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 						var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
-						var screenshots = typeof games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['screenshots'] !== 'undefined' ? games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['screenshots'] : (typeof games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['screenshots'] !== 'undefined' ? games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['screenshots'] : []);
-						var screenshot = typeof screenshots[0] !== 'undefined' ? screenshots[0] : '';
+						var game_id_selected = $options_dropdown.find('option[value="' + option_selected + '"]').data('game-id');
+						var games = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected];
+						var screenshots = typeof games['screenshots'] !== 'undefined' ? games['screenshots'] : [];
+
+						for (var game in games['versions']) {
+							// noinspection JSUnfilteredForInLoop
+							if (typeof games['versions'][game]['versions'] !== 'undefined') {
+								// noinspection JSUnfilteredForInLoop
+								if (typeof games['versions'][game]['versions']['length'] !== 'undefined') {
+									// noinspection JSUnfilteredForInLoop
+									if (parseInt(games['versions'][game]['versions']['length'], 10) > 0) {
+										// noinspection JSUnfilteredForInLoop
+										for (var ver in games['versions'][game]['versions']) {
+											// noinspection JSUnfilteredForInLoop,DuplicatedCode
+											if (games['versions'][game]['versions'][ver]['id'] === game_id_selected) {
+												// noinspection JSUnfilteredForInLoop
+												screenshots = typeof games['versions'][game]['versions'][ver]['screenshots'] !== 'undefined' ? games['versions'][game]['versions'][ver]['screenshots'] : (typeof games['versions'][game]['screenshots'] !== 'undefined' ? games['versions'][game]['screenshots'] : (typeof games['screenshots'] !== 'undefined' ? games['screenshots'] : []));
+												break;
+											}
+										}
+									} else {
+										// noinspection JSUnfilteredForInLoop,DuplicatedCode
+										if (games['versions'][game]['id'] === game_id_selected) {
+											// noinspection JSUnfilteredForInLoop
+											screenshots = typeof games['versions'][game]['screenshots'] !== 'undefined' ? games['versions'][game]['screenshots'] : (typeof games['screenshots'] !== 'undefined' ? games['screenshots'] : []);
+											break;
+										}
+									}
+								} else {
+									// noinspection JSUnfilteredForInLoop,DuplicatedCode
+									if (games['versions'][game]['id'] === game_id_selected) {
+										// noinspection JSUnfilteredForInLoop
+										screenshots = typeof games['versions'][game]['screenshots'] !== 'undefined' ? games['versions'][game]['screenshots'] : (typeof games['screenshots'] !== 'undefined' ? games['screenshots'] : []);
+										break;
+									}
+								}
+							} else {
+								// noinspection JSUnfilteredForInLoop,DuplicatedCode
+								if (games['versions'][game]['id'] === game_id_selected) {
+									// noinspection JSUnfilteredForInLoop
+									screenshots = typeof games['versions'][game]['screenshots'] !== 'undefined' ? games['versions'][game]['screenshots'] : (typeof games['screenshots'] !== 'undefined' ? games['screenshots'] : []);
+									break;
+								}
+							}
+						}
 
 						// noinspection DuplicatedCode
 						if ($.fn.lightSlider) {
 							$preview.html('').html(render_preview(screenshots)).show();
-						} else {
-							$preview.css({
-								'background-image': 'url(' + screenshot + ')',
-								'background-size': 'contain'
-							}).show();
-						}
 
-						if ($.fn.lightSlider) {
 							lightslider = $body.find('.lightslider').lightSlider({
 								item: 1,
 								gallery: true,
@@ -1356,6 +1432,11 @@
 								speed: 500,
 								slideMargin: 0
 							});
+						} else {
+							$preview.css({
+								'background-image': 'url(' + screenshots[0] + ')',
+								'background-size': 'contain'
+							}).show();
 						}
 					}
 				});
