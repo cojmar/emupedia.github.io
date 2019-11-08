@@ -27,6 +27,10 @@
 		"sizes": "48x48",
 		"type": "image/png"
 	} , {
+		"src": "../images/dosbox-logo-58.png",
+		"sizes": "58x58",
+		"type": "image/png"
+	} , {
 		"src": "../images/dosbox-logo-64.png",
 		"sizes": "64x64",
 		"type": "image/png"
@@ -47,8 +51,16 @@
 		"sizes": "144x144",
 		"type": "image/png"
 	} , {
+		"src": "../images/dosbox-logo-152.png",
+		"sizes": "152x152",
+		"type": "image/png"
+	} , {
 		"src": "../images/dosbox-logo-168.png",
 		"sizes": "168x168",
+		"type": "image/png"
+	} , {
+		"src": "../images/dosbox-logo-180.png",
+		"sizes": "180x180",
 		"type": "image/png"
 	} , {
 		"src": "../images/dosbox-logo-192.png",
