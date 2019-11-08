@@ -41,7 +41,7 @@
 	} , {
 		"src": "../images/dosbox-logo-96.png",
 		"sizes": "96x96",
-		"type": "image/png",
+		"type": "image/png"
 	} , {
 		"src": "../images/dosbox-logo-114.png",
 		"sizes": "114x114",
