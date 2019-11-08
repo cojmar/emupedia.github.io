@@ -176,168 +176,6 @@
 				return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 			}
 
-			// noinspection JSUnusedLocalSymbols
-			function v1_to_v2(v1) {
-				var v2 = {
-					"format": {
-						"version": "2.0"
-					},
-					"software": {
-						"type": [{
-							"id": "action",
-							"name": "Action",
-							"games": []
-						} , {
-							"id": "adventure",
-							"name": "Adventure",
-							"games": []
-						} , {
-							"id": "arcade",
-							"name": "Arcade",
-							"games": []
-						} , {
-							"id": "artillery",
-							"name": "Artillery",
-							"games": []
-						} , {
-							"id": "apaddle",
-							"name": "Arcade Paddle",
-							"games": []
-						} , {
-							"id": "aplatformer",
-							"name": "Arcade Platformer",
-							"games": []
-						} , {
-							"id": "ashooter",
-							"name": "Arcade Shooter",
-							"games": []
-						} , {
-							"id": "sports",
-							"name": "Arcade Sports",
-							"games": []
-						} , {
-							"id": "board",
-							"name": "Board Game",
-							"games": []
-						} , {
-							"id": "economic",
-							"name": "Economic Simulator",
-							"games": []
-						} , {
-							"id": "fighting",
-							"name": "Fighting Game",
-							"games": []
-						} , {
-							"id": "fps",
-							"name": "First Person Shooter (FPS)",
-							"games": []
-						} , {
-							"id": "platformer",
-							"name": "Platformer",
-							"games": []
-						} , {
-							"id": "puzzle",
-							"name": "Puzzle",
-							"games": []
-						} , {
-							"id": "pplatformer",
-							"name": "Puzzle Platformer",
-							"games": []
-						} , {
-							"id": "racing",
-							"name": "Racing",
-							"games": []
-						} , {
-							"id": "rts",
-							"name": "Real-Time Strategy (RTS)",
-							"games": []
-						} , {
-							"id": "rpg",
-							"name": "Role-Playing Game (RPG)",
-							"games": []
-						} , {
-							"id": "snake",
-							"name": "Snake",
-							"games": []
-						} , {
-							"id": "tbs",
-							"name": "Turn-Based Strategy (TBS)",
-							"games": []
-						} , {
-							"id": "os",
-							"name": "Operating System (OS)",
-							"games": []
-						} , {
-							"id": "software",
-							"name": "Software",
-							"games": []
-						}]
-					}
-				};
-
-				var v2_category_template = function(id, name, hardware, language, year, developer, publisher, copyright, links, screenshots, versions) {
-					return {
-						"id": id,
-						"name": name,
-						"hardware": hardware,
-						"language": language,
-						"year": year,
-						"developer": developer,
-						"publisher": publisher,
-						"copyright": copyright,
-						"links": links,
-						"screenshots": screenshots,
-						"versions": versions
-					}
-				};
-
-				var v2_software_template = function(id, name, file, size, executable, mode, sync, license, status, links, screenshots) {
-					return {
-						"id": id,
-						"name": name,
-						"file": file,
-						"size": size,
-						"executable": executable,
-						"mode": mode,
-						"sync": sync,
-						"cycles": undefined,
-						"license": license,
-						"status": status,
-						"links": links,
-						"screenshots": screenshots
-					}
-				};
-
-				for (var game in v1.games) {
-					for (var categ in v2.software.type) {
-						// noinspection JSUnfilteredForInLoop
-						var g = v1.games[game];
-						// noinspection JSUnfilteredForInLoop
-						var c = v2.software.type[categ];
-
-						// noinspection DuplicatedCode
-						if (g.genre === c.name) {
-							var vers = [];
-
-							vers.push(v2_software_template(g.id, g.name, g.file, g.size, g.executable, g.mode, g.sync, g.license, g.status, g.links, g.screenshots));
-
-							for (var clone in g.clones) {
-								// noinspection JSUnfilteredForInLoop
-								var cl = g.clones[clone];
-
-								vers.push(v2_software_template(cl.id, cl.name, cl.file, cl.size, cl.executable, cl.mode, cl.sync, cl.license, cl.status, cl.links, cl.screenshots));
-							}
-
-							//console.log(v2_category_template(g.id, g.group, g.hardware, g.language, g.year, g.developer, g.publisher, g.copyright, g.links, g.screenshots, vers));
-
-							c.games.push(v2_category_template(g.id, g.group, g.hardware, g.language, g.year, g.developer, g.publisher, g.copyright, g.links, g.screenshots, vers));
-						}
-					}
-				}
-
-				return v2;
-			}
-
 			function solve_aspect_ratio(width, height, numerator, denominator) {
 				if (width !== undefined) {
 					return Math.round(width / (numerator / denominator));
@@ -1179,64 +1017,56 @@
 
 					// noinspection DuplicatedCode
 					if ($body.hasClass('v2')) {
-						index_selected = parseInt($list_dropdown_v2.val(), 10);
 						var option_selected = parseInt($options_dropdown.val(), 10);
-						var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
-						var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
 						var game_id_selected = $options_dropdown.find('option[value="' + option_selected + '"]').data('game-id');
-						var games = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected];
-						var game_selected_obj = null;
+						var genres = games_v2['software']['type'];
+						var selgame = null;
+						var selidx = 0;
 
-						// noinspection JSDuplicatedDeclaration
-						for (var g in games['versions']) {
+						loop1:
+						for (var genre in genres) {
 							// noinspection JSUnfilteredForInLoop
-							if (typeof games['versions'][g]['versions'] !== 'undefined') {
+							var games = genres[genre]['games'];
+							// noinspection JSUnfilteredForInLoop
+							for (var g in games) {
 								// noinspection JSUnfilteredForInLoop
-								if (typeof games['versions'][g]['versions']['length'] !== 'undefined') {
+								if (typeof games[g]['versions'] !== 'undefined') {
 									// noinspection JSUnfilteredForInLoop
-									if (parseInt(games['versions'][g]['versions']['length'], 10) > 0) {
+									var versions1 = games[g]['versions'];
+									for (var ver1 in versions1) {
 										// noinspection JSUnfilteredForInLoop
-										for (var ver in games['versions'][g]['versions']) {
-											// noinspection JSUnfilteredForInLoop,DuplicatedCode
-											if (games['versions'][g]['versions'][ver]['id'] === game_id_selected) {
+										if (versions1[ver1]['id'] === game_id_selected) {
+											// noinspection JSUnfilteredForInLoop
+											selgame = versions1[ver1];
+											break loop1;
+										} else {
+											// noinspection JSUnfilteredForInLoop
+											if (typeof versions1[ver1]['versions'] !== 'undefined') {
 												// noinspection JSUnfilteredForInLoop
-												game_selected_obj = games['versions'][g]['versions'][ver];
-												break;
+												var versions2 = versions1[ver1]['versions'];
+												for (var ver2 in versions2) {
+													// noinspection JSUnfilteredForInLoop
+													if (versions2[ver2]['id'] === game_id_selected) {
+														// noinspection JSUnfilteredForInLoop
+														selgame = versions2[ver2];
+														break loop1;
+													}
+												}
 											}
 										}
-									} else {
-										// noinspection JSUnfilteredForInLoop,DuplicatedCode
-										if (games['versions'][g]['id'] === game_id_selected) {
-											// noinspection JSUnfilteredForInLoop
-											game_selected_obj = games['versions'][g];
-											break;
-										}
-									}
-								} else {
-									// noinspection JSUnfilteredForInLoop,DuplicatedCode
-									if (games['versions'][g]['id'] === game_id_selected) {
-										// noinspection JSUnfilteredForInLoop
-										game_selected_obj = games['versions'][g];
-										break;
 									}
 								}
-							} else {
-								// noinspection JSUnfilteredForInLoop,DuplicatedCode
-								if (games['versions'][g]['id'] === game_id_selected) {
-									// noinspection JSUnfilteredForInLoop
-									game_selected_obj = games['versions'][g];
-									break;
-								}
+								selidx++;
 							}
 						}
 
-						var id = game_selected_obj['id'] || '';
-						var file = game_selected_obj['file'] || '';
-						var args = game_selected_obj['args'] || [];
-						var executable = game_selected_obj['executable'] || '';
-						var mode = game_selected_obj['mode'];
-						var sync = game_selected_obj['sync'];
-						var cycles = game_selected_obj['cycles'];
+						var id = selgame['id'] || '';
+						var file = selgame['file'] || '';
+						var args = selgame['args'] || [];
+						var executable = selgame['executable'] || '';
+						var mode = selgame['mode'];
+						var sync = selgame['sync'];
+						var cycles = selgame['cycles'];
 
 						args.push('-c', executable.replace('./', ''));
 
