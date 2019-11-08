@@ -914,9 +914,6 @@
 							int = null;
 							// noinspection JSUnresolvedFunction,JSUnresolvedVariable,AmdModulesDependencies
 							var emulator = new Emulator($canvas.get(0), function() {
-									$list_table.hide();
-									$preview.hide();
-									$start.hide();
 									started = true;
 									setTimeout(function() {
 										$window.trigger('resize');
@@ -946,9 +943,6 @@
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						// noinspection JSUnresolvedFunction,JSUnresolvedVariable,AmdModulesDependencies
 						var emulator = new Emulator($canvas.get(0), function() {
-								$list_table.hide();
-								$preview.hide();
-								$start.hide();
 								started = true;
 								setTimeout(function() {
 									$window.trigger('resize');
@@ -986,9 +980,6 @@
 				}).ready(function(fs, main) {
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						fs.extract(response.link).then(function() {
-							$list_table.hide();
-							$preview.hide();
-							$start.hide();
 							started = true;
 
 							main(args).then(function(ci) {
@@ -1017,7 +1008,7 @@
 
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && (SYSTEM_FEATURE_ASMJS || SYSTEM_FEATURE_WEBASSEMBLY)) {
-				var index_selected;
+				var index_selected, genre_index_selected, game_index_selected, option_selected, game_id_selected;
 
 				first = typeof $.url().param('game') !== 'undefined' ? $.url().param('game') : (typeof $.url().param('gamev2') !== 'undefined' ? $.url().param('gamev2') : false);
 
@@ -1038,44 +1029,67 @@
 					$preview.hide();
 					$start.hide();
 
+					// noinspection DuplicatedCode
 					if ($body.hasClass('v2')) {
 						$list_dropdown_v2.find('option').prop('selected', false).removeAttr('selected');
 						$options_dropdown.find('option').prop('selected', false).removeAttr('selected');
 
-						index_selected = 0;
+						var genres = games_v2['software']['type'];
+						var selgame = null;
+						var selidx = 0;
 
-						for (var genre in games_v2['software']['type']) {
+						loop1:
+						for (var genre in genres) {
 							// noinspection JSUnfilteredForInLoop
-							for (var g in games_v2['software']['type'][genre]['games']) {
+							var games = genres[genre]['games'];
+							// noinspection JSUnfilteredForInLoop
+							for (var g in games) {
 								// noinspection JSUnfilteredForInLoop
-								for (var e in games_v2['software']['type'][genre]['games'][g]['versions']) {
-									// noinspection JSUnfilteredForInLoop,DuplicatedCode
-									if (games_v2['software']['type'][genre]['games'][g]['versions'][e]['id'] === first) {
-										$list_dropdown_v2.find('option[value="' + index_selected + '"]').prop('selected', true).attr('selected', true).trigger('change');
-										var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
-										var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
-										$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]));
-										$options_dropdown.find('option[value="' + e + '"]').prop('selected', true).attr('selected', true).trigger('change');
+								if (typeof games[g]['versions'] !== 'undefined') {
+									// noinspection JSUnfilteredForInLoop
+									var versions1 = games[g]['versions'];
+									for (var ver1 in versions1) {
 										// noinspection JSUnfilteredForInLoop
-										var file = games_v2['software']['type'][genre]['games'][g]['versions'][e]['file'] || '';
-										// noinspection JSUnfilteredForInLoop
-										var args = games_v2['software']['type'][genre]['games'][g]['versions'][e]['args'] || [];
-										// noinspection JSUnfilteredForInLoop
-										var mode = games_v2['software']['type'][genre]['games'][g]['versions'][e]['mode'];
-										// noinspection JSUnfilteredForInLoop
-										var sync = games_v2['software']['type'][genre]['games'][g]['versions'][e]['sync'];
-										// noinspection JSUnfilteredForInLoop
-										var cycles = games_v2['software']['type'][genre]['games'][g]['versions'][e]['cycles'];
-										// noinspection JSUnfilteredForInLoop
-										var executable = games_v2['software']['type'][genre]['games'][g]['versions'][e]['executable'] || '';
-										args.push('-c', executable.replace('./', ''));
-										start_v2(file, args, mode, sync, cycles);
-										break;
+										if (versions1[ver1]['id'] === first) {
+											// noinspection JSUnfilteredForInLoop
+											selgame = versions1[ver1];
+											break loop1;
+										} else {
+											// noinspection JSUnfilteredForInLoop
+											if (typeof versions1[ver1]['versions'] !== 'undefined') {
+												// noinspection JSUnfilteredForInLoop
+												var versions2 = versions1[ver1]['versions'];
+												for (var ver2 in versions2) {
+													// noinspection JSUnfilteredForInLoop
+													if (versions2[ver2]['id'] === first) {
+														// noinspection JSUnfilteredForInLoop
+														selgame = versions2[ver2];
+														break loop1;
+													}
+												}
+											}
+										}
 									}
 								}
-								index_selected++;
+								selidx++;
 							}
 						}
+
+						$list_dropdown_v2.find('option[value="' + selidx + '"]').prop('selected', true).attr('selected', true).trigger('change');
+						var selgenreidx = parseInt($list_dropdown_v2.find('option[value="' + selidx + '"]').data('genre-index'), 10);
+						var selgameidx = parseInt($list_dropdown_v2.find('option[value="' + selidx + '"]').data('game-index'), 10);
+						$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][selgenreidx]['games'][selgameidx]));
+						$options_dropdown.find('option[data-game-id="' + first + '"]').prop('selected', true).attr('selected', true).trigger('change');
+
+						var file = selgame['file'] || '';
+						var args = selgame['args'] || [];
+						var executable = selgame['executable'] || '';
+						var mode = selgame['mode'];
+						var sync = selgame['sync'];
+						var cycles = selgame['cycles'];
+
+						args.push('-c', executable.replace('./', ''));
+						start_v2(file, args, mode, sync, cycles);
 					} else {
 						$list_dropdown_v1.find('option').prop('selected', false).removeAttr('selected');
 
@@ -1169,14 +1183,60 @@
 						var option_selected = parseInt($options_dropdown.val(), 10);
 						var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 						var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
+						var game_id_selected = $options_dropdown.find('option[value="' + option_selected + '"]').data('game-id');
+						var games = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected];
+						var game_selected_obj = null;
 
-						var id = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['id'] || '';
-						var file = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['file'] || '';
-						var args = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['args'] || [];
-						var executable = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['executable'] || '';
-						var mode = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['mode'];
-						var sync = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['sync'];
-						var cycles = games_v2['software']['type'][genre_index_selected]['games'][game_index_selected]['versions'][option_selected]['cycles'];
+						// noinspection JSDuplicatedDeclaration
+						for (var g in games['versions']) {
+							// noinspection JSUnfilteredForInLoop
+							if (typeof games['versions'][g]['versions'] !== 'undefined') {
+								// noinspection JSUnfilteredForInLoop
+								if (typeof games['versions'][g]['versions']['length'] !== 'undefined') {
+									// noinspection JSUnfilteredForInLoop
+									if (parseInt(games['versions'][g]['versions']['length'], 10) > 0) {
+										// noinspection JSUnfilteredForInLoop
+										for (var ver in games['versions'][g]['versions']) {
+											// noinspection JSUnfilteredForInLoop,DuplicatedCode
+											if (games['versions'][g]['versions'][ver]['id'] === game_id_selected) {
+												// noinspection JSUnfilteredForInLoop
+												game_selected_obj = games['versions'][g]['versions'][ver];
+												break;
+											}
+										}
+									} else {
+										// noinspection JSUnfilteredForInLoop,DuplicatedCode
+										if (games['versions'][g]['id'] === game_id_selected) {
+											// noinspection JSUnfilteredForInLoop
+											game_selected_obj = games['versions'][g];
+											break;
+										}
+									}
+								} else {
+									// noinspection JSUnfilteredForInLoop,DuplicatedCode
+									if (games['versions'][g]['id'] === game_id_selected) {
+										// noinspection JSUnfilteredForInLoop
+										game_selected_obj = games['versions'][g];
+										break;
+									}
+								}
+							} else {
+								// noinspection JSUnfilteredForInLoop,DuplicatedCode
+								if (games['versions'][g]['id'] === game_id_selected) {
+									// noinspection JSUnfilteredForInLoop
+									game_selected_obj = games['versions'][g];
+									break;
+								}
+							}
+						}
+
+						var id = game_selected_obj['id'] || '';
+						var file = game_selected_obj['file'] || '';
+						var args = game_selected_obj['args'] || [];
+						var executable = game_selected_obj['executable'] || '';
+						var mode = game_selected_obj['mode'];
+						var sync = game_selected_obj['sync'];
+						var cycles = game_selected_obj['cycles'];
 
 						args.push('-c', executable.replace('./', ''));
 
@@ -1196,14 +1256,13 @@
 						// noinspection DuplicatedCode
 						if (first) {
 							first = false;
-
+							$list_table.hide();
+							$preview.hide();
+							$start.hide();
 							// noinspection DuplicatedCode
 							for (var game in games_v1['games']) {
 								// noinspection JSUnfilteredForInLoop,DuplicatedCode
 								if (games_v1['games'][game]['id'] === game_selected) {
-									$list_table.hide();
-									$preview.hide();
-									$start.hide();
 									// noinspection JSUnfilteredForInLoop,DuplicatedCode
 									start_v1(typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file'], games_v1['games'][game]['executable'], games_v1['games'][game]['args'], games_v1['games'][game]['mode'], games_v1['games'][game]['sync'], games_v1['games'][game]['old']);
 									break;
@@ -1214,9 +1273,6 @@
 										for (var clone in games_v1['games'][game]['clones']) {
 											// noinspection JSUnfilteredForInLoop,DuplicatedCode
 											if (games_v1['games'][game]['clones'][clone]['id'] === game_selected) {
-												$list_table.hide();
-												$preview.hide();
-												$start.hide();
 												// noinspection JSUnfilteredForInLoop,DuplicatedCode
 												start_v1((typeof games_v1['games'][game]['clones'][clone]['files'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['files'] : (typeof games_v1['games'][game]['clones'][clone]['file'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['file'] : (typeof games_v1['games'][game]['files'] !== 'undefined' ? games_v1['games'][game]['files'] : games_v1['games'][game]['file']))), (typeof games_v1['games'][game]['clones'][clone]['executable'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['executable'] : games_v1['games'][game]['executable']), (typeof games_v1['games'][game]['clones'][clone]['args'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['args'] : games_v1['games'][game]['args']), games_v1['games'][game]['clones'][clone]['mode'], (typeof games_v1['games'][game]['clones'][clone]['sync'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['sync'] : games_v1['games'][game]['sync']), (typeof games_v1['games'][game]['clones'][clone]['old'] !== 'undefined' ? games_v1['games'][game]['clones'][clone]['old'] : games_v1['games'][game]['old']));
 											}
