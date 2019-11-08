@@ -819,7 +819,6 @@
 					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
 						fs.extract(response.link).then(function() {
 							started = true;
-
 							main(args).then(function(ci) {
 								window.ci = ci;
 							});
@@ -1077,6 +1076,11 @@
 							$start.hide();
 							start_v2(file, args, mode, sync, cycles);
 						} else {
+							if (typeof window.ci !== 'undefined') {
+								if (typeof window.ci.exit === 'function') {
+									window.ci.exit();
+								}
+							}
 							location.href = location.protocol + '//' + location.host + location.pathname + '?gamev2=' + id;
 						}
 					} else {
