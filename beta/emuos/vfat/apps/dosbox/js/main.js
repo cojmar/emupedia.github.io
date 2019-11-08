@@ -1,6 +1,6 @@
 // noinspection ThisExpressionReferencesGlobalObjectJS,JSUnusedLocalSymbols
 (function(global) {
-	'use strict';
+	console.log('╔═╗╔╦╗╦ ╦╔═╗╔═╗╔╦═╗╦╔═╗\n╠═ ║║║║ ║╠═╝╠═  ║ ║║╠═╣\n╚═╝╩ ╩╚═╝╩  ╚═╝═╩═╝╩╩ ╩');
 
 	var $html							= null;
 	var $body							= null;
