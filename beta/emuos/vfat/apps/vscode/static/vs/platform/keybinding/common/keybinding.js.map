@@ -1,0 +1,1 @@
+{"version":3,"file":"keybinding.js","sourceRoot":"file:///E:/Repositories/vscode.git/src","sources":["../src/vs/platform/keybinding/common/keybinding.ts"],"names":[],"mappings":"AAAA;;;gGAGgG;;;;IAiBhG,IAAkB,gBAGjB;IAHD,WAAkB,gBAAgB;QACjC,6DAAW,CAAA;QACX,uDAAI,CAAA;IACL,CAAC,EAHiB,gBAAgB,GAAhB,wBAAgB,KAAhB,wBAAgB,QAGjC;IAwBY,QAAA,kBAAkB,GAAG,+BAAe,CAAqB,mBAAmB,CAAC,CAAC"}
