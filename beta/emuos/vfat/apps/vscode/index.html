@@ -69,9 +69,30 @@
 	<!-- Workarounds/Hacks (remote user data uri) -->
 	<meta id="vscode-remote-user-data-uri" data-settings="">
 </head>
-<body aria-label="">
+	<body aria-label="">
 		<!-- Startup (do not modify order of script tags!) -->
+		<!--suppress JSUnresolvedVariable -->
 		<script>
+			const configElement = document.getElementById('vscode-workbench-web-configuration');
+			const configElementAttribute = configElement ? configElement.getAttribute('data-settings') : undefined;
+			if (!configElement || !configElementAttribute) {
+				throw new Error('Missing web configuration element');
+			}
+			const config = JSON.parse(configElementAttribute);
+			// Revive static extension locations
+			if (Array.isArray(config.staticExtensions)) {
+				const scheme = location.protocol.replace(':', '');
+				const authority = location.host;
+				const path = location.pathname.replace('index.html', '');
+				config.staticExtensions.forEach(extension => {
+					extension.extensionLocation = {
+						scheme: scheme,
+						authority: authority,
+						path: path + extension.extensionLocation.path.replace('/static-extension', 'static/extensions/')
+					};
+				});
+				configElement.setAttribute('data-settings', JSON.stringify(config));
+			}
 			// NOTE: Changes to inline scripts require update of content security policy
 			self.require = {
 				baseUrl: 'static',
