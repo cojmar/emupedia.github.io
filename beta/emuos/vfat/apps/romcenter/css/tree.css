@@ -149,3 +149,11 @@
 .tree.theme-modern li.tree-leaf, .tree.theme-modern li.tree-leaf::before, .tree.theme-modern li.tree-leaf.tree-has-children > span.tree-toggle {
 	background-image: url(../images/tree/tree-modern.png);
 }
+
+.tree.theme-vscode li.tree-leaf, .tree.theme-vscode li.tree-leaf::before, .tree.theme-vscode li.tree-leaf.tree-has-children > span.tree-toggle {
+	background-image: url(../images/tree/tree-vscode.png);
+}
+
+.tree.theme-vscode li.tree-leaf.tree-has-children > span.tree-toggle {
+	background-color: white;
+}

@@ -1,6 +1,8 @@
 // noinspection ThisExpressionReferencesGlobalObjectJS,JSUnusedLocalSymbols
 (function(global) {
-	console.log('╔═╗╔╦╗╦ ╦╔═╗╔═╗╔╦═╗╦╔═╗\n╠═ ║║║║ ║╠═╝╠═  ║ ║║╠═╣\n╚═╝╩ ╩╚═╝╩  ╚═╝═╩═╝╩╩ ╩');
+	console.log('╔═╗╔╦╗╦ ╦╔═╗╔═╗╔╦═╗╦╔═╗\n' +
+				'╠═ ║║║║ ║╠═╝╠═  ║ ║║╠═╣\n' +
+				'╚═╝╩ ╩╚═╝╩  ╚═╝═╩═╝╩╩ ╩');
 
 	var $html							= null;
 	var $body							= null;
@@ -455,6 +457,12 @@
 
 				// noinspection DuplicatedCode
 				if ($body.hasClass('v2')) {
+					if (typeof window.ci !== 'undefined') {
+						if (typeof window.ci.exit === 'function') {
+							window.ci.exit();
+						}
+					}
+
 					$list_dropdown_v2.html('').html(render_list_dropdown_v2(games_v2));
 					// $list_dropdown_v2.html('').html(render_list_dropdown_v2(v1_to_v2(games_v1)));
 					$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][0]['games'][0]));
@@ -1146,6 +1154,12 @@
 
 						// noinspection DuplicatedCode
 						if ($body.hasClass('v2')) {
+							if (typeof window.ci !== 'undefined') {
+								if (typeof window.ci.exit === 'function') {
+									window.ci.exit();
+								}
+							}
+
 							index_selected = parseInt($list_dropdown_v2.val(), 10);
 							var genre_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('genre-index'), 10);
 							var game_index_selected = parseInt($list_dropdown_v2.find('option[value="' + index_selected + '"]').data('game-index'), 10);
@@ -1258,6 +1272,12 @@
 					// noinspection DuplicatedCode
 					if ($body.hasClass('v2')) {
 						$start.show();
+
+						if (typeof window.ci !== 'undefined') {
+							if (typeof window.ci.exit === 'function') {
+								window.ci.exit();
+							}
+						}
 
 						var index_selected = parseInt($list_dropdown_v2.val(), 10);
 						var option_selected = parseInt($options_dropdown.val(), 10);
