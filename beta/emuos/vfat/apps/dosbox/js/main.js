@@ -51,7 +51,7 @@
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
-			jsdos: '../../../../js/libraries/js-dos-6.22.46.min',
+			jsdos: '../../../../js/libraries/js-dos-6.22.47.min',
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
 			jsonpath: '../../../../js/libraries/jsonpath-1.0.2.min',
 			jszip: '../../../../js/libraries/jszip-3.2.2.min',
@@ -73,7 +73,7 @@
 			'perfect-scrollbar': '../../../../js/libraries/perfect-scrollbar-1.4.0.min',
 			popper: '../../../../js/libraries/popper-1.16.0.min',
 			purl: '../../../../js/libraries/purl-2.3.1',
-			select2: '../../../../js/libraries/select2-4.0.11.min',
+			select2: '../../../../js/libraries/select2-4.0.12.min',
 			text: '../../../../js/libraries/requirejs-text-2.0.15'
 		},
 		shim: {

@@ -39,7 +39,7 @@
 			'perfect-scrollbar': '../../../../js/libraries/perfect-scrollbar-1.4.0.min',
 			popper: '../../../../js/libraries/popper-1.16.0.min',
 			purl: '../../../../js/libraries/purl-2.3.1',
-			select2: '../../../../js/libraries/select2-4.0.11.min',
+			select2: '../../../../js/libraries/select2-4.0.12.min',
 			text: '../../../../js/libraries/requirejs-text-2.0.15'
 		},
 		shim: {
