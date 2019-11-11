@@ -2,7 +2,7 @@
 .tree {
 	display: block;
 	width: 80%;
-	/*background-color: lightcyan;*/
+	background-color: #fff;
 	border: 1px solid #abadb3;
 	padding: 2px;
 	margin: 10px;
@@ -86,6 +86,17 @@
 	background-position: -18px 0;
 }
 
+.tree .tree-label {
+	line-height: 18px;
+	display: inline-block;
+	vertical-align: top;
+	cursor: pointer;
+	max-width: 100%;
+	padding: 0 2px;
+	text-decoration: none;
+	color: #000;
+}
+
 .tree .tree-leaf-label {
 	line-height: 18px;
 	display: inline-block;
@@ -98,7 +109,7 @@
 	color: #000;
 }
 
-.tree li.tree-leaf .tree-leaf-label:hover {
+.tree .tree-label:hover, .tree li.tree-leaf .tree-leaf-label:hover {
 	background-color: #e7f4f9;
 	outline: 1px solid #d8f0fa;
 	outline-offset: -1px;

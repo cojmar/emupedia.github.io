@@ -10,7 +10,7 @@ require.config({
 		jquery_contextmenu: 'components/method-draw/lib/contextmenu/jquery.contextMenu',
 		jquery_hotkeys: 'components/method-draw/lib/js-hotkeys/jquery.hotkeys.min',
 		jquery_mousewheel: 'components/method-draw/lib/mousewheel',
-		vs: '../monaco-editor/vs',
+		vs: '../../../js/libraries/vs',
 		method_draw: 'components/method-draw/src/method-draw',
 		touch: 'components/method-draw/lib/touch',
 		svgutils: 'components/method-draw/src/svgutils',

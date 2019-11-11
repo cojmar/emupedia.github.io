@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Tree Class</title>
+		<style>
+			html {
+				/* IE hack */
+				font-size: 100%;
+				height: 100%;
+			}
+
+			body {
+				margin: 0;
+				padding: 0;
+				/*background-color: #f0f0f0;*/
+				background-color: #252526;
+				/*color: #000;*/
+				color: #d4d4d4;
+				font-size: 12px;
+				height: 100%;
+				font-family: Segoe UI, sans-serif;
+			}
+
+			/*noinspection CssOverwrittenProperties*/
+			.tree {
+				display: block;
+				width: 33.3%;
+				background-color: #fff;
+				border: 1px solid #abadb3;
+				padding: 2px;
+				margin: 10px;
+				height: auto;
+				max-height: 90%;
+				overflow: scroll;
+				overflow-x: hidden;
+				overflow-y: auto;
+				float: left;
+			}
+
+			.tree li input {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 18px;
+				height: 18px;
+				margin: 0;
+				padding: 0;
+				opacity: 0;
+				z-index: 2;
+				cursor: pointer;
+			}
+
+			.tree li input + span + ul > li {
+				display: none;
+			}
+
+			.tree li input:checked + span + ul > li {
+				display: block;
+			}
+
+			.tree ul.tree-subtree, .tree li.tree-leaf {
+				margin: 0;
+				padding: 0;
+				list-style-type: none;
+				position: relative;
+			}
+
+			.tree li.tree-leaf {
+				background-position: -108px 0;
+				background-repeat: repeat-y;
+				min-height: 18px;
+				line-height: 18px;
+			}
+
+			.tree li.tree-leaf::before {
+				content: '';
+				width: 18px;
+				height: 18px;
+				position: absolute;
+				background-position: -36px 0;
+			}
+
+			.tree li.tree-leaf:last-child::before  {
+				background-position: -90px 0;
+			}
+
+			.tree li.tree-leaf li.tree-leaf {
+				margin-left: 18px;
+			}
+
+			.tree li.tree-leaf:last-child {
+				background-image: none !important;
+			}
+
+			.tree li.tree-leaf.closed ul.tree-subtree {
+				display: none;
+			}
+
+			.tree li.tree-leaf.tree-has-children > span.tree-toggle {
+				position: absolute;
+				left: 0;
+				top: 0;
+				display: block;
+				width: 18px;
+				height: 18px;
+				background-position: 0 0;
+			}
+
+			.tree li.tree-leaf.tree-has-children > input:checked + span.tree-toggle {
+				background-position: -18px 0;
+			}
+
+			.tree .tree-label {
+				line-height: 18px;
+				display: inline-block;
+				vertical-align: top;
+				cursor: pointer;
+				max-width: 100%;
+				padding: 0 2px;
+				text-decoration: none;
+				color: #000;
+			}
+
+			.tree .tree-leaf-label {
+				line-height: 18px;
+				display: inline-block;
+				vertical-align: top;
+				cursor: pointer;
+				max-width: 100%;
+				margin-left: 18px;
+				padding: 0 2px;
+				text-decoration: none;
+				color: #000;
+			}
+
+			.tree .tree-label:hover, .tree li.tree-leaf .tree-leaf-label:hover {
+				background-color: #e7f4f9;
+				outline: 1px solid #d8f0fa;
+				outline-offset: -1px;
+			}
+
+			.tree li.tree-leaf .tree-leaf-label:active,
+			.tree li.tree-leaf .tree-leaf-label:focus {
+				background-color: #beebff;
+				outline: 1px solid #99defd;
+				outline-offset: -1px;
+			}
+
+			.tree li.tree-leaf.tree-selected > .tree-leaf-label {
+				background-color: #beebff;
+				outline: 1px solid #99defd;
+				outline-offset: -1px;
+			}
+
+			.tree.theme-classic li.tree-leaf, .tree.theme-classic li.tree-leaf::before, .tree.theme-classic li.tree-leaf.tree-has-children > span.tree-toggle {
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH4AAAASCAYAAACdFWqpAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAV1JREFUeNpi/P//P8MoGHmAaaR6fOHChf+Ho3uINWfERnx8fDzjMHUP42jEj8AcDwSjOX40x+MGLMic3Xv2/r9+7SpOxZpa2gyuLs4EDaaWOXhyByigKM5hgynyqeie/0RFPqhVD8MTJ078/+fPH5wYJI+sHhcGqfv1+zdOTKw5uPCCBQsYKNE/nDGxYYO3qNd1Kxut44dpHc+CLvAPrV//b5j280db9VhAYMYaMFZSNIWzSQWfP32E60XGIHFq5RBQXY+NJiWHEaKHmjlk53hQxCzqcgWzbULbGI6sroKLkwpg5tAIMBKgicphuOjBZg4JJQJ5Of7bt+9wjI1PLEDWh45H4kgZHQF5OR4Z7FpYOFjrZ5rXqcTaQS1zaFASEh/xoP71unXr8Pa/iQHUMmco9JsH23gAsf14xtHZuWHXTSWqlBkdqx+hdfzoWP0wGw9gGJ2dG83x+ABAgAEAowiGMtvOnD4AAAAASUVORK5CYII=');
+			}
+
+			.tree.theme-modern li.tree-leaf, .tree.theme-modern li.tree-leaf::before, .tree.theme-modern li.tree-leaf.tree-has-children > span.tree-toggle {
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH4AAAASCAYAAACdFWqpAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAR5JREFUeNrsmL1qhEAURu+Eba3E2s4Ugm+QQiTpFix2BRvxCZLnsMwLWCqYNG6ZgM1iax87OysbH2ByJ5CwTQhJttCd78AwcwdR+A7zg0JKSUA/rhABxAOIBxAP9BLftq0sy9LhdraPua67zbIMt8klix+GQXVv3G7PIV9J5+6Q5zlSX/pW7/s+zfP8wsPdf+R/Svc8D4mvQbxlWRSGIY3j+MTl/V/kn0oXQiDxtVzuTNOkKIqo7/tHLm8g/TLY/PTANE1UVRU5jvPA5fE3L0+S5ONM77ruay5NU6S+AMR3v2yLopBBEFBd12QYxp6nntV8HMdI7dJXfNM0SvodD18RlSZnvG3bqrs+lY7VrsFWDzS/1QOIBxAP1s67AAMAxJFQiso2a+sAAAAASUVORK5CYII=');
+			}
+
+			.tree.theme-vscode li.tree-leaf, .tree.theme-vscode li.tree-leaf::before, .tree.theme-vscode li.tree-leaf.tree-has-children > span.tree-toggle, .tree.theme-vscode-dark li.tree-leaf, .tree.theme-vscode-dark li.tree-leaf::before, .tree.theme-vscode-dark li.tree-leaf.tree-has-children > span.tree-toggle {
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH4AAAASCAYAAACdFWqpAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAWdJREFUeNrs2EFqg0AUBuA3xWJicJGLpBBjss8tBC8gBmrS3CKWWqLYtRtv4arZGJrbpCINTB0hYtJAUTcTff9q0PGB8/FmREIphS5G0zT24iQMw9bVyWqQ/+Y9AKaTQXiExyA8pnvwpmnSIAioqk4pLk97I1xfiOM9KMoE1usXYPj7fUyqFrWsJY2iiA2LZ0VRLE+h06kKnucRJOCk4xm07/twPH4X+FWLTiYKLBZmDnzjNjUMA2azGa4+b2d8U3zf/4DhcHgLP0cfDCTYbl1cfR4/7sr4q9USxmOlCj5xnPdr/ALdtl8vjgEMB2d8OWmawun0k416dWozfGpZzzm+IDwi+j10/Gj0RBkY61rX9eBw+CI18UGWZej3e4jOe8eX0RncbvdZCStJkgv8zcY+HxOtRG/6f50L+KboLNnu8Kfzscc43+rn8zlIklQbHXOnHe84bzm2ruu4Ol38uMMgPKaF+RVgAAhglbFRZE9DAAAAAElFTkSuQmCC');
+			}
+
+			.tree.theme-vscode li.tree-leaf.tree-has-children > span.tree-toggle {
+				background-color: #fff;
+			}
+
+			.tree.theme-vscode-dark {
+				background-color: #252526;
+				border: 1px solid #d4d4d4;
+				color: #d4d4d4;
+			}
+
+			.tree.theme-vscode-dark .tree-label, .tree.theme-vscode-dark .tree-leaf-label {
+				color: #d4d4d4;
+			}
+
+			.tree.theme-vscode-dark li.tree-leaf.tree-has-children > span.tree-toggle {
+				background-color: #252526;
+			}
+
+			.tree.theme-vscode-dark .tree-label:hover, .tree.theme-vscode-dark li.tree-leaf .tree-leaf-label:hover {
+				background-color: #37373d;
+				outline: #37373d;
+			}
+
+			 .tree.theme-vscode-dark li.tree-leaf .tree-leaf-label:active, .tree.theme-vscode-dark li.tree-leaf .tree-leaf-label:focus {
+				 background-color: #094771;
+				 outline: #37373d;
+			 }
+		</style>
+	</head>
+	<body>
+		<script>
+			let obj = {
+				"rooms": {
+					"socket": false,
+					"info": {
+						"user": "status_bot_1573443318",
+						"disconnected": 1573443463,
+						"info": {
+							"user": "status_bot_1573443318",
+							"disconnected": 1573443463
+						}
+					},
+					"room": "server_info",
+					"data": {}
+				},
+				"test": {
+					"socket": "YoUfVclQG6llCWWUAAAH",
+					"info": {
+						"user": "test",
+						"disconnected": false
+					},
+					"room": "lobby",
+					"data": {
+						"test": {
+							"socket": "YoUfVclQG6llCWWUAAAH",
+							"info": {
+								"user": "test",
+								"disconnected": false
+							},
+							"room": "lobby",
+							"data": {}
+						}
+					}
+				},
+				"users": {
+					"socket": "2ZFNIsI0FwHJ8J-zAAAI",
+					"info": {
+						"user": "status_bot_1573443464",
+						"disconnected": false
+					},
+					"room": "server_info",
+					"data": [1,2,3]
+				}
+			};
+
+			//document.body.innerHTML = `<xmp>${JSON.stringify(obj, null, 2)}</xmp>`;
+
+			class Tree {
+				constructor(obj, target, title, theme, expand) {
+					this._first = true;
+					this._id = Tree._getID();
+					this._state = {};
+
+					if (arguments.length === 1) {
+						this._obj = obj.obj ? obj.obj : {};
+						this._target = obj.target ? obj.target : `#tree-${this._id}-wrapper`;
+						this._title = obj.title ? `<a class="tree-label" href="javascript:">${obj.title}</a>` : '';
+						this._theme = obj.theme ? obj.theme : 'classic';
+						this._expand = obj.expand ? obj.expand : [];
+					} else {
+						this._obj = obj ? obj : {};
+						this._target = target ? target : `#tree-${this._id}-wrapper`;
+						this._title = title ? `<a class="tree-label" href="javascript:">${title}</a>` : '';
+						this._theme = theme ? theme : 'classic';
+						this._expand = expand ? expand : [];
+					}
+
+					this.render(this._obj);
+				}
+
+				static _getElement(selector) {
+					if (document.querySelector) {
+						return document.querySelector(selector);
+					} else {
+						if (selector.charAt(0) === '.') {
+							if (document.getElementsByClassName) {
+								return document.getElementsByClassName(selector.substr(1))[0];
+							}
+						}
+
+						if (selector.charAt(0) === '#') {
+							if (document.getElementById) {
+								return document.getElementById(selector.substr(1));
+							}
+						}
+
+						if (selector.charAt(0) !== '.' && selector.charAt(0) !== '#') {
+							if (document.getElementsByTagName) {
+								return document.getElementsByTagName(selector.toUpperCase())[0];
+							}
+						}
+
+						return null;
+					}
+				};
+
+				static _getElements(selector) {
+					if (document.querySelector) {
+						return document.querySelectorAll(selector);
+					} else {
+						if (selector.charAt(0) === '.') {
+							if (document.getElementsByClassName) {
+								return document.getElementsByClassName(selector.substr(1));
+							}
+						}
+
+						if (selector.charAt(0) === '#') {
+							if (document.getElementById) {
+								return document.getElementById(selector.substr(1));
+							}
+						}
+
+						if (selector.charAt(0) !== '.' && selector.charAt(0) !== '#') {
+							if (document.getElementsByTagName) {
+								return document.getElementsByTagName(selector.toUpperCase());
+							}
+						}
+
+						return null;
+					}
+				};
+
+				static _getID() {
+					return document.getElementsByClassName('tree').length ? document.getElementsByClassName('tree').length : 0;
+				}
+
+				_isMergeableObject(val) {
+					let nonNullObject = val && typeof val === 'object';
+					return nonNullObject && Object.prototype.toString.call(val) !== '[object RegExp]' && Object.prototype.toString.call(val) !== '[object Date]';
+				}
+
+				_emptyTarget(val) {
+					return Array.isArray(val) ? [] : {}
+				}
+
+				_cloneIfNecessary(value, optionsArgument) {
+					let clone = optionsArgument && optionsArgument.clone === true;
+
+					return (clone && this._isMergeableObject(value)) ? this._deepmerge(this._emptyTarget(value), value, optionsArgument) : value;
+				}
+
+				_defaultArrayMerge(target, source, optionsArgument) {
+					let self = this;
+					let destination = target.slice();
+
+					source.forEach((e, i) => {
+						if (typeof destination[i] === 'undefined') {
+							destination[i] = self._cloneIfNecessary(e, optionsArgument);
+						} else if (self._isMergeableObject(e)) {
+							destination[i] = self._deepmerge(target[i], e, optionsArgument);
+						} else if (target.indexOf(e) === -1) {
+							destination.push(self._cloneIfNecessary(e, optionsArgument));
+						}
+					});
+
+					return destination;
+				}
+
+				_mergeObject(target, source, optionsArgument) {
+					let self = this;
+					let destination = {};
+
+					if (this._isMergeableObject(target)) {
+						Object.keys(target).forEach((key) => {
+							destination[key] = self._cloneIfNecessary(target[key], optionsArgument)
+						})
+					}
+
+					Object.keys(source).forEach((key) => {
+						if (!this._isMergeableObject(source[key]) || !target[key]) {
+							destination[key] = self._cloneIfNecessary(source[key], optionsArgument);
+						} else {
+							destination[key] = self._deepmerge(target[key], source[key], optionsArgument);
+						}
+					});
+
+					return destination;
+				}
+
+				_deepmerge(target, source, optionsArgument) {
+					let array = Array.isArray(source);
+					let options = optionsArgument || { arrayMerge: this._defaultArrayMerge.bind(this) };
+					let arrayMerge = options.arrayMerge || this._defaultArrayMerge.bind(this);
+
+					if (array) {
+						return Array.isArray(target) ? arrayMerge(target, source, optionsArgument) : this._cloneIfNecessary(source, optionsArgument);
+					} else {
+						return this._mergeObject(target, source, optionsArgument);
+					}
+				}
+
+				_deepmergeAll(array, optionsArgument) {
+					let self = this;
+
+					if (!Array.isArray(array) || array.length < 2) {
+						throw new Error('first argument should be an array with at least two elements')
+					}
+
+					// we are sure there are at least 2 values, so it is safe to have no initial value
+					return array.reduce(function(prev, next) {
+						return self._deepmerge(prev, next, optionsArgument);
+					})
+				}
+
+				_iterate(obj) {
+					for (let property in obj) {
+						if (obj.hasOwnProperty(property)) {
+							if (typeof obj[property] === 'object') {
+								if (Object.keys(obj[property]).length !== 0) {
+									this._prev = this._path;
+									this._path += `.${property}`;
+									this._html += `	<li class="tree-leaf tree-has-children">
+														<a class="tree-leaf-label" href="javascript:">${property}</a>
+														<input type="checkbox" data-path="${this._path}" />
+														<span class="tree-toggle"></span>
+														<ul class="tree-subtree">`;
+									this._iterate(obj[property]);
+									this._path = this._prev;
+									this._html += `		</ul>
+													</li>`;
+								} else {
+									this._prev = 'root';
+									this._html +=`	<li class="tree-leaf">
+														<a class="tree-leaf-label" href="javascript:">${property}</a>
+													</li>`;
+								}
+							} else if (typeof obj[property] !== 'undefined') {
+								if (typeof obj[property] === 'string' || typeof obj[property] === 'boolean') {
+									this._html +=`	<li class="tree-leaf">
+														<a class="tree-leaf-label" href="javascript:">${property}: ${obj[property]}</a>
+													</li>`;
+								} else {
+									this._html +=`	<li class="tree-leaf">
+														<a class="tree-leaf-label" href="javascript:"> ${obj[property]}</a>
+													</li>`;
+								}
+							}
+						}
+					}
+				}
+
+				_renderRoot() {
+					return `<ul id="tree-${this._id}" class="tree theme-${this._theme}">
+								${this._title}
+								${this._html}
+							</ul>`;
+				}
+
+				render(obj) {
+					this._html = '';
+					this._path = 'root';
+
+					if (Tree._getElement(`${this._target} #tree-${this._id}`)) {
+						Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
+							this._state[el.getAttribute('data-path')] = el.checked;
+						});
+						this._obj = this._deepmergeAll([this._obj, obj]);
+						this._iterate(this._obj);
+						Tree._getElement(`${this._target} #tree-${this._id}`).innerHTML = this._title + this._html;
+
+						if (this._first) {
+							this._first = false;
+							Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
+								el.checked = false;
+
+								if (el.getAttribute('data-path')) {
+									if (this._expand.includes(el.getAttribute('data-path'))) {
+										el.checked = true;
+									}
+								}
+							});
+						} else {
+							Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
+								if (typeof this._state[el.getAttribute('data-path')] !== 'undefined') {
+									el.checked = this._state[el.getAttribute('data-path')];
+								} else {
+									el.checked = true;
+								}
+							});
+						}
+					} else {
+						this._iterate(this._obj, 'root');
+
+						let target;
+
+						if (Tree._getElement(this._target)) {
+							target = Tree._getElement(this._target);
+						} else {
+							target = document.createElement('div');
+							target.id = this._target.substr(1);
+							Tree._getElement('body').append(target);
+						}
+
+						target.innerHTML += this._renderRoot();
+
+						Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
+							el.checked = false;
+
+							if (el.getAttribute('data-path')) {
+								if (this._expand.includes(el.getAttribute('data-path'))) {
+									el.checked = true;
+								}
+							}
+						});
+					}
+				}
+			}
+
+			let tree1 = new Tree(obj, '#container', 'Users', 'vscode', ['root.users', 'root.rooms', 'root.sockets']);
+			tree1.render({
+				"test": {
+					"room": {
+						"test": "lobby"
+					}
+				}
+			});
+
+			let tree2 = new Tree();
+			tree2.render({
+				"test": {
+					"room": {
+						"test": "lobby"
+					}
+				}
+			});
+
+			/*setTimeout(function () {
+				tree1.render({
+					"test": {
+						"room": {
+							"test2": "lobby"
+						}
+					}
+				});
+			}, 5000);*/
+		</script>
+	</body>
+</html>
