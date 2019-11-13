@@ -51,7 +51,7 @@
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
-			jsdos: '../../../../js/libraries/js-dos-6.22.47.min',
+			jsdos: '../../../../js/libraries/js-dos-6.22.49.min',
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
 			jsonpath: '../../../../js/libraries/jsonpath-1.0.2.min',
 			jszip: '../../../../js/libraries/jszip-3.2.2.min',
@@ -926,11 +926,11 @@
 						$options_dropdown.html('').html(render_options_dropdown(games_v2['software']['type'][selgenreidx]['games'][selgameidx]));
 						$options_dropdown.find('option[data-game-id="' + first + '"]').prop('selected', true).attr('selected', true).trigger('change');
 
-						var file = selgame['file'] || '';
-						var args = selgame['args'] || [];
-						var executable = selgame['executable'] || '';
+						var file = typeof selgame['file'] !== 'undefined' ? selgame['file'] : '';
+						var args = typeof selgame['args']  !== 'undefined' ? selgame['args'] : [];
+						var executable = typeof selgame['executable']  !== 'undefined' ? selgame['executable'] : '';
 						var mode = selgame['mode'];
-						var sync = selgame['sync'];
+						var sync = typeof selgame['sync'] !== 'undefined' ? selgame['sync'] : true;
 						var cycles = selgame['cycles'];
 
 						args.push('-c', executable.replace('./', ''));
@@ -1067,12 +1067,12 @@
 							}
 						}
 
-						var id = selgame['id'] || '';
-						var file = selgame['file'] || '';
-						var args = selgame['args'] || [];
-						var executable = selgame['executable'] || '';
+						var id = typeof selgame['id'] !== 'undefined' ? selgame['id'] : '';
+						var file = typeof selgame['file'] !== 'undefined' ? selgame['file'] : '';
+						var args = typeof selgame['args']  !== 'undefined' ? selgame['args'] : [];
+						var executable = typeof selgame['executable']  !== 'undefined' ? selgame['executable'] : '';
 						var mode = selgame['mode'];
-						var sync = selgame['sync'];
+						var sync = typeof selgame['sync'] !== 'undefined' ? selgame['sync'] : true;
 						var cycles = selgame['cycles'];
 
 						args.push('-c', executable.replace('./', ''));

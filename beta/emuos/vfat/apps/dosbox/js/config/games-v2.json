@@ -597,7 +597,6 @@
 					"file": "arkanoid.zip",
 					"size": 77823,
 					"executable": ".\\ARKANOID.COM",
-					"sync": true,
 					"license": "Commercial",
 					"status": "Playable",
 					"links": {
@@ -954,7 +953,6 @@
 					"file": "risk1.zip",
 					"size": 271301,
 					"executable": ".\\RISK.EXE",
-					"sync": true,
 					"license": "Commercial",
 					"status": "Playable",
 					"links": {
@@ -2201,8 +2199,7 @@
 					"size": 221399,
 					"executable": "mem",
 					"args": ["-c", "machine=tandy", "-c", "tandy=on", "-c", "joysticktype=none", "-c", "c:", "-c", "boot BOULDER.IMG"],
-					"cycles": 200,
-					"sync": true
+					"cycles": 200
 				} , {
 					"id": "bdashck",
 					"name": "Boulder Dash IV: Construction Kit (CGA)",
@@ -3275,7 +3272,6 @@
 					"size": 203522890,
 					"executable": ".\\HEROES2.EXE",
 					"args": ["-c", "mount d . -t cdrom"],
-					"sync": true,
 					"license": "Commercial",
 					"status": "Slow",
 					"links": {
@@ -3293,7 +3289,6 @@
 					"size": 199548791,
 					"executable": ".\\HEROES2.EXE",
 					"args": ["-c", "mount d . -t cdrom"],
-					"sync": true,
 					"license": "Commercial",
 					"status": "Nothing",
 					"links": {
@@ -3327,7 +3322,6 @@
 					"size": 316287153,
 					"executable": ".\\HEROES2.EXE",
 					"args": ["-c", "imgmount d .\\ISO\\HOMM2.BIN -t iso -fs iso"],
-					"sync": true,
 					"license": "Commercial",
 					"status": "Nothing",
 					"links": {
@@ -3456,7 +3450,6 @@
 				},
 				"language": "English",
 				"languages": ["English", "Dutch", "French", "German", "Italian", "Spanish"],
-				"sync": true,
 				"year": 1981,
 				"developer": "IBM Corp.; Microsoft Corp.",
 				"publisher": "IBM Corp.",
@@ -3474,7 +3467,6 @@
 					"size": 4522611,
 					"executable": "BOOT PCDOS110.IMG",
 					"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-					"sync": true,
 					"year": 1982,
 					"retail": true,
 					"status": "Working",
@@ -3485,7 +3477,6 @@
 						"size": 4522611,
 						"executable": "BOOT PCDOS100.IMG",
 						"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-						"sync": true,
 						"year": 1981,
 						"retail": true,
 						"status": "Working"
@@ -3496,7 +3487,6 @@
 						"size": 4522611,
 						"executable": "BOOT PCDOS10B.IMG",
 						"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-						"sync": true,
 						"year": 1981,
 						"retail": false,
 						"status": "Working"
@@ -3509,7 +3499,6 @@
 					"size": 4522611,
 					"executable": "BOOT PCDOS211.IMG",
 					"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-					"sync": true,
 					"year": 1983,
 					"retail": true,
 					"status": "Error",
@@ -3520,7 +3509,6 @@
 						"size": 4522611,
 						"executable": "BOOT PCDOS201.IMG",
 						"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-						"sync": true,
 						"year": 1983,
 						"retail": true,
 						"status": "Error"
@@ -3533,7 +3521,6 @@
 					"size": 4522611,
 					"executable": "BOOT PCDOS331.IMG",
 					"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-					"sync": true,
 					"year": 1986,
 					"retail": true,
 					"status": "Working",
@@ -3544,7 +3531,6 @@
 						"size": 294236,
 						"executable": ".\\COMMAND.COM",
 						"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 30", "-c", "CLS"],
-						"sync": true,
 						"year": 1986,
 						"retail": true,
 						"language": "German",
@@ -3556,7 +3542,6 @@
 						"size": 293480,
 						"executable": ".\\COMMAND.COM",
 						"args": ["-c", "@ECHO OFF", "-c", "VER SET 3 30", "-c", "CLS"],
-						"sync": true,
 						"year": 1986,
 						"retail": true,
 						"language": "Dutch",
@@ -3568,7 +3553,6 @@
 						"size": 4522611,
 						"executable": "BOOT PCDOS321.IMG",
 						"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-						"sync": true,
 						"year": 1986,
 						"retail": true,
 						"status": "Working"
@@ -3579,7 +3563,6 @@
 						"size": 4522611,
 						"executable": "BOOT PCDOS311.IMG",
 						"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-						"sync": true,
 						"year": 1985,
 						"retail": true,
 						"status": "Working"
@@ -3590,7 +3573,6 @@
 						"size": 4522611,
 						"executable": "BOOT PCDOS31B.IMG",
 						"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-						"sync": true,
 						"year": 1985,
 						"retail": false,
 						"status": "Working"
@@ -3601,7 +3583,6 @@
 						"size": 4522611,
 						"executable": "BOOT PCDOS301.IMG",
 						"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-						"sync": true,
 						"year": 1984,
 						"retail": true,
 						"status": "Error"
@@ -3612,7 +3593,6 @@
 						"size": 242732,
 						"executable": ".\\COMMAND.COM",
 						"args": ["-c", "@ECHO OFF", "-c", "Z:", "-c", "MOUNT A .", "-c", "A:", "-c", "VER SET 3 0", "-c", "CLS"],
-						"sync": true,
 						"year": 1984,
 						"retail": true,
 						"language": "German",
@@ -3626,7 +3606,6 @@
 					"size": 4522611,
 					"executable": "BOOT PCDOS411.IMG",
 					"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-					"sync": true,
 					"year": 1988,
 					"retail": true,
 					"status": "Working",
@@ -3637,7 +3616,6 @@
 						"size": 806800,
 						"executable": ".\\COMMAND.COM",
 						"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
-						"sync": true,
 						"year": 1988,
 						"retail": true,
 						"language": "French",
@@ -3649,7 +3627,6 @@
 						"size": 673452,
 						"executable": ".\\COMMAND.COM",
 						"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
-						"sync": true,
 						"year": 1988,
 						"retail": true,
 						"language": "Italian",
@@ -3661,7 +3638,6 @@
 						"size": 673714,
 						"executable": ".\\COMMAND.COM",
 						"args": ["-c", "@ECHO OFF", "-c", "VER SET 4 0", "-c", "CLS"],
-						"sync": true,
 						"year": 1988,
 						"retail": true,
 						"language": "Spanish",
@@ -3673,7 +3649,6 @@
 						"size": 4522611,
 						"executable": "BOOT PCDOS401.IMG",
 						"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-						"sync": true,
 						"year": 1988,
 						"retail": true,
 						"status": "Working"
@@ -3686,7 +3661,6 @@
 					"size": 4522611,
 					"executable": "BOOT PCDOS501.IMG",
 					"args": ["-c", "@ECHO OFF", "-c", "CLS"],
-					"sync": true,
 					"year": 1991,
 					"retail": true,
 					"status": "Working",
@@ -3731,7 +3705,6 @@
 					"file": "win95.zip",
 					"size": 16960727,
 					"executable": "boot WIN95.IMG",
-					"sync": true,
 					"args": ["-c", "imgmount a c:\\WIN95.IMG -size 512,63,16,101"],
 					"year": 1995,
 					"license": "Commercial",

@@ -25,7 +25,7 @@
 			/*noinspection CssOverwrittenProperties*/
 			.tree {
 				display: block;
-				width: 33.3%;
+				width: 30%;
 				background-color: #fff;
 				border: 1px solid #abadb3;
 				padding: 2px;
@@ -36,6 +36,15 @@
 				overflow-x: hidden;
 				overflow-y: auto;
 				float: left;
+			}
+
+			.tree label {
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
 			}
 
 			.tree li input {
@@ -188,13 +197,16 @@
 				outline: #37373d;
 			}
 
-			 .tree.theme-vscode-dark li.tree-leaf .tree-leaf-label:active, .tree.theme-vscode-dark li.tree-leaf .tree-leaf-label:focus {
+			.tree.theme-vscode-dark li.tree-leaf .tree-leaf-label:active, .tree.theme-vscode-dark li.tree-leaf .tree-leaf-label:focus {
 				 background-color: #094771;
 				 outline: #37373d;
-			 }
+			}
 		</style>
 	</head>
 	<body>
+		<div id="tree1"></div>
+		<div id="tree2"></div>
+		<div id="tree3"></div>
 		<script>
 			let obj = {
 				"rooms": {
@@ -210,11 +222,12 @@
 					"room": "server_info",
 					"data": {}
 				},
-				"test": {
+				"sockets": {
 					"socket": "YoUfVclQG6llCWWUAAAH",
 					"info": {
 						"user": "test",
-						"disconnected": false
+						"disconnected": false,
+						"data": {}
 					},
 					"room": "lobby",
 					"data": {
@@ -244,9 +257,11 @@
 
 			class Tree {
 				constructor(obj, target, title, theme, expand) {
+					this._el = null;
 					this._first = true;
-					this._id = Tree._getID();
 					this._state = {};
+
+					this._id = Tree._getID() + 1;
 
 					if (arguments.length === 1) {
 						this._obj = obj.obj ? obj.obj : {};
@@ -292,7 +307,7 @@
 				};
 
 				static _getElements(selector) {
-					if (document.querySelector) {
+					if (document.querySelectorAll) {
 						return document.querySelectorAll(selector);
 					} else {
 						if (selector.charAt(0) === '.') {
@@ -318,7 +333,7 @@
 				};
 
 				static _getID() {
-					return document.getElementsByClassName('tree').length ? document.getElementsByClassName('tree').length : 0;
+					return document.querySelectorAll('.tree').length;
 				}
 
 				_isMergeableObject(val) {
@@ -407,8 +422,8 @@
 									this._prev = this._path;
 									this._path += `.${property}`;
 									this._html += `	<li class="tree-leaf tree-has-children">
-														<a class="tree-leaf-label" href="javascript:">${property}</a>
-														<input type="checkbox" data-path="${this._path}" />
+														<label class="tree-leaf-label" for="${this._path}">${property}</label>
+														<input id="${this._path}" type="checkbox"" />
 														<span class="tree-toggle"></span>
 														<ul class="tree-subtree">`;
 									this._iterate(obj[property]);
@@ -416,19 +431,21 @@
 									this._html += `		</ul>
 													</li>`;
 								} else {
-									this._prev = 'root';
-									this._html +=`	<li class="tree-leaf">
-														<a class="tree-leaf-label" href="javascript:">${property}</a>
+									this._prev = `tree${this._id}`;
+									this._html +=`	<li class="tree-leaf tree-has-children">
+														<label class="tree-leaf-label" for="${this._path}.${property}">${property}</label>
+														<input id="${this._path}.${property}" type="checkbox" />
+														<span class="tree-toggle"></span>
 													</li>`;
 								}
 							} else if (typeof obj[property] !== 'undefined') {
-								if (typeof obj[property] === 'string' || typeof obj[property] === 'boolean') {
+								if (Array.isArray(obj)) {
 									this._html +=`	<li class="tree-leaf">
-														<a class="tree-leaf-label" href="javascript:">${property}: ${obj[property]}</a>
+														<a class="tree-leaf-label" href="javascript:"> ${obj[property]}</a>
 													</li>`;
 								} else {
 									this._html +=`	<li class="tree-leaf">
-														<a class="tree-leaf-label" href="javascript:"> ${obj[property]}</a>
+														<a class="tree-leaf-label" href="javascript:">${property}&nbsp;▹&nbsp;${obj[property]}</a>
 													</li>`;
 								}
 							}
@@ -445,11 +462,11 @@
 
 				render(obj) {
 					this._html = '';
-					this._path = 'root';
+					this._path = `tree${this._id}`;
 
 					if (Tree._getElement(`${this._target} #tree-${this._id}`)) {
 						Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
-							this._state[el.getAttribute('data-path')] = el.checked;
+							this._state[el.getAttribute('id')] = el.checked;
 						});
 						this._obj = this._deepmergeAll([this._obj, obj]);
 						this._iterate(this._obj);
@@ -460,16 +477,16 @@
 							Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
 								el.checked = false;
 
-								if (el.getAttribute('data-path')) {
-									if (this._expand.includes(el.getAttribute('data-path'))) {
+								if (el.getAttribute('id')) {
+									if (this._expand.includes(el.getAttribute('id').replace(`tree${this._id}`, 'root'))) {
 										el.checked = true;
 									}
 								}
 							});
 						} else {
 							Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
-								if (typeof this._state[el.getAttribute('data-path')] !== 'undefined') {
-									el.checked = this._state[el.getAttribute('data-path')];
+								if (typeof this._state[el.getAttribute('id')] !== 'undefined') {
+									el.checked = this._state[el.getAttribute('id')];
 								} else {
 									el.checked = true;
 								}
@@ -478,23 +495,21 @@
 					} else {
 						this._iterate(this._obj);
 
-						let target;
-
 						if (Tree._getElement(this._target)) {
-							target = Tree._getElement(this._target);
+							this._el = Tree._getElement(this._target);
 						} else {
-							target = document.createElement('div');
-							target.id = this._target.substr(1);
-							Tree._getElement('body').append(target);
+							this._el = document.createElement('div');
+							this._el.id = this._target.substr(1);
+							Tree._getElement('body').append(this._el);
 						}
 
-						target.innerHTML += this._renderRoot();
+						this._el.innerHTML += this._renderRoot();
 
 						Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
 							el.checked = false;
 
-							if (el.getAttribute('data-path')) {
-								if (this._expand.includes(el.getAttribute('data-path'))) {
+							if (el.getAttribute('id')) {
+								if (this._expand.includes(el.getAttribute('id').replace(`tree${this._id}`, 'root'))) {
 									el.checked = true;
 								}
 							}
@@ -503,7 +518,9 @@
 				}
 			}
 
-			let tree1 = new Tree(obj, '#container', 'Users', 'vscode', ['root.users', 'root.rooms', 'root.sockets']);
+			let tree1 = new Tree(obj, '#tree1', 'Users', 'vscode', ['root.users', 'root.rooms', 'root.sockets']);
+			let tree2 = new Tree(obj, '#tree2', 'Users', 'vscode', ['root.users', 'root.rooms', 'root.sockets']);
+			let tree3 = new Tree(obj, '#tree3', 'Users', 'vscode', ['root.users', 'root.rooms', 'root.sockets']);
 			tree1.render({
 				"test": {
 					"room": {
@@ -512,24 +529,24 @@
 				}
 			});
 
-			let tree2 = new Tree();
+			/*let tree2 = new Tree({obj: obj});
 			tree2.render({
 				"test": {
 					"room": {
 						"test": "lobby"
 					}
 				}
-			});
+			});*/
 
-			/*setTimeout(function () {
+			setTimeout(function () {
 				tree1.render({
-					"test": {
+					"sockets": {
 						"room": {
 							"test2": "lobby"
 						}
 					}
 				});
-			}, 5000);*/
+			}, 5000);
 		</script>
 	</body>
 </html>
