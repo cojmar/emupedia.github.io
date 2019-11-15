@@ -51,7 +51,7 @@
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
-			jsdos: '../../../../js/libraries/js-dos-6.22.49.min',
+			jsdos: '../../../../js/libraries/js-dos-6.22.51.min',
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
 			jsonpath: '../../../../js/libraries/jsonpath-1.0.2.min',
 			jszip: '../../../../js/libraries/jszip-3.2.2.min',
@@ -810,7 +810,6 @@
 								DosBoxLoader.extraArgs(args),
 								DosBoxLoader.startExe(executable)));
 						emulator.start({waitAfterDownloading: false});
-
 					}).catch(function(error) {
 						console.log(error);
 					});
@@ -824,14 +823,48 @@
 					wdosboxUrl: mode === 'asm' || isIE ? (sync ? 'js/dosbox.js' : 'js/dosbox-nosync.js') : (sync ? 'js/wdosbox.js' : 'js/wdosbox-nosync.js'),
 					autolock: true
 				}).ready(function(fs, main) {
-					dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
-						fs.extract(response.link).then(function() {
-							started = true;
-							main(args).then(function(ci) {
-								window.ci = ci;
+					if (Array.isArray(file)) {
+						var files = [];
+
+						for (var f in file) {
+							// noinspection JSUnfilteredForInLoop
+							dbx.filesGetTemporaryLink({path: '/dosbox/' + file[f]['url']}).then(function(response) {
+								// noinspection JSUnfilteredForInLoop,JSReferencingMutableVariableFromClosure
+								response['mount'] = file[files.length]['mount'];
+								// noinspection JSUnfilteredForInLoop,JSReferencingMutableVariableFromClosure
+								files.push(response);
+							}).catch(function(error) {
+								console.log(error);
+							});
+						}
+
+						var int = null;
+
+						int = setInterval(function() {
+							if (files.length === file.length) {
+								clearInterval(int);
+								int = null;
+
+								console.log(files);
+
+								fs.extractAll([{url: files[0]['link'], mountPoint: '/' + files[0]['mount']}, {url: files[1]['link'], mountPoint: '/' + files[1]['mount']}]).then(function() {
+									started = true;
+									main(args).then(function(ci) {
+										window.ci = ci;
+									});
+								});
+							}
+						}, 100);
+					} else {
+						dbx.filesGetTemporaryLink({path: '/dosbox/' + file}).then(function(response) {
+							fs.extract(response.link).then(function() {
+								started = true;
+								main(args).then(function(ci) {
+									window.ci = ci;
+								});
 							});
 						});
-					});
+					}
 				});
 			}
 
@@ -853,6 +886,7 @@
 
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && (SYSTEM_FEATURE_ASMJS || SYSTEM_FEATURE_WEBASSEMBLY)) {
+				// noinspection JSUnusedLocalSymbols
 				var index_selected, genre_index_selected, game_index_selected, option_selected, game_id_selected;
 
 				first = typeof $.url().param('game') !== 'undefined' ? $.url().param('game') : (typeof $.url().param('gamev2') !== 'undefined' ? $.url().param('gamev2') : false);

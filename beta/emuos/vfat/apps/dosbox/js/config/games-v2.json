@@ -3112,10 +3112,16 @@
 				"versions": [{
 					"id": "diablo1sw",
 					"name": "Diablo I",
-					"files": ["win95.zip", "diablo1sw.zip"],
+					"file": [{
+						"url": "win95.zip",
+						"mount": "WIN95"
+					} , {
+						"url": "diablo1sw.zip",
+						"mount": "DIABLO"
+					}],
 					"size": 51095535,
-					"executable": "mem",
-					"args": ["-c", "imgmount c a:\\WIN95.IMG -size 512,63,16,101", "-c", "imgmount d b:\\DIABLO.IMG -size 512,63,16,132", "-c", "boot -l c"],
+					"executable": "boot c:\\WIN95\\WIN95.IMG",
+					"args": ["-c", "imgmount a c:\\WIN95\\WIN95.IMG -size 512,63,16,101", "-c", "imgmount b c:\\DIABLO\\DIABLO.IMG -size 512,63,16,132"],
 					"license": "Shareware",
 					"status": "Nothing",
 					"links": {
@@ -3688,7 +3694,7 @@
 					]
 				},
 				"language": "English",
-				"year": 1985,
+				"year": 1995,
 				"developer": "Microsoft Corp.",
 				"publisher": "Microsoft Corp.",
 				"copyright": "Microsoft Corp.",
