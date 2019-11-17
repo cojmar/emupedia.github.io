@@ -1,1 +1,0 @@
-{"version":3,"file":"auth.js","sourceRoot":"file:///E:/Repositories/vscode.git/src","sources":["../src/vs/platform/auth/common/auth.ts"],"names":[],"mappings":"AAAA;;;gGAGgG;;;;IAKhG,IAAkB,eAIjB;IAJD,WAAkB,eAAe;QAChC,wCAAqB,CAAA;QACrB,wCAAqB,CAAA;QACrB,oCAAiB,CAAA;IAClB,CAAC,EAJiB,eAAe,GAAf,uBAAe,KAAf,uBAAe,QAIhC;IAEY,QAAA,iBAAiB,GAAG,+BAAe,CAAoB,mBAAmB,CAAC,CAAC"}

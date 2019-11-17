@@ -1,1 +1,0 @@
-{"version":3,"file":"workspaces.js","sourceRoot":"file:///E:/Repositories/vscode.git/src","sources":["../src/vs/workbench/services/workspaces/browser/workspaces.ts"],"names":[],"mappings":"AAAA;;;gGAGgG;;;;IAMhG,SAAgB,sBAAsB,CAAC,aAAkB;QACxD,OAAO;YACN,EAAE,EAAE,WAAI,CAAC,aAAa,CAAC,QAAQ,EAAE,CAAC,CAAC,QAAQ,CAAC,EAAE,CAAC;YAC/C,UAAU,EAAE,aAAa;SACzB,CAAC;IACH,CAAC;IALD,wDAKC"}
