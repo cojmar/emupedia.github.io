@@ -56,7 +56,7 @@
 	background-position: -36px 0;
 }
 
-.tree li.tree-leaf:last-child::before  {
+.tree li.tree-leaf:last-child::before {
 	background-position: -90px 0;
 }
 

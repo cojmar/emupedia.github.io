@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Tree Class</title>
+		<!--suppress CssUnusedSymbol -->
 		<style>
 			html {
 				/* IE hack */
@@ -22,23 +23,28 @@
 				font-family: Segoe UI, sans-serif;
 			}
 
+			button {
+				font-size: 12px;
+				font-family: Segoe UI, sans-serif;
+			}
+
 			/*noinspection CssOverwrittenProperties*/
 			.tree {
 				display: block;
-				width: 30%;
+				width: 50%;
 				background-color: #fff;
 				border: 1px solid #abadb3;
 				padding: 2px;
 				margin: 10px;
-				height: auto;
-				max-height: 90%;
-				overflow: scroll;
-				overflow-x: hidden;
-				overflow-y: auto;
+				/*height: auto;*/
+				/*max-height: 90%;*/
+				/*overflow: scroll;*/
+				/*overflow-x: hidden;*/
+				/*overflow-y: auto;*/
 				float: left;
 			}
 
-			.tree label {
+			.tree label, .tree button {
 				-webkit-touch-callout: none;
 				-webkit-user-select: none;
 				-khtml-user-select: none;
@@ -141,6 +147,9 @@
 				padding: 0 2px;
 				text-decoration: none;
 				color: #000;
+				background: none;
+				border: none;
+				outline: none;
 			}
 
 			.tree .tree-label:hover, .tree li.tree-leaf .tree-leaf-label:hover {
@@ -200,6 +209,63 @@
 			.tree.theme-vscode-dark li.tree-leaf .tree-leaf-label:active, .tree.theme-vscode-dark li.tree-leaf .tree-leaf-label:focus {
 				 background-color: #094771;
 				 outline: #37373d;
+			}
+
+			.tree button + .menu {
+				/*display: inline-block;*/
+				display: none;
+			}
+
+			.tree .menu {
+				position: absolute;
+				/*visibility: visible;*/
+				display: none;
+				background: #fff;
+				border-radius: 4px;
+				border: 1px solid #dedede;
+				z-index: 1;
+			}
+
+			.tree .menu > ul {
+				list-style: none;
+				margin: .4rem 0;
+				padding: 0;
+			}
+
+			.tree .menu > ul > li {
+				padding: 0;
+			}
+
+			.tree .menu > ul > li > button {
+				padding: .2rem .8rem;
+				width: 100%;
+				overflow: visible;
+				text-align: left;
+				cursor: pointer;
+				background: none;
+				outline: none;
+				border: 0;
+				margin: 0;
+				text-transform: capitalize;
+			}
+
+			.tree .menu > ul > li > button:hover {
+				background-color: #e7f4f9;
+			}
+
+			.tree .menu > ul > li > button:active,
+			.tree .menu > ul > li > button:focus {
+				background-color: #beebff;
+			}
+
+			.tree button + .menu:active {
+				/*visibility: visible;*/
+				display: inline-block;
+			}
+
+			.tree button:focus + .menu {
+				/*visibility: visible;*/
+				display: inline-block;
 			}
 		</style>
 	</head>
@@ -459,51 +525,98 @@
 							if (typeof obj[property] === 'object') {
 								if (Object.keys(obj[property]).length !== 0) {
 									this._html += `	<li class="tree-leaf tree-has-children">
-														<label class="tree-leaf-label" for="${path}.${property}">${property}</label>
-														<input id="${path}.${property}" data-depth="${depth}" type="checkbox" />
+														<label class="tree-leaf-label" for="${path}.${property}" tabindex="-1">${property}</label>`;
+									if (typeof this._contextmenu === 'object') {
+										this._html += this._renderMenuStatic(this._contextmenu, `${path}.${property}`);
+									}
+									this._html += 		`<input id="${path}.${property}" data-depth="${depth}" type="checkbox" />
 														<span class="tree-toggle"></span>
 														<ul class="tree-subtree">`;
 									this._iterate(obj[property], depth, path + '.' + property);
 									this._html += `		</ul>
 													</li>`;
 								} else {
-									this._html +=`	<li class="tree-leaf tree-has-children">
-														<label class="tree-leaf-label" for="${path}.${property}">${property}</label>
-														<input id="${path}.${property}" data-depth="${depth}" type="checkbox" />
+									this._html += `	<li class="tree-leaf tree-has-children">
+														<label class="tree-leaf-label" for="${path}.${property}" tabindex="-1">${property}</label>`;
+									if (typeof this._contextmenu === 'object') {
+										this._html += this._renderMenuStatic(this._contextmenu, `${path}.${property}`);
+									}
+									this._html += 		`<input id="${path}.${property}" data-depth="${depth}" type="checkbox" />
 														<span class="tree-toggle"></span>
 													</li>`;
 								}
 							} else if (typeof obj[property] !== 'undefined') {
 								if (Array.isArray(obj)) {
-									this._html +=`	<li class="tree-leaf">
-														<a id="${path}.${property}" class="tree-leaf-label" href="javascript:">${obj[property]}</a>
-													</li>`;
+									this._html += `	<li class="tree-leaf">
+														<button id="${path}.${property}" class="tree-leaf-label">${obj[property]}</button>`;
+									if (typeof this._contextmenu === 'object') {
+										this._html += this._renderMenuStatic(this._contextmenu, `${path}.${property}`);
+									}
+
+									this._html += `	</li>`;
 								} else {
-									this._html +=`	<li class="tree-leaf">
-														<a id="${path}.${property}" class="tree-leaf-label" href="javascript:">${property}&nbsp;▹&nbsp;${obj[property]}</a>
-													</li>`;
+									this._html += `	<li class="tree-leaf">
+														<button id="${path}.${property}" class="tree-leaf-label">${property}&nbsp;▹&nbsp;${obj[property]}</button>`;
+									if (typeof this._contextmenu === 'object') {
+										this._html += this._renderMenuStatic(this._contextmenu, `${path}.${property}`);
+									}
+
+									this._html += `	</li>`;
 								}
 							}
 						}
 					}
 				}
 
-				_contextMenu(e) {
+				_contextMenuEvent(e) {
 					e.preventDefault();
 
 					if (typeof this._contextmenu === 'function') {
 						if (typeof e.target !== 'undefined') {
 							let path = e.target.getAttribute('id') || e.target.getAttribute('for');
 							path = path.replace(`tree${this._id}.`, '');
-							this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path, false)), this._renderMenu);
+							this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path, false)), this._renderMenuDynamic, `tree${this._id}.${path}.menu`);
 						}
 					}
 
 					return false;
 				}
 
-				_renderMenu(items) {
-					console.log(items);
+				_renderMenuStatic(items, path) {
+					path = path.replace(`tree${this._id}.`, '');
+					let options = Object.keys(items);
+					let html = `<nav id="${path}.menu" class="menu">
+									<ul>`;
+					let i = 0;
+					for (let option in options) {
+						let func = `${path}.option${i}`;
+						func = func.replace(/\./g, '_');
+						window[func] = items[options[option]].bind(this);
+						let item = Tree._stringToObj(path, Tree._getValue(this._obj, path, false));
+						item = JSON.stringify(item).replace(/"/g, '&quot;');
+						html += `		<li><button onclick="${func}.call(null, ${item})">${options[option]}</button></li>`;
+						i++;
+					}
+					html +=	`		</ul>
+								</nav>`;
+					return html;
+				}
+
+				_renderMenuDynamic(items, path) {
+					let parent = path.split('.')[0];
+
+					Tree._getElement(`#${path}`);
+
+					let html = `<nav id="${path}" class="menu">
+									<ul>
+										<li><button onclick="alert('Hello there!')">Display Greeting</button></li>
+										<li><button onclick="print()">Print This Page</button></li>
+									</ul>
+								</nav>`;
+
+					let wrapper = document.createElement('div');
+					wrapper.innerHTML = html;
+					Tree._getElement(`#${parent} .tree`).appendChild(wrapper.firstChild);
 				}
 
 				_renderRoot() {
@@ -568,10 +681,12 @@
 						});
 					}
 
-					Tree._getElements(`${this._target} #tree-${this._id} .tree-leaf-label`).forEach((el) => {
-						el.removeEventListener('contextmenu', this._contextMenu);
-						el.addEventListener('contextmenu', this._contextMenu.bind(this), false);
-					});
+					if (typeof this._contextmenu === 'function') {
+						Tree._getElements(`${this._target} #tree-${this._id} .tree-leaf-label`).forEach((el) => {
+							el.removeEventListener('contextmenu', this._contextMenuEvent);
+							el.addEventListener('contextmenu', this._contextMenuEvent.bind(this), false);
+						});
+					}
 				}
 			}
 
@@ -581,18 +696,25 @@
 				title: 'Users',
 				theme: 'vscode',
 				expand: ['root.test'],
-				contextmenu: function(item, cb) {
-					if (typeof cb === 'function') {
-						cb(item);
+				contextmenu: {
+					delete: function (item) {
+						console.log(item);
 					}
 				}
+				/*contextmenu: function(item, cb, path) {
+					cb({
+						delete: function (item) {
+							console.log(item);
+						}
+					}, path);
+				}*/
 			});
 
-			setTimeout(function () {
+			/*setTimeout(function () {
 				tree1.render({
 					"status_bot_1573443464": undefined
 				});
-			}, 5000);
+			}, 5000);*/
 		</script>
 	</body>
 </html>
