@@ -241,8 +241,6 @@
 				}
 			};
 
-			//document.body.innerHTML = `<xmp>${JSON.stringify(obj, null, 2)}</xmp>`;
-
 			class Tree {
 				constructor(obj, target, title, theme, expand, contextmenu) {
 					this._el = null;
@@ -257,14 +255,14 @@
 						this._title = obj.title ? `<a class="tree-label" href="javascript:">${obj.title}</a>` : '';
 						this._theme = obj.theme ? obj.theme : 'classic';
 						this._expand = obj.expand ? obj.expand : [];
-						this._contextmenu = obj.contextmenu ? obj.expand : function() {};
+						this._contextmenu = obj.contextmenu ? obj.contextmenu : null;
 					} else {
 						this._obj = obj ? obj : {};
 						this._target = target ? target : `#tree-${this._id}-wrapper`;
 						this._title = title ? `<a class="tree-label" href="javascript:">${title}</a>` : '';
 						this._theme = theme ? theme : 'classic';
 						this._expand = expand ? expand : [];
-						this._contextmenu = contextmenu ? contextmenu : function() {};
+						this._contextmenu = contextmenu ? contextmenu : null;
 					}
 
 					this.render(this._obj);
@@ -333,7 +331,7 @@
 
 					let output = [];
 
-					path.split('.').forEach(function (item, index) {
+					path.split('.').forEach(function (item) {
 						item.split(/\[([^}]+)]/g).forEach(function (key) {
 							if (key.length > 0) {
 								output.push(key);
@@ -343,6 +341,29 @@
 
 					return output;
 				};
+
+				static _stringToObj(path, val) {
+					let tree = path.split('.');
+					let ret_obj = {};
+					let cur = ret_obj;
+
+					let i = 0;
+
+					for (let sub_k of tree) {
+
+						if (i === tree.length - 1) {
+							cur[sub_k] = val;
+							cur = cur[sub_k];
+						} else {
+							cur[sub_k] = {};
+							cur = cur[sub_k];
+						}
+
+						i++;
+					}
+
+					return ret_obj;
+				}
 
 				static _getValue(obj, path, def) {
 					path = Tree._stringToPath(path);
@@ -476,6 +497,24 @@
 					}
 				}
 
+				_contextMenu(e) {
+					e.preventDefault();
+
+					if (typeof this._contextmenu === 'function') {
+						if (typeof e.target !== 'undefined') {
+							let path = e.target.getAttribute('id') || e.target.getAttribute('for');
+							path = path.replace(`tree${this._id}.`, '');
+							this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path)), this._renderMenu);
+						}
+					}
+
+					return false;
+				}
+
+				_renderMenu(items) {
+					console.log(items);
+				}
+
 				_renderRoot() {
 					return `<ul id="tree-${this._id}" class="tree theme-${this._theme}">
 								${this._title}
@@ -539,21 +578,8 @@
 					}
 
 					Tree._getElements(`${this._target} #tree-${this._id} .tree-leaf-label`).forEach((el) => {
-						let self = this;
-
-						el.addEventListener('contextmenu', function(e) {
-							e.preventDefault();
-
-							if (typeof self._contextmenu === 'function') {
-								if (typeof e.target !== 'undefined') {
-									let path = e.target.getAttribute('id') || e.target.getAttribute('for');
-									console.log(Tree._getValue(self._obj, path.replace(`tree${self._id}`, '')));
-									//self._contextmenu(Tree._getValue(self._obj, path.replace(`tree${self._id}`, '')));
-								}
-							}
-
-							return false;
-						}, false);
+						el.removeEventListener('contextmenu', this._contextMenu);
+						el.addEventListener('contextmenu', this._contextMenu.bind(this), false);
 					});
 				}
 			}
@@ -563,41 +589,13 @@
 				target: '#tree1',
 				title: 'Users',
 				theme: 'vscode',
-				expand: ['root.users', 'root.rooms', 'root.sockets'],
-				contextmenu: function(item) {
-					console.log(item);
-				}
-			});
-
-			//let tree1 = new Tree(obj, '#tree1', 'Users', 'vscode', ['root.users', 'root.rooms', 'root.sockets']);
-			let tree2 = new Tree(obj, '#tree2', 'Users', 'vscode', ['root.users', 'root.rooms', 'root.sockets']);
-			let tree3 = new Tree(obj, '#tree3', 'Users', 'vscode', ['root.users', 'root.rooms', 'root.sockets']);
-			tree1.render({
-				"test": {
-					"room": {
-						"test": "lobby"
+				expand: ['root.lobby'],
+				contextmenu: function(item, cb) {
+					if (typeof cb === 'function') {
+						cb(item);
 					}
 				}
 			});
-
-			/*let tree2 = new Tree({obj: obj});
-			tree2.render({
-				"test": {
-					"room": {
-						"test": "lobby"
-					}
-				}
-			});*/
-
-			setTimeout(function () {
-				tree1.render({
-					"sockets": {
-						"room": {
-							"test2": "lobby"
-						}
-					}
-				});
-			}, 5000);
 		</script>
 	</body>
 </html>
