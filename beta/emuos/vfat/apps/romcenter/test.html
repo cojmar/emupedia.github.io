@@ -373,33 +373,6 @@
 					return current;
 				};
 
-				static _merge(data1, data2) {
-					if (typeof data1 !== 'object' || typeof data2 !== 'object') {
-						data1 = data2;
-
-						return data1;
-					}
-
-					for (let n in data2) {
-						// noinspection JSUnfilteredForInLoop
-						if (!data1[n]) {
-							// noinspection JSUnfilteredForInLoop
-							data1[n] = data2[n];
-						} else {
-							// noinspection JSUnfilteredForInLoop
-							if (typeof data1[n] === 'object') {
-								// noinspection JSUnfilteredForInLoop
-								Tree._merge(data1[n], data2[n]);
-							} else {
-								// noinspection JSUnfilteredForInLoop
-								data1[n] = data2[n];
-							}
-						}
-					}
-
-					return data1;
-				}
-
 				_isMergeableObject(val) {
 					let nonNullObject = val && typeof val === 'object';
 					return nonNullObject && Object.prototype.toString.call(val) !== '[object RegExp]' && Object.prototype.toString.call(val) !== '[object Date]';
@@ -547,8 +520,7 @@
 						Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
 							this._state[el.getAttribute('id')] = el.checked;
 						});
-						// this._obj = this._deepmergeAll([this._obj, obj]);
-						this._obj = Tree._merge(this._obj, obj);
+						this._obj = this._deepmergeAll([this._obj, obj]);
 						this._iterate(this._obj);
 						Tree._getElement(`${this._target} #tree-${this._id}`).innerHTML = this._title + this._html;
 
@@ -618,11 +590,7 @@
 
 			setTimeout(function () {
 				tree1.render({
-					"status_bot_1573443464": {
-						"data": {
-							"test2": "lobby"
-						}
-					}
+					"status_bot_1573443464": undefined
 				});
 			}, 5000);
 		</script>
