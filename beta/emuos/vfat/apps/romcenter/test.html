@@ -209,35 +209,46 @@
 		<div id="tree3"></div>
 		<script>
 			let obj = {
-				"lobby": {
-					"name": "b",
-					"type": "game",
-					"host": "status_bot_1574169196",
-					"open": true,
-					"users": {
-						"status_bot_1574169196": {
-							"socket": "MAPZXlr6KQrBBe5iAAAB",
-							"data": {}
+				"status_bot_1573443318": {
+					"socket": false,
+					"info": {
+						"user": "status_bot_1573443318",
+						"disconnected": 1573443463,
+						"info": {
+							"user": "status_bot_1573443318",
+							"disconnected": 1573443463
 						}
 					},
+					"room": "server_info",
+					"data": {}
+				},
+				"test": {
+					"socket": "YoUfVclQG6llCWWUAAAH",
+					"info": {
+						"user": "test",
+						"disconnected": true
+					},
+					"room": "lobby",
 					"data": {
-						"a": 1
+						"test": {
+							"socket": "YoUfVclQG6llCWWUAAAH",
+							"info": {
+								"user": "test",
+								"disconnected": false
+							},
+							"room": "lobby",
+							"data": {}
+						}
 					}
 				},
-				"b": {
-					"name": "b",
-					"type": "game",
-					"host": "status_bot_1574169196",
-					"open": true,
-					"users": {
-						"status_bot_1574169196": {
-							"socket": "MAPZXlr6KQrBBe5iAAAB",
-							"data": {}
-						}
+				"status_bot_1573443464": {
+					"socket": "2ZFNIsI0FwHJ8J-zAAAI",
+					"info": {
+						"user": "status_bot_1573443464",
+						"disconnected": false
 					},
-					"data": {
-						"a": 1
-					}
+					"room": "server_info",
+					"data": [1,2,3]
 				}
 			};
 
@@ -324,34 +335,15 @@
 					return document.querySelectorAll('.tree').length;
 				}
 
-				static _stringToPath(path) {
-					if (typeof path !== 'string') {
-						return path;
-					}
-
-					let output = [];
-
-					path.split('.').forEach(function (item) {
-						item.split(/\[([^}]+)]/g).forEach(function (key) {
-							if (key.length > 0) {
-								output.push(key);
-							}
-						});
-					});
-
-					return output;
-				};
-
 				static _stringToObj(path, val) {
-					let tree = path.split('.');
+					path = path.split('.');
 					let ret_obj = {};
 					let cur = ret_obj;
 
 					let i = 0;
 
-					for (let sub_k of tree) {
-
-						if (i === tree.length - 1) {
+					for (let sub_k of path) {
+						if (i === path.length - 1) {
 							cur[sub_k] = val;
 							cur = cur[sub_k];
 						} else {
@@ -366,7 +358,7 @@
 				}
 
 				static _getValue(obj, path, def) {
-					path = Tree._stringToPath(path);
+					path = path.split('.');
 
 					let current = obj;
 
@@ -380,6 +372,33 @@
 
 					return current;
 				};
+
+				static _merge(data1, data2) {
+					if (typeof data1 !== 'object' || typeof data2 !== 'object') {
+						data1 = data2;
+
+						return data1;
+					}
+
+					for (let n in data2) {
+						// noinspection JSUnfilteredForInLoop
+						if (!data1[n]) {
+							// noinspection JSUnfilteredForInLoop
+							data1[n] = data2[n];
+						} else {
+							// noinspection JSUnfilteredForInLoop
+							if (typeof data1[n] === 'object') {
+								// noinspection JSUnfilteredForInLoop
+								Tree._merge(data1[n], data2[n]);
+							} else {
+								// noinspection JSUnfilteredForInLoop
+								data1[n] = data2[n];
+							}
+						}
+					}
+
+					return data1;
+				}
 
 				_isMergeableObject(val) {
 					let nonNullObject = val && typeof val === 'object';
@@ -453,7 +472,6 @@
 						throw new Error('first argument should be an array with at least two elements')
 					}
 
-					// we are sure there are at least 2 values, so it is safe to have no initial value
 					return array.reduce(function(prev, next) {
 						return self._deepmerge(prev, next, optionsArgument);
 					})
@@ -504,7 +522,7 @@
 						if (typeof e.target !== 'undefined') {
 							let path = e.target.getAttribute('id') || e.target.getAttribute('for');
 							path = path.replace(`tree${this._id}.`, '');
-							this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path)), this._renderMenu);
+							this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path, false)), this._renderMenu);
 						}
 					}
 
@@ -529,7 +547,8 @@
 						Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
 							this._state[el.getAttribute('id')] = el.checked;
 						});
-						this._obj = this._deepmergeAll([this._obj, obj]);
+						// this._obj = this._deepmergeAll([this._obj, obj]);
+						this._obj = Tree._merge(this._obj, obj);
 						this._iterate(this._obj);
 						Tree._getElement(`${this._target} #tree-${this._id}`).innerHTML = this._title + this._html;
 
@@ -589,13 +608,23 @@
 				target: '#tree1',
 				title: 'Users',
 				theme: 'vscode',
-				expand: ['root.lobby'],
+				expand: ['root.test'],
 				contextmenu: function(item, cb) {
 					if (typeof cb === 'function') {
 						cb(item);
 					}
 				}
 			});
+
+			setTimeout(function () {
+				tree1.render({
+					"status_bot_1573443464": {
+						"data": {
+							"test2": "lobby"
+						}
+					}
+				});
+			}, 5000);
 		</script>
 	</body>
 </html>
