@@ -3121,7 +3121,7 @@
 					}],
 					"size": 51095535,
 					"executable": "boot c:\\WIN95\\WIN95.IMG",
-					"args": ["-c", "imgmount a c:\\WIN95\\WIN95.IMG -size 512,63,16,101", "-c", "imgmount b c:\\DIABLO\\DIABLO.IMG -size 512,63,16,132"],
+					"args": ["-c", "imgmount a c:\\WIN95\\WIN95.IMG -size 512,63,16,142", "-c", "imgmount b c:\\DIABLO\\DIABLO.IMG -size 512,63,16,132"],
 					"license": "Shareware",
 					"status": "Nothing",
 					"links": {
