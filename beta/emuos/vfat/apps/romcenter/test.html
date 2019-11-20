@@ -623,13 +623,21 @@
 						window[func] = items[options[option]].bind(this);
 						let item = Tree._stringToObj(objpath, Tree._getValue(this._obj, objpath, false));
 						item = JSON.stringify(item).replace(/"/g, '&quot;');
-						html += `	<li><button onclick="${func}.call(null, ${item})">${options[option]}</button></li>`;
+						html += `	<li><button onclick="${func}.call(null, ${item});Tree._getElement('#${path}').className = 'menu';">${options[option]}</button></li>`;
 						i++;
 					}
 					html += `	</ul>`;
 
+					Tree._getElements(`${this._target} .tree .menu.shown`).forEach((el) => {
+						el.className = 'menu';
+					});
+
 					if (Tree._getElement(`#${path}`)) {
-						Tree._getElement(`#${path}`).innerHTML = html;
+						let el = Tree._getElement(`#${path}`);
+						el.style.top = `${this._clientY}px`;
+						el.style.left = `${this._clientX}px`;
+						el.className = 'menu shown';
+						el.innerHTML = html;
 					} else {
 						let wrapper = document.createElement('div');
 						wrapper.innerHTML = `<nav id="${path}" class="menu shown" style="top: ${this._clientY}px; left: ${this._clientX}px">${html}</nav>`;
@@ -720,18 +728,18 @@
 				title: 'Users',
 				theme: 'vscode',
 				expand: ['root.test'],
-				/*contextmenu: function(item, path, cb) {
+				contextmenu: function(item, path, cb) {
 					cb({
 						delete: function (item) {
 							console.log(item);
 						}
 					}, path);
-				},*/
-				contextmenu: {
+				},
+				/*contextmenu: {
 					delete: function (item) {
 						console.log(item);
 					}
-				}
+				}*/
 			});
 
 			setTimeout(function () {
