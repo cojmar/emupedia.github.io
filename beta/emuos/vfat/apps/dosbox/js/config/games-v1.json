@@ -807,8 +807,10 @@
 		"group": "Diablo",
 		"name": "Diablo I",
 		"notes": "DOSBOX: Hangs after intro movie",
-		"executable": "mem",
-		"args": ["-c", "imgmount c a:\\WIN95.IMG -size 512,63,16,101", "-c", "imgmount d b:\\DIABLO.IMG -size 512,63,16,132", "-c", "boot -l c"],
+		"executable": "boot -l c",
+		"args": ["-c", "imgmount c a:\\WIN95.IMG -size 512,63,16,142", "-c", "imgmount d b:\\DIABLO.IMG -size 512,63,16,132"],
+		"mode": "wasm",
+		"sync": true,
 		"files": ["win95.zip", "diablo1sw.zip"],
 		"size": 51095535,
 		"hardware": {

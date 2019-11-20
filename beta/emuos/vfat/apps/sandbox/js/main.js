@@ -230,7 +230,7 @@
 			editor: 'editor',
 			preview: 'preview',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
-			jqueryresizable: '../../../../js/libraries/jquery-resizable-0.32.0.min',
+			jqueryresizable: '../../../../js/libraries/jquery-resizable-0.35.0.min',
 			vs: '../../../../js/libraries/vs'
 		},
 		shim: {
