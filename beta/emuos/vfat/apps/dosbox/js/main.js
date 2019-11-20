@@ -829,9 +829,15 @@
 						for (var f in file) {
 							// noinspection JSUnfilteredForInLoop
 							dbx.filesGetTemporaryLink({path: '/dosbox/' + file[f]['url']}).then(function(response) {
-								// noinspection JSUnfilteredForInLoop,JSReferencingMutableVariableFromClosure
-								response['mount'] = file[files.length]['mount'];
-								// noinspection JSUnfilteredForInLoop,JSReferencingMutableVariableFromClosure
+								for (var i in file) {
+									// noinspection JSUnfilteredForInLoop
+									if (response['metadata']['name'].toLowerCase() === file[i]['url'].toLowerCase()) {
+										// noinspection JSUnfilteredForInLoop
+										response['mount'] = file[i]['mount'];
+										break;
+									}
+								}
+
 								files.push(response);
 							}).catch(function(error) {
 								console.log(error);
@@ -844,8 +850,6 @@
 							if (files.length === file.length) {
 								clearInterval(int);
 								int = null;
-
-								console.log(files);
 
 								fs.extractAll([{url: files[0]['link'], mountPoint: '/' + files[0]['mount']}, {url: files[1]['link'], mountPoint: '/' + files[1]['mount']}]).then(function() {
 									started = true;
