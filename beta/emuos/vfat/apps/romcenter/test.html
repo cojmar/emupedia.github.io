@@ -580,7 +580,9 @@
 					if (typeof e.target !== 'undefined') {
 						let path = e.target.getAttribute('id') || e.target.getAttribute('for');
 						path = path.replace(`tree${this._id}${this._separator}`, '').replace(new RegExp(this._separator, 'g'), '.');
-						this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path, false)), `tree${this._id}.${path}`, this._renderMenuDynamic.bind(this));
+						this._clientX = e.clientX;
+						this._clientY = e.clientY;
+						this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path, false)), path, this._renderMenuDynamic.bind(this));
 					}
 
 					return false;
@@ -588,17 +590,17 @@
 
 				_renderMenuStatic(items, path) {
 					let options = Object.keys(items);
+					let objpath = path.replace(`tree${this._id}${this._separator}`, '').replace(new RegExp(this._separator,'g'), '.');
+
 					let html = `<nav id="${path}${this._separator}menu" class="menu">
 									<ul>`;
-					path = path.replace(`tree${this._id}${this._separator}`, '').replace(new RegExp(this._separator,'g'), '.');
-
 					let i = 0;
-
 					for (let option in options) {
-						let func = `${path}.option${i}`;
+						let func = `tree${this._id}.${objpath}.option${i}`;
 						func = func.replace(/\./g, '_');
+						// noinspection JSUnfilteredForInLoop
 						window[func] = items[options[option]].bind(this);
-						let item = Tree._stringToObj(path, Tree._getValue(this._obj, path, false));
+						let item = Tree._stringToObj(objpath, Tree._getValue(this._obj, objpath, false));
 						item = JSON.stringify(item).replace(/"/g, '&quot;');
 						html += `		<li><button onclick="${func}.call(null, ${item})">${options[option]}</button></li>`;
 						i++;
@@ -609,18 +611,28 @@
 				}
 
 				_renderMenuDynamic(items, path) {
-					path = path.replace(/\./g, this._separator) + this._separator + 'menu';
+					let options = Object.keys(items);
+					let objpath = path;
+					path = `tree${this._id}${this._separator}` + path.replace(/\./g, this._separator) + this._separator + 'menu';
 
-					let html = `<ul>
-									<li><button onclick="alert('Hello there!')">Display Greeting</button></li>
-									<li><button onclick="print()">Print This Page</button></li>
-								</ul>`;
+					let html = `<ul>`;
+					let i = 0;
+					for (let option in options) {
+						let func = `tree${this._id}.${objpath}.option${i}`;
+						func = func.replace(/\./g, '_');
+						window[func] = items[options[option]].bind(this);
+						let item = Tree._stringToObj(objpath, Tree._getValue(this._obj, objpath, false));
+						item = JSON.stringify(item).replace(/"/g, '&quot;');
+						html += `	<li><button onclick="${func}.call(null, ${item})">${options[option]}</button></li>`;
+						i++;
+					}
+					html += `	</ul>`;
 
 					if (Tree._getElement(`#${path}`)) {
 						Tree._getElement(`#${path}`).innerHTML = html;
 					} else {
 						let wrapper = document.createElement('div');
-						wrapper.innerHTML = `<nav id="${path}" class="menu shown">${html}</nav>`;
+						wrapper.innerHTML = `<nav id="${path}" class="menu shown" style="top: ${this._clientY}px; left: ${this._clientX}px">${html}</nav>`;
 						Tree._getElement(`${this._target} .tree`).appendChild(wrapper.firstChild);
 					}
 				}
@@ -708,19 +720,18 @@
 				title: 'Users',
 				theme: 'vscode',
 				expand: ['root.test'],
-				contextmenu: function(item, path, cb) {
-					console.log(item);
+				/*contextmenu: function(item, path, cb) {
 					cb({
 						delete: function (item) {
 							console.log(item);
 						}
 					}, path);
-				},
-				/*contextmenu: {
+				},*/
+				contextmenu: {
 					delete: function (item) {
 						console.log(item);
 					}
-				}*/
+				}
 			});
 
 			setTimeout(function () {
