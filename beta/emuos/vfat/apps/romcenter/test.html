@@ -135,6 +135,9 @@
 				padding: 0 2px;
 				text-decoration: none;
 				color: #000;
+				background: none;
+				border: none;
+				outline: none;
 			}
 
 			.tree .tree-leaf-label {
@@ -211,19 +214,17 @@
 				 outline: #37373d;
 			}
 
-			.tree button + .menu {
-				/*display: inline-block;*/
-				display: none;
-			}
-
 			.tree .menu {
 				position: absolute;
-				/*visibility: visible;*/
 				display: none;
 				background: #fff;
 				border-radius: 4px;
 				border: 1px solid #dedede;
 				z-index: 1;
+			}
+
+			.tree .menu.shown {
+				display: inline-block;
 			}
 
 			.tree .menu > ul {
@@ -258,13 +259,15 @@
 				background-color: #beebff;
 			}
 
-			.tree button + .menu:active {
-				/*visibility: visible;*/
+			.tree label + .menu, .tree button + .menu {
+				display: none;
+			}
+
+			.tree label + .menu:active, .tree button + .menu:active {
 				display: inline-block;
 			}
 
-			.tree button:focus + .menu {
-				/*visibility: visible;*/
+			.tree label:focus + .menu, .tree button:focus + .menu {
 				display: inline-block;
 			}
 		</style>
@@ -320,26 +323,27 @@
 
 			class Tree {
 				constructor(obj, target, title, theme, expand, contextmenu) {
+					this._id = Tree._getID();
 					this._el = null;
-					this._first = true;
+					this._first = false;
 					this._state = {};
-
-					this._id = Tree._getID() + 1;
+					this._html = '';
+					this._separator = '▹';
 
 					if (arguments.length === 1) {
 						this._obj = obj.obj ? obj.obj : {};
 						this._target = obj.target ? obj.target : `#tree-${this._id}-wrapper`;
-						this._title = obj.title ? `<a class="tree-label" href="javascript:">${obj.title}</a>` : '';
+						this._title = obj.title ? `<button class="tree-label">${obj.title}</button>` : '';
 						this._theme = obj.theme ? obj.theme : 'classic';
 						this._expand = obj.expand ? obj.expand : [];
-						this._contextmenu = obj.contextmenu ? obj.contextmenu : null;
+						this._contextmenu = obj.contextmenu;
 					} else {
 						this._obj = obj ? obj : {};
 						this._target = target ? target : `#tree-${this._id}-wrapper`;
-						this._title = title ? `<a class="tree-label" href="javascript:">${title}</a>` : '';
+						this._title = title ? `<button class="tree-label">${title}</button>` : '';
 						this._theme = theme ? theme : 'classic';
 						this._expand = expand ? expand : [];
-						this._contextmenu = contextmenu ? contextmenu : null;
+						this._contextmenu = contextmenu;
 					}
 
 					this.render(this._obj);
@@ -398,7 +402,7 @@
 				};
 
 				static _getID() {
-					return document.querySelectorAll('.tree').length;
+					return document.querySelectorAll('.tree').length + 1;
 				}
 
 				static _stringToObj(path, val) {
@@ -522,43 +526,45 @@
 
 					for (let property in obj) {
 						if (obj.hasOwnProperty(property)) {
+							let id = `${path}${this._separator}${property}`;
+
 							if (typeof obj[property] === 'object') {
 								if (Object.keys(obj[property]).length !== 0) {
 									this._html += `	<li class="tree-leaf tree-has-children">
-														<label class="tree-leaf-label" for="${path}.${property}" tabindex="-1">${property}</label>`;
+														<label class="tree-leaf-label" for="${id}" tabindex="-1">${property}</label>`;
 									if (typeof this._contextmenu === 'object') {
-										this._html += this._renderMenuStatic(this._contextmenu, `${path}.${property}`);
+										this._html += this._renderMenuStatic(this._contextmenu, id);
 									}
-									this._html += 		`<input id="${path}.${property}" data-depth="${depth}" type="checkbox" />
+									this._html += 		`<input id="${id}" type="checkbox" />
 														<span class="tree-toggle"></span>
 														<ul class="tree-subtree">`;
-									this._iterate(obj[property], depth, path + '.' + property);
+									this._iterate(obj[property], depth, path + this._separator + property);
 									this._html += `		</ul>
 													</li>`;
 								} else {
 									this._html += `	<li class="tree-leaf tree-has-children">
-														<label class="tree-leaf-label" for="${path}.${property}" tabindex="-1">${property}</label>`;
+														<label class="tree-leaf-label" for="${id}" tabindex="-1">${property}</label>`;
 									if (typeof this._contextmenu === 'object') {
-										this._html += this._renderMenuStatic(this._contextmenu, `${path}.${property}`);
+										this._html += this._renderMenuStatic(this._contextmenu, id);
 									}
-									this._html += 		`<input id="${path}.${property}" data-depth="${depth}" type="checkbox" />
+									this._html += 		`<input id="${id}" type="checkbox" />
 														<span class="tree-toggle"></span>
 													</li>`;
 								}
 							} else if (typeof obj[property] !== 'undefined') {
 								if (Array.isArray(obj)) {
 									this._html += `	<li class="tree-leaf">
-														<button id="${path}.${property}" class="tree-leaf-label">${obj[property]}</button>`;
+														<button id="${id}" class="tree-leaf-label">${obj[property]}</button>`;
 									if (typeof this._contextmenu === 'object') {
-										this._html += this._renderMenuStatic(this._contextmenu, `${path}.${property}`);
+										this._html += this._renderMenuStatic(this._contextmenu, id);
 									}
 
 									this._html += `	</li>`;
 								} else {
 									this._html += `	<li class="tree-leaf">
-														<button id="${path}.${property}" class="tree-leaf-label">${property}&nbsp;▹&nbsp;${obj[property]}</button>`;
+														<button id="${id}" class="tree-leaf-label">${property}&nbsp;${this._separator}&nbsp;${obj[property]}</button>`;
 									if (typeof this._contextmenu === 'object') {
-										this._html += this._renderMenuStatic(this._contextmenu, `${path}.${property}`);
+										this._html += this._renderMenuStatic(this._contextmenu, id);
 									}
 
 									this._html += `	</li>`;
@@ -571,23 +577,23 @@
 				_contextMenuEvent(e) {
 					e.preventDefault();
 
-					if (typeof this._contextmenu === 'function') {
-						if (typeof e.target !== 'undefined') {
-							let path = e.target.getAttribute('id') || e.target.getAttribute('for');
-							path = path.replace(`tree${this._id}.`, '');
-							this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path, false)), this._renderMenuDynamic, `tree${this._id}.${path}.menu`);
-						}
+					if (typeof e.target !== 'undefined') {
+						let path = e.target.getAttribute('id') || e.target.getAttribute('for');
+						path = path.replace(`tree${this._id}${this._separator}`, '').replace(new RegExp(this._separator, 'g'), '.');
+						this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path, false)), `tree${this._id}.${path}`, this._renderMenuDynamic.bind(this));
 					}
 
 					return false;
 				}
 
 				_renderMenuStatic(items, path) {
-					path = path.replace(`tree${this._id}.`, '');
 					let options = Object.keys(items);
-					let html = `<nav id="${path}.menu" class="menu">
+					let html = `<nav id="${path}${this._separator}menu" class="menu">
 									<ul>`;
+					path = path.replace(`tree${this._id}${this._separator}`, '').replace(new RegExp(this._separator,'g'), '.');
+
 					let i = 0;
+
 					for (let option in options) {
 						let func = `${path}.option${i}`;
 						func = func.replace(/\./g, '_');
@@ -603,24 +609,24 @@
 				}
 
 				_renderMenuDynamic(items, path) {
-					let parent = path.split('.')[0];
+					path = path.replace(/\./g, this._separator) + this._separator + 'menu';
 
-					Tree._getElement(`#${path}`);
+					let html = `<ul>
+									<li><button onclick="alert('Hello there!')">Display Greeting</button></li>
+									<li><button onclick="print()">Print This Page</button></li>
+								</ul>`;
 
-					let html = `<nav id="${path}" class="menu">
-									<ul>
-										<li><button onclick="alert('Hello there!')">Display Greeting</button></li>
-										<li><button onclick="print()">Print This Page</button></li>
-									</ul>
-								</nav>`;
-
-					let wrapper = document.createElement('div');
-					wrapper.innerHTML = html;
-					Tree._getElement(`#${parent} .tree`).appendChild(wrapper.firstChild);
+					if (Tree._getElement(`#${path}`)) {
+						Tree._getElement(`#${path}`).innerHTML = html;
+					} else {
+						let wrapper = document.createElement('div');
+						wrapper.innerHTML = `<nav id="${path}" class="menu shown">${html}</nav>`;
+						Tree._getElement(`${this._target} .tree`).appendChild(wrapper.firstChild);
+					}
 				}
 
 				_renderRoot() {
-					return `<ul id="tree-${this._id}" class="tree theme-${this._theme}">
+					return `<ul class="tree theme-${this._theme}" oncontextmenu="return false;">
 								${this._title}
 								${this._html}
 							</ul>`;
@@ -629,17 +635,18 @@
 				render(obj) {
 					this._html = '';
 
-					if (Tree._getElement(`${this._target} #tree-${this._id}`)) {
-						Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
+					if (Tree._getElement(`${this._target} .tree`)) {
+						Tree._getElements(`${this._target} .tree input`).forEach((el) => {
 							this._state[el.getAttribute('id')] = el.checked;
 						});
+
 						this._obj = this._deepmergeAll([this._obj, obj]);
 						this._iterate(this._obj);
-						Tree._getElement(`${this._target} #tree-${this._id}`).innerHTML = this._title + this._html;
+						Tree._getElement(`${this._target} .tree`).innerHTML = this._title + this._html;
 
 						if (this._first) {
 							this._first = false;
-							Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
+							Tree._getElements(`${this._target} .tree input`).forEach((el) => {
 								el.checked = false;
 
 								if (el.getAttribute('id')) {
@@ -649,7 +656,7 @@
 								}
 							});
 						} else {
-							Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
+							Tree._getElements(`${this._target} .tree input`).forEach((el) => {
 								if (typeof this._state[el.getAttribute('id')] !== 'undefined') {
 									el.checked = this._state[el.getAttribute('id')];
 								} else {
@@ -670,11 +677,16 @@
 
 						this._el.innerHTML += this._renderRoot();
 
-						Tree._getElements(`${this._target} #tree-${this._id} input`).forEach((el) => {
+						Tree._getElements(`${this._target} .tree input`).forEach((el) => {
+							this._state[el.getAttribute('id')] = el.checked;
+						});
+
+						Tree._getElements(`${this._target} .tree input`).forEach((el) => {
 							el.checked = false;
+							this._state[el.getAttribute('id')] = el.checked;
 
 							if (el.getAttribute('id')) {
-								if (this._expand.includes(el.getAttribute('id').replace(`tree${this._id}`, 'root'))) {
+								if (this._expand.includes(el.getAttribute('id').replace(new RegExp(this._separator, 'g'), '.').replace(`tree${this._id}`, 'root'))) {
 									el.checked = true;
 								}
 							}
@@ -682,7 +694,7 @@
 					}
 
 					if (typeof this._contextmenu === 'function') {
-						Tree._getElements(`${this._target} #tree-${this._id} .tree-leaf-label`).forEach((el) => {
+						Tree._getElements(`${this._target} .tree .tree-leaf-label`).forEach((el) => {
 							el.removeEventListener('contextmenu', this._contextMenuEvent);
 							el.addEventListener('contextmenu', this._contextMenuEvent.bind(this), false);
 						});
@@ -696,25 +708,26 @@
 				title: 'Users',
 				theme: 'vscode',
 				expand: ['root.test'],
-				contextmenu: {
-					delete: function (item) {
-						console.log(item);
-					}
-				}
-				/*contextmenu: function(item, cb, path) {
+				contextmenu: function(item, path, cb) {
+					console.log(item);
 					cb({
 						delete: function (item) {
 							console.log(item);
 						}
 					}, path);
+				},
+				/*contextmenu: {
+					delete: function (item) {
+						console.log(item);
+					}
 				}*/
 			});
 
-			/*setTimeout(function () {
+			setTimeout(function () {
 				tree1.render({
 					"status_bot_1573443464": undefined
 				});
-			}, 5000);*/
+			}, 5000);
 		</script>
 	</body>
 </html>
