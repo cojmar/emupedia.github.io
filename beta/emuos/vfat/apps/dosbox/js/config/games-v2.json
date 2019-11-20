@@ -3709,7 +3709,7 @@
 					"group": "Windows 95",
 					"name": "Windows 95 (Retail)",
 					"file": "win95.zip",
-					"size": 27792019,
+					"size": 27806506,
 					"executable": "boot WIN95.IMG",
 					"args": ["-c", "imgmount a c:\\WIN95.IMG -size 512,63,16,142"],
 					"year": 1995,
