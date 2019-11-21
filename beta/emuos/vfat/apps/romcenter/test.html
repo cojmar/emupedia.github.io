@@ -277,7 +277,7 @@
 		<div id="tree2"></div>
 		<div id="tree3"></div>
 		<script>
-			let obj = {
+			/*let obj = {
 				"status_bot_1573443318": {
 					"socket": false,
 					"info": {
@@ -318,6 +318,14 @@
 					},
 					"room": "server_info",
 					"data": [1,2,3]
+				}
+			};*/
+
+			let obj = {
+				game: {
+					ball: {
+						Velocity: [1, 1]
+					}
 				}
 			};
 
@@ -535,7 +543,7 @@
 									if (typeof this._contextmenu === 'object') {
 										this._html += this._renderMenuStatic(this._contextmenu, id);
 									}
-									this._html += 		`<input id="${id}" type="checkbox" />
+									this._html += 		`<input id="${id}" type="checkbox" checked="checked" />
 														<span class="tree-toggle"></span>
 														<ul class="tree-subtree">`;
 									this._iterate(obj[property], depth, path + this._separator + property);
@@ -547,7 +555,7 @@
 									if (typeof this._contextmenu === 'object') {
 										this._html += this._renderMenuStatic(this._contextmenu, id);
 									}
-									this._html += 		`<input id="${id}" type="checkbox" />
+									this._html += 		`<input id="${id}" type="checkbox" checked="checked" />
 														<span class="tree-toggle"></span>
 													</li>`;
 								}
@@ -742,9 +750,13 @@
 				}*/
 			});
 
-			setTimeout(function () {
+			setTimeout(function() {
 				tree1.render({
-					"status_bot_1573443464": undefined
+					game: {
+						ball: {
+							Velocity: [1, 2]
+						}
+					}
 				});
 			}, 5000);
 		</script>
