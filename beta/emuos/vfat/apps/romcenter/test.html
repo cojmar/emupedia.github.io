@@ -675,8 +675,6 @@
 						if (this._first) {
 							this._first = false;
 							Tree._getElements(`${this._target} .tree input`).forEach((el) => {
-								el.checked = false;
-
 								if (el.getAttribute('id')) {
 									if (this._expand.includes(el.getAttribute('id').replace(`tree${this._id}`, 'root'))) {
 										el.checked = true;
@@ -710,7 +708,6 @@
 						});
 
 						Tree._getElements(`${this._target} .tree input`).forEach((el) => {
-							el.checked = false;
 							this._state[el.getAttribute('id')] = el.checked;
 
 							if (el.getAttribute('id')) {
@@ -750,6 +747,7 @@
 				}*/
 			});
 
+			console.log(obj);
 			setTimeout(function() {
 				tree1.render({
 					game: {
@@ -758,6 +756,7 @@
 						}
 					}
 				});
+				console.log(tree1._obj);
 			}, 5000);
 		</script>
 	</body>
