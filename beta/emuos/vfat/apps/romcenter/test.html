@@ -275,9 +275,9 @@
 	<body>
 		<div id="tree1"></div>
 		<div id="tree2"></div>
-		<div id="tree3"></div>
+
 		<script>
-			/*let obj = {
+			let obj = {
 				"status_bot_1573443318": {
 					"socket": false,
 					"info": {
@@ -317,25 +317,18 @@
 						"disconnected": false
 					},
 					"room": "server_info",
-					"data": [1,2,3]
-				}
-			};*/
-
-			let obj = {
-				game: {
-					ball: {
-						Velocity: [1, 1]
-					}
+					"data": [1, 2, 3]
 				}
 			};
 
 			class Tree {
-				constructor(obj, target, title, theme, expand, contextmenu) {
+				constructor(obj, target, title, theme, expand, contextmenu, vdom) {
 					this._id = Tree._getID();
 					this._el = null;
-					this._first = false;
+					this._first = true;
 					this._state = {};
 					this._html = '';
+					this._dom = {};
 					this._separator = '▹';
 
 					if (arguments.length === 1) {
@@ -345,6 +338,7 @@
 						this._theme = obj.theme ? obj.theme : 'classic';
 						this._expand = obj.expand ? obj.expand : [];
 						this._contextmenu = obj.contextmenu;
+						this._vdom = obj.vdom ? obj.vdom : false;
 					} else {
 						this._obj = obj ? obj : {};
 						this._target = target ? target : `#tree-${this._id}-wrapper`;
@@ -352,6 +346,7 @@
 						this._theme = theme ? theme : 'classic';
 						this._expand = expand ? expand : [];
 						this._contextmenu = contextmenu;
+						this._vdom = vdom ? vdom : false;
 					}
 
 					this.render(this._obj);
@@ -451,80 +446,228 @@
 					return current;
 				};
 
-				_isMergeableObject(val) {
+				static _merge(data1, data2) {
+					let ret = false;
+
+					if (typeof data1 !== 'object' || typeof data2 !== 'object') {
+						data1 = data2;
+						return true;
+					}
+
+					for (let n in data2) {
+						// noinspection JSUnfilteredForInLoop
+						if (!data1[n]) {
+							// noinspection JSUnfilteredForInLoop
+							data1[n] = data2[n];
+
+							if (!ret) {
+								ret = true;
+							}
+						} else {
+							// noinspection JSUnfilteredForInLoop
+							if (typeof data1[n] === 'object' && typeof data2[n] === 'object') {
+								// noinspection JSUnfilteredForInLoop
+								let ret2 = Tree._merge(data1[n], data2[n]);
+
+								if (!ret) {
+									ret = ret2;
+								}
+							} else {
+								// noinspection JSUnfilteredForInLoop
+								data1[n] = data2[n];
+
+								if (!ret) {
+									ret = true;
+								}
+							}
+						}
+					}
+
+					return ret;
+				}
+
+				static _h(type, props, ...children) {
+					return { type, props: props || {}, children };
+				}
+
+				static _setBooleanProp($target, name, value) {
+					if (value) {
+						$target.setAttribute(name, value);
+						$target[name] = true;
+					} else {
+						$target[name] = false;
+					}
+				}
+
+				static _removeBooleanProp($target, name) {
+					$target.removeAttribute(name);
+					$target[name] = false;
+				}
+
+				static _isCustomProp(name) {
+					return name === 'forceUpdate';
+				}
+
+				static _setProp($target, name, value) {
+					if (!Tree._isCustomProp(name)) {
+						if (name === 'className') {
+							$target.setAttribute('class', value);
+						} else if (typeof value === 'boolean') {
+							Tree._setBooleanProp($target, name, value);
+						} else {
+							$target.setAttribute(name, value);
+						}
+					}
+				}
+
+				static _removeProp($target, name, value) {
+					if (!Tree._isCustomProp(name)) {
+						if (name === 'className') {
+							$target.removeAttribute('class');
+						} else if (typeof value === 'boolean') {
+							Tree._removeBooleanProp($target, name);
+						} else {
+							$target.removeAttribute(name);
+						}
+					}
+				}
+
+				static _setProps($target, props) {
+					Object.keys(props).forEach(name => {
+						Tree._setProp($target, name, props[name]);
+					});
+				}
+
+				static _updateProp($target, name, newVal, oldVal) {
+					if (!newVal) {
+						Tree._removeProp($target, name, oldVal);
+					} else if (!oldVal || newVal !== oldVal) {
+						Tree._setProp($target, name, newVal);
+					}
+				}
+
+				static _updateProps($target, newProps, oldProps = {}) {
+					const props = Object.assign({}, newProps, oldProps);
+
+					Object.keys(props).forEach(name => {
+						Tree._updateProp($target, name, newProps[name], oldProps[name]);
+					});
+				}
+
+				static _createElement(node) {
+					if (typeof node === 'string') {
+						return document.createTextNode(node);
+					}
+
+					const $el = document.createElement(node.type);
+
+					Tree._setProps($el, node.props);
+
+					if (node.children) {
+						node.children.map(Tree._createElement).forEach($el.appendChild.bind($el));
+					}
+
+					return $el;
+				}
+
+				static _changedElement(node1, node2) {
+					return typeof node1 !== typeof node2 || typeof node1 === 'string' && node1 !== node2 || node1.type !== node2.type || node1.props && node1.props.forceUpdate;
+				}
+
+				static _updateElement($parent, newNode, oldNode, index = 0) {
+					if (!oldNode) {
+						$parent.appendChild(Tree._createElement(newNode));
+					} else if (!newNode) {
+						let times = ($parent.childNodes.length || 0) - index;
+						while (times-- > 0) {
+							if ($parent.lastChild) {
+								$parent.removeChild($parent.lastChild);
+							}
+						}
+					} else if (Tree._changedElement(newNode, oldNode)) {
+						$parent.replaceChild(Tree._createElement(newNode), $parent.childNodes[index]);
+					} else if (newNode.type) {
+						Tree._updateProps($parent.childNodes[index], newNode.props, oldNode.props);
+
+						const newLength = newNode.children.length;
+						const oldLength = oldNode.children.length;
+
+						for (let i = 0; i < newLength || i < oldLength; i++) {
+							Tree._updateElement($parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
+						}
+					}
+				}
+
+				static _isMergeableObject(val) {
 					let nonNullObject = val && typeof val === 'object';
 					return nonNullObject && Object.prototype.toString.call(val) !== '[object RegExp]' && Object.prototype.toString.call(val) !== '[object Date]';
 				}
 
-				_emptyTarget(val) {
+				static _emptyTarget(val) {
 					return Array.isArray(val) ? [] : {}
 				}
 
-				_cloneIfNecessary(value, optionsArgument) {
+				static _cloneIfNecessary(value, optionsArgument) {
 					let clone = optionsArgument && optionsArgument.clone === true;
 
-					return (clone && this._isMergeableObject(value)) ? this._deepmerge(this._emptyTarget(value), value, optionsArgument) : value;
+					return (clone && Tree._isMergeableObject(value)) ? Tree._deepmerge(Tree._emptyTarget(value), value, optionsArgument) : value;
 				}
 
-				_defaultArrayMerge(target, source, optionsArgument) {
-					let self = this;
+				static _defaultArrayMerge(target, source, optionsArgument) {
 					let destination = target.slice();
 
 					source.forEach((e, i) => {
 						if (typeof destination[i] === 'undefined') {
-							destination[i] = self._cloneIfNecessary(e, optionsArgument);
-						} else if (self._isMergeableObject(e)) {
-							destination[i] = self._deepmerge(target[i], e, optionsArgument);
+							destination[i] = Tree._cloneIfNecessary(e, optionsArgument);
+						} else if (Tree._isMergeableObject(e)) {
+							destination[i] = Tree._deepmerge(target[i], e, optionsArgument);
 						} else if (target.indexOf(e) === -1) {
-							destination.push(self._cloneIfNecessary(e, optionsArgument));
+							destination[i] = e;
 						}
 					});
 
 					return destination;
 				}
 
-				_mergeObject(target, source, optionsArgument) {
-					let self = this;
+				static _mergeObject(target, source, optionsArgument) {
 					let destination = {};
 
-					if (this._isMergeableObject(target)) {
+					if (Tree._isMergeableObject(target)) {
 						Object.keys(target).forEach((key) => {
-							destination[key] = self._cloneIfNecessary(target[key], optionsArgument)
+							destination[key] = Tree._cloneIfNecessary(target[key], optionsArgument)
 						})
 					}
 
 					Object.keys(source).forEach((key) => {
-						if (!this._isMergeableObject(source[key]) || !target[key]) {
-							destination[key] = self._cloneIfNecessary(source[key], optionsArgument);
+						if (!Tree._isMergeableObject(source[key]) || !target[key]) {
+							destination[key] = Tree._cloneIfNecessary(source[key], optionsArgument);
 						} else {
-							destination[key] = self._deepmerge(target[key], source[key], optionsArgument);
+							destination[key] = Tree._deepmerge(target[key], source[key], optionsArgument);
 						}
 					});
 
 					return destination;
 				}
 
-				_deepmerge(target, source, optionsArgument) {
+				static _deepmerge(target, source, optionsArgument) {
 					let array = Array.isArray(source);
-					let options = optionsArgument || { arrayMerge: this._defaultArrayMerge.bind(this) };
-					let arrayMerge = options.arrayMerge || this._defaultArrayMerge.bind(this);
+					let options = optionsArgument || { arrayMerge: Tree._defaultArrayMerge.bind(this) };
+					let arrayMerge = options.arrayMerge ||Tree._defaultArrayMerge.bind(this);
 
 					if (array) {
-						return Array.isArray(target) ? arrayMerge(target, source, optionsArgument) : this._cloneIfNecessary(source, optionsArgument);
+						return Array.isArray(target) ? arrayMerge(target, source, optionsArgument) : Tree._cloneIfNecessary(source, optionsArgument);
 					} else {
-						return this._mergeObject(target, source, optionsArgument);
+						return Tree._mergeObject(target, source, optionsArgument);
 					}
 				}
 
-				_deepmergeAll(array, optionsArgument) {
-					let self = this;
-
+				static _deepmergeAll(array, optionsArgument) {
 					if (!Array.isArray(array) || array.length < 2) {
 						throw new Error('first argument should be an array with at least two elements')
 					}
 
-					return array.reduce(function(prev, next) {
-						return self._deepmerge(prev, next, optionsArgument);
+					return array.reduce((prev, next) => {
+						return Tree._deepmerge(prev, next, optionsArgument);
 					})
 				}
 
@@ -543,7 +686,7 @@
 									if (typeof this._contextmenu === 'object') {
 										this._html += this._renderMenuStatic(this._contextmenu, id);
 									}
-									this._html += 		`<input id="${id}" type="checkbox" checked="checked" />
+									this._html += 		`<input id="${id}" type="checkbox" />
 														<span class="tree-toggle"></span>
 														<ul class="tree-subtree">`;
 									this._iterate(obj[property], depth, path + this._separator + property);
@@ -555,7 +698,7 @@
 									if (typeof this._contextmenu === 'object') {
 										this._html += this._renderMenuStatic(this._contextmenu, id);
 									}
-									this._html += 		`<input id="${id}" type="checkbox" checked="checked" />
+									this._html += 		`<input id="${id}" type="checkbox" />
 														<span class="tree-toggle"></span>
 													</li>`;
 								}
@@ -580,6 +723,49 @@
 							}
 						}
 					}
+				}
+
+				_iterateVDOM(obj, depth, path) {
+					depth = typeof depth === 'number' ? depth + 1 : 1;
+					path = typeof path === 'string' ? path : `tree${this._id}`;
+					let children = [];
+
+					for (let property in obj) {
+						let dom = {};
+
+						if (obj.hasOwnProperty(property)) {
+							let id = `${path}${this._separator}${property}`;
+
+							if (typeof obj[property] === 'object') {
+								if (Object.keys(obj[property]).length !== 0) {
+									let children = this._iterateVDOM(obj[property], depth, path + this._separator + property);
+
+									dom = Tree._h('li', {className: 'tree-leaf tree-has-children'},
+										Tree._h('label', {className: 'tree-leaf-label', for: id, tabindex: -1}, property),
+										Tree._h('input', {id: id, type: 'checkbox'}),
+										Tree._h('span', {className: 'tree-toggle'}),
+										Tree._h('ul', {className: 'tree-subtree'}, ...children)
+									);
+								} else {
+									dom = Tree._h('li', {className: 'tree-leaf tree-has-children'},
+										Tree._h('label', {className: 'tree-leaf-label', for: id, tabindex: -1}, property),
+										Tree._h('input', {id: id, type: 'checkbox'}),
+										Tree._h('span', {className: 'tree-toggle'}),
+									);
+								}
+							} else if (typeof obj[property] !== 'undefined') {
+								if (Array.isArray(obj)) {
+									dom = Tree._h('li', {className: 'tree-leaf'}, Tree._h('button', {id: id, className: 'tree-leaf-label'}, obj[property] + ''));
+								} else {
+									dom = Tree._h('li', {className: 'tree-leaf'}, Tree._h('button', {id: id, className: 'tree-leaf-label'}, `${property} ${this._separator} ${obj[property]}`));
+								}
+							}
+						}
+
+						children.push(dom);
+					}
+
+					return children;
 				}
 
 				_contextMenuEvent(e) {
@@ -661,38 +847,7 @@
 				}
 
 				render(obj) {
-					this._html = '';
-
-					if (Tree._getElement(`${this._target} .tree`)) {
-						Tree._getElements(`${this._target} .tree input`).forEach((el) => {
-							this._state[el.getAttribute('id')] = el.checked;
-						});
-
-						this._obj = this._deepmergeAll([this._obj, obj]);
-						this._iterate(this._obj);
-						Tree._getElement(`${this._target} .tree`).innerHTML = this._title + this._html;
-
-						if (this._first) {
-							this._first = false;
-							Tree._getElements(`${this._target} .tree input`).forEach((el) => {
-								if (el.getAttribute('id')) {
-									if (this._expand.includes(el.getAttribute('id').replace(`tree${this._id}`, 'root'))) {
-										el.checked = true;
-									}
-								}
-							});
-						} else {
-							Tree._getElements(`${this._target} .tree input`).forEach((el) => {
-								if (typeof this._state[el.getAttribute('id')] !== 'undefined') {
-									el.checked = this._state[el.getAttribute('id')];
-								} else {
-									el.checked = true;
-								}
-							});
-						}
-					} else {
-						this._iterate(this._obj);
-
+					if (this._vdom) {
 						if (Tree._getElement(this._target)) {
 							this._el = Tree._getElement(this._target);
 						} else {
@@ -701,28 +856,87 @@
 							Tree._getElement('body').append(this._el);
 						}
 
-						this._el.innerHTML += this._renderRoot();
+						this._obj = Tree._deepmergeAll([this._obj, obj]);
+						let children = this._iterateVDOM(this._obj);
 
-						Tree._getElements(`${this._target} .tree input`).forEach((el) => {
-							this._state[el.getAttribute('id')] = el.checked;
-						});
+						let dom = this._dom;
+						this._dom = Tree._h('ul', {className: `tree theme-${this._theme}`, oncontextmenu: 'return false;'}, ...children);
 
-						Tree._getElements(`${this._target} .tree input`).forEach((el) => {
-							this._state[el.getAttribute('id')] = el.checked;
-
-							if (el.getAttribute('id')) {
-								if (this._expand.includes(el.getAttribute('id').replace(new RegExp(this._separator, 'g'), '.').replace(`tree${this._id}`, 'root'))) {
-									el.checked = true;
+						if (this._first) {
+							this._first = false;
+							Tree._updateElement(this._el, this._dom);
+							Tree._getElements(`${this._target} .tree input`).forEach((el) => {
+								if (el.getAttribute('id')) {
+									if (this._expand.includes(el.getAttribute('id').replace(new RegExp(this._separator, 'g'), '.').replace(`tree${this._id}`, 'root'))) {
+										el.checked = true;
+									}
 								}
-							}
-						});
-					}
 
-					if (typeof this._contextmenu === 'function') {
-						Tree._getElements(`${this._target} .tree .tree-leaf-label`).forEach((el) => {
-							el.removeEventListener('contextmenu', this._contextMenuEvent);
-							el.addEventListener('contextmenu', this._contextMenuEvent.bind(this), false);
-						});
+								this._state[el.getAttribute('id')] = el.checked;
+							});
+						} else {
+							Tree._updateElement(this._el, this._dom, dom);
+						}
+					} else {
+						this._html = '';
+
+						if (Tree._getElement(`${this._target} .tree`)) {
+							Tree._getElements(`${this._target} .tree input`).forEach((el) => {
+								this._state[el.getAttribute('id')] = el.checked;
+							});
+
+							this._obj = Tree._deepmergeAll([this._obj, obj]);
+							this._iterate(this._obj);
+							Tree._getElement(`${this._target} .tree`).innerHTML = this._title + this._html;
+
+							if (this._first) {
+								this._first = false;
+								Tree._getElements(`${this._target} .tree input`).forEach((el) => {
+									if (el.getAttribute('id')) {
+										if (this._expand.includes(el.getAttribute('id').replace(`tree${this._id}`, 'root'))) {
+											el.checked = true;
+										}
+									}
+								});
+							} else {
+								Tree._getElements(`${this._target} .tree input`).forEach((el) => {
+									if (typeof this._state[el.getAttribute('id')] !== 'undefined') {
+										el.checked = this._state[el.getAttribute('id')];
+									} else {
+										el.checked = true;
+									}
+								});
+							}
+						} else {
+							this._iterate(this._obj);
+
+							if (Tree._getElement(this._target)) {
+								this._el = Tree._getElement(this._target);
+							} else {
+								this._el = document.createElement('div');
+								this._el.id = this._target.substr(1);
+								Tree._getElement('body').append(this._el);
+							}
+
+							this._el.innerHTML += this._renderRoot();
+
+							Tree._getElements(`${this._target} .tree input`).forEach((el) => {
+								if (el.getAttribute('id')) {
+									if (this._expand.includes(el.getAttribute('id').replace(new RegExp(this._separator, 'g'), '.').replace(`tree${this._id}`, 'root'))) {
+										el.checked = true;
+									}
+								}
+
+								this._state[el.getAttribute('id')] = el.checked;
+							});
+						}
+
+						if (typeof this._contextmenu === 'function') {
+							Tree._getElements(`${this._target} .tree .tree-leaf-label`).forEach((el) => {
+								el.removeEventListener('contextmenu', this._contextMenuEvent);
+								el.addEventListener('contextmenu', this._contextMenuEvent.bind(this), false);
+							});
+						}
 					}
 				}
 			}
@@ -733,31 +947,52 @@
 				title: 'Users',
 				theme: 'vscode',
 				expand: ['root.test'],
-				contextmenu: function(item, path, cb) {
+				contextmenu: (item, path, cb) => {
 					cb({
-						delete: function (item) {
+						delete: (item) => {
 							console.log(item);
 						}
 					}, path);
 				},
 				/*contextmenu: {
-					delete: function (item) {
+					delete: (item) => {
 						console.log(item);
 					}
 				}*/
 			});
 
-			console.log(obj);
-			setTimeout(function() {
-				tree1.render({
-					game: {
-						ball: {
-							Velocity: [1, 2]
+			let tree2 = new Tree({
+				obj: obj,
+				target: '#tree2',
+				title: 'Users',
+				theme: 'vscode',
+				expand: ['root.test'],
+				vdom: true,
+				contextmenu: (item, path, cb) => {
+					cb({
+						delete: (item) => {
+							console.log(item);
 						}
+					}, path);
+				},
+				/*contextmenu: {
+					delete: (item) => {
+						console.log(item);
+					}
+				}*/
+			});
+
+			setInterval(() => {
+				let rand1 = Math.floor(Math.random() * 6) + 1;
+				let rand2 = Math.floor(Math.random() * 6) + 1;
+				let rand3 = Math.floor(Math.random() * 6) + 1;
+
+				tree2.render({
+					"status_bot_1573443464": {
+						"data": [rand1, rand2]
 					}
 				});
-				console.log(tree1._obj);
-			}, 5000);
+			}, 1000);
 		</script>
 	</body>
 </html>
