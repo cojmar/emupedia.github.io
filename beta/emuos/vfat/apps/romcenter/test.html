@@ -533,9 +533,11 @@
 				}
 
 				static _setProps($target, props) {
-					Object.keys(props).forEach(name => {
-						Tree._setProp($target, name, props[name]);
-					});
+					if (props) {
+						Object.keys(props).forEach(name => {
+							Tree._setProp($target, name, props[name]);
+						});
+					}
 				}
 
 				static _updateProp($target, name, newVal, oldVal) {
@@ -1010,7 +1012,15 @@
 				let rand2 = Math.floor(Math.random() * 6) + 1;
 				let rand3 = Math.floor(Math.random() * 6) + 1;
 
+				tree1.render({
+					"status_bot_1573443318": undefined,
+					"status_bot_1573443464": {
+						"data": [rand1, rand2]
+					}
+				});
+
 				tree2.render({
+					"status_bot_1573443318": undefined,
 					"status_bot_1573443464": {
 						"data": [rand1, rand2]
 					}
