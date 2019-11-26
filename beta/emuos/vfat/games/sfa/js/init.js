@@ -197,19 +197,8 @@ stuffLoader_.queue("images/misc/misc/head-sprites.png", RESOURCE_TYPES.IMAGE);
 stuffLoader_.queue("images/misc/misc/char-select-sprites.png", RESOURCE_TYPES.IMAGE);
 stuffLoader_.queue("images/misc/misc/char-sprites.png", RESOURCE_TYPES.IMAGE);
 
-// Needed due to changes in Google Chrome https://goo.gl/7K7WLu
-// The user must interact with the page before audio can be played... ugh
-var startUpGame = function() {
-	$$init();
-
-	if (getRand(100) > 50)
-		debug_.startMatch([{A: CHARACTERS.RYU, C: true}, {A: CHARACTERS.KEN, C: true}], [{A: CHARACTERS.AKUMA, C: true}], "akuma");
-	else
-		debug_.startMatch([{A: CHARACTERS.RYU, C: true}, {A: CHARACTERS.KEN, C: true}], [{A: CHARACTERS.MBISON, C: true}], "dramatic_battle");
-};
-
 $$wasAudioInitialized = false;
-var $$init = function () {
+var $$init = function() {
 	if (!$$wasAudioInitialized) {
 		var container = document.querySelector(".start-game-container");
 		if (container) {
@@ -232,3 +221,14 @@ var $$init = function () {
 		}
 	}
 };
+
+// Needed due to changes in Google Chrome https://goo.gl/7K7WLu
+// The user must interact with the page before audio can be played... ugh
+var startUpGame = function() {
+	$$init();
+
+	if (getRand(100) > 50)
+		debug_.startMatch([{A: CHARACTERS.RYU, C: true}, {A: CHARACTERS.KEN, C: true}], [{A: CHARACTERS.AKUMA, C: true}], "akuma");
+	else
+		debug_.startMatch([{A: CHARACTERS.RYU, C: true}, {A: CHARACTERS.KEN, C: true}], [{A: CHARACTERS.MBISON, C: true}], "dramatic_battle");
+}();

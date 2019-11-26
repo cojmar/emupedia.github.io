@@ -74,12 +74,12 @@
 			<br/><span id="spnResume" class="resume">[P] to resume</span>
 			<br/>
 		</div>
-		<div>
+		<div style="display: none;">
 			<br/><span id="spnMsg"></span>
 			<br/><span id="spnState" class="state running">State: <span>Running</span></span>
 		</div>
-		<div class="loading">Graphics loading (<span id="pnlLoading" class="loading">done</span>)</div>
-		<div class="loading">Audio loading (<span id="pnlAudio" class="loading">done</span>)</div>
+		<div class="loading" style="display: none;">Graphics loading (<span id="pnlLoading" class="loading">done</span>)</div>
+		<div class="loading" style="display: none;">Audio loading (<span id="pnlAudio" class="loading">done</span>)</div>
 		<div id="pnlTeam1Keys" class="team1Keys"></div>
 		<div id="pnlTeam2Keys" class="team2Keys"></div>
 		<div id="pnlMenu" class="menu">
@@ -102,8 +102,8 @@
 			<input type="button" onclick="debug_.setFrameData()" value="Set"/>
 		</div>
 		-->
-		<div id="pnlProjectiles" class="projectile-editor" style="display:none;">
-			<hr style="clear:both"/>
+		<div id="pnlProjectiles" class="projectile-editor">
+			<hr style="clear:both;"/>
 			<button onclick="debug_.loadProjectiles()">Load Projectiles</button>
 			<!--suppress HtmlFormInputWithoutLabel -->
 			<select id="selProjectile"></select>
