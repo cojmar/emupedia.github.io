@@ -134,6 +134,7 @@
 				max-width: 100%;
 				padding: 0 2px;
 				text-decoration: none;
+				text-align: left;
 				color: #000;
 				background: none;
 				border: none;
@@ -149,6 +150,7 @@
 				margin-left: 18px;
 				padding: 0 2px;
 				text-decoration: none;
+				text-align: left;
 				color: #000;
 				background: none;
 				border: none;
@@ -202,6 +204,7 @@
 				width: 100%;
 				overflow: visible;
 				text-align: left;
+				color: #000;
 				cursor: pointer;
 				background: none;
 				outline: none;
@@ -247,7 +250,7 @@
 				background-color: #fff;
 			}
 
-			.tree.theme-vscode-dark {
+			.tree.theme-vscode-dark, .tree.theme-vscode-dark .menu {
 				background-color: #252526;
 				border: 1px solid #464646;
 				color: #d4d4d4;
@@ -270,57 +273,28 @@
 				 background-color: #094771;
 				 outline: #37373d;
 			}
+
+			.tree.theme-vscode-dark .menu > ul > li > button {
+				color: #d4d4d4;
+			}
+
+			.tree.theme-vscode-dark .menu > ul > li > button:hover {
+				background-color: #37373d;
+			}
+
+			.tree.theme-vscode-dark .menu > ul > li > button:active,
+			.tree.theme-vscode-dark .menu > ul > li > button:focus {
+				background-color: #094771;
+			}
 		</style>
 	</head>
 	<body>
-		<div id="tree1"></div>
-		<div id="tree2"></div>
+		<div id="tree_users"></div>
+		<div id="tree_rooms"></div>
+		<div id="tree_sockets"></div>
 
-		<script>
-			let obj = {
-				"status_bot_1573443318": {
-					"socket": false,
-					"info": {
-						"user": "status_bot_1573443318",
-						"disconnected": 1573443463,
-						"info": {
-							"user": "status_bot_1573443318",
-							"disconnected": 1573443463
-						}
-					},
-					"room": "server_info",
-					"data": {}
-				},
-				"test": {
-					"socket": "YoUfVclQG6llCWWUAAAH",
-					"info": {
-						"user": "test",
-						"disconnected": true
-					},
-					"room": "lobby",
-					"data": {
-						"test": {
-							"socket": "YoUfVclQG6llCWWUAAAH",
-							"info": {
-								"user": "test",
-								"disconnected": false
-							},
-							"room": "lobby",
-							"data": {}
-						}
-					}
-				},
-				"status_bot_1573443464": {
-					"socket": "2ZFNIsI0FwHJ8J-zAAAI",
-					"info": {
-						"user": "status_bot_1573443464",
-						"disconnected": false
-					},
-					"room": "server_info",
-					"data": [1, 2, 3]
-				}
-			};
-
+		<script type="text/javascript" src="../../../js/libraries/requirejs-2.3.6.js"></script>
+		<script type="text/javascript">
 			class Tree {
 				constructor(obj, target, title, theme, expand, contextmenu, vdom) {
 					this._id = Tree._getID();
@@ -446,46 +420,6 @@
 					return current;
 				};
 
-				static _merge(data1, data2) {
-					let ret = false;
-
-					if (typeof data1 !== 'object' || typeof data2 !== 'object') {
-						data1 = data2;
-						return true;
-					}
-
-					for (let n in data2) {
-						// noinspection JSUnfilteredForInLoop
-						if (!data1[n]) {
-							// noinspection JSUnfilteredForInLoop
-							data1[n] = data2[n];
-
-							if (!ret) {
-								ret = true;
-							}
-						} else {
-							// noinspection JSUnfilteredForInLoop
-							if (typeof data1[n] === 'object' && typeof data2[n] === 'object') {
-								// noinspection JSUnfilteredForInLoop
-								let ret2 = Tree._merge(data1[n], data2[n]);
-
-								if (!ret) {
-									ret = ret2;
-								}
-							} else {
-								// noinspection JSUnfilteredForInLoop
-								data1[n] = data2[n];
-
-								if (!ret) {
-									ret = true;
-								}
-							}
-						}
-					}
-
-					return ret;
-				}
-
 				static _h(type, props, ...children) {
 					return { type, props: props || {}, children };
 				}
@@ -533,7 +467,7 @@
 				}
 
 				static _setProps($target, props) {
-					if (props) {
+					if ($target && props) {
 						Object.keys(props).forEach(name => {
 							Tree._setProp($target, name, props[name]);
 						});
@@ -551,9 +485,11 @@
 				static _updateProps($target, newProps, oldProps = {}) {
 					const props = Object.assign({}, newProps, oldProps);
 
-					Object.keys(props).forEach(name => {
-						Tree._updateProp($target, name, newProps[name], oldProps[name]);
-					});
+					if ($target) {
+						Object.keys(props).forEach(name => {
+							Tree._updateProp($target, name, newProps[name], oldProps[name]);
+						});
+					}
 				}
 
 				static _createElement(node) {
@@ -577,25 +513,27 @@
 				}
 
 				static _updateElement($parent, newNode, oldNode, index = 0) {
-					if (!oldNode) {
-						$parent.appendChild(Tree._createElement(newNode));
-					} else if (!newNode) {
-						let times = ($parent.childNodes.length || 0) - index;
-						while (times-- > 0) {
-							if ($parent.lastChild) {
-								$parent.removeChild($parent.lastChild);
+					if ($parent) {
+						if (!oldNode) {
+							$parent.appendChild(Tree._createElement(newNode));
+						} else if (!newNode) {
+							let times = ($parent.childNodes.length || 0) - index;
+							while (times-- > 0) {
+								if ($parent.lastChild) {
+									$parent.removeChild($parent.lastChild);
+								}
 							}
-						}
-					} else if (Tree._changedElement(newNode, oldNode)) {
-						$parent.replaceChild(Tree._createElement(newNode), $parent.childNodes[index]);
-					} else if (newNode.type) {
-						Tree._updateProps($parent.childNodes[index], newNode.props, oldNode.props);
+						} else if (Tree._changedElement(newNode, oldNode)) {
+							$parent.replaceChild(Tree._createElement(newNode), $parent.childNodes[index]);
+						} else if (newNode.type) {
+							Tree._updateProps($parent.childNodes[index], newNode.props, oldNode.props);
 
-						const newLength = newNode.children.length;
-						const oldLength = oldNode.children.length;
+							const newLength = newNode.children.length;
+							const oldLength = oldNode.children.length;
 
-						for (let i = 0; i < newLength || i < oldLength; i++) {
-							Tree._updateElement($parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
+							for (let i = 0; i < newLength || i < oldLength; i++) {
+								Tree._updateElement($parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
+							}
 						}
 					}
 				}
@@ -617,6 +555,10 @@
 
 				static _defaultArrayMerge(target, source, optionsArgument) {
 					let destination = target.slice();
+
+					if (destination.length !== source.length) {
+						destination = [];
+					}
 
 					source.forEach((e, i) => {
 						if (typeof destination[i] === 'undefined') {
@@ -680,6 +622,7 @@
 					for (let property in obj) {
 						if (obj.hasOwnProperty(property)) {
 							let id = `${path}${this._separator}${property}`;
+							id = id.replace(/\s/g, '_');
 
 							if (typeof obj[property] === 'object') {
 								if (Object.keys(obj[property]).length !== 0) {
@@ -733,27 +676,37 @@
 					let children = [];
 
 					for (let property in obj) {
-						let dom = {};
+						let dom = undefined;
 
 						if (obj.hasOwnProperty(property)) {
 							let id = `${path}${this._separator}${property}`;
+							id = id.replace(/\s/g, '_');
+							let el = Tree._getElement(`#${id}`);
+
+							if (this._first) {
+								this._state[id] = !!this._expand.includes(id.replace(new RegExp(this._separator, 'g'), '.').replace(`tree${this._id}`, 'root'));
+							} else {
+								this._state[id] = el ? el.checked === true : false;
+							}
+
+							let checked = this._state[id] === true;
 
 							if (typeof obj[property] === 'object') {
 								if (Object.keys(obj[property]).length !== 0) {
 									let children = this._iterateVDOM(obj[property], depth, path + this._separator + property);
 
-									dom = Tree._h('li', {className: 'tree-leaf tree-has-children'},
-										Tree._h('label', {className: 'tree-leaf-label', for: id, tabindex: -1}, property),
-										Tree._h('input', {id: id, type: 'checkbox'}),
-										Tree._h('span', {className: 'tree-toggle'}),
-										Tree._h('ul', {className: 'tree-subtree'}, ...children)
-									);
+									dom =	Tree._h('li', {className: 'tree-leaf tree-has-children'},
+												Tree._h('label', {className: 'tree-leaf-label', for: id, tabindex: -1}, property),
+												Tree._h('input', {id: id, type: 'checkbox', checked: checked}),
+												Tree._h('span', {className: 'tree-toggle'}),
+												Tree._h('ul', {className: 'tree-subtree'}, ...children)
+											);
 								} else {
-									dom = Tree._h('li', {className: 'tree-leaf tree-has-children'},
-										Tree._h('label', {className: 'tree-leaf-label', for: id, tabindex: -1}, property),
-										Tree._h('input', {id: id, type: 'checkbox'}),
-										Tree._h('span', {className: 'tree-toggle'}),
-									);
+									dom =	Tree._h('li', {className: 'tree-leaf tree-has-children'},
+												Tree._h('label', {className: 'tree-leaf-label', for: id, tabindex: -1}, property),
+												Tree._h('input', {id: id, type: 'checkbox', checked: checked}),
+												Tree._h('span', {className: 'tree-toggle'}),
+											);
 								}
 							} else if (typeof obj[property] !== 'undefined') {
 								if (Array.isArray(obj)) {
@@ -764,7 +717,9 @@
 							}
 						}
 
-						children.push(dom);
+						if (dom) {
+							children.push(dom);
+						}
 					}
 
 					return children;
@@ -773,12 +728,16 @@
 				_contextMenuEvent(e) {
 					e.preventDefault();
 
+					Tree._getElements('.menu.shown').forEach((el) => {
+						el.className = 'menu';
+					});
+
 					if (typeof e.target !== 'undefined') {
 						let path = e.target.getAttribute('id') || e.target.getAttribute('for');
 						path = path.replace(`tree${this._id}${this._separator}`, '').replace(new RegExp(this._separator, 'g'), '.');
 						this._clientX = e.clientX;
 						this._clientY = e.clientY;
-						this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path, false)), path, this._renderMenuDynamic.bind(this));
+						this._renderMenuDynamic(this._contextmenu(Tree._stringToObj(path, Tree._getValue(this._obj, path, false)), path), path);
 					}
 
 					return false;
@@ -798,7 +757,7 @@
 						window[func] = items[options[option]].bind(this);
 						let item = Tree._stringToObj(objpath, Tree._getValue(this._obj, objpath, false));
 						item = JSON.stringify(item).replace(/"/g, '&quot;');
-						html += `		<li><button onclick="${func}.call(null, ${item})">${options[option]}</button></li>`;
+						html += `		<li><button onclick="window['${func}'].call(null, ${item})">${options[option]}</button></li>`;
 						i++;
 					}
 					html +=	`		</ul>
@@ -807,37 +766,41 @@
 				}
 
 				_renderMenuDynamic(items, path) {
-					let options = Object.keys(items);
-					let objpath = path;
-					path = `tree${this._id}${this._separator}` + path.replace(/\./g, this._separator) + this._separator + 'menu';
+					if (typeof items === 'object') {
+						if (items !== null) {
+							let options = Object.keys(items);
+							let objpath = path;
+							path = `tree${this._id}${this._separator}` + path.replace(/\./g, this._separator) + this._separator + 'menu';
 
-					let html = `<ul>`;
-					let i = 0;
-					for (let option in options) {
-						let func = `tree${this._id}.${objpath}.option${i}`;
-						func = func.replace(/\./g, '_');
-						window[func] = items[options[option]].bind(this);
-						let item = Tree._stringToObj(objpath, Tree._getValue(this._obj, objpath, false));
-						item = JSON.stringify(item).replace(/"/g, '&quot;');
-						html += `	<li><button onclick="${func}.call(null, ${item});Tree._getElement('#${path}').className = 'menu';">${options[option]}</button></li>`;
-						i++;
-					}
-					html += `	</ul>`;
+							let html = `<ul>`;
+							let i = 0;
+							for (let option in options) {
+								let func = `tree${this._id}.${objpath}.option${i}`;
+								func = func.replace(/\./g, '_');
+								window[func] = items[options[option]].bind(this);
+								let item = Tree._stringToObj(objpath, Tree._getValue(this._obj, objpath, false));
+								item = JSON.stringify(item).replace(/"/g, '&quot;');
+								html += `	<li><button onclick="window['${func}'].call(null, ${item});Tree._getElement('#${path}').className = 'menu';">${options[option]}</button></li>`;
+								i++;
+							}
+							html += `	</ul>`;
 
-					Tree._getElements(`${this._target} .tree .menu.shown`).forEach((el) => {
-						el.className = 'menu';
-					});
+							Tree._getElements(`${this._target} .tree .menu.shown`).forEach((el) => {
+								el.className = 'menu';
+							});
 
-					if (Tree._getElement(`#${path}`)) {
-						let el = Tree._getElement(`#${path}`);
-						el.style.top = `${this._clientY}px`;
-						el.style.left = `${this._clientX}px`;
-						el.className = 'menu shown';
-						el.innerHTML = html;
-					} else {
-						let wrapper = document.createElement('div');
-						wrapper.innerHTML = `<nav id="${path}" class="menu shown" style="top: ${this._clientY}px; left: ${this._clientX}px">${html}</nav>`;
-						Tree._getElement(`${this._target} .tree`).appendChild(wrapper.firstChild);
+							if (Tree._getElement(`#${path}`)) {
+								let el = Tree._getElement(`#${path}`);
+								el.style.top = `${this._clientY}px`;
+								el.style.left = `${this._clientX}px`;
+								el.className = 'menu shown';
+								el.innerHTML = html;
+							} else {
+								let wrapper = document.createElement('div');
+								wrapper.innerHTML = `<nav id="${path}" class="menu shown" style="top: ${this._clientY}px; left: ${this._clientX}px">${html}</nav>`;
+								Tree._getElement(`${this._target} .tree`).appendChild(wrapper.firstChild);
+							}
+						}
 					}
 				}
 
@@ -877,17 +840,35 @@
 						if (this._first) {
 							this._first = false;
 							Tree._updateElement(this._el, this._dom);
-							Tree._getElements(`${this._target} .tree input`).forEach((el) => {
-								if (el.getAttribute('id')) {
-									if (this._expand.includes(el.getAttribute('id').replace(new RegExp(this._separator, 'g'), '.').replace(`tree${this._id}`, 'root'))) {
-										el.checked = true;
-									}
-								}
 
-								this._state[el.getAttribute('id')] = el.checked;
-							});
+							document.onclick = function(e) {
+								// noinspection JSUnresolvedVariable
+								if (!e.target.classList.contains('shown')) {
+									Tree._getElements('.menu.shown').forEach((el) => {
+										el.className = 'menu';
+									});
+								}
+							};
+
+							setTimeout(function() {
+								if (typeof this._contextmenu === 'function') {
+									Tree._getElements(`${this._target} .tree .tree-leaf-label`).forEach((el) => {
+										el.removeEventListener('contextmenu', this._contextMenuEvent);
+										el.addEventListener('contextmenu', this._contextMenuEvent.bind(this), false);
+									});
+								}
+							}.bind(this), 10);
 						} else {
 							Tree._updateElement(this._el, this._dom, dom);
+
+							setTimeout(function() {
+								if (typeof this._contextmenu === 'function') {
+									Tree._getElements(`${this._target} .tree .tree-leaf-label`).forEach((el) => {
+										el.removeEventListener('contextmenu', this._contextMenuEvent);
+										el.addEventListener('contextmenu', this._contextMenuEvent.bind(this), false);
+									});
+								}
+							}.bind(this), 10);
 						}
 					} else {
 						this._html = '';
@@ -912,7 +893,7 @@
 								this._first = false;
 								Tree._getElements(`${this._target} .tree input`).forEach((el) => {
 									if (el.getAttribute('id')) {
-										if (this._expand.includes(el.getAttribute('id').replace(`tree${this._id}`, 'root'))) {
+										if (this._expand.includes(el.getAttribute('id').replace(new RegExp(this._separator, 'g'), '.').replace(`tree${this._id}`, 'root'))) {
 											el.checked = true;
 										}
 									}
@@ -955,77 +936,194 @@
 								el.removeEventListener('contextmenu', this._contextMenuEvent);
 								el.addEventListener('contextmenu', this._contextMenuEvent.bind(this), false);
 							});
+
+							document.onclick = function(e) {
+								// noinspection JSUnresolvedVariable
+								if (!e.target.classList.contains('shown')) {
+									Tree._getElements('.menu.shown').forEach((el) => {
+										el.className = 'menu';
+									});
+								}
+							};
 						}
 					}
 				}
 			}
 
-			let tree1 = new Tree({
-				obj: obj,
-				target: '#tree1',
-				title: 'Users',
-				theme: 'vscode-dark',
-				expand: ['root.test'],
-				contextmenu: (item, path, cb) => {
-					cb({
-						insert: (item) => {
-							console.log(item);
-						},
-						update: (item) => {
-							console.log(item);
-						},
-						delete: (item) => {
-							console.log(item);
-						}
-					}, path);
-				},
-				/*contextmenu: {
-					delete: (item) => {
-						console.log(item);
+			class App {
+				constructor(net) {
+					this.net = net;
+					this.init_obj().init_net().render();
+				}
+
+				init_obj() {
+					this.obj = {
+						users: {},
+						rooms: {},
+						sockets: {}
+					};
+
+					return this;
+				}
+
+				server_info_to_obj(data) {
+					let tree = data.target.split('.');
+					let ret_obj = {};
+					let cur = ret_obj;
+
+					for (let sub_k of tree) {
+						cur[sub_k] = {};
+						cur = cur[sub_k];
 					}
-				}*/
+
+					cur[data.key] = data.value;
+
+					return ret_obj;
+				}
+
+				init_net() {
+					let self = this;
+
+					let net = this.net;
+
+					net.socket.on('connect', function() {
+						net.send_cmd('auth', {user: 'status_bot_' + Math.floor(Date.now() / 1000), room: 'lobby'});
+						net.send_cmd('server_info');
+						net.send_cmd('help');
+					});
+
+					net.socket.on('server.info', function (data) {
+						self.tree_users = new Tree({
+							obj: self.obj.users,
+							target: '#tree_users',
+							title: 'Users',
+							theme: 'vscode-dark',
+							expand: ['root.users', 'root.rooms', 'root.sockets'],
+							vdom: true,
+							contextmenu: (item, path) => {
+								return {
+									insert: (item) => {
+
+									},
+									update: (item) => {
+
+									},
+									delete: (item) => {
+
+									}
+								}
+							}
+						});
+
+						self.tree_rooms = new Tree({
+							obj: self.obj.rooms,
+							target: '#tree_rooms',
+							title: 'Rooms',
+							theme: 'vscode-dark',
+							expand: ['root.users', 'root.rooms', 'root.sockets'],
+							vdom: true,
+							contextmenu: () => {
+								return false;
+							}
+						});
+
+						self.tree_sockets = new Tree({
+							obj: self.obj.sockets,
+							target: '#tree_sockets',
+							title: 'Sockets',
+							theme: 'vscode-dark',
+							expand: ['root.users', 'root.rooms', 'root.sockets'],
+							vdom: true,
+							contextmenu: () => {
+								return null;
+							}
+						});
+
+						self.obj = data;
+						self.render(self.obj);
+					});
+
+					net.socket.on('server.info_changed', function (data) {
+						let ev_str = '';
+						let ev_key = `"${data.key}"`;
+
+						switch (data.action) {
+							case 'set':
+								ev_str = `self.obj.${data.target}[${ev_key}] = ${JSON.stringify(data.value)}`;
+								break;
+							case 'delete':
+								ev_str = `delete self.obj.${data.target}[${ev_key}]`;
+								break;
+						}
+
+						if (ev_str !== '') {
+							let ok = true;
+
+							try {
+								eval(ev_str);
+							} catch (e) {}
+
+							if (ok) {
+								self.render(self.server_info_to_obj(data));
+							}
+						}
+					});
+
+					return this;
+				}
+
+				render(data) {
+					if (!data) {
+						return false;
+					}
+
+					if (this.tree_users && data.users) {
+						// console.log(data.users);
+						this.tree_users.render(data.users);
+					}
+
+					if (this.tree_rooms && data.rooms) {
+						// console.log(data.rooms);
+						this.tree_rooms.render(data.rooms);
+					}
+
+					if (this.tree_sockets && data.sockets) {
+						// console.log(data.sockets);
+						this.tree_sockets.render(data.sockets);
+					}
+				}
+			}
+
+			requirejs.config({
+				waitSeconds: 300,
+				paths: {
+					jquery: '../../../js/libraries/jquery-2.2.4.min',
+					network: '../../../js/network',
+					socketio: '../../../js/libraries/socket.io-2.3.0.min'
+				},
+				shim: {
+					network: {
+						deps: ['socketio']
+					},
+				},
+				map: {
+					'*': {
+						io: 'socketio',
+						'socket.io': 'socketio'
+					}
+				}
 			});
 
-			let tree2 = new Tree({
-				obj: obj,
-				target: '#tree2',
-				title: 'Users',
-				theme: 'vscode',
-				expand: ['root.test'],
-				vdom: true,
-				contextmenu: (item, path, cb) => {
-					cb({
-						delete: (item) => {
-							console.log(item);
-						}
-					}, path);
-				},
-				/*contextmenu: {
-					delete: (item) => {
-						console.log(item);
-					}
-				}*/
+			requirejs([
+				'network'
+			], function(Network) {
+				new App(Network.start({
+					servers: ['https://ws.emupedia.net:4000'],
+					server: 0,
+					mode: 0,
+					debug: false
+				}));
 			});
-
-			setInterval(() => {
-				let rand1 = Math.floor(Math.random() * 6) + 1;
-				let rand2 = Math.floor(Math.random() * 6) + 1;
-				let rand3 = Math.floor(Math.random() * 6) + 1;
-
-				tree1.render({
-					"status_bot_1573443318": undefined,
-					"status_bot_1573443464": {
-						"data": [rand1, rand2]
-					}
-				});
-
-				tree2.render({
-					"status_bot_1573443318": undefined,
-					"status_bot_1573443464": {
-						"data": [rand1, rand2]
-					}
-				});
-			}, 1000);
 		</script>
 	</body>
 </html>
