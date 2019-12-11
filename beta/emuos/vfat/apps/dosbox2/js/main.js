@@ -2,7 +2,7 @@
 	requirejs.config({
 		waitSeconds: 300,
 		paths: {
-			bootstrap: '../../../../js/libraries/bootstrap-4.3.1.min',
+			bootstrap: '../../../../js/libraries/bootstrap-4.4.1.min',
 			browserfs: '../../../../js/libraries/browserfs-1.4.3.min',
 			'datatables.net': '../../../../js/libraries/datatables-1.10.20.min',
 			'datatables.net-bs4': '../../../../js/libraries/datatables-bootstrap4-1.10.20.min',
@@ -26,7 +26,7 @@
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
-			jsdos: '../../../../js/libraries/js-dos-6.22.53.min',
+			jsdos: '../../../../js/libraries/js-dos-6.22.56.min',
 			json: '../../../../js/libraries/requirejs-json-1.0.3',
 			jsonpath: '../../../../js/libraries/jsonpath-1.0.2.min',
 			jszip: '../../../../js/libraries/jszip-3.2.2.min',
@@ -34,8 +34,8 @@
 			emularity: '../../../../js/libraries/emularity',
 			moment: '../../../../js/libraries/moment-2.24.0.min',
 			'moment-timezone': '../../../../js/libraries/moment-timezone-0.5.27.min',
-			pdfmake: '../../../../js/libraries/pdfmake-0.1.62.min',
-			'pdfmake-fonts': '../../../../js/libraries/pdfmake-fonts-0.1.62',
+			pdfmake: '../../../../js/libraries/pdfmake-0.1.63.min',
+			'pdfmake-fonts': '../../../../js/libraries/pdfmake-fonts-0.1.63',
 			'perfect-scrollbar': '../../../../js/libraries/perfect-scrollbar-1.4.0.min',
 			popper: '../../../../js/libraries/popper-1.16.0.min',
 			purl: '../../../../js/libraries/purl-2.3.1',
