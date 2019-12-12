@@ -34,6 +34,7 @@
 
 	define('github', [], {
 		load: function (name, req, onload, config) {
+			// noinspection DuplicatedCode
 			var obj = {
 				use_get_files_contents: false,
 				cache_prefix: 'github!',
@@ -91,30 +92,30 @@
 					var files_count = 0;
 					var loaded_count = 0;
 
-					// noinspection JSDuplicatedDeclaration
 					for (var file_index in tmp_data) {
-						// noinspection JSDuplicatedDeclaration,JSUnfilteredForInLoop
-						var file = tmp_data[file_index];
-
-						if (file.type === 'file') {
+						// noinspection JSUnfilteredForInLoop
+						if (tmp_data[file_index].type === 'file') {
 							files_count++;
 						}
 					}
 
-					// noinspection JSDuplicatedDeclaration
-					for (var file_index in tmp_data) {
-						// noinspection JSDuplicatedDeclaration,JSUnfilteredForInLoop
-						var file = tmp_data[file_index];
+					for (var file_data in tmp_data) {
+						// noinspection JSUnfilteredForInLoop
+						if (tmp_data[file_data].type === 'file') {
+							// noinspection JSUnfilteredForInLoop,JSUnresolvedVariable
+							obj.load_url(obj.get_cache(tmp_data[file_data].download_url) || {url: tmp_data[file_data].download_url}, function (data) {
+								for (var file_index in tmp_data) {
+									// noinspection JSUnfilteredForInLoop,JSUnresolvedVariable
+									if (tmp_data[file_index].download_url === data.url) {
+										// noinspection JSUnfilteredForInLoop
+										tmp_data[file_index].content = data.response;
+										// noinspection JSUnfilteredForInLoop
+										ret_data.push(tmp_data[file_index]);
+										break;
+									}
+								}
 
-						if (file.type === 'file') {
-							// noinspection JSUnresolvedVariable
-							obj.load_url({url: file.download_url}, function (data) {
 								loaded_count++;
-
-								// noinspection JSReferencingMutableVariableFromClosure
-								file.content = data.response;
-								// noinspection JSReferencingMutableVariableFromClosure
-								ret_data.push(file);
 
 								if (loaded_count === files_count) {
 									if (typeof cb === 'function') {
@@ -123,7 +124,8 @@
 								}
 							});
 						} else {
-							ret_data.push(file);
+							// noinspection JSUnfilteredForInLoop
+							ret_data.push(tmp_data[file_data]);
 						}
 					}
 				},
@@ -277,7 +279,6 @@
 					if (app.config.repo) {
 						require([menu_url], function (data) {
 							app.menu_items = data;
-							console.log(app.menu_items);
 							app.init_menu();
 						});
 					}
@@ -302,51 +303,16 @@
 							app.editor.layout();
 						}
 					});
+
 					return app;
 				},
 				show_active_menu_item: function() {
 					var tmp_val, item = $('.menu-item.active').data('item');
 					var ov = tmp_val = app.menu_items[item].content;
-					app.current_item_data = [];
-
-					if (app.config.capsule && Array.isArray(app.config.capsule)) {
-						for (var i in app.config.capsule) {
-							// noinspection JSUnfilteredForInLoop
-							var capsule_item = app.config.capsule[i];
-							var tmp_index = tmp_val.indexOf(capsule_item);
-
-							if (tmp_index !== -1) {
-								// noinspection JSIncompatibleTypesComparison
-								if (i === 0) {
-									tmp_index += capsule_item.length;
-								}
-
-								app.current_item_data.push(tmp_val.substring(0, tmp_index));
-								tmp_val = tmp_val.substring(tmp_index);
-							}
-						}
-
-						app.current_item_data.push(tmp_val);
-					}
-
-					if (app.current_item_data.length < 1) {
-						app.current_item_data = ['', ov, ''];
-					}
-
-					app.current_item_data[1] = app.current_item_data[1].split('\t\t').join('\t');
-					app.current_item_data[1] = app.current_item_data[1].split('\t\t').join('~T2~');
-					app.current_item_data[1] = app.current_item_data[1].split('\t\t\t').join('~T3~');
-					app.current_item_data[1] = app.current_item_data[1].split('\t\t\t\t').join('~T4~');
-					app.current_item_data[1] = app.current_item_data[1].split('\t\t\t\t\t').join('~T5~');
-					app.current_item_data[1] = app.current_item_data[1].split('\t').join('');
-					app.current_item_data[1] = app.current_item_data[1].split('~T2~').join('\t');
-					app.current_item_data[1] = app.current_item_data[1].split('~T3~').join('\t\t');
-					app.current_item_data[1] = app.current_item_data[1].split('~T4~').join('\t\t\t');
-					app.current_item_data[1] = app.current_item_data[1].split('~T5~').join('\t\t\t\t');
 
 					app.no_preview = true;
 					// noinspection JSUnresolvedFunction
-					app.editor.setValue(app.current_item_data[1]);
+					app.editor.setValue(ov);
 					app.no_preview = false;
 					// noinspection JSUnresolvedFunction
 					app.editor.do_action('Format Document');
