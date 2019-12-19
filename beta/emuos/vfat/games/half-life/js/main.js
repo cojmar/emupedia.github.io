@@ -4,12 +4,14 @@
 				'╠═ ║║║║ ║╠═╝╠═  ║ ║║╠═╣\n' +
 				'╚═╝╩ ╩╚═╝╩  ╚═╝═╩═╝╩╩ ╩');
 
+	var $document						= null;
+	var $window							= null;
 	var $html							= null;
 	var $body							= null;
-	var $window							= null;
-	var $document						= null;
+	var $container						= null;
 
 	var dbx								= null;
+	var video							= null;
 
 	// noinspection JSFileReferences,JSUnresolvedFunction
 	requirejs.config({
@@ -17,6 +19,7 @@
 		paths: {
 			browserfs: '../../../../js/libraries/browserfs-1.4.3.min',
 			dropbox: '../../../../js/libraries/dropbox-4.0.30.min',
+			simplestorage: '../../../../js/libraries/simplestorage-0.2.1.min',
 			es6promise: '../../../../js/polyfills/es6-promise-auto-4.2.8.min',
 			es6fetch: '../../../../js/polyfills/es6-fetch-3.0.0',
 			jquery: '../../../../js/libraries/jquery-3.4.1.min',
@@ -42,8 +45,9 @@
 		'jquery',
 		'browserfs',
 		'dropbox',
-		'es6fetch'
-	], function($, browserfs, dropbox, fetch) {
+		'es6fetch',
+		'simplestorage'
+	], function($, browserfs, dropbox, fetch, simplestorage) {
 		// noinspection DuplicatedCode
 		$(function() {
 			// noinspection JSUnresolvedFunction
@@ -53,14 +57,73 @@
 			$window				= $(window);
 			$html				= $('html');
 			$body				= $('body');
+			$container			= $('.container');
 
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && SYSTEM_FEATURE_ASMJS) {
+				if (typeof simplestorage.get('intro') === 'undefined') {
+					video = $('<video />', {
+						class: 'fullscreen',
+						src: 'media/sierra.mp4',
+						type: 'video/mp4',
+						preload: 'auto',
+						autoplay: true
+					});
+
+					// noinspection DuplicatedCode
+					$(video).off('ended').one('ended', function() {
+						$(video).attr('src', 'media/valve.mp4');
+						$(video).off('ended').one('ended', function() {
+							$(video).remove();
+
+							video = $('<video />', {
+								src: 'media/logo.mp4',
+								type: 'video/mp4',
+								preload: 'auto',
+								autoplay: true,
+								muted: true,
+								loop: true
+							});
+
+							simplestorage.set('intro', true);
+							$container.find('.logo').append(video);
+						});
+					}).off('click').one('click', function() {
+						$(video).attr('src', 'media/valve.mp4');
+						$(video).off('click').one('click', function() {
+							$(video).remove();
+
+							video = $('<video />', {
+								src: 'media/logo.mp4',
+								type: 'video/mp4',
+								preload: 'auto',
+								autoplay: true,
+								muted: true,
+								loop: true
+							});
+
+							simplestorage.set('intro', true);
+							$container.find('.logo').append(video);
+						});
+					});
+
+					$container.prepend(video);
+				} else {
+					video = $('<video />', {
+						src: 'media/logo.mp4',
+						type: 'video/mp4',
+						preload: 'auto',
+						autoplay: true,
+						muted: true,
+						loop: true
+					});
+
+					$container.find('.logo').append(video);
+				}
+
 				// noinspection DuplicatedCode
 				$window.off('resize').on('resize', function() {
-					$body.find('.select2-container--bootstrap4 .select2-results > .select2-results__options').css({
-						'max-height': $window.height() - 57
-					});
+
 				});
 				$window.trigger('resize');
 			} else {
