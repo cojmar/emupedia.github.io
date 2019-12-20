@@ -175,9 +175,10 @@
 					visibility: 'visible'
 				});
 
-				dbx.filesGetTemporaryLink({path: '/halflife1/' + packageName}).then(function (response) {
+				// noinspection DuplicatedCode
+				if (window.location.hostname === 'localhost') {
 					var xhr = new XMLHttpRequest();
-					xhr.open('GET', response.link, true);
+					xhr.open('GET', 'js/' + packageName, true);
 					xhr.responseType = 'arraybuffer';
 					xhr.onprogress = function (event) {
 						var percentComplete = event.loaded / event.total * 100;
@@ -197,9 +198,34 @@
 						}
 					};
 					xhr.send(null);
-				}).catch(function (error) {
-					console.log(error);
-				});
+				} else {
+					// noinspection DuplicatedCode
+					dbx.filesGetTemporaryLink({path: '/halflife1/' + packageName}).then(function (response) {
+						var xhr = new XMLHttpRequest();
+						xhr.open('GET', response.link, true);
+						xhr.responseType = 'arraybuffer';
+						xhr.onprogress = function (event) {
+							var percentComplete = event.loaded / event.total * 100;
+							if (Module['setStatus']) Module['setStatus']('Downloading data... (' + event.loaded + '/' + event.total + ')');
+						};
+						xhr.onload = function (event) {
+							if (xhr.status === 200 || xhr.status === 304 || xhr.status === 206 || (xhr.status === 0 && xhr.response)) {
+								mountZIP(xhr.response);
+								$progress.css({
+									visibility: 'hidden'
+								});
+
+								$canvas.show();
+								cb();
+							} else {
+								throw new Error(xhr.statusText + " : " + xhr.responseURL);
+							}
+						};
+						xhr.send(null);
+					}).catch(function (error) {
+						console.log(error);
+					});
+				}
 			}
 
 			function init() {
@@ -215,7 +241,7 @@
 			}
 
 			function initEvents() {
-				$container.find('.menu button.hc, .menu button.uplink, .menu button.hldm, .menu button.dayone').removeAttr('disabled');
+				$container.find('.menu button').removeAttr('disabled');
 
 				$document.off('click', '.menu button').on('click', '.menu button', function() {
 					if (!$(this).is('[disabled]')) {
@@ -225,7 +251,7 @@
 
 				window.onerror = function (event) {
 					if (('' + event).indexOf('SimulateInfiniteLoop') > 0) {
-						window.location = window.location;
+						//window.location = window.location;
 					}
 				};
 			}
@@ -250,8 +276,11 @@
 					case 'dayone':
 						window.Module.arguments = ['-dev', '1', '+sv_cheats', '1', '+map', 'c0a0'];
 						break;
+					case 'hl':
+						//window.Module.arguments = ['-dev', '1', '+sv_cheats', '1', '+map', 'c0a0'];
+						break;
 					case 'hldm':
-						window.Module.arguments = ['-dev', '1', '+sv_cheats', '0', '+sv_lan', '1', '+map', 'crossfire'];
+						//window.Module.arguments = ['-dev', '1', '+sv_cheats', '0', '+sv_lan', '1', '+map', 'crossfire'];
 						break;
 				}
 
@@ -270,7 +299,6 @@
 						console.log('ServiceWorker registration failed: ', err);
 					});
 				}
-
 
 				window.Module = {
 					TOTAL_MEMORY: 150 * 1024 * 1024,
@@ -299,6 +327,9 @@
 						if (left) {
 							Module.setStatus('Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')');
 						}
+					},
+					websocket: {
+						url: 'wsproxy://ws.emupedia.net:2000/'
 					}
 				};
 				window.ENV = {};
