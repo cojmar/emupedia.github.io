@@ -242,16 +242,16 @@
 
 				switch(game) {
 					case 'hc':
-						window.Module.arguments = ['-dev', '1', '+map', 't0a0'];
+						window.Module.arguments = ['-dev', '1', '+sv_cheats', '1', '+map', 't0a0'];
 						break;
 					case 'uplink':
-						window.Module.arguments = ['-dev', '1', '+map', 'hldemo1'];
+						window.Module.arguments = ['-dev', '1', '+sv_cheats', '1', '+map', 'hldemo1'];
 						break;
 					case 'dayone':
-						window.Module.arguments = ['-dev', '1', '+map', 'c0a0'];
+						window.Module.arguments = ['-dev', '1', '+sv_cheats', '1', '+map', 'c0a0'];
 						break;
 					case 'hldm':
-						window.Module.arguments = ['-dev', '1', '+sv_lan', '1', '+map', 'crossfire'];
+						window.Module.arguments = ['-dev', '1', '+sv_cheats', '0', '+sv_lan', '1', '+map', 'crossfire'];
 						break;
 				}
 
