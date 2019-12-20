@@ -9,7 +9,8 @@
 	var $html							= null;
 	var $body							= null;
 	var $container						= null;
-
+	var $canvas							= null;
+	var $progress						= null;
 	var dbx								= null;
 	var video							= null;
 
@@ -47,20 +48,20 @@
 		'dropbox',
 		'es6fetch',
 		'simplestorage'
-	], function($, browserfs, dropbox, fetch, simplestorage) {
+	], function($, BrowserFS, dropbox, fetch, simplestorage) {
 		// noinspection DuplicatedCode
 		$(function() {
+			$document	= $(document);
+			$window		= $(window);
+			$html		= $('html');
+			$body		= $('body');
+			$container	= $('.container');
+			$canvas		= $('div.fullscreen');
+			$progress	= $body.find('progress').first();
 			// noinspection JSUnresolvedFunction
-			dbx = new dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch.fetch});
+			dbx			= new dropbox.Dropbox({accessToken: window['DROPBOX_TOKEN'], fetch: fetch.fetch});
 
-			$document			= $(document);
-			$window				= $(window);
-			$html				= $('html');
-			$body				= $('body');
-			$container			= $('.container');
-
-			// noinspection JSUnresolvedVariable
-			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && SYSTEM_FEATURE_ASMJS) {
+			(function() {
 				if (typeof simplestorage.get('intro') === 'undefined') {
 					video = $('<video />', {
 						class: 'fullscreen',
@@ -121,11 +122,167 @@
 					$container.find('.logo').append(video);
 				}
 
-				// noinspection DuplicatedCode
-				$window.off('resize').on('resize', function() {
-
+				var canvas = $('<canvas/>', {
+					id: 'canvas',
+					oncontextmenu: 'event.preventDefault()'
 				});
-				$window.trigger('resize');
+
+				$canvas.append(canvas);
+				$container.find('.menu button').attr('disabled', 'disabled');
+			})();
+
+			var moduleCount = 0;
+			var run = null;
+			var mfs = null;
+
+			function loadModule(name) {
+				var script = document.createElement('script');
+
+				script.onload = function() {
+					moduleCount++;
+
+					if (moduleCount === 3) {
+						initEvents();
+					}
+				};
+
+				document.body.appendChild(script);
+				script.src = name + '.js';
+			}
+
+			function mountZIP(data) {
+				var Buffer = BrowserFS.BFSRequire('buffer').Buffer;
+				// noinspection JSUnresolvedFunction
+				mfs.mount('/zip', new BrowserFS.FileSystem.ZipFS(Buffer.from(data)));
+
+				try {
+					FS.mount(new BrowserFS.EmscriptenFS(), {root: '/zip'}, '/rodir');
+				} catch (e) {
+					var canvas = $('<canvas/>', {
+						id: 'canvas',
+						oncontextmenu: 'event.preventDefault()'
+					});
+
+					$canvas.html('').append(canvas).hide();
+
+					FS.unmount('/rodir');
+					FS.mount(new BrowserFS.EmscriptenFS(), {root: '/zip'}, '/rodir');
+				}
+			}
+
+			function fetchZIP(packageName, cb) {
+				$progress.css({
+					visibility: 'visible'
+				});
+
+				dbx.filesGetTemporaryLink({path: '/halflife1/' + packageName}).then(function (response) {
+					var xhr = new XMLHttpRequest();
+					xhr.open('GET', response.link, true);
+					xhr.responseType = 'arraybuffer';
+					xhr.onprogress = function (event) {
+						var percentComplete = event.loaded / event.total * 100;
+						if (Module['setStatus']) Module['setStatus']('Downloading data... (' + event.loaded + '/' + event.total + ')');
+					};
+					xhr.onload = function (event) {
+						if (xhr.status === 200 || xhr.status === 304 || xhr.status === 206 || (xhr.status === 0 && xhr.response)) {
+							mountZIP(xhr.response);
+							$progress.css({
+								visibility: 'hidden'
+							});
+
+							$canvas.show();
+							cb();
+						} else {
+							throw new Error(xhr.statusText + " : " + xhr.responseURL);
+						}
+					};
+					xhr.send(null);
+				}).catch(function (error) {
+					console.log(error);
+				});
+			}
+
+			function init() {
+				run = window.Module.run;
+				window.run = window.Module.run = function() {};
+
+				window.ENV.XASH3D_GAMEDIR = 'valve';
+				window.ENV.XASH3D_RODIR = '/rodir';
+
+				loadModule('js/server');
+				loadModule('js/client');
+				loadModule('js/menu');
+			}
+
+			function initEvents() {
+				$container.find('.menu button.hc, .menu button.uplink, .menu button.hldm, .menu button.dayone').removeAttr('disabled');
+
+				$document.off('click', '.menu button').on('click', '.menu button', function() {
+					if (!$(this).is('[disabled]')) {
+						start($(this).attr('class'));
+					}
+				});
+
+				window.onerror = function (event) {
+					if (('' + event).indexOf('SimulateInfiniteLoop') > 0) {
+						window.location = window.location;
+					}
+				};
+			}
+
+			function start(game) {
+				try {
+					window.FS.mkdir('/rodir');
+					window.FS.mkdir('/xash');
+				} catch (e) {}
+
+				mfs = new BrowserFS.FileSystem.MountableFileSystem();
+				BrowserFS.initialize(mfs);
+				window.FS.chdir('/xash/');
+				window.Module.run = window.run = run;
+				fetchZIP(game + '.zip', run);
+			}
+
+			// noinspection JSUnresolvedVariable
+			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && SYSTEM_FEATURE_ASMJS) {
+				window.Module = {
+					TOTAL_MEMORY: 150 * 1024 * 1024,
+					preInit: [init],
+					preRun: [],
+					postRun: [],
+					print: function() {},
+					printErr: function() {},
+					canvas: $container.find('canvas').get(0),
+					setStatus: function(text) {
+						var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+						var progressElement = $progress.get(0);
+
+						if (m) {
+							progressElement.value = parseInt(m[2]) * 100;
+							progressElement.max = parseInt(m[4]) * 100;
+						} else {
+							progressElement.value = null;
+							progressElement.max = null;
+						}
+					},
+					totalDependencies: 0,
+					monitorRunDependencies: function (left) {
+						this.totalDependencies = Math.max(this.totalDependencies, left);
+
+						if (left) {
+							Module.setStatus('Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')');
+						}
+					}
+				};
+				window.ENV = {};
+
+				window.showElement = function(id, show) {
+					console.log(id);
+				};
+
+				var script = document.createElement('script');
+				script.src = 'js/xash.js';
+				document.body.appendChild(script);
 			} else {
 				alert('Half-Life cannot work because your browser is not supported!')
 			}

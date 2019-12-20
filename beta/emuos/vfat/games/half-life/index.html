@@ -64,7 +64,6 @@
 		<link rel="apple-touch-icon" sizes="180x180" href="images/half-life-logo-180.png" />
 		<link rel="apple-touch-startup-image" href="images/half-life-logo-256.png" />
 		<link type="text/css" rel="stylesheet" href="css/fonts.css" />
-		<link type="text/css" rel="stylesheet" href="css/main.css" />
 		<style type="text/css">
 			html, body {
 				height: 100%;
@@ -94,27 +93,101 @@
 				background-image: url(images/bg.png);
 				background-repeat: no-repeat;
 				background-position: center;
-				background-size: contain;
-				text-align: left;
 				overflow: hidden;
+			}
+
+			.fullscreen {
+				position: absolute;
+				width: 640px;
+				height: 480px;
+				background-color: #000;
+				z-index: 1;
+			}
+
+			div.fullscreen {
+				display: none;
+				background-color: #7f7f7f;
+			}
+
+			.logo {
+				position: relative;
+				top: 70px;
+				width: 640px;
+				height: 100px;
+				text-align: left;
+			}
+
+			.menu {
+				position: relative;
+				top: 60px;
+				left: 80px;
+				padding: 0;
+				margin: 0;
+				list-style: none;
+				text-align: left;
+			}
+
+			.menu li {
+				margin-bottom: 7px;
+			}
+
+			.menu li:last-child {
+				margin-bottom: 0;
+			}
+
+			.menu li button {
+				background: none;
+				border: 0;
+				padding: 0;
+				margin: 0;
+				font-family: 'Trebuchet MS', sans-serif;
+				font-size: 16px;
+				color: #ffc241;
+				outline: none;
+			}
+
+			.menu li button:disabled, .menu li button[disabled] {
+				color: #7f7f7f;
+			}
+
+			.menu li button:hover {
+				color: #ffff5a;
+				text-shadow: 0 0 3px #e19d26;
+				-webkit-transition: text-shadow 1s ease;
+				-moz-transition: text-shadow 1s ease;
+				-o-transition: text-shadow 1s ease;
+				transition: text-shadow 1s ease;
+			}
+
+			.noselect {
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				-khtml-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+
+			progress {
+				visibility: hidden;
+				position: absolute;
+				margin-left: -150px;
+				height: 20px;
+				width: 300px;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="container-wrapper">
 			<div class="container">
+				<progress value="0" max="100"></progress>
+				<div class="fullscreen"></div>
 				<div class="logo"></div>
 				<ul class="menu noselect">
-					<li><button>C<u>o</u>nsole</button></li>
-					<li><button><u>N</u>ew game</button></li>
-					<li><button><u>H</u>azard course</button></li>
-					<li><button><u>C</u>onfiguration</button></li>
-					<li><button><u>L</u>oad game</button></li>
-					<li><button><u>M</u>ultiplayer</button></li>
-					<li><button>C<u>u</u>stom game</button></li>
-					<li><button><u>V</u>iew readme</button></li>
-					<li><button><u>P</u>reviews</button></li>
-					<li><button><u>Q</u>uit</button></li>
+					<li><button class="hc" disabled="disabled">Half-Life: Hazard Course (Tutorial)</button></li>
+					<li><button class="uplink" disabled="disabled">Half-Life: Uplink (Demo)</button></li>
+					<li><button class="dayone" disabled="disabled">Half-Life: Day One (Extended Demo)</button></li>
+					<li><button class="hldm" disabled="disabled">Half-Life: Deathmatch (Multiplayer)</button></li>
 				</ul>
 			</div>
 		</div>
