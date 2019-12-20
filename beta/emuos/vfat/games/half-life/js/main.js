@@ -245,6 +245,17 @@
 
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && SYSTEM_FEATURE_ASMJS) {
+				if (SYSTEM_FEATURE_SERVICE_WORKERS) {
+					navigator.serviceWorker.register('js/sw.js').then(function(registration) {
+						// Registration was successful
+						console.log('ServiceWorker registration successful with scope: ', registration.scope);
+					}, function(err) {
+						// registration failed :(
+						console.log('ServiceWorker registration failed: ', err);
+					});
+				}
+
+
 				window.Module = {
 					TOTAL_MEMORY: 150 * 1024 * 1024,
 					preInit: [init],
