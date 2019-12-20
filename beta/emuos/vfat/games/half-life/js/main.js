@@ -239,6 +239,22 @@
 				mfs = new BrowserFS.FileSystem.MountableFileSystem();
 				BrowserFS.initialize(mfs);
 				window.FS.chdir('/xash/');
+
+				switch(game) {
+					case 'hc':
+						window.Module.arguments = ['+map', 't0a0'];
+						break;
+					case 'uplink':
+						window.Module.arguments = ['+map', 'hldemo1'];
+						break;
+					case 'dayone':
+						window.Module.arguments = ['+map', 'c0a0'];
+						break;
+					case 'hldm':
+						window.Module.arguments = ['+sv_lan', '1', '+map', 'crossfire'];
+						break;
+				}
+
 				window.Module.run = window.run = run;
 				fetchZIP(game + '.zip', run);
 			}
@@ -283,9 +299,6 @@
 						if (left) {
 							Module.setStatus('Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')');
 						}
-					},
-					websocket: {
-						url: 'wsproxy://mittorn.fwgs.ru:3000/'
 					}
 				};
 				window.ENV = {};
