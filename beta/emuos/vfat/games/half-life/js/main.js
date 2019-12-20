@@ -13,6 +13,7 @@
 	var $progress						= null;
 	var dbx								= null;
 	var video							= null;
+	var multiplayer						= false;
 
 	// noinspection JSFileReferences,JSUnresolvedFunction
 	requirejs.config({
@@ -251,7 +252,9 @@
 
 				window.onerror = function (event) {
 					if (('' + event).indexOf('SimulateInfiniteLoop') > 0) {
-						//window.location = window.location;
+						if (!multiplayer) {
+							window.location = window.location;
+						}
 					}
 				};
 			}
@@ -277,9 +280,10 @@
 						window.Module.arguments = ['-dev', '1', '+sv_cheats', '1', '+map', 'c0a0'];
 						break;
 					case 'hl':
-						//window.Module.arguments = ['-dev', '1', '+sv_cheats', '1', '+map', 'c0a0'];
+						window.Module.arguments = ['-dev', '1', '+sv_cheats', '1', '+map', 'c0a0'];
 						break;
 					case 'hldm':
+						multiplayer = true;
 						//window.Module.arguments = ['-dev', '1', '+sv_cheats', '0', '+sv_lan', '1', '+map', 'crossfire'];
 						break;
 				}
