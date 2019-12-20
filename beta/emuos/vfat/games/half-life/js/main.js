@@ -272,6 +272,9 @@
 						if (left) {
 							Module.setStatus('Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')');
 						}
+					},
+					websocket: {
+						url: 'wsproxy://mittorn.fwgs.ru:3000/'
 					}
 				};
 				window.ENV = {};
