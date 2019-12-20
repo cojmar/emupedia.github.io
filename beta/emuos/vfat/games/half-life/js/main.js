@@ -242,16 +242,16 @@
 
 				switch(game) {
 					case 'hc':
-						window.Module.arguments = ['+map', 't0a0'];
+						window.Module.arguments = ['-dev', '1', '+map', 't0a0'];
 						break;
 					case 'uplink':
-						window.Module.arguments = ['+map', 'hldemo1'];
+						window.Module.arguments = ['-dev', '1', '+map', 'hldemo1'];
 						break;
 					case 'dayone':
-						window.Module.arguments = ['+map', 'c0a0'];
+						window.Module.arguments = ['-dev', '1', '+map', 'c0a0'];
 						break;
 					case 'hldm':
-						window.Module.arguments = ['+sv_lan', '1', '+map', 'crossfire'];
+						window.Module.arguments = ['-dev', '1', '+sv_lan', '1', '+map', 'crossfire'];
 						break;
 				}
 
@@ -264,7 +264,7 @@
 				if (SYSTEM_FEATURE_SERVICE_WORKERS) {
 					navigator.serviceWorker.register('js/sw.js').then(function(registration) {
 						// Registration was successful
-						console.log('ServiceWorker registration successful with scope: ', registration.scope);
+						//console.log('ServiceWorker registration successful with scope: ', registration.scope);
 					}, function(err) {
 						// registration failed :(
 						console.log('ServiceWorker registration failed: ', err);
