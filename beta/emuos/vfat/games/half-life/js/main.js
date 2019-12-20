@@ -275,10 +275,24 @@
 					}
 				};
 				window.ENV = {};
-
 				window.showElement = function(id, show) {
 					console.log(id);
 				};
+
+				(function() {
+					var memoryInitializer = 'js/xash.html.mem';
+
+					if (typeof Module['locateFile'] === 'function') {
+						memoryInitializer = Module['locateFile'](memoryInitializer);
+					} else if (Module['memoryInitializerPrefixURL']) {
+						memoryInitializer = Module['memoryInitializerPrefixURL'] + memoryInitializer;
+					}
+
+					var xhr = Module['memoryInitializerRequest'] = new XMLHttpRequest();
+					xhr.open('GET', memoryInitializer, true);
+					xhr.responseType = 'arraybuffer';
+					xhr.send(null);
+				})();
 
 				var script = document.createElement('script');
 				script.src = 'js/xash.js';
