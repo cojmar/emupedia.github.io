@@ -1,6 +1,4 @@
 function fetchFromCache(e) {
-	console.log(e.request.headers.get('X-File-Name'));
-
 	return caches.match(e.request.headers.get('X-File-Name')).then(function(response) {
 		if (!response) {
 			throw Error(e.request.url + ' not found in cache');
@@ -17,8 +15,6 @@ function addToCache(name, request, response) {
 
 		if (content_type === 'application/zip') {
 			if (filename !== '') {
-				console.log(content_type);
-				console.log(filename);
 				var copy = response.clone();
 
 				caches.open(name).then(function(cache) {
@@ -33,19 +29,19 @@ function addToCache(name, request, response) {
 }
 
 self.addEventListener('install', function() {
-	console.log('ServiceWorker Installed!');
+	//console.log('ServiceWorker Installed!');
 });
 
 self.addEventListener('activate', function() {
-	console.log('ServiceWorker Activated!');
+	//console.log('ServiceWorker Activated!');
 });
 
 self.addEventListener('message', function(e) {
-	console.log('ServiceWorker: Handling message event: ', e);
+	//console.log('ServiceWorker: Handling message event: ', e);
 });
 
 self.addEventListener('fetch', function(e) {
-	console.log('ServiceWorkder: Handling fetch event for: ', e.request.url);
+	//console.log('ServiceWorkder: Handling fetch event for: ', e.request.url);
 
 	if (e.request.url.startsWith('https://dl.dropboxusercontent.com')) {
 		var request = e.request;
