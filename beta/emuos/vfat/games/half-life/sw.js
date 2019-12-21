@@ -7,10 +7,6 @@ if (workbox) {
 	// noinspection JSUnresolvedVariable,JSUnresolvedFunction
 	workbox.routing.registerRoute(/^https:\/\/dl\.dropboxusercontent\.com/, new workbox.strategies.CacheFirst({
 		cacheName: 'data',
-		plugins: [
-			new workbox.cacheableResponse.Plugin({
-				statuses: [0, 200]
-			})
-		]
+		cacheableResponse: {statuses: [0, 200]}
 	}));
 }
