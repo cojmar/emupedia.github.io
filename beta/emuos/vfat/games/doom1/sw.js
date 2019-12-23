@@ -1,3 +1,4 @@
+// noinspection DuplicatedCode
 function fetchFromCache(e) {
 	return caches.match(e.request.headers.get('X-File-Name')).then(function(response) {
 		if (!response) {
