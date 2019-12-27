@@ -182,9 +182,11 @@
 					xhr.open('GET', 'js/' + packageName, true);
 					xhr.responseType = 'arraybuffer';
 					xhr.onprogress = function (event) {
+						// noinspection JSUnusedLocalSymbols
 						var percentComplete = event.loaded / event.total * 100;
-						if (Module['setStatus']) Module['setStatus']('Downloading data... (' + event.loaded + '/' + event.total + ')');
+						if (window.Module['setStatus']) window.Module['setStatus']('Downloading data... (' + event.loaded + '/' + event.total + ')');
 					};
+					// noinspection DuplicatedCode,JSUnusedLocalSymbols
 					xhr.onload = function (event) {
 						if (xhr.status === 200 || xhr.status === 304 || xhr.status === 206 || (xhr.status === 0 && xhr.response)) {
 							mountZIP(xhr.response);
@@ -206,9 +208,11 @@
 						xhr.open('GET', response.link, true);
 						xhr.responseType = 'arraybuffer';
 						xhr.onprogress = function (event) {
+							// noinspection JSUnusedLocalSymbols
 							var percentComplete = event.loaded / event.total * 100;
 							if (Module['setStatus']) Module['setStatus']('Downloading data... (' + event.loaded + '/' + event.total + ')');
 						};
+						// noinspection DuplicatedCode,JSUnusedLocalSymbols
 						xhr.onload = function (event) {
 							if (xhr.status === 200 || xhr.status === 304 || xhr.status === 206 || (xhr.status === 0 && xhr.response)) {
 								mountZIP(xhr.response);
@@ -295,6 +299,7 @@
 
 			// noinspection JSUnresolvedVariable
 			if (SYSTEM_FEATURE_CANVAS && SYSTEM_FEATURE_TYPED_ARRAYS && SYSTEM_FEATURE_ASMJS) {
+				// noinspection DuplicatedCode
 				if (SYSTEM_FEATURE_SERVICE_WORKERS) {
 					navigator.serviceWorker.register('sw.js').then(function(registration) {
 						registration.addEventListener('updatefound', function() {
@@ -308,6 +313,7 @@
 					console.log('ServiceWorker not supported');
 				}
 
+				// noinspection DuplicatedCode
 				window.Module = {
 					TOTAL_MEMORY: 150 * 1024 * 1024,
 					preInit: [init],
@@ -333,7 +339,7 @@
 						this.totalDependencies = Math.max(this.totalDependencies, left);
 
 						if (left) {
-							Module.setStatus('Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')');
+							window.Module.setStatus('Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')');
 						}
 					},
 					websocket: {
@@ -341,6 +347,7 @@
 					}
 				};
 				window.ENV = {};
+				// noinspection JSUnusedLocalSymbols
 				window.showElement = function(id, show) {
 					console.log(id);
 				};
