@@ -1061,6 +1061,40 @@
 		"screenshots": ["https://www.mobygames.com/images/shots/l/61891-dune-ii-the-building-of-a-dynasty-dos-screenshot-main-menu.png", "https://www.mobygames.com/images/shots/l/74608-dune-ii-the-building-of-a-dynasty-dos-screenshot-when-having.gif"],
 		"clones": []
 	} , {
+		"id": "goldenaxe",
+		"group": "Golden Axe",
+		"name": "Golden Axe 1 (VGA) (Commercial)",
+		"executable": "./GOLD.EXE",
+		"sync": false,
+		"file": "goldaxe.zip",
+		"size": 590516,
+		"hardware": {
+			"input": ["Keyboard"],
+			"video": {
+				"VGA": {
+					"name": "Video Graphics Array",
+					"resolutions": [
+						"320x200"
+					],
+					"colors": 256
+				}
+			},
+			"sound": ["PC Speaker"]
+		},
+		"language": "English",
+		"year": 1990,
+		"genre": "Brawler",
+		"developer": "Team Shinobi",
+		"publisher": "SEGA of America, Inc.",
+		"copyright": "SEGA of America, Inc.",
+		"license": "Commercial",
+		"status": "Playable",
+		"links": {
+			"wikipedia": "https://en.wikipedia.org/wiki/Golden_Axe"
+		},
+		"screenshots": ["https://www.mobygames.com/images/shots/l/953-golden-axe-dos-screenshot-title-screen.gif", "https://www.mobygames.com/images/shots/l/954-golden-axe-dos-screenshot-choose-your-destiny.gif"],
+		"clones": []
+	} , {
 		"id": "got",
 		"group": "God of Thunder",
 		"name": "God of Thunder (VGA) (Freeware)",
