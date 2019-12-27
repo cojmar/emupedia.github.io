@@ -381,14 +381,14 @@ function drawMelon(ctx, x, y, size) {
 	ctx.closePath();
 
 	ctx.beginPath();
-	ctx.fillStyle = '#ACFB77';
+	ctx.fillStyle = '#acfb77';
 	ctx.moveTo(size / 2, size / 6);
 	ctx.arc(size / 2, size / 6, size / 1.3, 1.1, 2.5, true);
 	ctx.fill();
 	ctx.closePath();
 
 	ctx.beginPath();
-	ctx.fillStyle = '#F92F2F';
+	ctx.fillStyle = '#f92f2f';
 	ctx.moveTo(size / 2, size / 6);
 	ctx.arc(size / 2, size / 6, size / 1.7, 1.1, 2.5, true);
 	ctx.fill();
@@ -396,7 +396,7 @@ function drawMelon(ctx, x, y, size) {
 
 	var mod = size / 23;
 	ctx.beginPath();
-	ctx.fillStyle = 'black';
+	ctx.fillStyle = '#000';
 	ctx.moveTo(12 * mod, 9 * mod);
 	ctx.arc(12 * mod, 9 * mod, size / 12, 1.1, 2.5, true);
 	ctx.moveTo(13 * mod, 12 * mod);
@@ -411,20 +411,20 @@ function drawMelon(ctx, x, y, size) {
 function drawApple(ctx, x, y, size) {
 	ctx.translate(x - (size / 2), y - (size / 2) - 2);
 
-	ctx.fillStyle = '#ff0000';
+	ctx.fillStyle = '#f00';
 	ctx.beginPath();
 	ctx.arc(size / 2, size / 2 + size / 9, (size / 2.1), Math.PI * 2, -Math.PI * 2, true);
 	ctx.fill();
 	ctx.closePath();
 
-	ctx.fillStyle = '#ff0000';
+	ctx.fillStyle = '#f00';
 	ctx.beginPath();
 	ctx.arc(9, size - 3, (size / 4.5), Math.PI * 2, -Math.PI * 2, true);
 	ctx.arc(size - 8, size - 3, (size / 4.5), Math.PI * 2, -Math.PI * 2, true);
 	ctx.fill();
 	ctx.closePath();
 
-	ctx.fillStyle = 'black';
+	ctx.fillStyle = '#000';
 	ctx.beginPath();
 	ctx.arc(size / 2, size / 6, (size / 7), Math.PI * 2, -Math.PI * 2, true);
 	ctx.fill();
@@ -465,7 +465,7 @@ function drawOrange(ctx, x, y, size) {
 	ctx.fill();
 	ctx.closePath();
 
-	ctx.fillStyle = 'black';
+	ctx.fillStyle = '#000';
 	ctx.beginPath();
 	ctx.arc(size / 2, size / 6, (size / 7), Math.PI * 2, -Math.PI * 2, true);
 	ctx.fill();
@@ -493,7 +493,7 @@ function drawStrawberry(ctx, x, y, size) {
 	ctx.translate(x - (size / 2), y - (size / 2) + 2);
 
 	ctx.beginPath();
-	ctx.fillStyle = '#ff0000';
+	ctx.fillStyle = '#f00';
 
 	ctx.moveTo(size / 2, size - size / 18);
 	ctx.bezierCurveTo(0, size / 1.3, 0, -size / 9, size / 2, size / 6);
@@ -503,7 +503,7 @@ function drawStrawberry(ctx, x, y, size) {
 	ctx.fill();
 	ctx.closePath();
 
-	ctx.fillStyle = 'white';
+	ctx.fillStyle = '#fff';
 
 	ctx.fillRect(size / 4, size / 3, size / 18, size / 16);
 	ctx.fillRect(size / 2, size / 4, size / 18, size / 16);
@@ -514,7 +514,7 @@ function drawStrawberry(ctx, x, y, size) {
 	ctx.fillRect(size / 1.6, size / 1.4, size / 18, size / 16);
 
 	ctx.beginPath();
-	ctx.fillStyle = '#24DA1D';
+	ctx.fillStyle = '#24da1d';
 
 	var mod = size / 23;
 	ctx.moveTo(6 * mod, 2 * mod);
@@ -539,7 +539,7 @@ function drawCherry(ctx, x, y, size) {
 	ctx.translate(x - (size / 2), y - (size / 2) + 1);
 
 	ctx.beginPath();
-	ctx.fillStyle = '#ff0000';
+	ctx.fillStyle = '#f00';
 
 	ctx.arc(size / 8, size - (size / 2.8), size / 4, Math.PI * 2, -Math.PI * 2, true);
 	ctx.arc(size - size / 3, size - (size / 4), size / 4, Math.PI * 2, -Math.PI * 2, true);

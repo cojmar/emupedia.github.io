@@ -672,7 +672,7 @@ function drawHelperGhost(ctx, x, y, d, b, s, a) {
 	}
 
 	if (s === 0 || s === -1) {
-		ctx.fillStyle = 'white';
+		ctx.fillStyle = '#fff';
 		ctx.beginPath();
 		ctx.moveTo((x - 15) + 8 + eyesX, (y + 16) - 24 + eyesY);
 		ctx.bezierCurveTo((x - 15) + 5 + eyesX, (y + 16) - 24 + eyesY, (x - 15) + 4 + eyesX, (y + 16) - 21 + eyesY, (x - 15) + 4 + eyesX, (y + 16) - 19 + eyesY);

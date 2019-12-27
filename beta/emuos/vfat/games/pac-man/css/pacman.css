@@ -14,11 +14,6 @@
 	background-color: #8295d5;
 }
 
-@font-face {
-	font-family: 'Quadrit';
-	src: url('../css/Quadrit.ttf');
-}
-
 * {
 	font-family: Quadrit, sans-serif;
 	font-size: 20px;
@@ -173,39 +168,39 @@ span.combo, span.fruits {
 #control-up {
 	top: 0;
 	left: 70px;
-	background-image: url('../img/move-up.png');
+	background-image: url('../images/move-up.png');
 }
 
 #control-down {
 	bottom: 0;
 	right: 70px;
-	background-image: url('../img/move-down.png');
+	background-image: url('../images/move-down.png');
 }
 
 #control-up-second {
 	top: 0;
 	right: 70px;
-	background-image: url('../img/move-up.png');
+	background-image: url('../images/move-up.png');
 }
 
 #control-down-second {
 	bottom: 0;
 	left: 70px;
-	background-image: url('../img/move-down.png');
+	background-image: url('../images/move-down.png');
 }
 
 #control-left {
 	bottom: 0;
 	top: 0;
 	left: 0;
-	background-image: url('../img/move-left.png');
+	background-image: url('../images/move-left.png');
 }
 
 #control-right {
 	bottom: 0;
 	top: 0;
 	right: 0;
-	background-image: url('../img/move-right.png');
+	background-image: url('../images/move-right.png');
 }
 
 #control-up-big, #control-down-big, #control-left-big, #control-right-big {
@@ -224,7 +219,7 @@ span.combo, span.fruits {
 	right: 0;
 	width: 125px;
 	height: 125px;
-	background-image: url('../img/move-up-big.png');
+	background-image: url('../images/move-up-big.png');
 }
 
 #control-down-big {
@@ -233,7 +228,7 @@ span.combo, span.fruits {
 	right: 0;
 	width: 125px;
 	height: 125px;
-	background-image: url('../img/move-down-big.png');
+	background-image: url('../images/move-down-big.png');
 }
 
 #control-left-big {
@@ -241,7 +236,7 @@ span.combo, span.fruits {
 	bottom: -90px;
 	width: 125px;
 	height: 175px;
-	background-image: url('../img/move-left-big.png');
+	background-image: url('../images/move-left-big.png');
 }
 
 #control-right-big {
@@ -249,7 +244,7 @@ span.combo, span.fruits {
 	bottom: -90px;
 	width: 125px;
 	height: 175px;
-	background-image: url('../img/move-right-big.png');
+	background-image: url('../images/move-right-big.png');
 }
 
 
@@ -257,7 +252,7 @@ h1 {
 	margin: 0 0 74px 0;
 	padding: 0;
 	font-size: 24px;
-	letter-spacing: 3px;
+	letter-spacing: 2.5px;
 	color: #fff;
 	text-transform: uppercase;
 	font-style: normal;
