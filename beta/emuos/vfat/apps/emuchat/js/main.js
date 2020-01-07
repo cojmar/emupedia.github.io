@@ -106,13 +106,7 @@
 				debug: false
 			});
 
-			if (window.top === window) {
-				if (typeof net !== 'undefined') {
-					if (typeof net.register_iframe === 'function') {
-						net.register_iframe('EmuChat');
-					}
-				}
-			}
+			console.log(net);
 
 			var fingerprint = new Fingerprint().get();
 
