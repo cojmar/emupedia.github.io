@@ -97,6 +97,7 @@
 		'network',
 		'fingerprint'
 	], function($, simplestorage, network, Fingerprint) {
+		// noinspection DuplicatedCode
 		$(function() {
 			var net = network.start({
 				servers: ['https://ws.emupedia.net/'],
@@ -106,7 +107,7 @@
 			});
 
 			if (window.top === window) {
-				//net.register_iframe('chat_frame');
+				net.register_iframe('EmuChat');
 			}
 
 			var fingerprint = new Fingerprint().get();
