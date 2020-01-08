@@ -3,7 +3,7 @@
 	"short_name": "EmuChat",
 	"dir": "auto",
 	"lang": "en-US",
-	"description": "EmuChat",
+	"description": "EmuChat is a fast and data-efficient messaging app.",
 	"categories": ["gaming", "entertainment", "education" ,"emupedia", "emulation", "emulator", "dosbox", "dosgame", "retrogaming", "retrocomputing", "video-games", "games"],
 	"display": "fullscreen",
 	"orientation": "landscape",
