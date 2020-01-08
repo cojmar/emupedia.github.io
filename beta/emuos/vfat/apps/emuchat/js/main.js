@@ -106,15 +106,17 @@
 				debug: false
 			});
 
-			console.log(net);
-
 			var fingerprint = new Fingerprint().get();
 
 			net.colors = ['rgba(180, 173, 173, 0.973)', '#395fa4', '#159904', 'rgba(128, 128, 128, 0.35)'];
 
+			// noinspection DuplicatedCode
 			net.log = function (txt, color) {
-				if (net.config.debug) console.log('net.log()');
-				if (net.config.debug) console.log('txt: ' + txt);
+				if (net.config.debug) {
+					console.log('net.log()');
+					console.log('txt: ' + txt);
+				}
+
 
 				if (typeof color === 'undefined') {
 					color = 0;
@@ -151,23 +153,6 @@
 
 				net.output_div.append('<div ' + color + '>' + time_stamp + txt + '</div>');
 				net.output_div.get(0).scrollTop = net.output_div.get(0).scrollHeight;
-			};
-
-			net.show = function() {
-				if (net.config.debug) console.log('net.show()');
-				net.console.slideDown(300);
-				net.text_input.focus();
-			};
-
-			net.hide = function() {
-				if (net.config.debug) console.log('net.hide()');
-				net.console.slideUp(300);
-			};
-
-			net.toggle = function() {
-				if (net.config.debug) console.log('net.toggle()');
-				net.console.slideToggle(300);
-				net.text_input.focus();
 			};
 
 			net.send_input = function() {
@@ -242,7 +227,10 @@
 			};
 
 			net.socket.on('connect', function() {
-				if (net.config.debug) console.log('net.socket.on.connect()');
+				if (net.config.debug) {
+					console.log('net.socket.on.connect()');
+				}
+
 				var nickname = typeof simplestorage.get('nickname') !== 'undefined' ? simplestorage.get('nickname') : 'EMU-' + fingerprint;
 				net.send_cmd('auth', {user: nickname, room: 'Emupedia'});
 				net.chat_id = '<span style="color: #2c487e;">[' + net.socket.id + '] </span>';
@@ -302,7 +290,6 @@
 				// noinspection HtmlDeprecatedTag
 				var msg = '<span style="color: ' + net.colors[3] + ';">[' + data.user + '] </span>' + $('<div/>').text(data.msg).html();
 				net.log(msg);
-				//net.show();
 			});
 
 			net.socket.on('server.msg', function (data) {
@@ -361,34 +348,18 @@
 			var $body = $('body');
 
 			$body.append(network_ui);
-			$body.keydown(function (e) {
-				// noinspection JSRedundantSwitchStatement
-				switch (e.keyCode) {
-					case 192:
-						net.toggle();
-						return false;
-				}
-			});
 
 			net.console = $('#client_console');
-			if (net.config.debug) console.log(net.console);
 			net.text_input = $('#client_command');
-			if (net.config.debug) console.log(net.text_input);
 			net.text_input_button = $('#client_command_send');
-			if (net.config.debug) console.log(net.text_input_button);
 			net.output_div = $('#client_output');
-			if (net.config.debug) console.log(net.output_div);
 			net.client_room_users = $('#client_room_users');
-			if (net.config.debug) console.log(net.client_room_users);
 			net.client_room = $('#client_room');
-			if (net.config.debug) console.log(net.client_room);
-
 			net.text_input.off('keypress').on('keypress', function (e) {
 				if (e.which === 13) {
 					net.send_input();
 				}
 			});
-
 			net.text_input_button.off('click').on('click', function() {
 				net.send_input();
 			});
