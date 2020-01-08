@@ -102,8 +102,7 @@
 			var net = network.start({
 				servers: ['https://ws.emupedia.net/'],
 				server: 0,
-				mode: 0,
-				debug: false
+				mode: 0
 			});
 
 			var fingerprint = new Fingerprint().get();
@@ -112,12 +111,6 @@
 
 			// noinspection DuplicatedCode
 			net.log = function (txt, color) {
-				if (net.config.debug) {
-					console.log('net.log()');
-					console.log('txt: ' + txt);
-				}
-
-
 				if (typeof color === 'undefined') {
 					color = 0;
 				}
@@ -156,10 +149,6 @@
 			};
 
 			net.send_input = function() {
-				if (net.config.debug) {
-					console.log('net.send_input()');
-				}
-
 				var timestamp = Math.floor(Date.now() / 1000);
 
 				if (!net.last_send) {
@@ -226,15 +215,18 @@
 				net.text_input.val('');
 			};
 
-			net.socket.on('connect', function() {
-				if (net.config.debug) {
-					console.log('net.socket.on.connect()');
-				}
-
+			net.socket.on('connect', function(data) {
 				var nickname = typeof simplestorage.get('nickname') !== 'undefined' ? simplestorage.get('nickname') : 'EMU-' + fingerprint;
+				var server = typeof data !== 'undefined' ? data.server : net.server;
+				var socket_id = typeof data !== 'undefined' ? data.socket_id : net.socket.id;
+
 				net.send_cmd('auth', {user: nickname, room: 'Emupedia'});
-				net.chat_id = '<span style="color: #2c487e;">[' + net.socket.id + '] </span>';
-				net.log('[connected][' + net.server + '] [id][' + net.socket.id + ']', 0);
+				net.chat_id = '<span style="color: #2c487e;">[' + socket_id + '] </span>';
+				net.log('[connected][' + server + '] [id][' + socket_id + ']', 0);
+			});
+
+			net.socket.on('disconnect', function() {
+				net.log('[disconnected][' + net.server + ']', 0);
 			});
 
 			net.socket.on('auth.info', function (data) {
@@ -242,7 +234,6 @@
 			});
 
 			net.socket.on('room.info', function (data) {
-				if (net.config.debug) console.log('net.socket.on.room.info()');
 				var r_users = '';
 
 				for (var n in data.users) {
@@ -258,18 +249,28 @@
 			});
 
 			net.socket.on('room.user_join', function (data) {
-				if (net.config.debug) console.log('net.socket.on.room.user_join()');
 				net.client_room_users.append('<div id="room_user_' + data.user + '" style="color: ' + net.colors[3] + ';">' + data.user + '</div>');
 			});
 
 			net.socket.on('room.user_leave', function (data) {
-				if (net.config.debug) console.log('net.socket.on.room.user_leave()');
 				$('#room_user_' + data.user).remove();
 			});
 
-			net.socket.on('server.help', function (data) {
-				if (net.config.debug) console.log('net.socket.on.server.help()');
+			net.socket.on('room.msg', function (data) {
+				// noinspection HtmlDeprecatedTag
+				var msg = '<span style="color: ' + net.colors[3] + ';">[' + data.user + '] </span>' + $('<div/>').text(data.msg).html();
+				net.log(msg);
+			});
 
+			net.socket.on('server.msg', function (data) {
+				net.log(data, 2);
+			});
+
+			net.socket.on('silent.msg', function (data) {
+				net.log(data, 1);
+			});
+
+			net.socket.on('server.help', function (data) {
 				var msg = '';
 
 				for (var n in data) {
@@ -284,55 +285,6 @@
 					net.text_input.focus();
 				});
 			});
-
-			net.socket.on('room.msg', function (data) {
-				if (net.config.debug) console.log('net.socket.on.room.msg()');
-				// noinspection HtmlDeprecatedTag
-				var msg = '<span style="color: ' + net.colors[3] + ';">[' + data.user + '] </span>' + $('<div/>').text(data.msg).html();
-				net.log(msg);
-			});
-
-			net.socket.on('server.msg', function (data) {
-				if (net.config.debug) console.log('net.socket.on.server.msg()');
-				net.log(data, 2);
-			});
-
-			net.socket.on('silent.msg', function (data) {
-				if (net.config.debug) console.log('net.socket.on.silent.msg()');
-				net.log(data, 1);
-			});
-
-			net.socket.on('disconnect', function() {
-				if (net.config.debug) console.log('net.socket.on.disconnect()');
-				net.log('[disconnected][' + net.server + ']', 0);
-			});
-
-			if (net.config.debug) {
-				net.socket.on('room.data', function (data) {
-					net.log(data);
-				});
-				net.socket.on('room.user_data', function (data) {
-					net.log(data);
-				});
-				net.socket.on('room.user_join', function (data) {
-					net.log(data);
-				});
-				net.socket.on('room.user_leave', function (data) {
-					net.log(data);
-				});
-				net.socket.on('room.user_reconnect', function (data) {
-					net.log(data);
-				});
-				net.socket.on('room.user_disconnect', function (data) {
-					net.log(data);
-				});
-				net.socket.on('room.my_id', function (data) {
-					net.log(data);
-				});
-				net.socket.on('room.info', function (data) {
-					net.log(data);
-				});
-			}
 
 			var network_ui = '<div id="client_console" class="client_decoration">' +
 								'<div id="client_output" class="client_decoration client_left"></div>' +
