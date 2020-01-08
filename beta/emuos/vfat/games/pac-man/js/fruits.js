@@ -144,7 +144,7 @@ function fruit() {
 }
 
 function oneFruit() {
-	if (FRUIT_CANCEL_TIMER === null) {
+	if (!FRUIT_CANCEL_TIMER) {
 		var ctx = getFruitsCanvasContext();
 
 		if (LEVEL === 1) {

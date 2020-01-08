@@ -551,14 +551,14 @@ function oneDirectionY() {
 
 function stopGhost(ghost) {
 	if (window['GHOST_' + ghost.toUpperCase() + '_STATE'] === 1) {
-		if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'] === null) {
+		if (!window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER']) {
 			window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'].cancel();
 		}
 
 		window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'] = null;
 		window['GHOST_' + ghost.toUpperCase() + '_STATE'] = 0;
 	} else if (window['GHOST_' + ghost.toUpperCase() + '_STATE'] === -1) {
-		if (window['GHOST_' + ghost.toUpperCase() + '_EAT_TIMER'] !== null) {
+		if (window['GHOST_' + ghost.toUpperCase() + '_EAT_TIMER']) {
 			window['GHOST_' + ghost.toUpperCase() + '_EAT_TIMER'].cancel()
 		}
 
