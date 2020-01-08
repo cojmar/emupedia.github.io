@@ -183,8 +183,6 @@ function affraidGhost(ghost) {
 // noinspection JSUnusedGlobalSymbols
 function cancelAffraidGhost(ghost) {
 	if (window['GHOST_' + ghost.toUpperCase() + '_STATE'] === 1) {
-		window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'].cancel();
-		window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'] = null;
 		stopGhost(ghost);
 		window['GHOST_' + ghost.toUpperCase() + '_STATE'] = 0;
 		moveGhost(ghost);
@@ -551,7 +549,7 @@ function oneDirectionY() {
 
 function stopGhost(ghost) {
 	if (window['GHOST_' + ghost.toUpperCase() + '_STATE'] === 1) {
-		if (!window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER']) {
+		if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER']) {
 			window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'].cancel();
 		}
 
