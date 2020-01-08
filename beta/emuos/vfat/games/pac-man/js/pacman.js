@@ -63,7 +63,7 @@ function stopPacman() {
 }
 
 function pausePacman() {
-	if (PACMAN_DIRECTION_TRY_TIMER !== null) {
+	if (PACMAN_DIRECTION_TRY_TIMER) {
 		PACMAN_DIRECTION_TRY_TIMER.pause();
 	}
 
@@ -75,7 +75,7 @@ function pausePacman() {
 }
 
 function resumePacman() {
-	if (PACMAN_DIRECTION_TRY_TIMER !== null) {
+	if (PACMAN_DIRECTION_TRY_TIMER) {
 		PACMAN_DIRECTION_TRY_TIMER.resume();
 	}
 
@@ -83,7 +83,7 @@ function resumePacman() {
 }
 
 function tryMovePacmanCancel() {
-	if (PACMAN_DIRECTION_TRY_TIMER !== null) {
+	if (PACMAN_DIRECTION_TRY_TIMER) {
 		PACMAN_DIRECTION_TRY_TIMER.cancel();
 		PACMAN_DIRECTION_TRY = -1;
 		PACMAN_DIRECTION_TRY_TIMER = null;
@@ -305,7 +305,7 @@ function testGhostPacman(ghost) {
 }
 
 function testFruitsPacman() {
-	if (FRUIT_CANCEL_TIMER !== null) {
+	if (FRUIT_CANCEL_TIMER) {
 		if (FRUITS_POSITION_X <= PACMAN_POSITION_X + PACMAN_FRUITS_GAP && FRUITS_POSITION_X >= PACMAN_POSITION_X - PACMAN_FRUITS_GAP && FRUITS_POSITION_Y <= PACMAN_POSITION_Y + PACMAN_FRUITS_GAP && FRUITS_POSITION_Y >= PACMAN_POSITION_Y - PACMAN_FRUITS_GAP) {
 			eatFruit();
 		}

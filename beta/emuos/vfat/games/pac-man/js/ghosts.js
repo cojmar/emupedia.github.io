@@ -165,7 +165,7 @@ function affraidGhosts() {
 }
 
 function affraidGhost(ghost) {
-	if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'] !== null) {
+	if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER']) {
 		window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'].cancel();
 		window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'] = null;
 	}
@@ -206,7 +206,7 @@ function startEatGhost(ghost) {
 
 		LOCK = true;
 
-		if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'] !== null) {
+		if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER']) {
 			window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'].cancel();
 			window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'] = null;
 		}
@@ -260,7 +260,7 @@ function moveGhost(ghost) {
 	} else {
 		changeDirection(ghost);
 
-		if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'] !== null) {
+		if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER']) {
 			var remain = window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'].remain();
 
 			if ((remain >= 2500 && remain < 3000) || (remain >= 1500 && remain <= 2000) || (remain >= 500 && remain <= 1000) || (remain < 0)) {
@@ -581,11 +581,11 @@ function stopGhosts() {
 
 function pauseGhost(ghost) {
 	if (window['GHOST_' + ghost.toUpperCase() + '_STATE'] === 1) {
-		if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'] !== null) {
+		if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER']) {
 			window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'].pause();
 		}
 	} else if (window['GHOST_' + ghost.toUpperCase() + '_STATE'] === -1) {
-		if (window['GHOST_' + ghost.toUpperCase() + '_EAT_TIMER'] !== null) {
+		if (window['GHOST_' + ghost.toUpperCase() + '_EAT_TIMER']) {
 			window['GHOST_' + ghost.toUpperCase() + '_EAT_TIMER'].pause();
 		}
 	}
@@ -607,11 +607,11 @@ function pauseGhosts() {
 
 function resumeGhost(ghost) {
 	if (window['GHOST_' + ghost.toUpperCase() + '_STATE'] === 1) {
-		if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'] !== null) {
+		if (window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER']) {
 			window['GHOST_' + ghost.toUpperCase() + '_AFFRAID_TIMER'].resume();
 		}
 	} else if (window['GHOST_' + ghost.toUpperCase() + '_STATE'] === -1) {
-		if (window['GHOST_' + ghost.toUpperCase() + '_EAT_TIMER'] !== null) {
+		if (window['GHOST_' + ghost.toUpperCase() + '_EAT_TIMER']) {
 			window['GHOST_' + ghost.toUpperCase() + '_EAT_TIMER'].resume();
 		}
 	}

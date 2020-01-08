@@ -175,7 +175,7 @@ function pauseTimes() {
 		TIME_GENERAL_TIMER = -1;
 	}
 
-	if (FRUIT_CANCEL_TIMER !== null) {
+	if (FRUIT_CANCEL_TIMER) {
 		FRUIT_CANCEL_TIMER.pause();
 	}
 }
@@ -183,7 +183,7 @@ function pauseTimes() {
 function resumeTimes() {
 	startTimes();
 
-	if (FRUIT_CANCEL_TIMER !== null) {
+	if (FRUIT_CANCEL_TIMER) {
 		FRUIT_CANCEL_TIMER.resume();
 	}
 }
@@ -194,7 +194,7 @@ function stopTimes() {
 		TIME_GENERAL_TIMER = -1;
 	}
 
-	if (FRUIT_CANCEL_TIMER !== null) {
+	if (FRUIT_CANCEL_TIMER) {
 		FRUIT_CANCEL_TIMER.cancel();
 		FRUIT_CANCEL_TIMER = null;
 		eraseFruit();
