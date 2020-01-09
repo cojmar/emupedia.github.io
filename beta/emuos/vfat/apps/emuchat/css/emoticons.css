@@ -29,6 +29,8 @@
 	animation-name: SpriteComponentAnimation;
 }
 
+/* sizes 20 30 40 50 60 80 120 240 */
+
 .emoticon.emoticon-smile::before {
 	width: 80px;
 	height: 4240px;
@@ -392,6 +394,16 @@
 	transform: translate3d(0px, -4000px, 0px);
 	animation-duration: 2.08333s;
 	animation-timing-function: steps(50);
+}
+
+.emoticon.emoticon-wonder::before {
+	width: 80px;
+	height: 5600px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/wonder/views/default_80_anim_f?etag=v9);
+	background-size: 80px 5600px;
+	transform: translate3d(0px, -5600px, 0px);
+	animation-duration: 2.91667s;
+	animation-timing-function: steps(70);
 }
 
 @-webkit-keyframes SpriteComponentAnimation {
