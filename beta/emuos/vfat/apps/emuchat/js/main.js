@@ -125,7 +125,7 @@
 
 				var colors = net.colors;
 
-				color = (typeof colors[color] !== 'undefined') ? 'style="color:' + colors[color] + '"' : '';
+				color = typeof colors[color] !== 'undefined' ? 'style="color:' + colors[color] + '"' : '';
 
 				if (typeof txt === 'object') {
 					// noinspection HtmlDeprecatedTag
@@ -148,6 +148,7 @@
 				net.output_div.get(0).scrollTop = net.output_div.get(0).scrollHeight;
 			};
 
+			// noinspection DuplicatedCode
 			net.send_input = function() {
 				var timestamp = Math.floor(Date.now() / 1000);
 
@@ -216,8 +217,9 @@
 			};
 
 			net.socket.on('connect', function(data) {
-				var nickname = typeof simplestorage.get('nickname') !== 'undefined' ? simplestorage.get('nickname') : 'EMU-' + fingerprint;
+				var nickname = typeof simplestorage.get('nickname') !== 'undefined' ? $('<div />').text(simplestorage.get('nickname')).html() : 'EMU-' + fingerprint;
 				var server = typeof data !== 'undefined' ? data.server : net.server;
+				// noinspection JSUnresolvedVariable
 				var socket_id = typeof data !== 'undefined' ? data.socket_id : net.socket.id;
 
 				net.send_cmd('auth', {user: nickname, room: 'Emupedia'});
@@ -230,7 +232,8 @@
 			});
 
 			net.socket.on('auth.info', function (data) {
-				simplestorage.set('nickname', data.info.user);
+				var name = $('<div />').text(data.info.user).html();
+				simplestorage.set('nickname', name);
 			});
 
 			net.socket.on('room.info', function (data) {
@@ -239,27 +242,34 @@
 				for (var n in data.users) {
 					var color = (n !== data.me) ? net.colors[3] : net.colors[1];
 					// noinspection JSUnfilteredForInLoop
-					r_users += '<div id="room_user_' + n + '" style="color: ' + color + ';">' + n + '</div>';
+					var name = $('<div />').text(n).html();
+					// noinspection JSUnfilteredForInLoop
+					r_users += '<div id="room_user_' + name + '" style="color: ' + color + ';">' + name + '</div>';
 				}
 
+				var me = $('<div />').text(data.me).html();
 				net.client_room_users.html(r_users);
-				net.text_input.attr('placeholder', 'Press "`" (tilda) to Show / Hide chat. You are Typing as "' + data.me + '" on "' + data.name + '"');
+				net.text_input.attr('placeholder', 'Press "`" (tilda) to Show / Hide chat. You are Typing as "' + me + '" on "' + data.name + '"');
 				net.client_room_users.html(r_users);
 				net.client_room.html(data.name);
 			});
 
 			net.socket.on('room.user_join', function (data) {
-				net.client_room_users.append('<div id="room_user_' + data.user + '" style="color: ' + net.colors[3] + ';">' + data.user + '</div>');
+				var name = $('<div />').text(data.user).html();
+				net.client_room_users.append('<div id="room_user_' + name + '" style="color: ' + net.colors[3] + ';">' + name + '</div>');
 			});
 
 			net.socket.on('room.user_leave', function (data) {
-				$('#room_user_' + data.user).remove();
+				var name = $('<div />').text(data.user).html();
+				$('#room_user_' + name).remove();
 			});
 
 			net.socket.on('room.msg', function (data) {
+				var name = $('<div />').text(data.user).html();
+				var msg = $('<div/>').text(data.msg).html();
 				// noinspection HtmlDeprecatedTag
-				var msg = '<span style="color: ' + net.colors[3] + ';">[' + data.user + '] </span>' + $('<div/>').text(data.msg).html();
-				net.log(msg);
+				var message = '<span style="color: ' + net.colors[3] + ';">[' + name + '] </span>' + msg;
+				net.log(message);
 			});
 
 			net.socket.on('server.msg', function (data) {
@@ -270,6 +280,7 @@
 				net.log(data, 1);
 			});
 
+			// noinspection DuplicatedCode
 			net.socket.on('server.help', function (data) {
 				var msg = '';
 
