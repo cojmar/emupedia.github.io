@@ -176,15 +176,14 @@
 					visibility: 'visible'
 				});
 
-				// noinspection DuplicatedCode
-				if (window.location.hostname === 'localhost') {
+				dbx.filesGetTemporaryLink({path: '/halflife1/' + packageName}).then(function (response) {
 					var xhr = new XMLHttpRequest();
-					xhr.open('GET', 'js/' + packageName, true);
+					xhr.open('GET', response.link, true);
 					xhr.responseType = 'arraybuffer';
 					xhr.onprogress = function (event) {
 						// noinspection JSUnusedLocalSymbols
 						var percentComplete = event.loaded / event.total * 100;
-						if (window.Module['setStatus']) window.Module['setStatus']('Downloading data... (' + event.loaded + '/' + event.total + ')');
+						if (Module['setStatus']) Module['setStatus']('Downloading data... (' + event.loaded + '/' + event.total + ')');
 					};
 					// noinspection DuplicatedCode,JSUnusedLocalSymbols
 					xhr.onload = function (event) {
@@ -200,38 +199,11 @@
 							throw new Error(xhr.statusText + " : " + xhr.responseURL);
 						}
 					};
+					xhr.setRequestHeader('X-File-Name', packageName);
 					xhr.send(null);
-				} else {
-					// noinspection DuplicatedCode
-					dbx.filesGetTemporaryLink({path: '/halflife1/' + packageName}).then(function (response) {
-						var xhr = new XMLHttpRequest();
-						xhr.open('GET', response.link, true);
-						xhr.responseType = 'arraybuffer';
-						xhr.onprogress = function (event) {
-							// noinspection JSUnusedLocalSymbols
-							var percentComplete = event.loaded / event.total * 100;
-							if (Module['setStatus']) Module['setStatus']('Downloading data... (' + event.loaded + '/' + event.total + ')');
-						};
-						// noinspection DuplicatedCode,JSUnusedLocalSymbols
-						xhr.onload = function (event) {
-							if (xhr.status === 200 || xhr.status === 304 || xhr.status === 206 || (xhr.status === 0 && xhr.response)) {
-								mountZIP(xhr.response);
-								$progress.css({
-									visibility: 'hidden'
-								});
-
-								$canvas.show();
-								cb();
-							} else {
-								throw new Error(xhr.statusText + " : " + xhr.responseURL);
-							}
-						};
-						xhr.setRequestHeader('X-File-Name', packageName);
-						xhr.send(null);
-					}).catch(function (error) {
-						console.log(error);
-					});
-				}
+				}).catch(function (error) {
+					console.log(error);
+				});
 			}
 
 			function init() {
