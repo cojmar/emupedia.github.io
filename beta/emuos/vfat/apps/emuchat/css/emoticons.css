@@ -777,6 +777,17 @@
 	animation-timing-function: steps(54);
 }
 
+.emoticon.emoticon-malthe::before {
+	width: 80px;
+	height: 5360px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/malthe/views/default_80_anim_f?etag=v10);
+	background-size: 80px 5360px;
+	background-position: 0 -5360px;
+	/*transform: translate3d(0px, -5360px, 0px);*/
+	animation-duration: 2.79167s;
+	animation-timing-function: steps(67);
+}
+
 .emoticon.emoticon-donttalktome::before {
 	width: 80px;
 	height: 4800px;
@@ -1130,6 +1141,468 @@
 	/*transform: translate3d(0px, -6720px, 0px);*/
 	animation-duration: 3.5s;
 	animation-timing-function: steps(84);
+}
+
+.emoticon.emoticon-aokijump::before {
+	width: 80px;
+	height: 14000px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/aokijump/views/default_80_anim_f?etag=v16);
+	background-size: 80px 14000px;
+	background-position: 0 -14000px;
+	/*transform: translate3d(0px, -14000px, 0px);*/
+	animation-duration: 7.29167s;
+	animation-timing-function: steps(175);
+}
+
+.emoticon.emoticon-cakethrow::before {
+	width: 80px;
+	height: 8160px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/cakethrow/views/default_80_anim_f?etag=v13);
+	background-size: 80px 8160px;
+	background-position: 0 -8160px;
+	/*transform: translate3d(0px, -8160px, 0px);*/
+	animation-duration: 4.25s;
+	animation-timing-function: steps(102);
+}
+
+.emoticon.emoticon-kolony::before {
+	width: 80px;
+	height: 15280px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/kolony/views/default_80_anim_f?etag=v12);
+	background-size: 80px 15280px;
+	background-position: 0 -15280px;
+	/*transform: translate3d(0px, -15280px, 0px);*/
+	animation-duration: 7.95833s;
+	animation-timing-function: steps(191);
+}
+
+.emoticon.emoticon-joy::before {
+	width: 80px;
+	height: 8160px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/joy/views/default_80_anim_f?etag=v13);
+	background-size: 80px 8160px;
+	background-position: 0 -8160px;
+	/*transform: translate3d(0px, -8160px, 0px);*/
+	animation-duration: 4.25s;
+	animation-timing-function: steps(102);
+}
+
+.emoticon.emoticon-anger::before {
+	width: 80px;
+	height: 9600px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/anger/views/default_80_anim_f?etag=v11);
+	background-size: 80px 9600px;
+	background-position: 0 -9600px;
+	/*transform: translate3d(0px, -9600px, 0px);*/
+	animation-duration: 5s;
+	animation-timing-function: steps(120);
+}
+
+.emoticon.emoticon-sadness::before {
+	width: 80px;
+	height: 12000px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/sadness/views/default_80_anim_f?etag=v24);
+	background-size: 80px 12000px;
+	background-position: 0 -12000px;
+	/*transform: translate3d(0px, -12000px, 0px);*/
+	animation-duration: 6.25s;
+	animation-timing-function: steps(150);
+}
+
+.emoticon.emoticon-disgust::before {
+	width: 80px;
+	height: 8560px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/disgust/views/default_80_anim_f?etag=v9);
+	background-size: 80px 8560px;
+	background-position: 0 -8560px;
+	/*transform: translate3d(0px, -8560px, 0px);*/
+	animation-duration: 4.45833s;
+	animation-timing-function: steps(107);
+}
+
+.emoticon.emoticon-fear::before {
+	width: 80px;
+	height: 5040px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/fear/views/default_80_anim_f?etag=v6);
+	background-size: 80px 5040px;
+	background-position: 0 -5040px;
+	/*transform: translate3d(0px, -5040px, 0px);*/
+	animation-duration: 2.625s;
+	animation-timing-function: steps(63);
+}
+
+.emoticon.emoticon-hestonfacepalm::before {
+	width: 80px;
+	height: 11680px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/hestonfacepalm/views/default_80_anim_f?etag=v23);
+	background-size: 80px 11680px;
+	background-position: 0 -11680px;
+	/*transform: translate3d(0px, -11680px, 0px);*/
+	animation-duration: 6.08333s;
+	animation-timing-function: steps(146);
+}
+
+.emoticon.emoticon-heston::before {
+	width: 80px;
+	height: 9840px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/heston/views/default_80_anim_f?etag=v22);
+	background-size: 80px 9840px;
+	background-position: 0 -9840px;
+	/*transform: translate3d(0px, -9840px, 0px);*/
+	animation-duration: 5.125s;
+	animation-timing-function: steps(123);
+}
+
+.emoticon.emoticon-stormtrooper::before {
+	width: 80px;
+	height: 6880px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/stormtrooper/views/default_80_anim_f?etag=v13);
+	background-size: 80px 6880px;
+	background-position: 0 -6880px;
+	/*transform: translate3d(0px, -6880px, 0px);*/
+	animation-duration: 3.58333s;
+	animation-timing-function: steps(86);
+}
+
+.emoticon.emoticon-kyloren::before {
+	width: 80px;
+	height: 10720px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/kyloren/views/default_80_anim_f?etag=v13);
+	background-size: 80px 10720px;
+	background-position: 0 -10720px;
+	/*transform: translate3d(0px, -10720px, 0px);*/
+	animation-duration: 5.58333s;
+	animation-timing-function: steps(134);
+}
+
+.emoticon.emoticon-captainphasma::before {
+	width: 80px;
+	height: 11280px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/captainphasma/views/default_80_anim_f?etag=v16);
+	background-size: 80px 11280px;
+	background-position: 0 -11280px;
+	/*transform: translate3d(0px, -11280px, 0px);*/
+	animation-duration: 5.875s;
+	animation-timing-function: steps(141);
+}
+
+.emoticon.emoticon-ladyvampire::before {
+	width: 80px;
+	height: 5680px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/ladyvampire/views/default_80_anim_f?etag=v20);
+	background-size: 80px 5680px;
+	background-position: 0 -5680px;
+	/*transform: translate3d(0px, -5680px, 0px);*/
+	animation-duration: 2.95833s;
+	animation-timing-function: steps(71);
+}
+
+.emoticon.emoticon-vampire::before {
+	width: 80px;
+	height: 7360px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/vampire/views/default_80_anim_f?etag=v13);
+	background-size: 80px 7360px;
+	background-position: 0 -7360px;
+	/*transform: translate3d(0px, -7360px, 0px);*/
+	animation-duration: 3.83333s;
+	animation-timing-function: steps(92);
+}
+
+.emoticon.emoticon-ghost::before {
+	width: 80px;
+	height: 6240px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/ghost/views/default_80_anim_f?etag=v23);
+	background-size: 80px 6240px;
+	background-position: 0 -6240px;
+	/*transform: translate3d(0px, -6240px, 0px);*/
+	animation-duration: 3.25s;
+	animation-timing-function: steps(78);
+}
+
+.emoticon.emoticon-skull::before {
+	width: 80px;
+	height: 7920px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/skull/views/default_80_anim_f?etag=v21);
+	background-size: 80px 7920px;
+	background-position: 0 -7920px;
+	/*transform: translate3d(0px, -7920px, 0px);*/
+	animation-duration: 4.125s;
+	animation-timing-function: steps(99);
+}
+
+.emoticon.emoticon-pumpkin::before {
+	width: 80px;
+	height: 4480px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/pumpkin/views/default_80_anim_f?etag=v23);
+	background-size: 80px 4480px;
+	background-position: 0 -4480px;
+	/*transform: translate3d(0px, -4480px, 0px);*/
+	animation-duration: 2.33333s;
+	animation-timing-function: steps(56);
+}
+
+.emoticon.emoticon-santa::before {
+	width: 80px;
+	height: 7200px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/santa/views/default_80_anim_f?etag=v21);
+	background-size: 80px 7200px;
+	background-position: 0 -7200px;
+	/*transform: translate3d(0px, -7200px, 0px);*/
+	animation-duration: 3.75s;
+	animation-timing-function: steps(90);
+}
+
+.emoticon.emoticon-xmascwl::before {
+	width: 80px;
+	height: 4960px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/xmascwl/views/default_80_anim_f?etag=v19);
+	background-size: 80px 4960px;
+	background-position: 0 -4960px;
+	/*transform: translate3d(0px, -4960px, 0px);*/
+	animation-duration: 2.58333s;
+	animation-timing-function: steps(62);
+}
+
+.emoticon.emoticon-festiveparty::before {
+	width: 80px;
+	height: 5840px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/festiveparty/views/default_80_anim_f?etag=v27);
+	background-size: 80px 5840px;
+	background-position: 0 -5840px;
+	/*transform: translate3d(0px, -5840px, 0px);*/
+	animation-duration: 3.04167s;
+	animation-timing-function: steps(73);
+}
+
+.emoticon.emoticon-holidayspirit::before {
+	width: 80px;
+	height: 2880px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/holidayspirit/views/default_80_anim_f?etag=v11);
+	background-size: 80px 2880px;
+	background-position: 0 -2880px;
+	/*transform: translate3d(0px, -2880px, 0px);*/
+	animation-duration: 1.5s;
+	animation-timing-function: steps(36);
+}
+
+.emoticon.emoticon-rudolfsurprise::before {
+	width: 80px;
+	height: 5440px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/rudolfsurprise/views/default_80_anim_f?etag=v17);
+	background-size: 80px 5440px;
+	background-position: 0 -5440px;
+	/*transform: translate3d(0px, -5440px, 0px);*/
+	animation-duration: 2.83333s;
+	animation-timing-function: steps(68);
+}
+
+.emoticon.emoticon-rudolfidea::before {
+	width: 80px;
+	height: 8000px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/rudolfidea/views/default_80_anim_f?etag=v15);
+	background-size: 80px 8000px;
+	background-position: 0 -8000px;
+	/*transform: translate3d(0px, -8000px, 0px);*/
+	animation-duration: 4.16667s;
+	animation-timing-function: steps(100);
+}
+
+.emoticon.emoticon-xmassarcastic::before {
+	width: 80px;
+	height: 6720px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/xmassarcastic/views/default_80_anim_f?etag=v18);
+	background-size: 80px 6720px;
+	background-position: 0 -6720px;
+	/*transform: translate3d(0px, -6720px, 0px);*/
+	animation-duration: 3.5s;
+	animation-timing-function: steps(84);
+}
+
+.emoticon.emoticon-xmascry::before {
+	width: 80px;
+	height: 4000px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/xmascry/views/default_80_anim_f?etag=v16);
+	background-size: 80px 4000px;
+	background-position: 0 -4000px;
+	/*transform: translate3d(0px, -4000px, 0px);*/
+	animation-duration: 2.08333s;
+	animation-timing-function: steps(50);
+}
+
+.emoticon.emoticon-xmasyes::before {
+	width: 80px;
+	height: 3200px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/xmasyes/views/default_80_anim_f?etag=v65);
+	background-size: 80px 3200px;
+	background-position: 0 -3200px;
+	/*transform: translate3d(0px, -3200px, 0px);*/
+	animation-duration: 1.66667s;
+	animation-timing-function: steps(40);
+}
+
+.emoticon.emoticon-xmasman::before {
+	width: 80px;
+	height: 6640px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/xmasman/views/default_80_anim_f?etag=v61);
+	background-size: 80px 6640px;
+	background-position: 0 -6640px;
+	/*transform: translate3d(0px, -6640px, 0px);*/
+	animation-duration: 3.45833s;
+	animation-timing-function: steps(83);
+}
+
+.emoticon.emoticon-xmaswoman::before {
+	width: 80px;
+	height: 6640px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/xmaswoman/views/default_80_anim_f?etag=v54);
+	background-size: 80px 6640px;
+	background-position: 0 -6640px;
+	/*transform: translate3d(0px, -6640px, 0px);*/
+	animation-duration: 3.45833s;
+	animation-timing-function: steps(83);
+}
+
+.emoticon.emoticon-mistletoe::before {
+	width: 80px;
+	height: 7680px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/mistletoe/views/default_80_anim_f?etag=v20);
+	background-size: 80px 7680px;
+	background-position: 0 -7680px;
+	/*transform: translate3d(0px, -7680px, 0px);*/
+	animation-duration: 4s;
+	animation-timing-function: steps(96);
+}
+
+.emoticon.emoticon-xmascar::before {
+	width: 80px;
+	height: 6400px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/xmascar/views/default_80_anim_f?etag=v14);
+	background-size: 80px 6400px;
+	background-position: 0 -6400px;
+	/*transform: translate3d(0px, -6400px, 0px);*/
+	animation-duration: 3.33333s;
+	animation-timing-function: steps(80);
+}
+
+.emoticon.emoticon-xmastree::before {
+	width: 80px;
+	height: 2160px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/xmastree/views/default_80_anim_f?etag=v12);
+	background-size: 80px 2160px;
+	background-position: 0 -2160px;
+	/*transform: translate3d(0px, -2160px, 0px);*/
+	animation-duration: 1.125s;
+	animation-timing-function: steps(27);
+}
+
+.emoticon.emoticon-hanukkah::before {
+	width: 80px;
+	height: 560px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/hanukkah/views/default_80_anim_f?etag=v17);
+	background-size: 80px 560px;
+	background-position: 0 -560px;
+	/*transform: translate3d(0px, -560px, 0px);*/
+	animation-duration: 0.291667s;
+	animation-timing-function: steps(7);
+}
+
+.emoticon.emoticon-dreidel::before {
+	width: 80px;
+	height: 5120px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/dreidel/views/default_80_anim_f?etag=v21);
+	background-size: 80px 5120px;
+	background-position: 0 -5120px;
+	/*transform: translate3d(0px, -5120px, 0px);*/
+	animation-duration: 2.66667s;
+	animation-timing-function: steps(64);
+}
+
+.emoticon.emoticon-xmasheart::before {
+	width: 80px;
+	height: 1360px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/xmasheart/views/default_80_anim_f?etag=v15);
+	background-size: 80px 1360px;
+	background-position: 0 -1360px;
+	/*transform: translate3d(0px, -1360px, 0px);*/
+	animation-duration: 0.708333s;
+	animation-timing-function: steps(17);
+}
+
+.emoticon.emoticon-snowflake::before {
+	width: 80px;
+	height: 6880px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/snowflake/views/default_80_anim_f?etag=v20);
+	background-size: 80px 6880px;
+	background-position: 0 -6880px;
+	/*transform: translate3d(0px, -6880px, 0px);*/
+	animation-duration: 3.58333s;
+	animation-timing-function: steps(86);
+}
+
+.emoticon.emoticon-gift::before {
+	width: 80px;
+	height: 1040px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/gift/views/default_80_anim_f?etag=v11);
+	background-size: 80px 1040px;
+	background-position: 0 -1040px;
+	/*transform: translate3d(0px, -1040px, 0px);*/
+	animation-duration: 0.541667s;
+	animation-timing-function: steps(13);
+}
+
+.emoticon.emoticon-fireworks::before {
+	width: 80px;
+	height: 6720px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/fireworks/views/default_80_anim_f?etag=v10);
+	background-size: 80px 6720px;
+	background-position: 0 -6720px;
+	/*transform: translate3d(0px, -6720px, 0px);*/
+	animation-duration: 3.5s;
+	animation-timing-function: steps(84);
+}
+
+.emoticon.emoticon-reindeer::before {
+	width: 80px;
+	height: 11440px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/reindeer/views/default_80_anim_f?etag=v12);
+	background-size: 80px 11440px;
+	background-position: 0 -11440px;
+	/*transform: translate3d(0px, -11440px, 0px);*/
+	animation-duration: 5.95833s;
+	animation-timing-function: steps(143);
+}
+
+.emoticon.emoticon-penguinkiss::before {
+	width: 80px;
+	height: 5120px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/penguinkiss/views/default_80_anim_f?etag=v29);
+	background-size: 80px 5120px;
+	background-position: 0 -5120px;
+	/*transform: translate3d(0px, -5120px, 0px);*/
+	animation-duration: 2.66667s;
+	animation-timing-function: steps(64);
+}
+
+.emoticon.emoticon-snowangel::before {
+	width: 80px;
+	height: 4800px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/snowangel/views/default_80_anim_f?etag=v29);
+	background-size: 80px 4800px;
+	background-position: 0 -4800px;
+	/*transform: translate3d(0px, -4800px, 0px);*/
+	animation-duration: 2.5s;
+	animation-timing-function: steps(60);
+}
+
+.emoticon.emoticon-snegovik::before {
+	width: 80px;
+	height: 8640px;
+	background-image: url(https://static-asm.secure.skypeassets.com/pes/v1/emoticons/snegovik/views/default_80_anim_f?etag=v14);
+	background-size: 80px 8640px;
+	background-position: 0 -8640px;
+	/*transform: translate3d(0px, -8640px, 0px);*/
+	animation-duration: 4.5s;
+	animation-timing-function: steps(108);
 }
 
 @-webkit-keyframes Translate3D {
