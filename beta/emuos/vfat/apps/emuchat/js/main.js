@@ -114,40 +114,6 @@
 			var search = Object.keys(emoticons.mapping);
 			var replace = Object.values(emoticons.mapping);
 
-			/*var obj = {};
-
-			emoticons.names.forEach(function(name) {
-				// noinspection JSUnresolvedVariable
-				name.shortcuts.forEach(function(shortcut) {
-					// noinspection JSUnresolvedVariable
-					Object.keys(emoticons.emoji).forEach(function(categoryname) {
-						// noinspection JSUnresolvedVariable
-						emoticons.emoji[categoryname].forEach(function(category) {
-							category.names.forEach(function(emojiname) {
-								// noinspection JSUnresolvedVariable
-								if (emojiname === name.emoji) {
-									// noinspection JSUnresolvedVariable
-									obj[shortcut] = category.surrogates;
-								}
-							});
-						});
-					});
-				});
-			});
-
-			// noinspection JSUnresolvedVariable
-			Object.keys(emoticons.emoji).forEach(function(categoryname) {
-				// noinspection JSUnresolvedVariable
-				emoticons.emoji[categoryname].forEach(function(category) {
-					category.names.forEach(function(emojiname) {
-						// noinspection JSUnresolvedVariable
-						obj[':' + emojiname + ':'] = category.surrogates;
-					});
-				});
-			});
-
-			console.log(JSON.stringify(obj));*/
-
 			net.colors = ['rgba(180, 173, 173, 0.973)', '#395fa4', '#159904', 'rgba(128, 128, 128, 0.35)'];
 
 			net.str_replace = function(search, replace, subject, countObj) {
