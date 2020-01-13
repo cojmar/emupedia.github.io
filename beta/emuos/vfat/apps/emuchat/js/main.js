@@ -93,10 +93,11 @@
 	// noinspection JSCheckFunctionSignatures,JSUnusedLocalSymbols,DuplicatedCode
 	requirejs([
 		'jquery',
+		'json!../../../../js/config/emoticons.json',
 		'simplestorage',
 		'network',
 		'fingerprint'
-	], function($, simplestorage, network, Fingerprint) {
+	], function($, emoticons, simplestorage, network, Fingerprint) {
 		// noinspection DuplicatedCode
 		$(function() {
 			var net = network.start({
@@ -104,7 +105,6 @@
 				server: 0,
 				mode: 0
 			});
-
 			var fingerprint = new Fingerprint().get();
 
 			net.colors = ['rgba(180, 173, 173, 0.973)', '#395fa4', '#159904', 'rgba(128, 128, 128, 0.35)'];
@@ -300,14 +300,14 @@
 				});
 			});
 
-			var network_ui = '<div id="client_console" class="client_decoration">' +
+			var network_ui = '<div id="client_container" class="client_decoration">' +
 								'<div id="client_output" class="client_decoration client_left"></div>' +
 								'<div class="client_decoration client_right">' +
 									'<div id="client_room" class="client_decoration"></div>' +
 									'<div id="client_room_users" class="client_decoration"></div>' +
 								'</div>' +
 								'<div id="client_input" class="client_decoration">' +
-									'<input id="client_command" type="text" spellcheck="false" autocomplete="off" /><button id="client_command_send">Send</button>' +
+									'<button id="client_emoticons">😀</button><input id="client_command" type="text" spellcheck="false" autocomplete="off" /><button id="client_command_send">Send</button>' +
 								'</div>' +
 							'</div>';
 
@@ -315,7 +315,7 @@
 
 			$body.append(network_ui);
 
-			net.console = $('#client_console');
+			net.console = $('#client_container');
 			net.text_input = $('#client_command');
 			net.text_input_button = $('#client_command_send');
 			net.output_div = $('#client_output');
