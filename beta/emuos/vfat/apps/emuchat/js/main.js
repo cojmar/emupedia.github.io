@@ -53,7 +53,8 @@
 			noext: '../../../../js/libraries/requirejs-noext-1.0.3',
 			simplestorage: '../../../../js/libraries/simplestorage-0.2.1.min',
 			socketio: '../../../../js/libraries/socket.io-2.3.0.min',
-			text: '../../../../js/libraries/requirejs-text-2.0.15'
+			text: '../../../../js/libraries/requirejs-text-2.0.15',
+			twemoji: '../../../../js/libraries/twemoji-12.1.4.min'
 		},
 		shim: {
 			chat: {
@@ -80,6 +81,9 @@
 			'moment-timezone': {
 				exports: 'moment',
 				deps: ['moment']
+			},
+			twemoji: {
+				exports: 'twemoji'
 			}
 		},
 		map: {
@@ -94,10 +98,11 @@
 	requirejs([
 		'jquery',
 		'json!../../../../js/config/emoticons.json',
+		'twemoji',
 		'simplestorage',
 		'network',
 		'fingerprint'
-	], function($, emoticons, simplestorage, network, Fingerprint) {
+	], function($, emoticons, twemoji, simplestorage, network, Fingerprint) {
 		// noinspection DuplicatedCode
 		$(function() {
 			var net = network.start({
@@ -110,7 +115,7 @@
 			net.colors = ['rgba(180, 173, 173, 0.973)', '#395fa4', '#159904', 'rgba(128, 128, 128, 0.35)'];
 
 			net.normalize = function(str) {
-				return $('<div />').text(str.replace(/[\u0300-\u036F\u1AB0-\u1AFF\u1DC0-\u1DFF\u20D0-\u20FF\uFE20-\uFE2F\u0483-\u0486\u05C7\u0610-\u061A\u0656-\u065F\u0670\u06D6-\u06ED\u0711\u0730-\u073F\u0743-\u074A\u0F18-\u0F19\u0F35\u0F37\u0F72-\u0F73\u0F7A-\u0F81\u0F84\u0e00-\u0eff\uFC5E-\uFC62]{2,}/gi, '')).html();
+				return twemoji.parse($('<div />').text(str.replace(/[\u0300-\u036F\u1AB0-\u1AFF\u1DC0-\u1DFF\u20D0-\u20FF\uFE20-\uFE2F\u0483-\u0486\u05C7\u0610-\u061A\u0656-\u065F\u0670\u06D6-\u06ED\u0711\u0730-\u073F\u0743-\u074A\u0F18-\u0F19\u0F35\u0F37\u0F72-\u0F73\u0F7A-\u0F81\u0F84\u0e00-\u0eff\uFC5E-\uFC62]{2,}/gi, '')).html());
 			};
 
 			// noinspection DuplicatedCode
