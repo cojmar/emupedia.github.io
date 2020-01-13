@@ -116,6 +116,16 @@
 
 			net.colors = ['rgba(180, 173, 173, 0.973)', '#395fa4', '#159904', 'rgba(128, 128, 128, 0.35)'];
 
+			net.hash = function (str) {
+				var hash = 5381, i = str.length;
+
+				while(i) {
+					hash = (hash * 33) ^ str.charCodeAt(--i);
+				}
+
+				return hash >>> 0;
+			};
+
 			net.str_replace = function(search, replace, subject, countObj) {
 				var i = 0;
 				var j = 0;
@@ -328,7 +338,7 @@
 					// noinspection JSUnfilteredForInLoop
 					var name = net.normalize(n);
 					// noinspection JSUnfilteredForInLoop
-					r_users += '<div id="room_user_' + n + '" style="color: ' + color + '; overflow: hidden;">' + name + '</div>';
+					r_users += '<div id="room_user_' + net.hash(n) + '" style="color: ' + color + '; overflow: hidden;">' + name + '</div>';
 				}
 
 				net.text_input.attr('placeholder', 'Press "`" (tilda) to Show / Hide chat. You are Typing as "' + data.me + '" on "' + data.name + '"');
@@ -338,11 +348,11 @@
 
 			net.socket.on('room.user_join', function (data) {
 				var name = net.normalize(data.user);
-				net.client_room_users.append('<div id="room_user_' + data.user + '" style="color: ' + net.colors[3] + ';">' + name + '</div>');
+				net.client_room_users.append('<div id="room_user_' + net.hash(data.user) + '" style="color: ' + net.colors[3] + ';">' + name + '</div>');
 			});
 
 			net.socket.on('room.user_leave', function (data) {
-				$('#room_user_' + data.user).fadeOut(4000, function() {
+				$('#room_user_' + net.hash(data.user)).fadeOut(4000, function() {
 					$(this).remove();
 				});
 			});
