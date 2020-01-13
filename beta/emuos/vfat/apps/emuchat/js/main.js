@@ -114,6 +114,27 @@
 			var search = Object.keys(emoticons.mapping);
 			var replace = Object.values(emoticons.mapping);
 
+			/*var obj = {};
+			var arr1 = Object.keys(emoticons.mapping).sort(function (a, b) {
+				if (a.length > b.length) {
+					return -1;
+				}
+
+				if (a.length < b.length) {
+					return 1;
+				}
+
+				return 0;
+			});
+
+			console.log(arr1);
+
+			arr1.forEach(function (value) {
+				obj[value] = emoticons.mapping[value];
+			});
+
+			console.log(JSON.stringify(obj));*/
+
 			net.colors = ['rgba(180, 173, 173, 0.973)', '#395fa4', '#159904', 'rgba(128, 128, 128, 0.35)'];
 
 			net.str_replace = function(search, replace, subject, countObj) {
