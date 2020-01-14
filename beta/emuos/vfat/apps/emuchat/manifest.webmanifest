@@ -10,9 +10,6 @@
 	"theme_color": "#ff7300",
 	"background_color": "#000000",
 	"start_url": "index.html",
-	"serviceworker": {
-		"src": "sw.js"
-	},
 	"icons": [{
 		"src": "images/emuchat-logo-16.png",
 		"sizes": "16x16",
