@@ -39,6 +39,7 @@
 		urlArgs: 'rand=' + (new Date()).getTime(),
 		waitSeconds: 300,
 		paths: {
+			emoticons: '../../../../js/emoticons',
 			fingerprint: '../../../../js/libraries/fingerprint-0.5.3',
 			jquery: '../../../../js/libraries/jquery-2.2.4.min',
 			jquerymousewheel: '../../../../js/libraries/jquery-mousewheel-3.1.13',
@@ -98,11 +99,12 @@
 	requirejs([
 		'jquery',
 		'json!../../../../js/config/emoticons.json',
+		'emoticons',
 		'twemoji',
 		'simplestorage',
 		'network',
 		'fingerprint'
-	], function($, emoticons, twemoji, simplestorage, network, Fingerprint) {
+	], function($, emoticons_data, emoticons, twemoji, simplestorage, network, Fingerprint) {
 		// noinspection DuplicatedCode
 		$(function() {
 			var net = network.start({
@@ -111,15 +113,17 @@
 				mode: 0
 			});
 			var fingerprint = new Fingerprint().get();
-			var search = Object.keys(emoticons.mapping);
-			var replace = Object.values(emoticons.mapping);
+			var search = Object.keys(emoticons_data.mapping);
+			var replace = Object.values(emoticons_data.mapping);
+
+			console.log(emoticons.parse('🙂'));
 
 			net.colors = ['rgba(180, 173, 173, 0.973)', '#395fa4', '#159904', 'rgba(128, 128, 128, 0.35)'];
 
 			net.hash = function (str) {
 				var hash = 5381, i = str.length;
 
-				while(i) {
+				while (i) {
 					hash = (hash * 33) ^ str.charCodeAt(--i);
 				}
 
@@ -225,7 +229,7 @@
 				].join('');
 
 				if (typeof hide !== 'undefined') {
-					var $el = $('<div style="' + color + 'word-break: break-word; position: relative;">' + time_stamp + txt + '</div>');
+					var $el = $('<div style="' + color + 'word-break: break-word;">' + time_stamp + txt + '</div>');
 					net.output_div.append($el);
 
 					setTimeout(function() {
@@ -234,7 +238,7 @@
 						});
 					}, hide);
 				} else {
-					net.output_div.append('<div style="' + color + 'word-break: break-word; position: relative;">' + time_stamp + txt + '</div>');
+					net.output_div.append('<div style="' + color + 'word-break: break-word;">' + time_stamp + txt + '</div>');
 				}
 
 				net.output_div.get(0).scrollTop = net.output_div.get(0).scrollHeight;
