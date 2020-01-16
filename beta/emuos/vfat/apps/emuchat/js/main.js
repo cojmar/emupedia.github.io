@@ -115,8 +115,51 @@
 			var fingerprint = new Fingerprint().get();
 			var search = Object.keys(emoticons_data.mapping);
 			var replace = Object.values(emoticons_data.mapping);
+			var $body = $('body');
 
-			console.log(emoticons.parse('🙂'));
+			// noinspection JSUnresolvedVariable
+			console.log(emoticons.parse('🙂', {}, emoticons_data.emoticons.newmapping));
+
+			/*Object.keys(emoticons_data.emoticons.categories).forEach(function(emoticon_category) {
+				if (Array.isArray(emoticons_data.emoticons.categories[emoticon_category])) {
+					emoticons_data.emoticons.categories[emoticon_category].forEach(function(emoticon_class) {
+						html += '<i class="emoticon emoticon-' + emoticon_class + '" title="' + emoticon_class + '"></i>';
+					});
+				} else {
+					Object.keys(emoticons_data.emoticons.categories[emoticon_category]).forEach(function(emoticon_subcategory) {
+						emoticons_data.emoticons.categories[emoticon_category][emoticon_subcategory].forEach(function(emoticon_class) {
+							html += '<i class="emoticon emoticon-' + emoticon_class + '" title="' + emoticon_class + '"></i>';
+						});
+					});
+				}
+			});
+
+			$body.prepend(html);
+
+			html = '';
+
+			// noinspection JSUnresolvedVariable
+			Object.keys(emoticons_data.emoticons.newmapping).forEach(function(emoji) {
+				html += '<span style="font-size: 80px;">' + emoji + '</span>';
+
+				// noinspection JSUnresolvedVariable
+				if (Array.isArray(emoticons_data.emoticons.newmapping[emoji])) {
+					// noinspection JSUnresolvedVariable
+					emoticons_data.emoticons.newmapping[emoji].forEach(function(emoticon, index) {
+						// noinspection JSUnresolvedVariable
+						html += '<i class="emoticon emoticon-' + emoticons_data.emoticons.newmapping[emoji][index] + '" title="' + emoticons_data.emoticons.newmapping[emoji][index] + '"></i>';
+					});
+
+					html += '<br /><br />';
+				} else {
+					// noinspection JSUnresolvedVariable
+					html += '<i class="emoticon emoticon-' + emoticons_data.emoticons.newmapping[emoji] + '" title="' + emoticons_data.emoticons.newmapping[emoji] + '"></i><br /><br />';
+				}
+			});
+
+			$body.prepend(html);
+
+			html = '';*/
 
 			net.colors = ['rgba(180, 173, 173, 0.973)', '#395fa4', '#159904', 'rgba(128, 128, 128, 0.35)'];
 
@@ -187,7 +230,8 @@
 			net.normalize = function(str) {
 				var subject = $('<div />').text(str.replace(/[\u0300-\u036F\u1AB0-\u1AFF\u1DC0-\u1DFF\u20D0-\u20FF\uFE20-\uFE2F\u0483-\u0486\u05C7\u0610-\u061A\u0656-\u065F\u0670\u06D6-\u06ED\u0711\u0730-\u073F\u0743-\u074A\u0F18-\u0F19\u0F35\u0F37\u0F72-\u0F73\u0F7A-\u0F81\u0F84\u0e00-\u0eff\uFC5E-\uFC62]{2,}/gi, '')).html();
 
-				return twemoji.parse(net.str_replace(search, replace, subject), {
+				// noinspection JSUnresolvedVariable
+				return twemoji.parse(emoticons.parse(net.str_replace(search, replace, subject), {}, emoticons_data.emoticons.newmapping), {
 					folder: 'svg',
 					ext: '.svg'
 				});
@@ -402,8 +446,6 @@
 									'<button id="client_emoticons">😀</button><input id="client_command" type="text" spellcheck="false" autocomplete="off" /><button id="client_command_send">Send</button>' +
 								'</div>' +
 							'</div>';
-
-			var $body = $('body');
 
 			$body.append(network_ui);
 
