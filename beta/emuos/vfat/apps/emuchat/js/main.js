@@ -389,8 +389,8 @@
 
 			// noinspection DuplicatedCode
 			net.socket.on('room.msg', function (data) {
-				console.log('room.msg');
-				console.log(JSON.stringify(data, null, 2));
+				// console.log('room.msg');
+				// console.log(JSON.stringify(data, null, 2));
 
 				var nick = data.user;
 
