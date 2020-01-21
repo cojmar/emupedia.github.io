@@ -107,6 +107,7 @@
 	], function($, emoticons_data, emoticons, twemoji, simplestorage, network, Fingerprint) {
 		// noinspection DuplicatedCode
 		$(function() {
+			var $body = $('body');
 			var net = network.start({
 				servers: ['https://ws.emupedia.net/'],
 				server: 0,
@@ -115,7 +116,10 @@
 			var fingerprint = new Fingerprint().get();
 			var search = Object.keys(emoticons_data.mapping);
 			var replace = Object.values(emoticons_data.mapping);
-			var $body = $('body');
+
+			if (typeof simplestorage.get('nickname') !== 'undefined') {
+				simplestorage.deleteKey('nickname');
+			}
 
 			net.colors = ['rgba(180, 173, 173, 0.973)', '#395fa4', '#159904', 'rgba(128, 128, 128, 0.35)'];
 
