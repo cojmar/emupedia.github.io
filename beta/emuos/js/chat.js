@@ -133,18 +133,11 @@
 				']&nbsp;</span>'
 			].join('');
 
-			if (typeof hide !== 'undefined') {
-				var $el = $('<div style="' + color + '">' + time_stamp + txt + '</div>');
-				net.output_div.append($el);
-
-				setTimeout(function() {
-					$el.slideUp(200, function() {
-						$(this).remove();
-					});
-				}, hide);
-			} else {
-				net.output_div.append('<div style="' + color + '">' + time_stamp + txt + '</div>');
-			}
+			var msg_class = (typeof hide !== 'undefined')?'net_msg_hide':'net_msg';
+			net.output_div.append('<div class="'+ msg_class +'" style="' + color + '">' + time_stamp + txt + '</div>');
+			$('.net_msg_hide').slideUp(200, function() {
+				$(this).remove();
+			});
 
 			net.output_div.get(0).scrollTop = net.output_div.get(0).scrollHeight;
 		};
